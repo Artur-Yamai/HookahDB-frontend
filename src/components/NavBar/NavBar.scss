@@ -49,18 +49,21 @@
     transition: 0.5s;
   }
 
-  &.active {
-    width: 300px;
-    min-width: 300px;
-    transition: 0.5s;
+  &--b-rafius {
     border-radius: 20px;
   }
 
-  &.active .navbar__toggle-button::before {
+  &.navbar__active {
+    width: 300px;
+    min-width: 300px;
+    transition: 0.5s;
+  }
+
+  &.navbar__active .navbar__toggle-button::before {
     transform: rotate(-45deg) translateY(0px);
   }
 
-  &.active .navbar__toggle-button::after {
+  &.navbar__active .navbar__toggle-button::after {
     transform: rotate(45deg) translateY(0px);
   }
 
@@ -71,18 +74,24 @@
     left: 0;
     width: 100%;
 
-    li {
+    li a {
+      display: flex;
+      align-items: center;
+      color: #fff;
       position: relative;
       width: 100%;
       border-top-left-radius: 30px;
       border-bottom-left-radius: 30px;
     }
 
-    li:hover {
+    li a:hover,
+    li a.active {
       background-color: #fff;
+      color: #365fa1;
     }
 
-    li:hover::before {
+    li a:hover::before,
+    li a.active::before {
       content: "";
       position: absolute;
       top: -20px;
@@ -94,7 +103,8 @@
       box-shadow: 7.5px 7.5px 0 7.5px #fff;
     }
 
-    li:hover::after {
+    li a:hover::after,
+    li a.active::after {
       content: "";
       position: absolute;
       bottom: -20px;
@@ -104,18 +114,6 @@
       background: transparent;
       border-top-right-radius: 20px;
       box-shadow: 7.5px -7.5px 0 7.5px #fff;
-    }
-
-    li a {
-      position: relative;
-      width: 100px;
-      display: flex;
-      align-items: center;
-      color: #fff;
-    }
-
-    li:hover a {
-      color: #365fa1;
     }
 
     li a .navbar__icon {

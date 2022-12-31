@@ -5,15 +5,15 @@ import "./PagesWrapper.scss";
 export function PagesWrapper() {
   const some: number[] = [];
 
-  for (let index = 0; index < 50; index++) {
+  for (let index = 0; index < 15; index++) {
     some.push(index);
   }
 
   return (
     <div className="routes-wrapper">
       {/* <h1>RoutesWrapper</h1> */}
-      {some.map(() => {
-        return <div className="some" />;
+      {some.map((_, i) => {
+        return <div className="some" key={i} />;
       })}
       {/* <Routes>
         <Route path="/" element={<MainLayout />}>

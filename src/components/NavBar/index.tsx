@@ -7,57 +7,61 @@ import { TbSettings } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
 import "./NavBar.scss";
 
+interface INavLink {
+  caption: string;
+  path: string;
+  getIcon: () => JSX.Element;
+}
+
 export function NavBar(): JSX.Element {
   const [activeClass, setActiveClass]: [string, Function] = useState("");
   const toggle = function (): void {
-    setActiveClass(activeClass ? "" : "active");
+    setActiveClass(activeClass ? "" : "navbar__active navbar--active");
   };
+
+  const navLinkList: INavLink[] = [
+    {
+      caption: "Главная",
+      path: ".",
+      getIcon: () => <AiOutlineHome />,
+    },
+    {
+      caption: "Список",
+      path: "about",
+      getIcon: () => <TfiViewListAlt />,
+    },
+    {
+      caption: "Контакты",
+      path: "contacts",
+      getIcon: () => <BiHelpCircle />,
+    },
+    {
+      caption: "Настройки",
+      path: "settings",
+      getIcon: () => <TbSettings />,
+    },
+    {
+      caption: "Выйти",
+      path: "contacts3",
+      getIcon: () => <VscSignOut />,
+    },
+  ];
 
   return (
     <nav className={`navbar ${activeClass}`}>
       <ul>
-        <li>
-          <NavLink to=".">
-            <span className="navbar__icon">
-              <AiOutlineHome />
-            </span>
-            <span className="navbar__title">Главная</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="about">
-            <span className="navbar__icon">
-              <TfiViewListAlt />
-            </span>
-            <span className="navbar__title">Список</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="contacts">
-            <span className="navbar__icon">
-              <BiHelpCircle />
-            </span>
-            <span className="navbar__title">Помощь</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="contacts">
-            <span className="navbar__icon">
-              <TbSettings />
-            </span>
-            <span className="navbar__title">Настройки</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="contacts">
-            <span className="navbar__icon">
-              <VscSignOut />
-            </span>
-            <span className="navbar__title">Выйти</span>
-          </NavLink>
-        </li>
+        {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
+          return (
+            <li key={i}>
+              <NavLink to={linkInfo.path}>
+                <span className="navbar__icon">{linkInfo.getIcon()}</span>
+                <span className="navbar__title">{linkInfo.caption}</span>
+              </NavLink>
+            </li>
+          );
+        })}
       </ul>
-      <div className="navbar__toggle-button" onClick={toggle}></div>
+      <button className="navbar__toggle-button" onClick={toggle}></button>
     </nav>
   );
 }
