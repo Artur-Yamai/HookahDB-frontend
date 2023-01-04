@@ -1,16 +1,18 @@
-import { BrowserRouter } from "react-router-dom";
-import { NavBar, PagesWrapper } from "./components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MainLayout } from "./components";
+import { Autorization } from "./pages";
 import "./App.scss";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <NavBar />
-        <PagesWrapper />
+        <Routes>
+          <Route path="/" element={<MainLayout />}></Route>
+
+          <Route path="/auth" element={<Autorization />} />
+        </Routes>
       </div>
     </BrowserRouter>
   );
 }
-
-export default App;
