@@ -1,0 +1,9 @@
+.page-wrapper {
+  background-color: rgb(212, 212, 212);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  flex-grow: 1;
+  overflow: hidden;
+  overflow-y: auto;
+}
