@@ -33,9 +33,9 @@ export function Autorization(): JSX.Element {
               <input type="text" placeholder="Login" />
               <input type="password" placeholder="Password" />
               <input type="submit" value="Войти" />
-              <a href="#" className="autorization__forget-password">
+              <button className="autorization__forget-password">
                 Забыли пароль?
-              </a>
+              </button>
             </form>
           </div>
           <div className="autorization__form autorization__signupForm">
