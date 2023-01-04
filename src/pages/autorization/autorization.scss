@@ -1,4 +1,4 @@
-.start-page {
+.autorization {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +6,7 @@
   width: 100vw;
   background-color: #03a9f4;
 
-  &.start-page--active {
+  &.autorization--active {
     background: #f43648;
   }
 
@@ -29,7 +29,7 @@
     box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
   }
 
-  .blueBg .start-page__box {
+  .blueBg .autorization__box {
     position: relative;
     width: 50%;
     height: 100%;
@@ -39,14 +39,14 @@
     flex-direction: column;
   }
 
-  .blueBg .start-page__box h2 {
+  .blueBg .autorization__box h2 {
     color: #fff;
     font-size: 1.2em;
     font-weight: 500;
     margin-bottom: 10px;
   }
 
-  .blueBg .start-page__box button {
+  .blueBg .autorization__box button {
     cursor: pointer;
     padding: 10px 20px;
     background-color: #fff;
@@ -70,11 +70,11 @@
     transition: 0.5s ease-in-out;
     overflow: hidden;
 
-    &.start-page__formBx--active {
+    &.autorization__formBx--active {
       left: 50%;
     }
 
-    .start-page__form {
+    .autorization__form {
       position: absolute;
       left: 0;
       width: 100%;
@@ -82,39 +82,39 @@
       transition: 0.5s;
     }
 
-    .start-page__signinForm {
+    .autorization__signinForm {
       transition-delay: 0.25s;
     }
 
-    &.start-page__formBx--active .start-page__signinForm {
+    &.autorization__formBx--active .autorization__signinForm {
       left: -100%;
       transition-delay: 0s;
     }
 
-    .start-page__signupForm {
+    .autorization__signupForm {
       left: 100%;
       transition-delay: 0s;
     }
 
-    &.start-page__formBx--active .start-page__signupForm {
+    &.autorization__formBx--active .autorization__signupForm {
       left: 0;
       transition-delay: 0.25s;
     }
 
-    .start-page__form form {
+    .autorization__form form {
       width: 100%;
       display: flex;
       flex-direction: column;
     }
 
-    .start-page__form form h3 {
+    .autorization__form form h3 {
       font-size: 1.5em;
       color: #333;
       margin-bottom: 20px;
       font-weight: 500;
     }
 
-    .start-page__form form input {
+    .autorization__form form input {
       width: 100%;
       margin-bottom: 20px;
       padding: 10px;
@@ -123,7 +123,7 @@
       border: 1px solid #333;
     }
 
-    .start-page__form form input[type="submit"] {
+    .autorization__form form input[type="submit"] {
       background: #03a9f4;
       border: none;
       color: #fff;
@@ -131,22 +131,22 @@
       cursor: pointer;
     }
 
-    .start-page__form.start-page__signupForm input[type="submit"] {
+    .autorization__form.autorization__signupForm input[type="submit"] {
       background: #f43648;
     }
 
-    .start-page__form form .forgot {
+    .autorization__form form .forgot {
       color: #333;
     }
 
-    &.start-page__signupForm {
+    &.autorization__signupForm {
       left: 100%;
     }
   }
 }
 
 @media (max-width: 990px) {
-  .start-page {
+  .autorization {
     &__container {
       min-width: 320px;
       width: 500px;
@@ -162,25 +162,25 @@
       height: 100%;
     }
 
-    &__container .start-page__formBx {
+    &__container .autorization__formBx {
       width: 100%;
       height: 500px;
       top: 0;
       box-shadow: none;
     }
 
-    &__container .blueBg .start-page__box {
+    &__container .blueBg .autorization__box {
       position: absolute;
       width: 100%;
       height: 150px;
       bottom: 0;
     }
 
-    &__container .blueBg .start-page__box.start-page__signin {
+    &__container .blueBg .autorization__box.autorization__signin {
       top: 0;
     }
 
-    &__container .start-page__formBx.start-page__formBx--active {
+    &__container .autorization__formBx.autorization__formBx--active {
       left: 0;
       top: 150px;
     }
