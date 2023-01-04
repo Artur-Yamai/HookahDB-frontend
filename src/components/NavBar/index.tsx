@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { GoSignIn } from "react-icons/go";
 import { AiOutlineHome } from "react-icons/ai";
 import { TfiViewListAlt } from "react-icons/tfi";
 import { BiHelpCircle } from "react-icons/bi";
@@ -20,6 +21,11 @@ export function NavBar(): JSX.Element {
   };
 
   const navLinkList: INavLink[] = [
+    {
+      caption: "Войти",
+      path: "/auth",
+      getIcon: () => <GoSignIn />,
+    },
     {
       caption: "Главная",
       path: ".",
