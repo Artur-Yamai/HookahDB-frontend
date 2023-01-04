@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./autorization.scss";
 
-export const Autorization = (): JSX.Element => {
+export function Autorization(): JSX.Element {
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
 
@@ -51,4 +51,4 @@ export const Autorization = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}
