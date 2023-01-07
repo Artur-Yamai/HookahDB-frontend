@@ -1,8 +1,16 @@
 import express, { Express } from "express";
+import cors from "cors";
+import mongoose from "mongoose";
 import { registerValidation } from "./validations";
 import { UserController } from "./controllers";
 import { handleValidationErrors } from "./utils";
-import cors from "cors";
+import { dbURL } from "./sectets";
+
+mongoose.set("strictQuery", false); // вопрос
+mongoose
+  .connect(dbURL)
+  .then(() => console.log("DB is ok"))
+  .catch((err: Error) => console.error("DB error", err));
 
 const port: number = 6060;
 const app: Express = express();
