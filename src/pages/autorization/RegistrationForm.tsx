@@ -31,7 +31,6 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
   });
 
   const formSubmit = handleSubmit(({ login, email, password }) => {
-    console.log(123);
     resetField("login");
     resetField("email");
     resetField("password");
