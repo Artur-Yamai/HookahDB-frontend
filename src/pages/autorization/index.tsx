@@ -3,7 +3,8 @@ import { useNavigate } from "react-router";
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { RegistrationForm } from "./RegistrationForm";
-import { IUserRegistrationData } from "./interfaces";
+import { AuthorizationForm } from "./AuthorizationForm";
+import { IUserRegistrationData, IUserAutorizationData } from "./interfaces";
 import "./autorization.scss";
 
 function Autorization(): JSX.Element {
@@ -16,10 +17,12 @@ function Autorization(): JSX.Element {
     setStartPageActive(isActive ? "autorization--active" : "");
   }
 
-  async function toSignin(e: React.SyntheticEvent<EventTarget>): Promise<void> {
-    e.preventDefault();
-    await alert("Вы авторизированы");
-    navigate("/");
+  async function toSignin({
+    login,
+    password,
+  }: IUserAutorizationData): Promise<void> {
+    console.log(login, password);
+    // navigate("/");
   }
 
   async function toSignup({
@@ -54,14 +57,7 @@ function Autorization(): JSX.Element {
         </div>
         <div className={`autorization__formBx ${formBxActive}`}>
           <div className="autorization__form autorization__signinForm">
-            <form onSubmit={toSignin}>
-              <input type="text" placeholder="Login" />
-              <input type="password" placeholder="Password" />
-              <input type="submit" value="Войти" onClick={toSignin} />
-              <button className="autorization__forget-password">
-                Забыли пароль?
-              </button>
-            </form>
+            <AuthorizationForm onSubmit={toSignin} />
           </div>
           <div className="autorization__form autorization__signupForm">
             <RegistrationForm onSubmit={toSignup} />

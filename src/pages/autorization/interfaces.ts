@@ -3,3 +3,8 @@ export interface IUserRegistrationData {
   email: string;
   password: string;
 }
+
+export interface IUserAutorizationData {
+  login: string;
+  password: string;
+}
