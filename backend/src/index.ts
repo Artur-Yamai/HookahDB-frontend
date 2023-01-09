@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { registerValidation } from "./validations";
 import { UserController } from "./controllers";
-import { handleValidationErrors } from "./utils";
+import { handleValidationErrors, checkAuth } from "./utils";
 import { dbURL } from "./sectets";
 
 mongoose.set("strictQuery", false); // вопрос
@@ -20,6 +20,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("<h1>In process</h1>");
 });
+
+app.post("auth/me", checkAuth);
 
 app.post(
   "/user/register",
