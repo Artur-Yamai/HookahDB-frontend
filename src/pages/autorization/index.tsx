@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { observer } from "mobx-react-lite";
+import UserStore from "../../store/user";
+import { RegistrationForm } from "./RegistrationForm";
+import { IUserRegistrationData } from "./interfaces";
 import "./autorization.scss";
 
-export function Autorization(): JSX.Element {
+function Autorization(): JSX.Element {
   const navigate = useNavigate();
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
@@ -18,10 +22,17 @@ export function Autorization(): JSX.Element {
     navigate("/");
   }
 
-  async function toSignup(e: React.SyntheticEvent<EventTarget>): Promise<void> {
-    e.preventDefault();
-    await alert("Вы зарегестрированы");
-    toGoSignupPage(false);
+  async function toSignup({
+    login,
+    email,
+    password,
+  }: IUserRegistrationData): Promise<void> {
+    const res = await UserStore.toRegistrationUser(login, password, email);
+    if (res.success) {
+      toGoSignupPage(false);
+    } else {
+      alert("Ошибка регистрации");
+    }
   }
 
   return (
@@ -53,20 +64,12 @@ export function Autorization(): JSX.Element {
             </form>
           </div>
           <div className="autorization__form autorization__signupForm">
-            <form onSubmit={toSignup}>
-              <input type="text" placeholder="Username" />
-              <input type="text" placeholder="Email address" />
-              <input type="password" placeholder="Password" />
-              <input type="password" placeholder="Confirm password" />
-              <input
-                type="submit"
-                value="Зарегестрироваться"
-                onClick={toSignup}
-              />
-            </form>
+            <RegistrationForm onSubmit={toSignup} />
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default observer(Autorization);

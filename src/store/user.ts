@@ -1,4 +1,9 @@
-import { makeAutoObservable, makeObservable } from "mobx";
+import axios from "./axios";
+import { AxiosError } from "axios";
+import {
+  makeAutoObservable,
+  // makeObservable
+} from "mobx";
 
 class User {
   public userData = null;
@@ -13,7 +18,19 @@ class User {
     login: string,
     password: string,
     email: string
-  ) {}
+  ) {
+    try {
+      const { data } = await axios.post("/user/register", {
+        email,
+        password,
+        login,
+      });
+      return data;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      return err.response?.data;
+    }
+  }
 }
 
 export default new User();

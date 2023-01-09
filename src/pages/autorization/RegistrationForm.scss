@@ -1,0 +1,18 @@
+.rf {
+  &__input-wrapper {
+    position: relative;
+    margin-bottom: 25px;
+
+    &.rf__input-wrapper--error input {
+      border: 1px solid orangered !important;
+    }
+  }
+
+  &__error-text {
+    position: absolute;
+    left: 0;
+    bottom: -14px;
+    font-size: 0.75em;
+    color: orangered;
+  }
+}
