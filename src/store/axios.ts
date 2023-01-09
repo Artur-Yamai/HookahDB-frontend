@@ -3,7 +3,7 @@ const baseURL = "http://localhost:6060";
 
 type IConfig = AxiosRequestConfig & {
   headers?: {
-    Authorization?: string;
+    authorization?: string;
   };
 };
 
@@ -16,7 +16,7 @@ instanse.interceptors.request.use((config: AxiosRequestConfig): IConfig => {
     if (!newConfig.headers) {
       newConfig.headers = {};
     }
-    newConfig.headers.Authorization = token;
+    newConfig.headers.authorization = token;
 
     return newConfig;
   }
