@@ -1,10 +1,9 @@
-.autorization {
+.authorization {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   width: 100vw;
-  // background-color: #03a9f4;
   background-image: linear-gradient(
     -90deg,
     #5ca4ff 0,
@@ -12,8 +11,7 @@
     #0050b9 100%
   );
 
-  &.autorization--active {
-    // background: #f43648;
+  &.authorization--active {
     background-image: linear-gradient(
       90deg,
       #ff6a51 0,
@@ -43,7 +41,7 @@
     box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
   }
 
-  .blueBg .autorization__box {
+  .blueBg .authorization__box {
     position: relative;
     width: 50%;
     height: 100%;
@@ -53,14 +51,14 @@
     flex-direction: column;
   }
 
-  .blueBg .autorization__box h2 {
+  .blueBg .authorization__box h2 {
     color: #fff;
     font-size: 1.2em;
     font-weight: 500;
     margin-bottom: 10px;
   }
 
-  .blueBg .autorization__box button {
+  .blueBg .authorization__box button {
     cursor: pointer;
     padding: 10px 20px;
     background-color: #fff;
@@ -84,11 +82,11 @@
     transition: 0.5s ease-in-out;
     overflow: hidden;
 
-    &.autorization__formBx--active {
+    &.authorization__formBx--active {
       left: 50%;
     }
 
-    .autorization__form {
+    .authorization__form {
       position: absolute;
       left: 0;
       width: 100%;
@@ -96,39 +94,39 @@
       transition: 0.5s;
     }
 
-    .autorization__signinForm {
+    .authorization__signinForm {
       transition-delay: 0.25s;
     }
 
-    &.autorization__formBx--active .autorization__signinForm {
+    &.authorization__formBx--active .authorization__signinForm {
       left: -100%;
       transition-delay: 0s;
     }
 
-    .autorization__signupForm {
+    .authorization__signupForm {
       left: 100%;
       transition-delay: 0s;
     }
 
-    &.autorization__formBx--active .autorization__signupForm {
+    &.authorization__formBx--active .authorization__signupForm {
       left: 0;
       transition-delay: 0.25s;
     }
 
-    .autorization__form form {
+    .authorization__form form {
       width: 100%;
       display: flex;
       flex-direction: column;
     }
 
-    .autorization__form form h3 {
+    .authorization__form form h3 {
       font-size: 1.5em;
       color: #333;
       margin-bottom: 20px;
       font-weight: 500;
     }
 
-    .autorization__form form input {
+    .authorization__form form input {
       width: 100%;
       padding: 10px;
       outline: none;
@@ -136,22 +134,22 @@
       border: 1px solid #333;
     }
 
-    .autorization__form form input[type="submit"] {
+    .authorization__form form input[type="submit"] {
       background-color: #03a9f4;
       border: none;
       color: #fff;
       cursor: pointer;
     }
 
-    .autorization__form.autorization__signupForm input[type="submit"] {
+    .authorization__form.authorization__signupForm input[type="submit"] {
       background: #f43648;
     }
 
-    .autorization__form form .forgot {
+    .authorization__form form .forgot {
       color: #333;
     }
 
-    &.autorization__signupForm {
+    &.authorization__signupForm {
       left: 100%;
     }
   }
@@ -172,7 +170,7 @@
 }
 
 @media (max-width: 990px) {
-  .autorization {
+  .authorization {
     &__container {
       min-width: 320px;
       width: 500px;
@@ -188,25 +186,25 @@
       height: 100%;
     }
 
-    &__container .autorization__formBx {
+    &__container .authorization__formBx {
       width: 100%;
       height: 500px;
       top: 0;
       box-shadow: none;
     }
 
-    &__container .blueBg .autorization__box {
+    &__container .blueBg .authorization__box {
       position: absolute;
       width: 100%;
       height: 150px;
       bottom: 0;
     }
 
-    &__container .blueBg .autorization__box.autorization__signin {
+    &__container .blueBg .authorization__box.authorization__signin {
       top: 0;
     }
 
-    &__container .autorization__formBx.autorization__formBx--active {
+    &__container .authorization__formBx.authorization__formBx--active {
       left: 0;
       top: 150px;
     }

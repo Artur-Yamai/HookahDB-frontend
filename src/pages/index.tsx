@@ -1,5 +1,5 @@
-import Autorization from "./autorization";
+import Authorization from "./authorization";
 export { HomePage } from "./homePage";
 export { NotFound } from "./notFound";
 
-export { Autorization };
+export { Authorization };

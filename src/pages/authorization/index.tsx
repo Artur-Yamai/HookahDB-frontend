@@ -4,23 +4,23 @@ import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { RegistrationForm } from "./RegistrationForm";
 import { AuthorizationForm } from "./AuthorizationForm";
-import { IUserRegistrationData, IUserAutorizationData } from "./interfaces";
-import "./autorization.scss";
+import { IUserRegistrationData, IUserAuthorizationData } from "./interfaces";
+import "./authorization.scss";
 
-function Autorization(): JSX.Element {
+function Authorization(): JSX.Element {
   const navigate = useNavigate();
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
 
   function toGoSignupPage(isActive: boolean): void {
-    setFormBxActive(isActive ? "autorization__formBx--active" : "");
-    setStartPageActive(isActive ? "autorization--active" : "");
+    setFormBxActive(isActive ? "authorization__formBx--active" : "");
+    setStartPageActive(isActive ? "authorization--active" : "");
   }
 
   async function toSignin({
     login,
     password,
-  }: IUserAutorizationData): Promise<void> {
+  }: IUserAuthorizationData): Promise<void> {
     console.log(login, password);
     // navigate("/");
   }
@@ -39,27 +39,27 @@ function Autorization(): JSX.Element {
   }
 
   return (
-    <div className={`autorization ${startPageActive}`}>
-      <div className="autorization__container">
+    <div className={`authorization ${startPageActive}`}>
+      <div className="authorization__container">
         <div className="blueBg">
-          <div className="autorization__box autorization__signin">
+          <div className="authorization__box authorization__signin">
             <h2>Уже зарегестрированы?</h2>
             <button className="signinBtn" onClick={() => toGoSignupPage(false)}>
               Войти
             </button>
           </div>
-          <div className="autorization__box autorization__signup">
+          <div className="authorization__box authorization__signup">
             <h2>Нет аккаунта?</h2>
             <button className="signupBtn" onClick={() => toGoSignupPage(true)}>
               Регистрация
             </button>
           </div>
         </div>
-        <div className={`autorization__formBx ${formBxActive}`}>
-          <div className="autorization__form autorization__signinForm">
+        <div className={`authorization__formBx ${formBxActive}`}>
+          <div className="authorization__form authorization__signinForm">
             <AuthorizationForm onSubmit={toSignin} />
           </div>
-          <div className="autorization__form autorization__signupForm">
+          <div className="authorization__form authorization__signupForm">
             <RegistrationForm onSubmit={toSignup} />
           </div>
         </div>
@@ -68,4 +68,4 @@ function Autorization(): JSX.Element {
   );
 }
 
-export default observer(Autorization);
+export default observer(Authorization);

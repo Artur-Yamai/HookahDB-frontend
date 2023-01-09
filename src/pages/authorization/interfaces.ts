@@ -4,7 +4,7 @@ export interface IUserRegistrationData {
   password: string;
 }
 
-export interface IUserAutorizationData {
+export interface IUserAuthorizationData {
   login: string;
   password: string;
 }
