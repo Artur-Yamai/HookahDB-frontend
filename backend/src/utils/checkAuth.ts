@@ -7,7 +7,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
     /Bearer\s?/,
     ""
   );
-  console.log(token);
 
   if (token) {
     try {
