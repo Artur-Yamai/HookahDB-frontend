@@ -7,6 +7,15 @@ import { AuthorizationForm } from "./AuthorizationForm";
 import { IUserRegistrationData, IUserAuthorizationData } from "./interfaces";
 import "./authorization.scss";
 
+interface IAuthResponse {
+  success: boolean;
+  message?: string;
+}
+
+interface IRegResponse extends IAuthResponse {
+  error: any;
+}
+
 function Authorization(): JSX.Element {
   const navigate = useNavigate();
   const [formBxActive, setFormBxActive] = useState<string>("");
@@ -17,24 +26,38 @@ function Authorization(): JSX.Element {
     setStartPageActive(isActive ? "authorization--active" : "");
   }
 
+  // Авторизация
   async function toSignin({
     login,
     password,
   }: IUserAuthorizationData): Promise<void> {
-    console.log(login, password);
-    // navigate("/");
+    const res: IAuthResponse = await UserStore.toAuthorization(login, password);
+
+    if (res.success) {
+      navigate("/");
+    } else {
+      // TODO: сделать красивое оповещение
+      alert(res.message);
+    }
   }
 
+  // Регистрация
   async function toSignup({
     login,
     email,
     password,
   }: IUserRegistrationData): Promise<void> {
-    const res = await UserStore.toRegistrationUser(login, password, email);
+    const res: IRegResponse = await UserStore.toRegistration(
+      login,
+      password,
+      email
+    );
     if (res.success) {
+      alert(res.message);
       toGoSignupPage(false);
     } else {
-      alert("Ошибка регистрации");
+      // TODO: сделать красивое оповещение
+      alert(`${res.message} ${res.error}`);
     }
   }
 
