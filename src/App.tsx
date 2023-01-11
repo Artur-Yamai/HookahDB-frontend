@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserStore from "./store/user";
 import { MainLayout } from "./components";
-import { Authorization, HomePage, NotFound } from "./pages";
+import { Authorization, HomePage, UserPage, NotFound } from "./pages";
 import "./App.scss";
 
 export default function App() {
@@ -16,6 +16,7 @@ export default function App() {
           <Route path="/auth" element={<Authorization />} />
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<HomePage />} />
+            <Route path="/myPage" element={<UserPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

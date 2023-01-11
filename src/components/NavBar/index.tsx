@@ -6,6 +6,9 @@ import { TfiViewListAlt } from "react-icons/tfi";
 import { BiHelpCircle } from "react-icons/bi";
 import { TbSettings } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
+import { BiUserCircle } from "react-icons/bi";
+import UserStore from "../../store/user";
+import { IUser } from "../../interfaces/User";
 import "./NavBar.scss";
 
 interface INavLink {
@@ -20,12 +23,20 @@ export function NavBar(): JSX.Element {
     setActiveClass(activeClass ? "" : "navbar__active navbar--active");
   };
 
+  const userData: IUser | null = UserStore.getUserData();
+
   const navLinkList: INavLink[] = [
-    {
-      caption: "Войти",
-      path: "/auth",
-      getIcon: () => <GoSignIn />,
-    },
+    userData !== null
+      ? {
+          caption: userData.login,
+          path: `/myPage`,
+          getIcon: () => <BiUserCircle />,
+        }
+      : {
+          caption: "Войти",
+          path: "/auth",
+          getIcon: () => <GoSignIn />,
+        },
     {
       caption: "Главная",
       path: ".",
