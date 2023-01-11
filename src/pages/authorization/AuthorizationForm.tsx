@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { IUserAuthorizationData } from "./interfaces";
+import "./AuthorizationForm.scss";
 
 interface IAuthorizationForm {
   onSubmit: (userData: IUserAuthorizationData) => void;
@@ -13,13 +14,7 @@ interface FormValues {
 export function AuthorizationForm({
   onSubmit,
 }: IAuthorizationForm): JSX.Element {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    resetField,
-  } = useForm<FormValues>({
+  const { register, handleSubmit, resetField } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
       login: "",
@@ -27,14 +22,28 @@ export function AuthorizationForm({
     },
   });
 
-  const formSubmit = handleSubmit(({ login, password }) => {});
+  const formSubmit = handleSubmit(({ login, password }) => {
+    onSubmit({ login, password });
+  });
+
+  const toForgot = () => {
+    console.log("toForgot");
+  };
 
   return (
-    <form onSubmit={formSubmit}>
-      <input type="text" placeholder="Login" />
-      <input type="password" placeholder="Password" />
+    <form onSubmit={formSubmit} className="af">
+      <input
+        {...register("login", { required: true })}
+        type="text"
+        placeholder="Login"
+      />
+      <input
+        {...register("password", { required: true })}
+        type="password"
+        placeholder="Password"
+      />
       <input type="submit" value="Войти" onClick={formSubmit} />
-      <button className="authorization__forget-password">Забыли пароль?</button>
+      <input type="button" value="Забыли пароль?" onClick={toForgot} />
     </form>
   );
 }

@@ -1,0 +1,24 @@
+.af {
+  input {
+    margin-bottom: 25px;
+  }
+
+  input[type="submit"] {
+    margin-bottom: 0;
+  }
+
+  input[type="button"] {
+    border: none !important;
+    padding: 5px 0 0 0 !important;
+    cursor: pointer;
+    text-align: left;
+    background-color: inherit;
+    color: blue;
+    font-size: 0.9em !important;
+    margin-bottom: 0;
+
+    &:hover {
+      color: orangered;
+    }
+  }
+}
