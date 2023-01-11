@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { registerValidation } from "./validations";
+import { registerValidation, loginValidation } from "./validations";
 import { UserController } from "./controllers";
 import { handleValidationErrors, checkAuth } from "./utils";
 import { dbURL } from "./sectets";
@@ -28,6 +28,13 @@ app.post(
   registerValidation,
   handleValidationErrors,
   UserController.register
+);
+
+app.post(
+  "/user/auth",
+  loginValidation,
+  handleValidationErrors,
+  UserController.auth
 );
 
 app.listen(port, () => {
