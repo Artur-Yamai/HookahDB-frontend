@@ -1,4 +1,5 @@
-import { useState } from "react";
+// import { useState } from "react";
+import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { GoSignIn } from "react-icons/go";
 import { AiOutlineHome } from "react-icons/ai";
@@ -17,11 +18,11 @@ interface INavLink {
   getIcon: () => JSX.Element;
 }
 
-export function NavBar(): JSX.Element {
-  const [activeClass, setActiveClass]: [string, Function] = useState("");
-  const toggle = function (): void {
-    setActiveClass(activeClass ? "" : "navbar__active navbar--active");
-  };
+function NavBar(): JSX.Element {
+  // const [activeClass, setActiveClass]: [string, Function] = useState("");
+  // const toggle = function (): void {
+  //   setActiveClass(activeClass ? "" : "navbar__active navbar--active");
+  // };
 
   const userData: IUser | null = UserStore.getUserData();
 
@@ -65,7 +66,8 @@ export function NavBar(): JSX.Element {
   ];
 
   return (
-    <nav className={`navbar ${activeClass}`}>
+    // <nav className={`navbar ${activeClass}`}>
+    <nav className="navbar navbar__active navbar--active">
       <ul>
         {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
           return (
@@ -78,7 +80,9 @@ export function NavBar(): JSX.Element {
           );
         })}
       </ul>
-      <button className="navbar__toggle-button" onClick={toggle}></button>
+      {/* <button className="navbar__toggle-button" onClick={toggle}></button> */}
     </nav>
   );
 }
+
+export default observer(NavBar);
