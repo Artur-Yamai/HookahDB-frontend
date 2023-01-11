@@ -1,19 +1,14 @@
 import axios from "./axios";
 import { AxiosError } from "axios";
 import { makeAutoObservable } from "mobx";
-
-interface IUserData {
-  createdAt: string;
-  email: string;
-  login: string;
-  roleCode: number;
-  updatedAt: string;
-  __v: number;
-  _id: string;
-}
+import { IUser } from "../interfaces/User";
 
 class User {
-  public userData: IUserData | null = null;
+  public userData: IUser | null = null;
+
+  public getUserData(): IUser | null {
+    return this.userData;
+  }
 
   constructor() {
     makeAutoObservable(this);
