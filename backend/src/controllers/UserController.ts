@@ -40,6 +40,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
   try {
+    // TODO: заменить any на что-то адекватное
     const user: any = await UserModel.findOne({
       login: req.body.login,
     });
@@ -84,6 +85,32 @@ export const auth = async (req: Request, res: Response) => {
       success: false,
       message: "Неудалось авторизоваться",
       error,
+    });
+  }
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    // TODO: заменить any на что-то адекватное
+    const user: any = await UserModel.findById(req.body.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Пользователь ненайден",
+      });
+    }
+
+    const { passwordHash, ...userData } = user._doc;
+
+    res.json({
+      success: true,
+      userData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Нет доступа",
     });
   }
 };

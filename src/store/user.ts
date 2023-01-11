@@ -57,6 +57,18 @@ class User {
       };
     }
   }
+
+  public async autoAuth() {
+    try {
+      const { data } = await axios.get("/auth/byToken");
+      if (data.success) {
+        this.userData = data.userData;
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      console.log("err", err);
+    }
+  }
 }
 
 export default new User();

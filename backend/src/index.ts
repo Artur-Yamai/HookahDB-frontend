@@ -21,8 +21,6 @@ app.get("/", (req, res) => {
   res.send("<h1>In process</h1>");
 });
 
-app.post("auth/me", checkAuth);
-
 app.post(
   "/user/register",
   registerValidation,
@@ -36,6 +34,8 @@ app.post(
   handleValidationErrors,
   UserController.auth
 );
+
+app.get("/auth/byToken", checkAuth, UserController.getUserById);
 
 app.listen(port, () => {
   console.log("Server OK");
