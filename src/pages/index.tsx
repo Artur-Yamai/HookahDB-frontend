@@ -1,6 +1,6 @@
 import Authorization from "./authorization";
-import UserPage from "./userPage";
+import Userpage from "./userpage";
 export { HomePage } from "./homePage";
 export { NotFound } from "./notFound";
 
-export { Authorization, UserPage };
+export { Authorization, Userpage };

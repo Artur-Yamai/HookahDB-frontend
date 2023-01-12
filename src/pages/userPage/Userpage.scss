@@ -1,0 +1,31 @@
+.user-page {
+  width: 100%;
+  display: flex;
+
+  &__avatar {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+      margin-bottom: 5px;
+    }
+
+    h2,
+    p {
+      text-align: center;
+    }
+
+    h2 {
+      margin: 10px 0;
+    }
+  }
+
+  &__info {
+    flex-grow: 1;
+    padding: 10px;
+    // width: calc(70% - 20px);
+    background-color: darkgray;
+    margin-left: 10px;
+  }
+}
