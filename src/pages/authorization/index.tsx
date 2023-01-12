@@ -60,6 +60,9 @@ function Authorization(): JSX.Element {
       alert(`${res.message} ${res.error}`);
     }
   }
+  if (UserStore.getUserData()) {
+    setTimeout(() => navigate("/"));
+  }
 
   return (
     <div className={`authorization ${startPageActive}`}>
