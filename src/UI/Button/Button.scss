@@ -1,0 +1,16 @@
+.u-button {
+  min-width: 50px;
+  color: white;
+  background-color: #287bff;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+  margin: 5px 0;
+  transition: 0.1s;
+
+  &:hover {
+    background-color: #246fe7;
+    transition: 0.1s;
+  }
+}

@@ -1,0 +1,11 @@
+.no-image {
+  display: flex;
+
+  &__container {
+    flex-grow: 0;
+    width: 100%;
+    background-image: url("../../img/noimg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}
