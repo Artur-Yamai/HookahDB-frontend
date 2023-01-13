@@ -22,7 +22,7 @@ export function Button({
   }
 
   return (
-    <button className={`u-button ${className}`} style={style} onClick={onClick}>
+    <button className={`c-button ${className}`} style={style} onClick={onClick}>
       {text}
     </button>
   );
