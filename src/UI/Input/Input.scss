@@ -1,0 +1,51 @@
+@import "../../styles/colors.scss";
+
+.input-container {
+  padding-top: 10px;
+  // padding-bottom: 5px;
+  position: relative;
+  min-width: 80px;
+  height: 48px;
+
+  &__input {
+    width: 100%;
+    border: 1px solid #111;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #111;
+    font-weight: 300;
+
+    &::placeholder {
+      transition: 0.1s;
+      opacity: 0;
+    }
+
+    &:focus {
+      border-color: $colorBlue;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 21px;
+    left: 15px;
+    transition: 0.3s;
+  }
+
+  &__input:disabled {
+    background-color: lightgray;
+  }
+
+  &__input:focus + .input-container__label,
+  &__input:valid + .input-container__label,
+  &__input:disabled + .input-container__label {
+    transform: translateX(-10px) translateY(-28px);
+    font-size: 14px;
+  }
+
+  &__input:focus::placeholder {
+    transition-delay: 0.1s;
+    opacity: 1;
+  }
+}
