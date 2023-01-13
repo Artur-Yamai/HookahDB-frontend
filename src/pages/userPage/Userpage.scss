@@ -1,3 +1,5 @@
+@import "../../styles/colors.scss";
+
 .user-page {
   width: 100%;
   display: flex;
@@ -10,22 +12,21 @@
     & > * {
       margin-bottom: 5px;
     }
-
-    h2,
-    p {
-      text-align: center;
-    }
-
-    h2 {
-      margin: 10px 0;
-    }
   }
 
   &__info {
     flex-grow: 1;
+    margin: 0 10px;
     padding: 10px;
-    // width: calc(70% - 20px);
-    background-color: darkgray;
-    margin-left: 10px;
+
+    form > * {
+      margin-bottom: 15px;
+    }
+
+    form h1 {
+      border-left: 15px solid $colorBlue;
+      padding-left: 15px;
+      margin-bottom: 35px;
+    }
   }
 }
