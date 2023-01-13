@@ -7,10 +7,12 @@ type IConfig = AxiosRequestConfig & {
   };
 };
 
+type ConfigType = string | undefined | null;
+
 const instanse = axios.create({ baseURL });
 
 instanse.interceptors.request.use((config: AxiosRequestConfig): IConfig => {
-  const token: string | undefined | null = localStorage.getItem("token");
+  const token: ConfigType = localStorage.getItem("token");
   if (typeof token === "string") {
     const newConfig: IConfig = { ...config };
     if (!newConfig.headers) {
