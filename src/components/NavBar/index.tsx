@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { GoSignIn } from "react-icons/go";
@@ -10,6 +10,7 @@ import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
 import UserStore from "../../store/user";
 import { IUser } from "../../interfaces/User";
+import { useNavigate } from "react-router";
 import "./NavBar.scss";
 
 interface INavLink {
@@ -19,25 +20,18 @@ interface INavLink {
 }
 
 function NavBar(): JSX.Element {
+  const navigate = useNavigate();
   // const [activeClass, setActiveClass]: [string, Function] = useState("");
   // const toggle = function (): void {
   //   setActiveClass(activeClass ? "" : "navbar__active navbar--active");
   // };
 
-  const userData: IUser | null = UserStore.getUserData();
-
-  const navLinkList: INavLink[] = [
-    userData !== null
-      ? {
-          caption: userData.login,
-          path: `/myPage`,
-          getIcon: () => <BiUserCircle />,
-        }
-      : {
-          caption: "Войти",
-          path: "/auth",
-          getIcon: () => <GoSignIn />,
-        },
+  const [navLinkList, setNavLinkList] = useState<INavLink[]>([
+    {
+      caption: "Войти",
+      path: "/auth",
+      getIcon: () => <GoSignIn />,
+    },
     {
       caption: "Главная",
       path: ".",
@@ -58,12 +52,37 @@ function NavBar(): JSX.Element {
       path: "settings",
       getIcon: () => <TbSettings />,
     },
-    {
-      caption: "Выйти",
-      path: "contacts3",
-      getIcon: () => <VscSignOut />,
-    },
-  ];
+  ]);
+
+  const userData: IUser | null = UserStore.getUserData();
+
+  useEffect(() => {
+    const newNavLinkList: INavLink[] = [...navLinkList];
+
+    if (userData) {
+      if (newNavLinkList[0].path === "/myPage") return;
+      const login = userData?.login;
+      newNavLinkList[0] = {
+        caption: login,
+        path: "/myPage",
+        getIcon: () => <BiUserCircle />,
+      };
+    } else {
+      if (newNavLinkList[0].path === "/auth") return;
+      newNavLinkList[0] = {
+        caption: "Войти",
+        path: "/auth",
+        getIcon: () => <GoSignIn />,
+      };
+    }
+
+    setNavLinkList(newNavLinkList);
+  }, [userData, navLinkList]);
+
+  function signOut() {
+    UserStore.toSignOut();
+    navigate("/");
+  }
 
   return (
     // <nav className={`navbar ${activeClass}`}>
@@ -81,6 +100,11 @@ function NavBar(): JSX.Element {
         })}
       </ul>
       {/* <button className="navbar__toggle-button" onClick={toggle}></button> */}
+      {userData && (
+        <button className="navbar__signout-button" onClick={signOut}>
+          <VscSignOut />
+        </button>
+      )}
     </nav>
   );
 }
