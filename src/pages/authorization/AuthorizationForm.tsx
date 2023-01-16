@@ -14,10 +14,10 @@ interface FormValues {
 export function AuthorizationForm({
   onSubmit,
 }: IAuthorizationForm): JSX.Element {
-  const { register, handleSubmit, resetField } = useForm<FormValues>({
+  const { register, handleSubmit } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
-      login: "",
+      login: localStorage.login ?? "",
       password: "",
     },
   });
