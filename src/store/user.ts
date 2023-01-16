@@ -16,13 +16,13 @@ class User {
 
   public async toAuthorization(login: string, password: string) {
     try {
-      const { data } = await await axios.post("/user/auth", {
+      const { data } = await axios.post("/user/auth", {
         password,
         login,
       });
 
       if (data.success) {
-        this.userData = data.userData;
+        this.userData = data.data.userData;
         localStorage.setItem("token", data.data.token);
         return { success: data.success };
       } else {
@@ -63,6 +63,16 @@ class User {
       const err = error as AxiosError;
       console.log("err", err);
     }
+  }
+
+  public toSignOut() {
+    localStorage.removeItem("token");
+
+    const user = this.getUserData();
+    if (user) {
+      localStorage.setItem("login", user.login);
+    }
+    this.userData = null;
   }
 }
 
