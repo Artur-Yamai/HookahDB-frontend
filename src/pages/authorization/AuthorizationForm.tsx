@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { IUserAuthorizationData } from "./interfaces";
 import "./AuthorizationForm.scss";
+import { notify } from "../../UI/Functions";
 
 interface IAuthorizationForm {
   onSubmit: (userData: IUserAuthorizationData) => void;
@@ -27,7 +28,7 @@ export function AuthorizationForm({
   });
 
   const toForgot = () => {
-    console.log("toForgot");
+    notify("Возможность восстановить пароль еще не работает", "warning", 4000);
   };
 
   return (

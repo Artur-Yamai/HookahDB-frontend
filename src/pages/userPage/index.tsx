@@ -2,13 +2,14 @@ import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { IUser } from "../../interfaces/User";
 import { Image, Button, Input } from "../../UI";
+import { notify } from "../../UI/Functions";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
   const user: IUser | null = UserStore.getUserData();
 
   function changeAvatar() {
-    console.log("changeAvatar");
+    notify("Кнопка для изменения аватара еще не работает");
   }
 
   if (user === null) {
