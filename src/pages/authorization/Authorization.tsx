@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { RegistrationForm, AuthorizationForm } from "../../components";
 import { IUser } from "../../Types";
-import "./authorization.scss";
+import "./Authorization.scss";
 import { notify } from "../../UI/Functions";
 
 interface IAuthResponse {
