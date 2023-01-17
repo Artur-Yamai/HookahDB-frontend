@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
-import { RegistrationForm } from "./RegistrationForm";
-import { AuthorizationForm } from "./AuthorizationForm";
-import { IUserRegistrationData, IUserAuthorizationData } from "./interfaces";
+import { RegistrationForm, AuthorizationForm } from "../../components";
+import { IUser } from "../../Types";
 import "./authorization.scss";
 import { notify } from "../../UI/Functions";
 
@@ -31,7 +30,7 @@ function Authorization(): JSX.Element {
   async function toSignin({
     login,
     password,
-  }: IUserAuthorizationData): Promise<void> {
+  }: IUser.AuthorizationData): Promise<void> {
     const res: IAuthResponse = await UserStore.toAuthorization(login, password);
 
     if (res.success) {
@@ -47,7 +46,7 @@ function Authorization(): JSX.Element {
     login,
     email,
     password,
-  }: IUserRegistrationData): Promise<boolean> {
+  }: IUser.RegistrationData): Promise<boolean> {
     const res: IRegResponse = await UserStore.toRegistration(
       login,
       password,

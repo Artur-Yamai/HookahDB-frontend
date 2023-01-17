@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import { IUserAuthorizationData } from "./interfaces";
+import { IUser } from "../../Types";
 import "./AuthorizationForm.scss";
 import { notify } from "../../UI/Functions";
 
 interface IAuthorizationForm {
-  onSubmit: (userData: IUserAuthorizationData) => void;
+  onSubmit: (userData: IUser.AuthorizationData) => void;
 }
 
 interface FormValues {

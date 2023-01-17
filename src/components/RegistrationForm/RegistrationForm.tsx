@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { IUserRegistrationData } from "./interfaces";
+import { IUser } from "../../Types";
 import "./RegistrationForm.scss";
 
 interface IRegistrationForm {
-  onSubmit: (userData: IUserRegistrationData) => Promise<boolean>;
+  onSubmit: (userData: IUser.RegistrationData) => Promise<boolean>;
 }
 
 interface FormValues {
@@ -31,7 +31,7 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
   });
 
   const formSubmit = handleSubmit(async ({ login, email, password }) => {
-    const userData: IUserRegistrationData = { login, email, password };
+    const userData: IUser.RegistrationData = { login, email, password };
     const res: boolean = await onSubmit(userData);
     if (res) {
       resetField("login");
