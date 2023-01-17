@@ -1,7 +1,9 @@
+@import "../../styles/colors.scss";
+
 .c-button {
   min-width: 50px;
   color: white;
-  background-color: #287bff;
+  background-color: $colorBlue;
   padding: 5px 15px;
   cursor: pointer;
   border-radius: 5px;

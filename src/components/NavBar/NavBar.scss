@@ -1,7 +1,9 @@
+@import "../../styles/colors.scss";
+
 .navbar {
   position: relative;
   height: 100vh;
-  background-color: #287bff;
+  background-color: $colorBlue;
   width: 80px;
   min-width: 80px;
   max-width: 300px;
