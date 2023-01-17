@@ -6,10 +6,11 @@ import { RegistrationForm } from "./RegistrationForm";
 import { AuthorizationForm } from "./AuthorizationForm";
 import { IUserRegistrationData, IUserAuthorizationData } from "./interfaces";
 import "./authorization.scss";
+import { notify } from "../../UI/Functions";
 
 interface IAuthResponse {
   success: boolean;
-  message?: string;
+  message: string;
 }
 
 interface IRegResponse extends IAuthResponse {
@@ -46,20 +47,23 @@ function Authorization(): JSX.Element {
     login,
     email,
     password,
-  }: IUserRegistrationData): Promise<void> {
+  }: IUserRegistrationData): Promise<boolean> {
     const res: IRegResponse = await UserStore.toRegistration(
       login,
       password,
       email
     );
     if (res.success) {
-      alert(res.message);
+      notify(res.message, "success", 3000);
       toGoSignupPage(false);
     } else {
-      // TODO: сделать красивое оповещение
-      alert(`${res.message} ${res.error}`);
+      notify("Не удалось зарегестрироваться", "error");
+      console.error(res.message);
     }
+
+    return res.success;
   }
+
   if (UserStore.getUserData()) {
     setTimeout(() => navigate("/"));
   }

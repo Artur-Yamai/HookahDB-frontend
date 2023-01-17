@@ -3,7 +3,7 @@ import { IUserRegistrationData } from "./interfaces";
 import "./RegistrationForm.scss";
 
 interface IRegistrationForm {
-  onSubmit: (userData: IUserRegistrationData) => void;
+  onSubmit: (userData: IUserRegistrationData) => Promise<boolean>;
 }
 
 interface FormValues {
@@ -30,13 +30,15 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
     },
   });
 
-  const formSubmit = handleSubmit(({ login, email, password }) => {
-    resetField("login");
-    resetField("email");
-    resetField("password");
-    resetField("confirmPassword");
+  const formSubmit = handleSubmit(async ({ login, email, password }) => {
     const userData: IUserRegistrationData = { login, email, password };
-    onSubmit(userData);
+    const res: boolean = await onSubmit(userData);
+    if (res) {
+      resetField("login");
+      resetField("email");
+      resetField("password");
+      resetField("confirmPassword");
+    }
   });
 
   return (
