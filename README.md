@@ -5,27 +5,21 @@
 
 ### frontend
 
-#### Добавлено 04.01.2023
-
-- React
-- React-router
-- TypeScript
-- SCSS
-
-#### Добавлено 09.01.2023
-
-- Axios
-- Mobx
-- React-hook-form
+- React (04.01.2023)
+- React-router (04.01.2023)
+- TypeScript (04.01.2023)
+- SCSS (04.01.2023)
+- Axios (09.01.2023)
+- Mobx (09.01.2023)
+- React-hook-form (09.01.2023)
 
 ### backend
 
-#### Добавлено 09.01.2023
-
-- Node
-- Express
-- MongoDB
-- TypeScript
-- jsonwebtoken
-- nodemon
-- bcrypt
+- Node (09.01.2023)
+- Express (09.01.2023)
+- MongoDB (09.01.2023)
+- TypeScript (09.01.2023)
+- jsonwebtoken (09.01.2023)
+- nodemon (09.01.2023)
+- bcrypt (09.01.2023)
+- multer (18.01.2023)
