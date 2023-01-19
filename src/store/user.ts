@@ -35,8 +35,6 @@ class User {
 
     userData.avatarUrl = config.apiUrl + avatarUrl;
 
-    console.log(userData.avatarUrl);
-
     this.userData = userData;
   }
 
