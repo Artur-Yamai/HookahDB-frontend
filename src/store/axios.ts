@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-const baseURL = "http://localhost:6060";
+import config from "../configuration";
 
 type IConfig = AxiosRequestConfig & {
   headers?: {
@@ -9,7 +9,7 @@ type IConfig = AxiosRequestConfig & {
 
 type ConfigType = string | undefined | null;
 
-const instanse = axios.create({ baseURL });
+const instanse = axios.create({ baseURL: config.apiUrl });
 
 instanse.interceptors.request.use((config: AxiosRequestConfig): IConfig => {
   const token: ConfigType = localStorage.getItem("token");
