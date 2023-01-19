@@ -1,0 +1,1 @@
+export { fileStorageDirName } from "./fileStorageDirName";
