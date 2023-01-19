@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { AiOutlineUpload } from "react-icons/ai";
 import { notify } from "../Functions";
 import "./InputTypeFIle.scss";
 
@@ -20,7 +21,7 @@ export function InputTypeFIle({
   function getFiles(e: ChangeEvent<HTMLInputElement>) {
     const files: FileList | null = e.currentTarget.files;
     if (files === null) {
-      notify("Не удалось загрузить фотографию", "warning");
+      notify("Не удалось загрузить файл(ы)", "warning");
     } else {
       onChange(files);
     }
@@ -44,6 +45,9 @@ export function InputTypeFIle({
       />
       <label className="input-type-file__label" htmlFor={id}>
         <span className="input-type-file__text">{label}</span>
+        <span className="input-type-file__icon">
+          <AiOutlineUpload />
+        </span>
       </label>
     </div>
   );

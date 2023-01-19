@@ -9,7 +9,6 @@
   text-align: center;
   color: white;
   background-color: $colorMint;
-  padding: 10px 15px;
   cursor: pointer;
   border-radius: 5px;
   font-size: 1em;
@@ -22,9 +21,18 @@
   }
 
   &__label {
-    cursor: pointer;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  &__icon {
+    transform: scale(1.3) translateY(2px);
+    margin-left: 8px;
   }
 
   &:active {
