@@ -22,7 +22,11 @@ function Userpage(): JSX.Element {
       <div className="user-page">
         <div className="user-page__avatar">
           <Image url={user.avatarUrl} />
-          <InputTypeFIle onChange={onChange} label="Изменить аватар" />
+          <InputTypeFIle
+            onChange={onChange}
+            label="Изменить аватар"
+            accept={["image/png", "image/jpg", "image/jpeg"]}
+          />
           <p className="user-page__avatat-format-list">
             Форматы .png, .jpg, .jpeg
           </p>

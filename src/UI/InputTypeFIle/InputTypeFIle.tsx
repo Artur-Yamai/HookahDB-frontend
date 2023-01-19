@@ -6,12 +6,14 @@ interface IInputTypeFIle {
   label?: string;
   width?: string;
   multiple?: boolean;
+  accept?: string[]; // Прописать допустимые файлы
   onChange: (files: FileList) => void;
 }
 
 export function InputTypeFIle({
   label = "Выберите файл",
   width,
+  accept,
   multiple = false,
   onChange,
 }: IInputTypeFIle): JSX.Element {
@@ -36,6 +38,7 @@ export function InputTypeFIle({
         className="input-type-file__input"
         type="file"
         id={id}
+        accept={accept?.join(", ")}
         multiple={multiple}
         onChange={getFiles}
       />
