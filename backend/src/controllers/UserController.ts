@@ -1,14 +1,29 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import multer from "multer";
 import UserModel from "../models/User";
 import { jwtSectretKey } from "../sectets";
+import { v4 as uuidv4 } from "uuid";
+import { fileStorageDirName } from "../constants";
 
 interface IUserRegister {
   email: string;
   password: string;
   login: string;
 }
+
+const storage: multer.StorageEngine = multer.diskStorage({
+  destination: fileStorageDirName,
+  filename: (_, file, cb) => {
+    const params: string[] = file.originalname.split(".");
+    const newPhotoName: string =
+      file.fieldname + "." + uuidv4() + "." + params[params.length - 1];
+    cb(null, newPhotoName);
+  },
+});
+
+const upload: multer.Multer = multer({ storage });
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -110,3 +125,27 @@ export const getUserById = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const saveAvatar = [
+  upload.single("avatar"),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      console.log(req.headers.userId);
+      await UserModel.findOneAndUpdate(
+        { _id: req.headers.userId },
+        {
+          avatarUrl: `uploads/${req.file?.filename}`,
+        }
+      );
+      next();
+      return;
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Не удалось сохранить аватар",
+      });
+      console.log("saveAvatar error", error);
+    }
+  },
+  getUserById,
+];

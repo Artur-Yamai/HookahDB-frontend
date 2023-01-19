@@ -1,10 +1,11 @@
-import express, { Express } from "express";
+import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { registerValidation, loginValidation } from "./validations";
 import { UserController } from "./controllers";
 import { handleValidationErrors, checkAuth } from "./utils";
 import { dbURL } from "./sectets";
+import { fileStorageDirName } from "./constants";
 
 mongoose.set("strictQuery", false); // вопрос
 mongoose
@@ -13,8 +14,9 @@ mongoose
   .catch((err: Error) => console.error("DB error", err));
 
 const port: number = 6060;
-const app: Express = express();
+const app: express.Express = express();
 app.use(express.json());
+app.use("/uploads", express.static(fileStorageDirName));
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -36,6 +38,8 @@ app.post(
 );
 
 app.get("/auth/byToken", checkAuth, UserController.getUserById);
+
+app.post("/user/saveAvatar", checkAuth, UserController.saveAvatar);
 
 app.listen(port, () => {
   console.log("Server OK");
