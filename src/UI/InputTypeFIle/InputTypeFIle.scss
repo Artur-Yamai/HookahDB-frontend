@@ -1,0 +1,33 @@
+@import "../../styles/colors.scss";
+
+.input-type-file {
+  width: 100%;
+  min-width: 50px;
+  max-width: 300px;
+  position: relative;
+  margin: 5px 0;
+  text-align: center;
+  color: white;
+  background-color: $colorMint;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: 0.1s;
+
+  &__input {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+  }
+
+  &__label {
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+  }
+
+  &:active {
+    box-shadow: inset 0 0 6px 0 rgb(88, 88, 88);
+  }
+}
