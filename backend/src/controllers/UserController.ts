@@ -130,7 +130,6 @@ export const saveAvatar = [
   upload.single("avatar"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(req.headers.userId);
       await UserModel.findOneAndUpdate(
         { _id: req.headers.userId },
         {
