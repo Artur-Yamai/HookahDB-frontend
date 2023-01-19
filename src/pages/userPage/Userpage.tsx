@@ -1,15 +1,14 @@
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { IUser } from "../../interfaces/User";
-import { Image, Button, Input } from "../../UI";
-import { notify } from "../../UI/Functions";
+import { Image, Input, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
   const user: IUser | null = UserStore.getUserData();
 
-  function changeAvatar() {
-    notify("Кнопка для изменения аватара еще не работает");
+  function onChange(files: FileList) {
+    UserStore.saveNewAvatar(files[0]);
   }
 
   if (user === null) {
@@ -22,8 +21,11 @@ function Userpage(): JSX.Element {
     <>
       <div className="user-page">
         <div className="user-page__avatar">
-          <Image />
-          <Button click={changeAvatar} text="Изменить аватар" />
+          <Image url={user.avatarUrl} />
+          <InputTypeFIle onChange={onChange} label="Изменить аватар" />
+          <p className="user-page__avatat-format-list">
+            Форматы .png, .jpg, .jpeg
+          </p>
         </div>
         <div className="user-page__info">
           <form>
@@ -32,7 +34,7 @@ function Userpage(): JSX.Element {
             <Input label="Дата регистрацияя" value={date} disabled />
           </form>
           <hr />
-          <h3>Тут будет список комментариев</h3>
+          <h3>Ваши комментарии</h3>
         </div>
       </div>
     </>
