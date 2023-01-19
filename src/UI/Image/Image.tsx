@@ -18,5 +18,9 @@ export function Image({ url, height = "250px" }: IImage): JSX.Element {
     );
   }
 
-  return <div className="image-wrapper">{/* <img src={url} /> */}</div>;
+  return (
+    <div className="image-wrapper">
+      <img src={url} alt="аватар" />
+    </div>
+  );
 }
