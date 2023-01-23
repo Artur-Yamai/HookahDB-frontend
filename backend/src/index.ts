@@ -40,7 +40,7 @@ app.post(
 
 app.get("/auth/byToken", checkAuth, UserController.getUserById);
 
-app.post("/user/saveAvatar", checkAuth, UserController.saveAvatar);
+app.put("/user/saveAvatar", checkAuth, UserController.saveAvatar);
 
 app.listen(port, () => {
   console.log("Server OK");
