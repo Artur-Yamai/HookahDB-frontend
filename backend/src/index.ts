@@ -5,7 +5,7 @@ import { registerValidation, loginValidation } from "./validations";
 import { UserController } from "./controllers";
 import { handleValidationErrors, checkAuth } from "./utils";
 import { dbURL } from "./sectets";
-import { fileStorageDirName } from "./constants";
+import { avatarsDirName, tobaccoDirName } from "./constants";
 
 mongoose.set("strictQuery", false); // вопрос
 mongoose
@@ -16,7 +16,8 @@ mongoose
 const port: number = 6060;
 const app: express.Express = express();
 app.use(express.json());
-app.use("/uploads", express.static(fileStorageDirName));
+app.use("/uploads", express.static(avatarsDirName));
+app.use("/uploads", express.static(tobaccoDirName));
 app.use(cors());
 
 app.get("/", (req, res) => {

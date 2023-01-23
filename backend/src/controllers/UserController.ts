@@ -5,7 +5,7 @@ import multer from "multer";
 import UserModel from "../models/User";
 import { jwtSectretKey } from "../sectets";
 import { v4 as uuidv4 } from "uuid";
-import { fileStorageDirName } from "../constants";
+import { avatarsDirName } from "../constants";
 
 interface IUserRegister {
   email: string;
@@ -14,11 +14,10 @@ interface IUserRegister {
 }
 
 const storage: multer.StorageEngine = multer.diskStorage({
-  destination: fileStorageDirName,
+  destination: avatarsDirName,
   filename: (_, file, cb) => {
     const params: string[] = file.originalname.split(".");
-    const newPhotoName: string =
-      file.fieldname + "." + uuidv4() + "." + params[params.length - 1];
+    const newPhotoName: string = uuidv4() + "." + params[params.length - 1];
     cb(null, newPhotoName);
   },
 });
