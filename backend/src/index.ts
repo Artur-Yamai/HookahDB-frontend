@@ -45,7 +45,7 @@ app.put("/user/saveAvatar", checkAuth, UserController.saveAvatar);
 app.get("/tobaccos", TobaccoController.getAll);
 app.get("/tobacco/:id", TobaccoController.getById);
 app.post("/tobacco", checkAuth, TobaccoController.create);
-app.put("/tobacco/:id", checkAuth, TobaccoController.change);
+app.put("/tobacco/:id", checkAuth, TobaccoController.update);
 app.delete("/tobacco/:id", checkAuth, TobaccoController.remove);
 
 app.listen(port, () => {
