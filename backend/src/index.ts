@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { registerValidation, loginValidation } from "./validations";
-import { UserController } from "./controllers";
+import { UserController, TobaccoController } from "./controllers";
 import { handleValidationErrors, checkAuth } from "./utils";
 import { dbURL } from "./sectets";
 import { avatarsDirName, tobaccoDirName } from "./constants";
@@ -16,8 +16,8 @@ mongoose
 const port: number = 6060;
 const app: express.Express = express();
 app.use(express.json());
-app.use("/uploads", express.static(avatarsDirName));
-app.use("/uploads", express.static(tobaccoDirName));
+app.use("/uploads/avatar", express.static(avatarsDirName));
+app.use("/uploads/tobacco", express.static(tobaccoDirName));
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -41,6 +41,12 @@ app.post(
 app.get("/auth/byToken", checkAuth, UserController.getUserById);
 
 app.put("/user/saveAvatar", checkAuth, UserController.saveAvatar);
+
+app.get("/tobaccos", TobaccoController.getAll);
+app.get("/tobacco/:id", TobaccoController.getById);
+app.post("/tobacco", checkAuth, TobaccoController.create);
+app.put("/tobacco/:id", checkAuth, TobaccoController.change);
+app.delete("/tobacco/:id", checkAuth, TobaccoController.remove);
 
 app.listen(port, () => {
   console.log("Server OK");
