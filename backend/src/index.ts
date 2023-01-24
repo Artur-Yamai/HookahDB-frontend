@@ -38,7 +38,7 @@ app.post(
   UserController.auth
 );
 
-app.get("/auth/byToken", checkAuth, UserController.getUserById);
+app.get("/user/authByToken", checkAuth, UserController.getUserById);
 
 app.put("/user/saveAvatar", checkAuth, UserController.saveAvatar);
 

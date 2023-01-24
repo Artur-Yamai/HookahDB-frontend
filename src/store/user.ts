@@ -79,7 +79,7 @@ class User {
 
   public async autoAuth() {
     try {
-      const { data } = await axios.get("/auth/byToken");
+      const { data } = await axios.get("/user/authByToken");
       if (data.success) {
         this.setAvatarUrlPrefix(data.userData);
         // this.userData = data.userData;
