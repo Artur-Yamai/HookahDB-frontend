@@ -6,6 +6,7 @@ import UserModel from "../models/User";
 import { jwtSectretKey } from "../sectets";
 import { v4 as uuidv4 } from "uuid";
 import { avatarsDirName } from "../constants";
+import { fileFilter } from "../utils";
 
 interface IUserRegister {
   email: string;
@@ -17,12 +18,16 @@ const storage: multer.StorageEngine = multer.diskStorage({
   destination: avatarsDirName,
   filename: (_, file, cb) => {
     const params: string[] = file.originalname.split(".");
-    const newPhotoName: string = uuidv4() + "." + params[params.length - 1];
+    const newPhotoName: string =
+      "avatar." + uuidv4() + "." + params[params.length - 1];
     cb(null, newPhotoName);
   },
 });
 
-const upload: multer.Multer = multer({ storage });
+const upload: multer.Multer = multer({
+  storage,
+  fileFilter: fileFilter(["image/png", "image/jpeg", "image/jpg"]),
+});
 
 export const register = async (req: Request, res: Response) => {
   try {
