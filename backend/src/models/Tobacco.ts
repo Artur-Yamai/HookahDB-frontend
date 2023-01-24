@@ -4,6 +4,7 @@ const TabaccoSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   fabricator: {
     type: String,
@@ -13,8 +14,16 @@ const TabaccoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  photoUrl: {
+  photosUrl: {
     type: Array,
+  },
+  userId: {
+    type: String,
+    required: true,
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 
