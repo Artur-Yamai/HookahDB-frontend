@@ -28,12 +28,12 @@ class User {
 
     const avatarUrl: string = userData.avatarUrl;
 
-    if (avatarUrl === "" || avatarUrl.indexOf(config.apiUrl) !== -1) {
+    if (avatarUrl === "" || avatarUrl.indexOf(config.photoUrl) !== -1) {
       this.userData = userData;
       return;
     }
 
-    userData.avatarUrl = config.apiUrl + avatarUrl;
+    userData.avatarUrl = config.photoUrl + avatarUrl;
 
     this.userData = userData;
   }

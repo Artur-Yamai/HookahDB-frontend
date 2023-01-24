@@ -7,18 +7,18 @@ import { handleValidationErrors, checkAuth } from "../utils";
 const router = Router();
 
 router.post(
-  "/user/register",
+  "/api/user/register",
   registerValidation,
   handleValidationErrors,
   UserController.register
 );
 router.post(
-  "/user/auth",
+  "/api/user/auth",
   loginValidation,
   handleValidationErrors,
   UserController.auth
 );
-router.get("/user/authByToken", checkAuth, UserController.getUserById);
-router.put("/user/saveAvatar", checkAuth, UserController.saveAvatar);
+router.get("/api/user/authByToken", checkAuth, UserController.getUserById);
+router.put("/api/user/saveAvatar", checkAuth, UserController.saveAvatar);
 
 export { router };
