@@ -46,7 +46,7 @@ class User {
       });
 
       if (data.success) {
-        // this.userData = data.data.userData;
+        this.userData = data.data.userData;
         localStorage.setItem("token", data.data.token);
         return { success: data.success };
       } else {
@@ -78,6 +78,7 @@ class User {
   }
 
   public async autoAuth() {
+    if (!localStorage.token) return;
     try {
       const { data } = await axios.get("/user/authByToken");
       if (data.success) {
