@@ -106,8 +106,7 @@ export const auth = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    // TODO: заменить any на что-то адекватное
-    const user: any = await UserModel.findById(
+    const user = await UserModel.findById(
       req.headers.userId,
       "-passwordHash -__v"
     );
