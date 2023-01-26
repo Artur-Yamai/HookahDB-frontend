@@ -157,7 +157,7 @@ export const loginExists = async (req: Request, res: Response) => {
   try {
     const login: string = req.body.login;
 
-    const user = await UserModel.findOne({ login: login }, "-passwordHash");
+    const user = await UserModel.findOne({ login }, "-passwordHash");
 
     res.json({
       success: true,
@@ -167,6 +167,28 @@ export const loginExists = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("error POST /api/user/loginExists", error);
+    res.status(500).json({
+      success: false,
+      message: "Ошибка сервера",
+      body: error,
+    });
+  }
+};
+
+export const emailExists = async (req: Request, res: Response) => {
+  try {
+    const email: string = req.body.email;
+
+    const user = await UserModel.findOne({ email }, "-passwordHash");
+
+    res.json({
+      success: true,
+      body: {
+        isExists: !!user,
+      },
+    });
+  } catch (error) {
+    console.log("error POST /api/user/emailExists", error);
     res.status(500).json({
       success: false,
       message: "Ошибка сервера",
