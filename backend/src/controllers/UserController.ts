@@ -107,7 +107,10 @@ export const auth = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
   try {
     // TODO: заменить any на что-то адекватное
-    const user: any = await UserModel.findById(req.headers.userId);
+    const user: any = await UserModel.findById(
+      req.headers.userId,
+      "-passwordHash -__v"
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -116,11 +119,9 @@ export const getUserById = async (req: Request, res: Response) => {
       });
     }
 
-    const { passwordHash, ...userData } = user._doc;
-
     res.json({
       success: true,
-      userData,
+      user,
     });
   } catch (error) {
     res.status(500).json({
