@@ -152,3 +152,25 @@ export const saveAvatar = [
   },
   getUserById,
 ];
+
+export const loginExists = async (req: Request, res: Response) => {
+  try {
+    const login: string = req.body.login;
+
+    const user = await UserModel.findOne({ login: login }, "-passwordHash");
+
+    res.json({
+      success: true,
+      body: {
+        isExists: !!user,
+      },
+    });
+  } catch (error) {
+    console.log("error POST /api/user/loginExists", error);
+    res.status(500).json({
+      success: false,
+      message: "Ошибка сервера",
+      body: error,
+    });
+  }
+};
