@@ -59,25 +59,24 @@ function NavBar(): JSX.Element {
   useEffect(() => {
     const newNavLinkList: INavLink[] = [...navLinkList];
 
-    if (userData) {
-      if (newNavLinkList[0].path === "/myPage") return;
-      const login = userData?.login;
-      newNavLinkList[0] = {
-        caption: login,
-        path: "/myPage",
-        getIcon: () => <BiUserCircle />,
-      };
-    } else {
-      if (newNavLinkList[0].path === "/auth") return;
-      newNavLinkList[0] = {
-        caption: "Войти",
-        path: "/auth",
-        getIcon: () => <GoSignIn />,
-      };
-    }
+    const login = userData?.login;
+
+    newNavLinkList[0] =
+      userData && login
+        ? {
+            caption: login,
+            path: "/myPage",
+            getIcon: () => <BiUserCircle />,
+          }
+        : {
+            caption: "Войти",
+            path: "/auth",
+            getIcon: () => <GoSignIn />,
+          };
 
     setNavLinkList(newNavLinkList);
-  }, [userData, navLinkList]);
+    // eslint-disable-next-line
+  }, [userData]);
 
   function signOut() {
     UserStore.toSignOut();
