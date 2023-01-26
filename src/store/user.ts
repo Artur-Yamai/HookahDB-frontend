@@ -135,6 +135,20 @@ class User {
       return false;
     }
   }
+
+  public async emailExists(email: string): Promise<boolean> {
+    try {
+      const { data } = await axios.post("/user/emailExists", { email });
+      if (data.success) {
+        return data.body.isExists;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log("error", error);
+      return false;
+    }
+  }
 }
 
 export default new User();

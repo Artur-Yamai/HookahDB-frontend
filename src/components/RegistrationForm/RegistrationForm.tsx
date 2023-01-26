@@ -7,6 +7,7 @@ import "./RegistrationForm.scss";
 interface IRegistrationForm {
   onSubmit: (userData: IUser.RegistrationData) => Promise<boolean>;
   loginExists: (login: string) => Promise<boolean>;
+  emailExists: (email: string) => Promise<boolean>;
 }
 
 interface FormValues {
@@ -24,6 +25,7 @@ const sleep = () => new Promise((r) => (resolve = r));
 export function RegistrationForm({
   onSubmit,
   loginExists,
+  emailExists,
 }: IRegistrationForm): JSX.Element {
   const {
     register,
@@ -54,8 +56,10 @@ export function RegistrationForm({
   >(undefined);
 
   let isLoginExist = false;
+  let isEmailExist = false;
 
   const [isLoginCheck, toggleIsLoginCheck] = useState<boolean>(false);
+  const [isEmailCheck, toggleIsEmailCheck] = useState<boolean>(false);
 
   function isExistLogin(login: string): void {
     if (!login || login.length < 4) return;
@@ -71,6 +75,27 @@ export function RegistrationForm({
         } finally {
           setTimeout(() => {
             toggleIsLoginCheck(false);
+            resolve();
+          }, 200);
+        }
+      }, 500)
+    );
+  }
+
+  function isExistEmail(email: string): void {
+    clearTimeout(timerId);
+    setTimerId(
+      setTimeout(async () => {
+        toggleIsEmailCheck(true);
+        try {
+          const res: boolean = await emailExists(email);
+          console.log(email, res);
+          isEmailExist = res;
+        } catch (_) {
+          isEmailExist = false;
+        } finally {
+          setTimeout(() => {
+            toggleIsEmailCheck(false);
             resolve();
           }, 200);
         }
@@ -126,10 +151,27 @@ export function RegistrationForm({
         )}
       </p>
 
-      <p className={`rf__input-wrapper ${getClassName("email")}`}>
+      <p
+        className={`rf__input-wrapper ${getClassName("email")} ${
+          isEmailCheck ? "rf__spinner" : ""
+        }`}
+      >
         <input
           {...register("email", {
             required: "Поле Email обязательно для заполнения",
+            pattern: {
+              value:
+                /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
+              message: "Некорректный email",
+            },
+            validate: {
+              positive: async (email: string) => {
+                isExistEmail(email);
+                await sleep();
+                console.log(isEmailExist);
+                return !isEmailExist ? true : "Такой email уже зарегестрирован";
+              },
+            },
           })}
           type="email"
           placeholder="Email address"

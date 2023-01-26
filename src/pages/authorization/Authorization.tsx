@@ -66,6 +66,10 @@ function Authorization(): JSX.Element {
     return await UserStore.loginExists(login);
   }
 
+  async function emailExists(email: string): Promise<boolean> {
+    return await UserStore.emailExists(email);
+  }
+
   if (UserStore.getUserData()) {
     setTimeout(() => navigate("/"));
   }
@@ -92,7 +96,11 @@ function Authorization(): JSX.Element {
             <AuthorizationForm onSubmit={toSignin} />
           </div>
           <div className="authorization__form authorization__signupForm">
-            <RegistrationForm onSubmit={toSignup} loginExists={loginExists} />
+            <RegistrationForm
+              onSubmit={toSignup}
+              loginExists={loginExists}
+              emailExists={emailExists}
+            />
           </div>
         </div>
       </div>
