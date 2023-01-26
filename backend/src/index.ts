@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { dbURL } from "./sectets";
+import { dbURL } from "./secrets";
 import { avatarsDirName, tobaccoDirName } from "./constants";
 import { UserRouter, TobaccoRoutes } from "./routes";
 

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import multer from "multer";
 import UserModel from "../models/User";
-import { jwtSectretKey } from "../sectets";
+import { jwtSectretKey } from "../secrets";
 import { v4 as uuidv4 } from "uuid";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";

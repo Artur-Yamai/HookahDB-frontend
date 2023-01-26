@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { jwtSectretKey } from "../sectets";
+import { jwtSectretKey } from "../secrets";
 
 export default (req: Request, res: Response, next: NextFunction) => {
   const token: string = (req.headers.authorization || "").replace(
