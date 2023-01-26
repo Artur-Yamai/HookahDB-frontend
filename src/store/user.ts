@@ -26,9 +26,9 @@ class User {
       return;
     }
 
-    const avatarUrl: string = userData.avatarUrl;
+    const avatarUrl: string = userData?.avatarUrl;
 
-    if (avatarUrl === "" || avatarUrl.indexOf(config.photoUrl) !== -1) {
+    if (!avatarUrl || avatarUrl.indexOf(config.photoUrl) !== -1) {
       this.userData = userData;
       return;
     }
