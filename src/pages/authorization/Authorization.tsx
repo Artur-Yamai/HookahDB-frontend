@@ -36,8 +36,7 @@ function Authorization(): JSX.Element {
     if (res.success) {
       navigate("/");
     } else {
-      // TODO: сделать красивое оповещение
-      alert(res.message);
+      notify(res.message, "error");
     }
   }
 
@@ -61,6 +60,10 @@ function Authorization(): JSX.Element {
     }
 
     return res.success;
+  }
+
+  async function loginExists(login: string): Promise<boolean> {
+    return await UserStore.loginExists(login);
   }
 
   if (UserStore.getUserData()) {
@@ -89,7 +92,7 @@ function Authorization(): JSX.Element {
             <AuthorizationForm onSubmit={toSignin} />
           </div>
           <div className="authorization__form authorization__signupForm">
-            <RegistrationForm onSubmit={toSignup} />
+            <RegistrationForm onSubmit={toSignup} loginExists={loginExists} />
           </div>
         </div>
       </div>

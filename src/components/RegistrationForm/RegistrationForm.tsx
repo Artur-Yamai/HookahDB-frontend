@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IUser } from "../../Types";
+
 import "./RegistrationForm.scss";
 
 interface IRegistrationForm {
   onSubmit: (userData: IUser.RegistrationData) => Promise<boolean>;
+  loginExists: (login: string) => Promise<boolean>;
 }
 
 interface FormValues {
@@ -13,15 +16,23 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
+type FormFiled = "login" | "email" | "password" | "confirmPassword";
+
+let resolve: any;
+const sleep = () => new Promise((r) => (resolve = r));
+
+export function RegistrationForm({
+  onSubmit,
+  loginExists,
+}: IRegistrationForm): JSX.Element {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-    resetField,
+    reset,
   } = useForm<FormValues>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       login: "",
       email: "",
@@ -34,18 +45,54 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
     const userData: IUser.RegistrationData = { login, email, password };
     const res: boolean = await onSubmit(userData);
     if (res) {
-      resetField("login");
-      resetField("email");
-      resetField("password");
-      resetField("confirmPassword");
+      reset({ login: "", email: "", password: "", confirmPassword: "" });
     }
   });
+
+  const [timerId, setTimerId] = useState<
+    string | number | NodeJS.Timeout | undefined
+  >(undefined);
+
+  let isLoginExist = false;
+
+  const [isLoginCheck, toggleIsLoginCheck] = useState<boolean>(false);
+
+  function isExistLogin(login: string): void {
+    if (!login || login.length < 4) return;
+    clearTimeout(timerId);
+    setTimerId(
+      setTimeout(async () => {
+        toggleIsLoginCheck(true);
+        try {
+          const res: boolean = await loginExists(login);
+          isLoginExist = res;
+        } catch (_) {
+          isLoginExist = false;
+        } finally {
+          setTimeout(() => {
+            toggleIsLoginCheck(false);
+            resolve();
+          }, 200);
+        }
+      }, 500)
+    );
+  }
+
+  function getClassName(field: FormFiled): string {
+    if (watch(field)) {
+      return errors?.[field]
+        ? "rf__input-wrapper--error"
+        : "rf__input-wrapper--success";
+    } else {
+      return errors?.[field] ? "rf__input-wrapper--error" : "";
+    }
+  }
 
   return (
     <form onSubmit={formSubmit} className="rf">
       <p
-        className={`rf__input-wrapper ${
-          errors?.login ? "rf__input-wrapper--error" : ""
+        className={`rf__input-wrapper ${getClassName("login")} ${
+          isLoginCheck ? "rf__spinner" : ""
         }`}
       >
         <input
@@ -59,6 +106,17 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
               value: 30,
               message: "Максимум 30 символов",
             },
+            pattern: {
+              value: /^[A-Za-z0-9]/,
+              message: "Логин должен содержать латинские буквы и цифры",
+            },
+            validate: {
+              positive: async (login: string) => {
+                isExistLogin(login);
+                await sleep();
+                return !isLoginExist ? true : "Логин занят";
+              },
+            },
           })}
           type="text"
           placeholder="Login"
@@ -68,11 +126,7 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
         )}
       </p>
 
-      <p
-        className={`rf__input-wrapper ${
-          errors?.email ? "rf__input-wrapper--error" : ""
-        }`}
-      >
+      <p className={`rf__input-wrapper ${getClassName("email")}`}>
         <input
           {...register("email", {
             required: "Поле Email обязательно для заполнения",
@@ -85,11 +139,7 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
         )}
       </p>
 
-      <p
-        className={`rf__input-wrapper ${
-          errors?.password ? "rf__input-wrapper--error" : ""
-        }`}
-      >
+      <p className={`rf__input-wrapper ${getClassName("password")}`}>
         <input
           {...register("password", {
             required: "Обязательное поле для заполнения",
@@ -106,11 +156,7 @@ export function RegistrationForm({ onSubmit }: IRegistrationForm): JSX.Element {
         )}
       </p>
 
-      <p
-        className={`rf__input-wrapper ${
-          errors?.confirmPassword ? "rf__input-wrapper--error" : ""
-        }`}
-      >
+      <p className={`rf__input-wrapper ${getClassName("confirmPassword")}`}>
         <input
           {...register("confirmPassword", {
             required: "Обязательное поле для заполнения",

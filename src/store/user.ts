@@ -121,6 +121,20 @@ class User {
     }
     this.userData = null;
   }
+
+  public async loginExists(login: string): Promise<boolean> {
+    try {
+      const { data } = await axios.post("/user/loginExists", { login });
+      if (data.success) {
+        return data.body.isExists;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log("error", error);
+      return false;
+    }
+  }
 }
 
 export default new User();

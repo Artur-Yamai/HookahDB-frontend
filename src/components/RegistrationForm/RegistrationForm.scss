@@ -6,6 +6,10 @@
     &.rf__input-wrapper--error input {
       border: 1px solid orangered !important;
     }
+
+    &.rf__input-wrapper--success input {
+      border: 1px solid rgb(5, 198, 5) !important;
+    }
   }
 
   &__error-text {
@@ -14,5 +18,33 @@
     bottom: -14px;
     font-size: 0.75em;
     color: orangered;
+  }
+
+  &__spinner {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: "";
+      right: -35px;
+      top: 6px;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      border: 6px solid rgba(0, 115, 255, 0.3);
+
+      border-top-color: rgb(0, 115, 255);
+      animation: spinner 0.5s infinite;
+    }
+  }
+}
+
+@keyframes spinner {
+  0% {
+    rotate: (0);
+  }
+
+  100% {
+    rotate: (360deg);
   }
 }
