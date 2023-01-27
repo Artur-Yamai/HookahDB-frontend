@@ -17,7 +17,7 @@ export const UserApi = {
     }),
 
   saveNewAvatar: async (formData: FormData) =>
-    await axios.post("/user/saveAvatar", formData, {
+    await axios.put("/user/saveAvatar", formData, {
       headers: {
         "Content-type": "multipart/form-data",
       },
