@@ -10,7 +10,7 @@ import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
 import { ImDatabase } from "react-icons/im";
 import UserStore from "../../store/user";
-import { IUser } from "../../interfaces/User";
+import { IUser } from "../../Types/user/User";
 import { useNavigate } from "react-router";
 import "./NavBar.scss";
 

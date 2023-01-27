@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
-import { IUser } from "../../interfaces/User";
+import { IUser } from "../../Types/user/User";
 import { Image, Input, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 

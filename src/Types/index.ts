@@ -1,3 +1,7 @@
-import * as IUser from "./user/AuthAndRegInterfaces";
+import {
+  IAuthorizationUserData,
+  IRegistrationUserData,
+} from "./user/AuthAndRegInterfaces";
+import { IUser } from "./user/User";
 
-export { IUser };
+export type { IAuthorizationUserData, IRegistrationUserData, IUser };

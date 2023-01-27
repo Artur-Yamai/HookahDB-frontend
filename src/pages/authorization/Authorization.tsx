@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { RegistrationForm, AuthorizationForm } from "../../components";
-import { IUser } from "../../Types";
+import { IAuthorizationUserData, IRegistrationUserData } from "../../Types";
 import "./Authorization.scss";
 import { notify } from "../../UI/Functions";
 
@@ -30,7 +30,7 @@ function Authorization(): JSX.Element {
   async function toSignin({
     login,
     password,
-  }: IUser.AuthorizationData): Promise<void> {
+  }: IAuthorizationUserData): Promise<void> {
     const res: IAuthResponse = await UserStore.toAuthorization(login, password);
 
     if (res.success) {
@@ -45,7 +45,7 @@ function Authorization(): JSX.Element {
     login,
     email,
     password,
-  }: IUser.RegistrationData): Promise<boolean> {
+  }: IRegistrationUserData): Promise<boolean> {
     const res: IRegResponse = await UserStore.toRegistration(
       login,
       password,

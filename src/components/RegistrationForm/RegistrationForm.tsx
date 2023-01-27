@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { IUser } from "../../Types";
+import { IRegistrationUserData } from "../../Types";
 
 import "./RegistrationForm.scss";
 
 interface IRegistrationForm {
-  onSubmit: (userData: IUser.RegistrationData) => Promise<boolean>;
+  onSubmit: (userData: IRegistrationUserData) => Promise<boolean>;
   loginExists: (login: string) => Promise<boolean>;
   emailExists: (email: string) => Promise<boolean>;
 }
@@ -44,7 +44,7 @@ export function RegistrationForm({
   });
 
   const formSubmit = handleSubmit(async ({ login, email, password }) => {
-    const userData: IUser.RegistrationData = { login, email, password };
+    const userData: IRegistrationUserData = { login, email, password };
     const res: boolean = await onSubmit(userData);
     if (res) {
       reset({ login: "", email: "", password: "", confirmPassword: "" });
