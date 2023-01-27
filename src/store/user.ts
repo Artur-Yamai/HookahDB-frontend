@@ -1,7 +1,6 @@
 import { AxiosError } from "axios";
 import { makeAutoObservable } from "mobx";
 import { IUser } from "../Types/user/User";
-import config from "../configuration";
 import { notify } from "../UI/Functions";
 import { UserApi } from "../API";
 
