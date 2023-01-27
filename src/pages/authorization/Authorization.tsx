@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
+import { UserApi } from "../../API";
 import { RegistrationForm, AuthorizationForm } from "../../components";
 import { IAuthorizationUserData, IRegistrationUserData } from "../../Types";
 import "./Authorization.scss";
@@ -63,11 +64,21 @@ function Authorization(): JSX.Element {
   }
 
   async function loginExists(login: string): Promise<boolean> {
-    return await UserStore.loginExists(login);
+    try {
+      const { data } = await UserApi.loginExists(login);
+      return data.success ? data.body.isExists : false;
+    } catch (_) {
+      return false;
+    }
   }
 
   async function emailExists(email: string): Promise<boolean> {
-    return await UserStore.emailExists(email);
+    try {
+      const { data } = await UserApi.emailExists(email);
+      return data.success ? data.body.isExists : false;
+    } catch (_) {
+      return false;
+    }
   }
 
   if (UserStore.getUserData()) {

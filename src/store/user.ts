@@ -1,9 +1,9 @@
-import axios from "./axios";
 import { AxiosError } from "axios";
 import { makeAutoObservable } from "mobx";
 import { IUser } from "../Types/user/User";
 import config from "../configuration";
 import { notify } from "../UI/Functions";
+import { UserApi } from "../API";
 
 class User {
   public userData: IUser | null = null;
@@ -40,13 +40,10 @@ class User {
 
   public async toAuthorization(login: string, password: string) {
     try {
-      const { data } = await axios.post("/user/auth", {
-        password,
-        login,
-      });
+      const { data } = await UserApi.auth(login, password);
 
       if (data.success) {
-        this.userData = data.data.userData;
+        this.setAvatarUrlPrefix(data.data.userData);
         localStorage.setItem("token", data.data.token);
         return { success: data.success };
       } else {
@@ -62,11 +59,7 @@ class User {
 
   public async toRegistration(login: string, password: string, email: string) {
     try {
-      const { data } = await axios.post("/user/register", {
-        email,
-        password,
-        login,
-      });
+      const { data } = await UserApi.register(login, password, email);
       return data;
     } catch (error: any) {
       const err = error as AxiosError;
@@ -80,7 +73,7 @@ class User {
   public async autoAuth() {
     if (!localStorage.token) return;
     try {
-      const { data } = await axios.get("/user/authByToken");
+      const { data } = await UserApi.autoAuth();
       if (data.success) {
         this.setAvatarUrlPrefix(data.userData);
         // this.userData = data.userData;
@@ -95,11 +88,7 @@ class User {
     try {
       let formData = new FormData();
       formData.append("avatar", avatar);
-      const { data } = await axios.post("/user/saveAvatar", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
+      const { data } = await UserApi.saveNewAvatar(formData);
       if (data.success) {
         this.setAvatarUrlPrefix(data.userData);
       } else {
@@ -122,33 +111,9 @@ class User {
     this.userData = null;
   }
 
-  public async loginExists(login: string): Promise<boolean> {
-    try {
-      const { data } = await axios.post("/user/loginExists", { login });
-      if (data.success) {
-        return data.body.isExists;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.log("error", error);
-      return false;
-    }
-  }
-
-  public async emailExists(email: string): Promise<boolean> {
-    try {
-      const { data } = await axios.post("/user/emailExists", { email });
-      if (data.success) {
-        return data.body.isExists;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.log("error", error);
-      return false;
-    }
-  }
+  // public async emailExists(email: string): Promise<boolean> {
+  //
+  // }
 }
 
 export default new User();
