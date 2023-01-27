@@ -1,5 +1,4 @@
 import "./NotFound.scss";
-import { Button } from "../../UI";
 
 export function NotFound() {
   function goToHome() {
