@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { ImDatabase } from "react-icons/im";
 import UserStore from "../../store/user";
 import { UserApi } from "../../API";
 import { RegistrationForm, AuthorizationForm } from "../../components";
@@ -88,6 +90,11 @@ function Authorization(): JSX.Element {
   return (
     <div className={`authorization ${startPageActive}`}>
       <div className="authorization__container">
+        <NavLink to="/">
+          <h1 className="authorization__sitename">
+            HookahDB <ImDatabase />
+          </h1>
+        </NavLink>
         <div className="blueBg">
           <div className="authorization__box authorization__signin">
             <h2>Уже зарегестрированы?</h2>

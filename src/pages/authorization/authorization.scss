@@ -1,3 +1,4 @@
+@import "../../styles/colors.scss";
 .authorization {
   display: flex;
   justify-content: center;
@@ -27,6 +28,23 @@
     width: 800px;
     height: 500px;
     margin: 20px;
+  }
+
+  &__sitename {
+    color: green;
+    position: absolute;
+    left: 0;
+    top: -50px;
+    color: $colorWhite;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    transition: 0.75s;
+  }
+
+  &.authorization--active .authorization__sitename {
+    left: 400px;
+    transition: 0.75s;
   }
 
   .blueBg {
@@ -171,6 +189,13 @@
 
 @media (max-width: 990px) {
   .authorization {
+    &__sitename {
+      max-width: 500px;
+    }
+    &.authorization--active .authorization__sitename {
+      left: 0;
+    }
+
     &__container {
       min-width: 320px;
       width: 500px;
