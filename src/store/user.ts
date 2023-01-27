@@ -110,10 +110,6 @@ class User {
     }
     this.userData = null;
   }
-
-  // public async emailExists(email: string): Promise<boolean> {
-  //
-  // }
 }
 
 export default new User();
