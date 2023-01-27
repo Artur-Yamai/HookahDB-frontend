@@ -105,7 +105,7 @@ function NavBar(): JSX.Element {
         <ul>
           {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
             return (
-              <li key={i}>
+              <li key={i} onClick={navbarToggle}>
                 <NavLink to={linkInfo.path}>
                   <span className="navbar__icon">{linkInfo.getIcon()}</span>
                   <span className="navbar__title">{linkInfo.caption}</span>
