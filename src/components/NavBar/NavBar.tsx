@@ -34,14 +34,14 @@ function NavBar(): JSX.Element {
       getIcon: () => <GoSignIn />,
     },
     {
+      caption: "Для кальяна",
+      path: "for-hookah",
+      getIcon: () => <TfiViewListAlt />,
+    },
+    {
       caption: "Главная",
       path: ".",
       getIcon: () => <AiOutlineHome />,
-    },
-    {
-      caption: "Список",
-      path: "about",
-      getIcon: () => <TfiViewListAlt />,
     },
     {
       caption: "Контакты",
@@ -67,7 +67,7 @@ function NavBar(): JSX.Element {
       userData && login
         ? {
             caption: login,
-            path: "/myPage",
+            path: "/my-page",
             getIcon: () => <BiUserCircle />,
           }
         : {

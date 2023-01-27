@@ -1,7 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserStore from "./store/user";
 import { MainLayout } from "./components";
-import { Authorization, HomePage, Userpage, NotFound } from "./pages";
+import {
+  Authorization,
+  HomePage,
+  Userpage,
+  NotFound,
+  ForHookah,
+} from "./pages";
 import "./App.scss";
 
 export default function App() {
@@ -16,7 +22,8 @@ export default function App() {
           <Route path="/auth" element={<Authorization />} />
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<HomePage />} />
-            <Route path="/myPage" element={<Userpage />} />
+            <Route path="/my-page" element={<Userpage />} />
+            <Route path="/for-hookah" element={<ForHookah />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
