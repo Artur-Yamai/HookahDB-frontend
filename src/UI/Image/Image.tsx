@@ -1,4 +1,5 @@
 import "./Image.scss";
+import config from "../../configuration";
 
 interface IImage {
   url?: string;
@@ -18,9 +19,11 @@ export function Image({ url, height = "250px" }: IImage): JSX.Element {
     );
   }
 
+  const avatarUrl = config.photoUrl + url;
+
   return (
     <div className="image-wrapper">
-      <img src={url} alt="аватар" />
+      <img src={avatarUrl} alt="аватар" />
     </div>
   );
 }

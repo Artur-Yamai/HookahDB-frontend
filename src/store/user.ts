@@ -20,39 +20,25 @@ class User {
     makeAutoObservable(this);
   }
 
-  public setAvatarUrlPrefix(userData: IUser): void {
-    if (userData === null) {
-      this.userData = null;
-      return;
-    }
-
-    const avatarUrl: string = userData?.avatarUrl;
-
-    if (!avatarUrl || avatarUrl.indexOf(config.photoUrl) !== -1) {
-      this.userData = userData;
-      return;
-    }
-
-    userData.avatarUrl = config.photoUrl + avatarUrl;
-
-    this.userData = userData;
-  }
-
   public async toAuthorization(login: string, password: string) {
     try {
       const { data } = await UserApi.auth(login, password);
 
       if (data.success) {
-        this.setAvatarUrlPrefix(data.data.userData);
+        this.userData = data.data.userData;
         localStorage.setItem("token", data.data.token);
         return { success: data.success };
       } else {
         return data;
       }
-    } catch (_) {
+    } catch (err) {
+      const error = err as AxiosError;
+      const data: any = error.response?.data;
+      const message =
+        data?.message ?? "Ошибка, попробуйте авторизироваться позже";
       return {
         success: false,
-        message: "Ошибка, попробуйте авторизироваться позже",
+        message,
       };
     }
   }
@@ -75,8 +61,7 @@ class User {
     try {
       const { data } = await UserApi.autoAuth();
       if (data.success) {
-        this.setAvatarUrlPrefix(data.userData);
-        // this.userData = data.userData;
+        this.userData = data.userData;
       }
     } catch (error: any) {
       const err = error as AxiosError;
@@ -90,7 +75,7 @@ class User {
       formData.append("avatar", avatar);
       const { data } = await UserApi.saveNewAvatar(formData);
       if (data.success) {
-        this.setAvatarUrlPrefix(data.userData);
+        this.userData = data.userData;
       } else {
         notify(data.message, "error");
       }
