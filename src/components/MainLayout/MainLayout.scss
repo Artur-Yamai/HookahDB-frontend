@@ -2,8 +2,16 @@
   background-color: rgb(234, 234, 234);
   display: flex;
   flex-wrap: wrap;
-  padding: 10px 0 0 20px;
-  flex-grow: 1;
-  overflow: hidden;
-  overflow-y: auto;
+  padding: 10px;
+  width: calc(100% - 250px);
+  margin-left: auto;
+  // overflow: hidden;
+  // overflow-y: auto;
+}
+
+@media (max-width: 680px) {
+  .page-wrapper {
+    width: 100%;
+    padding-top: 60px;
+  }
 }

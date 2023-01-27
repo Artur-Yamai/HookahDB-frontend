@@ -1,18 +1,31 @@
 @import "../../styles/colors.scss";
 
 .navbar {
-  position: relative;
+  position: fixed;
+  left: 0px;
   height: 100vh;
   background-color: $colorBlue;
-  width: 80px;
-  min-width: 80px;
-  max-width: 300px;
   overflow: hidden;
   box-shadow: 15px;
   transition: 0.5s;
+  width: 250px;
+  min-width: 250px;
+  transition: 0.5s;
 
-  &__signout-button,
+  &__logo {
+    margin: 20px 10px;
+    padding: 5px 20px;
+
+    h1 {
+      color: white;
+    }
+  }
+
   &__toggle-button {
+    display: none;
+  }
+
+  &__signout-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,44 +41,7 @@
     font-size: 1.75rem;
   }
 
-  &__toggle-button::before {
-    content: "";
-    position: absolute;
-    width: 26px;
-    height: 3px;
-    border-radius: 3px;
-    background-color: #365fa1;
-    transform: translateY(-5px);
-    transition: 0.5s;
-  }
-
-  &__toggle-button::after {
-    content: "";
-    position: absolute;
-    width: 26px;
-    height: 3px;
-    border-radius: 3px;
-    background-color: #365fa1;
-    transform: translateY(5px);
-    transition: 0.5s;
-  }
-
-  &.navbar__active {
-    width: 250px;
-    min-width: 250px;
-    transition: 0.5s;
-  }
-
-  &.navbar__active .navbar__toggle-button::before {
-    transform: rotate(-45deg) translateY(0px);
-  }
-
-  &.navbar__active .navbar__toggle-button::after {
-    transform: rotate(45deg) translateY(0px);
-  }
-
   ul {
-    padding-top: 35px;
     margin: 0 10px;
 
     li {
@@ -111,6 +87,93 @@
       height: 60px;
       line-height: 60px;
       white-space: nowrap;
+    }
+  }
+}
+
+.head {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .navbar {
+    left: -100%;
+    width: 100%;
+    margin-top: 60px;
+    height: calc(100vh - 60px);
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      position: fixed;
+      margin: 0;
+      top: 0;
+      left: 0;
+      height: 60px;
+      background-color: $colorBlue;
+      width: 100%;
+    }
+
+    &__toggle-button {
+      display: block;
+      position: fixed;
+      height: 60px;
+      width: 60px;
+      top: 0;
+      left: 0;
+      background-color: $colorBlue;
+      cursor: pointer;
+    }
+
+    &__toggle-button span::after {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 3px;
+      border-radius: 3px;
+      background-color: #365fa1;
+      transform: translateY(0px) translateX(-15px);
+      transition: 0.5s;
+    }
+
+    &__toggle-button::before {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 3px;
+      border-radius: 3px;
+      background-color: #365fa1;
+      transform: translateY(-10px) translateX(-15px);
+      transition: 0.5s;
+    }
+
+    &__toggle-button::after {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 3px;
+      border-radius: 3px;
+      background-color: #365fa1;
+      transform: translateY(10px) translateX(-15px);
+      transition: 0.5s;
+    }
+
+    &.navbar--active {
+      left: 0;
+    }
+
+    &.navbar--active .navbar__toggle-button::before {
+      transform: rotate(-45deg) translateX(-10px) translateY(-10px);
+    }
+
+    &.navbar--active .navbar__toggle-button::after {
+      transform: rotate(45deg) translateX(-10px) translateY(10px);
+    }
+
+    &.navbar--active .navbar__toggle-button span::after {
+      opacity: 0;
+      transform: rotate(180deg) translateX(10px);
     }
   }
 }

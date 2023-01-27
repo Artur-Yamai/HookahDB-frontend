@@ -8,6 +8,7 @@ import { BiHelpCircle } from "react-icons/bi";
 import { TbSettings } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
+import { ImDatabase } from "react-icons/im";
 import UserStore from "../../store/user";
 import { IUser } from "../../interfaces/User";
 import { useNavigate } from "react-router";
@@ -53,6 +54,7 @@ function NavBar(): JSX.Element {
       getIcon: () => <TbSettings />,
     },
   ]);
+  const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);
 
   const userData: IUser | null = UserStore.getUserData();
 
@@ -83,28 +85,42 @@ function NavBar(): JSX.Element {
     navigate("/");
   }
 
+  function navbarToggle() {
+    toggleVisibleMenu(!isVisibleMenu);
+  }
+
   return (
-    // <nav className={`navbar ${activeClass}`}>
-    <nav className="navbar navbar__active navbar--active">
-      <ul>
-        {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
-          return (
-            <li key={i}>
-              <NavLink to={linkInfo.path}>
-                <span className="navbar__icon">{linkInfo.getIcon()}</span>
-                <span className="navbar__title">{linkInfo.caption}</span>
-              </NavLink>
-            </li>
-          );
-        })}
-      </ul>
-      {/* <button className="navbar__toggle-button" onClick={toggle}></button> */}
-      {userData && (
-        <button className="navbar__signout-button" onClick={signOut}>
-          <VscSignOut />
-        </button>
-      )}
-    </nav>
+    <>
+      <nav className={`navbar ${isVisibleMenu ? "navbar--active" : ""}`}>
+        <div className="navbar__logo">
+          <button className="navbar__toggle-button" onClick={navbarToggle}>
+            <span></span>
+          </button>
+          <NavLink to="/">
+            <h1>
+              HookahDB <ImDatabase />
+            </h1>
+          </NavLink>
+        </div>
+        <ul>
+          {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
+            return (
+              <li key={i}>
+                <NavLink to={linkInfo.path}>
+                  <span className="navbar__icon">{linkInfo.getIcon()}</span>
+                  <span className="navbar__title">{linkInfo.caption}</span>
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
+        {userData && (
+          <button className="navbar__signout-button" onClick={signOut}>
+            <VscSignOut />
+          </button>
+        )}
+      </nav>
+    </>
   );
 }
 
