@@ -18,8 +18,7 @@ const storage: multer.StorageEngine = multer.diskStorage({
   destination: avatarsDirName,
   filename: (_, file, cb) => {
     const params: string[] = file.originalname.split(".");
-    const newPhotoName: string =
-      "avatar." + uuidv4() + "." + params[params.length - 1];
+    const newPhotoName: string = uuidv4() + "." + params[params.length - 1];
     cb(null, newPhotoName);
   },
 });
@@ -137,7 +136,7 @@ export const saveAvatar = [
       await UserModel.findOneAndUpdate(
         { _id: req.headers.userId },
         {
-          avatarUrl: `uploads/${req.file?.filename}`,
+          avatarUrl: `uploads/avatar/${req.file?.filename}`,
         }
       );
       next();
