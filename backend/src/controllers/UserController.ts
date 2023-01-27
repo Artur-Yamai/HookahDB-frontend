@@ -89,7 +89,7 @@ export const auth = async (req: Request, res: Response) => {
       }
     );
 
-    const { passwordHash, ...userData } = user._doc;
+    const { passwordHash, __v, ...userData } = user._doc;
 
     return res.json({
       success: true,
@@ -120,7 +120,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      user,
+      userData: user,
     });
   } catch (error) {
     res.status(500).json({
