@@ -7,11 +7,11 @@ import { UserApi } from "../API";
 class User {
   public userData: IUser | null = null;
 
-  public getUserData(): IUser | null {
+  public get getUserData(): IUser | null {
     return this.userData;
   }
 
-  public getAvatar(): string | null {
+  public get getAvatar(): string | null {
     return this.userData?.avatarUrl ?? null;
   }
 
@@ -88,7 +88,7 @@ class User {
   public toSignOut(): void {
     localStorage.removeItem("token");
 
-    const user = this.getUserData();
+    const user = this.getUserData;
     if (user) {
       localStorage.setItem("login", user.login);
     }

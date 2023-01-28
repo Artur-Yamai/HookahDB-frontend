@@ -5,7 +5,7 @@ import { Image, Input, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
-  const user: IUser | null = UserStore.getUserData();
+  const user: IUser | null = UserStore.getUserData;
 
   function onChange(files: FileList) {
     UserStore.saveNewAvatar(files[0]);
