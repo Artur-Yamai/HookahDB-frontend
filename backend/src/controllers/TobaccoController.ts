@@ -9,8 +9,7 @@ const storage: multer.StorageEngine = multer.diskStorage({
   destination: tobaccoDirName,
   filename: (_, file, cb) => {
     const params: string[] = file.originalname.split(".");
-    const newPhotoName: string =
-      "tobacco." + uuidv4() + "." + params[params.length - 1];
+    const newPhotoName: string = uuidv4() + "." + params[params.length - 1];
     cb(null, newPhotoName);
   },
 });
@@ -37,7 +36,9 @@ export const create = [
 
       const { name, fabricator, description } = body;
       const userId = req.headers.userId;
-      const photosUrl: string[] = files.map((file: any) => file.filename);
+      const photosUrl: string[] = files.map(
+        (file: any) => `uploads/tobacco/${file.filename}`
+      );
 
       const doc = new TobaccoModel({
         name,
