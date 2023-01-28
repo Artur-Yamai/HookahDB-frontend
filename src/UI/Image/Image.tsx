@@ -22,7 +22,7 @@ export function Image({ url, height = "250px" }: IImage): JSX.Element {
   const avatarUrl = config.photoUrl + url;
 
   return (
-    <div className="image-wrapper">
+    <div className="image-wrapper" style={{ width: "100%" }}>
       <img src={avatarUrl} alt="аватар" />
     </div>
   );
