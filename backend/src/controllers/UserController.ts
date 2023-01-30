@@ -7,6 +7,7 @@ import { jwtSectretKey } from "../secrets";
 import { v4 as uuidv4 } from "uuid";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
+import logger from "../logger/logger.service";
 
 interface IUserRegister {
   email: string;
@@ -41,11 +42,13 @@ export const register = async (req: Request, res: Response) => {
       login,
     });
 
-    await doc.save();
+    const newUser = await doc.save();
 
     res
       .status(201)
       .json({ success: true, message: "Регистрация прошла успешно" });
+
+    logger.success("post", req.path, `userId - ${newUser._id}`);
   } catch (error: any) {
     console.log("error registration", error.message);
     res.status(500).json("Не удалось зарегестрироваться");
@@ -60,10 +63,14 @@ export const auth = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({
+      const message: string = "Пользователь не найден";
+      res.status(404).json({
         success: false,
-        message: "Пользователь не найден",
+        message,
       });
+
+      logger.success("post", req.path, `${req.body.login} - ${message}`);
+      return;
     }
 
     const isValid: boolean = await bcrypt.compare(
@@ -72,10 +79,14 @@ export const auth = async (req: Request, res: Response) => {
     );
 
     if (!isValid) {
+      const message: string = "Неверный логин или пароль";
       res.status(401).json({
         success: false,
-        message: "Неверный логин или пароль",
+        message,
       });
+
+      logger.success("post", req.path, `${req.body.login} - ${message}`);
+      return;
     }
 
     const token = jwt.sign(
@@ -90,10 +101,12 @@ export const auth = async (req: Request, res: Response) => {
 
     const { passwordHash, __v, ...userData } = user._doc;
 
-    return res.json({
+    res.json({
       success: true,
       data: { userData, token },
     });
+
+    logger.success("post", req.path, `userId - ${userData._id}`);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -105,22 +118,26 @@ export const auth = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    const user = await UserModel.findById(
-      req.headers.userId,
-      "-passwordHash -__v"
-    );
+    const userId = req.headers.userId;
+    const user = await UserModel.findById(userId, "-passwordHash -__v");
 
     if (!user) {
-      return res.status(404).json({
+      const message: string = "Пользователь ненайден";
+      res.status(404).json({
         success: false,
-        message: "Пользователь ненайден",
+        message,
       });
+
+      logger.success("get", req.path, `userId - ${userId} : ${message}`);
+      return;
     }
 
     res.json({
       success: true,
       userData: user,
     });
+
+    logger.success("get", req.path, `userId - ${user._id}`);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -133,14 +150,15 @@ export const saveAvatar = [
   upload.single("avatar"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const userId = req.headers.userId;
       await UserModel.findOneAndUpdate(
-        { _id: req.headers.userId },
+        { _id: userId },
         {
           avatarUrl: `uploads/avatar/${req.file?.filename}`,
         }
       );
       next();
-      return;
+      logger.success("put", req.path, `userId - ${userId}`);
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -164,6 +182,12 @@ export const loginExists = async (req: Request, res: Response) => {
         isExists: !!user,
       },
     });
+
+    logger.success(
+      "post",
+      req.path,
+      `login "${login}" ${!!user ? "exist" : "not exist"}`
+    );
   } catch (error) {
     console.log("error POST /api/user/loginExists", error);
     res.status(500).json({
@@ -186,6 +210,12 @@ export const emailExists = async (req: Request, res: Response) => {
         isExists: !!user,
       },
     });
+
+    logger.success(
+      "post",
+      req.path,
+      `email "${email}" ${!!user ? "exist" : "not exist"}`
+    );
   } catch (error) {
     console.log("error POST /api/user/emailExists", error);
     res.status(500).json({
