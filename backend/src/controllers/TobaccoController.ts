@@ -84,7 +84,7 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
       {
         isDeleted: false,
       },
-      "-isDeleted -__v -createdAt"
+      { photosUrl: { $slice: 1 }, name: 1, fabrivator: 1, description: 1 }
     );
 
     responseHandler.success(req, res, 201, "Получен список всех табаков", {
@@ -185,6 +185,7 @@ export const update = [
     }
   },
 ];
+
 export const remove = async (req: Request, res: Response): Promise<void> => {
   try {
     const _id: string = req.params.id;
