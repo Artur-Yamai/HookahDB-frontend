@@ -48,8 +48,7 @@ export const register = async (req: Request, res: Response) => {
       success: true,
     });
   } catch (error: any) {
-    console.log("error registration", error.message);
-    res.status(500).json("Не удалось зарегестрироваться");
+    responseHandler.error(req, res, error, "Не удалось зарегестрироваться");
   }
 };
 
@@ -105,11 +104,7 @@ export const auth = async (req: Request, res: Response) => {
       data: { userData, token },
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Неудалось авторизоваться",
-      error,
-    });
+    responseHandler.error(req, res, error, "Не удалось авторизоваться");
   }
 };
 
@@ -136,10 +131,7 @@ export const getUserById = async (req: Request, res: Response) => {
       userData: user,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Нет доступа",
-    });
+    responseHandler.error(req, res, error, "Нет доступа");
   }
 };
 
@@ -156,11 +148,7 @@ export const saveAvatar = [
       );
       next();
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Не удалось сохранить аватар",
-      });
-      console.log("saveAvatar error", error);
+      responseHandler.error(req, res, error, "Не удалось сохранить аватар");
     }
   },
   getUserById,
@@ -185,12 +173,7 @@ export const loginExists = async (req: Request, res: Response) => {
       }
     );
   } catch (error) {
-    console.log("error POST /api/user/loginExists", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Ошибка сервера");
   }
 };
 
@@ -213,11 +196,6 @@ export const emailExists = async (req: Request, res: Response) => {
       }
     );
   } catch (error) {
-    console.log("error POST /api/user/emailExists", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Ошибка сервера");
   }
 };

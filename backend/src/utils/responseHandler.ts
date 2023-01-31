@@ -6,7 +6,7 @@ class ResponseHandler {
   public success(
     req: Request,
     res: Response,
-    statusCode: number = 200,
+    statusCode: number,
     logText: string,
     body: any
   ): void {
@@ -21,7 +21,7 @@ class ResponseHandler {
   public exception(
     req: Request,
     res: Response,
-    statusCode: number = 500,
+    statusCode: number,
     errorText: string = "",
     message: string = ""
   ) {
@@ -30,6 +30,16 @@ class ResponseHandler {
     res.status(statusCode).json({
       success: false,
       message,
+    });
+  }
+
+  public error(req: Request, res: Response, error: any, message: string = "") {
+    let method = this.getMethod(req.method.toLowerCase());
+    logger.error(method, req.path, `\t${message}`, error);
+    res.status(500).json({
+      success: false,
+      message,
+      error,
     });
   }
 
