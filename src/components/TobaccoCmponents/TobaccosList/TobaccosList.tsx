@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import TobaccoStore from "../../../store/tobacco";
 import { ITobacco } from "../../../Types";
-import { TobaccoCard } from "../TobaccoCard/TobaccoCard";
+import { TobaccoItem } from "./TobaccoItem/TobaccoItem";
 import "./TobaccosList.scss";
 
 function TobaccosList(): JSX.Element {
@@ -26,7 +26,7 @@ function TobaccosList(): JSX.Element {
     <div className="tl">
       {TobaccoStore.tobaccos.length &&
         TobaccoStore.tobaccos.map((tobacco: ITobacco) => (
-          <TobaccoCard key={tobacco._id} data={tobacco} />
+          <TobaccoItem key={tobacco._id} data={tobacco} />
         ))}
     </div>
   );
