@@ -1,7 +1,7 @@
 @import "../../../styles/colors.scss";
 
 .notify {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   bottom: 15px;
