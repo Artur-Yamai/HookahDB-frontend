@@ -1,10 +1,4 @@
-import { Router } from "express";
 import chalk from "chalk";
-
-type HTTPMehtod = keyof Pick<
-  Router,
-  "get" | "post" | "delete" | "patch" | "put"
->;
 
 const lessThanTen = (n: number): string => (n < 10 ? `0${n}` : `${n}`);
 
@@ -38,32 +32,6 @@ class LoggerService {
 
   public warn(...args: unknown[]): void {
     this.logger(chalk.bgYellow(" WARN "), ...args);
-  }
-
-  public success(
-    HTTPMehtod: HTTPMehtod,
-    HTTPPath: string,
-    body: unknown = ""
-  ): void {
-    let method = HTTPMehtod.toUpperCase();
-    switch (HTTPMehtod) {
-      case "get":
-        method = chalk.blue(method);
-        break;
-      case "put":
-        method = chalk.rgb(255, 165, 0)(method);
-        break;
-      case "patch":
-        method = chalk.yellow(method);
-        break;
-      case "delete":
-        method = chalk.red(method);
-        break;
-      case "post":
-        method = chalk.green(method);
-        break;
-    }
-    this.log(method, HTTPPath, `\t${body}`);
   }
 }
 
