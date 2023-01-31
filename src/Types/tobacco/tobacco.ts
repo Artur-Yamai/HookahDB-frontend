@@ -4,7 +4,7 @@ export interface ITobacco {
   fabricator: string;
   description: string;
   photosUrl: string[];
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
+  userId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
