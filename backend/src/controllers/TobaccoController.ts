@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { tobaccoDirName } from "../constants";
 import { fileFilter } from "../utils";
 import TobaccoModel from "../models/Tobacco";
-import logger from "../logger/logger.service";
+import responseHandler from "../utils/responseHandler";
 
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: tobaccoDirName,
@@ -30,11 +30,13 @@ export const create = [
 
       if (!files?.length) {
         const message: string = "Фотографии не подходят по формату";
-        res.status(403).json({
-          success: false,
-          message,
-        });
-        logger.success("post", req.path, `userId - ${userId}: ${message} `);
+        responseHandler.exception(
+          req,
+          res,
+          403,
+          `userId - ${userId}: ${message}`,
+          message
+        );
         return;
       }
 
@@ -54,15 +56,16 @@ export const create = [
       const tobacco = await doc.save();
 
       const message: string = "Новый тобак сохранен";
-      res.status(201).json({
-        success: true,
-        message,
-        body: { id: tobacco._id },
-      });
-      logger.success(
-        "post",
-        req.path,
-        `tobaccoId - ${tobacco._id} : ${message}`
+      responseHandler.success(
+        req,
+        res,
+        201,
+        `tobaccoId - ${tobacco._id} : ${message}`,
+        {
+          success: true,
+          message,
+          body: { id: tobacco._id },
+        }
       );
     } catch (error) {
       console.log("error POST /tobacco", error);
@@ -84,12 +87,10 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
       "-isDeleted -__v -createdAt"
     );
 
-    res.json({
+    responseHandler.success(req, res, 201, "Получен список всех табаков", {
       success: true,
       body: tobaccos,
     });
-
-    logger.success("get", req.path);
   } catch (error) {
     console.log("error GET /tobaccos", error);
     res.status(500).json({
@@ -99,6 +100,7 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
+
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
     const _id = req.params.id;
@@ -109,21 +111,21 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
 
     if (!tobacco) {
       const message: string = "Данные отстуствуют";
-      res.status(404).json({
-        success: false,
-        message,
-      });
 
-      logger.success("get", req.path, `tobaccoId - ${_id} : ${message}`);
+      responseHandler.exception(
+        req,
+        res,
+        404,
+        `tobaccoId - ${_id} : ${message}`,
+        message
+      );
       return;
     }
 
-    res.json({
+    responseHandler.success(req, res, 200, `tobaccoId - ${_id}`, {
       success: true,
       body: tobacco,
     });
-
-    logger.success("get", req.path, `tobaccoId - ${_id}`);
   } catch (error) {
     console.log("error GET /tobacco/:id", error);
     res.status(500).json({
@@ -133,6 +135,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
+
 export const update = [
   upload.array("photos"),
   async (req: Request, res: Response): Promise<void> => {
@@ -145,22 +148,32 @@ export const update = [
       const { name, fabricator, description } = req.body;
       const _id = req.params.id;
 
-      await TobaccoModel.findOneAndUpdate(
+      const tobacco = await TobaccoModel.findOneAndUpdate(
         { _id },
         { name, fabricator, description, files, photosUrl }
       );
 
-      res.json({
-        success: true,
-        body: {
-          id: _id,
-        },
-      });
+      if (!tobacco) {
+        const message = "табак не найден";
+        responseHandler.exception(
+          req,
+          res,
+          404,
+          `tovaccoId - ${_id} : ${message}`,
+          message
+        );
+        return;
+      }
 
-      logger.success(
-        "put",
-        req.path,
-        `userId - ${userId} updated tobaccoId - ${_id}`
+      responseHandler.success(
+        req,
+        res,
+        200,
+        `userId - ${userId} updated tobaccoId - ${_id}`,
+        {
+          success: true,
+          id: _id,
+        }
       );
     } catch (error) {
       console.log("error PUT /tobacco", error);
@@ -177,16 +190,44 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
     const _id: string = req.params.id;
     const userId = req.headers.userId;
 
-    await TobaccoModel.findOneAndUpdate({ _id }, { isDeleted: true });
+    const tobacco = await TobaccoModel.findOneAndUpdate(
+      { _id },
+      { isDeleted: true }
+    );
 
-    res.json({
-      success: true,
-      message: "Табак удален",
-    });
-    logger.success(
-      "delete",
-      req.path,
-      `userId - ${userId} deleted tobaccoId - ${_id}`
+    if (!tobacco) {
+      const message = "Такого табака нет";
+      responseHandler.exception(
+        req,
+        res,
+        404,
+        `tobaccoId - ${_id} - ${message}`,
+        message
+      );
+      return;
+    }
+
+    if (tobacco.isDeleted) {
+      const message = "Данный табак уже удален";
+      responseHandler.exception(
+        req,
+        res,
+        404,
+        `tobaccoId - ${_id} - ${message}`,
+        message
+      );
+      return;
+    }
+
+    responseHandler.success(
+      req,
+      res,
+      200,
+      `userId - ${userId} deleted tobaccoId - ${_id}`,
+      {
+        success: true,
+        message: "Табак удален",
+      }
     );
   } catch (error) {
     console.log("error DELETE /tobacco", error);

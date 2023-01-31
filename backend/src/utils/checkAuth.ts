@@ -1,19 +1,23 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { jwtSectretKey } from "../secrets";
+import responseHandler from "./responseHandler";
 
 export default (req: Request, res: Response, next: NextFunction) => {
-  const noAccessFunc = () => {
-    res.status(403).json({
-      success: false,
-      message: "Нет доступа",
-    });
-  };
-
   const token: string = (req.headers.authorization || "").replace(
     /Bearer\s?/,
     ""
   );
+
+  const noAccessFunc = () => {
+    responseHandler.exception(
+      req,
+      res,
+      403,
+      `Нет доступа: token - ${token}`,
+      "Нет доступа"
+    );
+  };
 
   if (token) {
     try {

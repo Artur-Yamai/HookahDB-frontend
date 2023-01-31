@@ -7,7 +7,7 @@ import { jwtSectretKey } from "../secrets";
 import { v4 as uuidv4 } from "uuid";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
-import logger from "../logger/logger.service";
+import responseHandler from "../utils/responseHandler";
 
 interface IUserRegister {
   email: string;
@@ -44,11 +44,9 @@ export const register = async (req: Request, res: Response) => {
 
     const newUser = await doc.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "Регистрация прошла успешно" });
-
-    logger.success("post", req.path, `userId - ${newUser._id}`);
+    responseHandler.success(req, res, 201, `userId - ${newUser._id}`, {
+      success: true,
+    });
   } catch (error: any) {
     console.log("error registration", error.message);
     res.status(500).json("Не удалось зарегестрироваться");
@@ -64,12 +62,13 @@ export const auth = async (req: Request, res: Response) => {
 
     if (!user) {
       const message: string = "Пользователь не найден";
-      res.status(404).json({
-        success: false,
-        message,
-      });
 
-      logger.success("post", req.path, `${req.body.login} - ${message}`);
+      responseHandler.exception(
+        req,
+        res,
+        404,
+        `${req.body.login} - ${message}`
+      );
       return;
     }
 
@@ -80,12 +79,12 @@ export const auth = async (req: Request, res: Response) => {
 
     if (!isValid) {
       const message: string = "Неверный логин или пароль";
-      res.status(401).json({
-        success: false,
-        message,
-      });
-
-      logger.success("post", req.path, `${req.body.login} - ${message}`);
+      responseHandler.exception(
+        req,
+        res,
+        401,
+        `${req.body.login} - ${message}`
+      );
       return;
     }
 
@@ -101,12 +100,10 @@ export const auth = async (req: Request, res: Response) => {
 
     const { passwordHash, __v, ...userData } = user._doc;
 
-    res.json({
+    responseHandler.success(req, res, 200, `userId - ${userData._id}`, {
       success: true,
       data: { userData, token },
     });
-
-    logger.success("post", req.path, `userId - ${userData._id}`);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -123,21 +120,21 @@ export const getUserById = async (req: Request, res: Response) => {
 
     if (!user) {
       const message: string = "Пользователь ненайден";
-      res.status(404).json({
-        success: false,
-        message,
-      });
-
-      logger.success("get", req.path, `userId - ${userId} : ${message}`);
+      responseHandler.exception(
+        req,
+        res,
+        404,
+        `userId - ${userId} : ${message}`,
+        message
+      );
       return;
     }
 
-    res.json({
+    responseHandler.success(req, res, 200, `userId - ${user._id}`, {
       success: true,
+      // TODO: сделать тело ответа сообразно ответам в других функциях
       userData: user,
     });
-
-    logger.success("get", req.path, `userId - ${user._id}`);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -158,7 +155,6 @@ export const saveAvatar = [
         }
       );
       next();
-      logger.success("put", req.path, `userId - ${userId}`);
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -176,17 +172,17 @@ export const loginExists = async (req: Request, res: Response) => {
 
     const user = await UserModel.findOne({ login }, "-passwordHash");
 
-    res.json({
-      success: true,
-      body: {
-        isExists: !!user,
-      },
-    });
-
-    logger.success(
-      "post",
-      req.path,
-      `login "${login}" ${!!user ? "exist" : "not exist"}`
+    responseHandler.success(
+      req,
+      res,
+      200,
+      `login "${login}" ${!!user ? "exist" : "not exist"}`,
+      {
+        success: true,
+        body: {
+          isExists: !!user,
+        },
+      }
     );
   } catch (error) {
     console.log("error POST /api/user/loginExists", error);
@@ -204,17 +200,17 @@ export const emailExists = async (req: Request, res: Response) => {
 
     const user = await UserModel.findOne({ email }, "-passwordHash");
 
-    res.json({
-      success: true,
-      body: {
-        isExists: !!user,
-      },
-    });
-
-    logger.success(
-      "post",
-      req.path,
-      `email "${email}" ${!!user ? "exist" : "not exist"}`
+    responseHandler.success(
+      req,
+      res,
+      200,
+      `email "${email}" ${!!user ? "exist" : "not exist"}`,
+      {
+        success: true,
+        body: {
+          isExists: !!user,
+        },
+      }
     );
   } catch (error) {
     console.log("error POST /api/user/emailExists", error);
