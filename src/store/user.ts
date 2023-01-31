@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { makeAutoObservable } from "mobx";
+import { runInAction, makeAutoObservable } from "mobx";
 import { IUser } from "../Types/user/User";
 import { notify } from "../UI/Functions";
 import { UserApi } from "../API";
@@ -24,9 +24,11 @@ class User {
       const { data } = await UserApi.auth(login, password);
 
       if (data.success) {
-        this.userData = data.data.userData;
-        localStorage.setItem("token", data.data.token);
-        return { success: data.success };
+        runInAction(() => {
+          this.userData = data.data.userData;
+          localStorage.setItem("token", data.data.token);
+          return { success: data.success };
+        });
       } else {
         return data;
       }
@@ -60,7 +62,9 @@ class User {
     try {
       const { data } = await UserApi.autoAuth();
       if (data.success) {
-        this.userData = data.userData;
+        runInAction(() => {
+          this.userData = data.userData;
+        });
       }
     } catch (error: any) {
       const err = error as AxiosError;
@@ -74,7 +78,9 @@ class User {
       formData.append("avatar", avatar);
       const { data } = await UserApi.saveNewAvatar(formData);
       if (data.success) {
-        this.userData = data.userData;
+        runInAction(() => {
+          this.userData = data.userData;
+        });
       } else {
         notify(data.message, "error");
       }
