@@ -8,3 +8,10 @@ export interface ITobacco {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface INewTobacco {
+  name?: string;
+  fabricator?: string;
+  description?: string;
+  userId: string;
+}
