@@ -49,20 +49,15 @@ function Authorization(): JSX.Element {
     email,
     password,
   }: IRegistrationUserData): Promise<boolean> {
-    const res: IRegResponse = await UserStore.toRegistration(
-      login,
-      password,
-      email
-    );
-    if (res.success) {
-      notify(res.message, "success", 3000);
+    const res: boolean = await UserStore.toRegistration(login, password, email);
+    if (res) {
+      notify("Регистрацния прошла успешно. Авторизируйтесь", "success", 3000);
       toGoSignupPage(false);
     } else {
       notify("Не удалось зарегестрироваться", "error");
-      console.error(res.message);
     }
 
-    return res.success;
+    return res;
   }
 
   async function loginExists(login: string): Promise<boolean> {

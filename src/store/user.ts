@@ -3,6 +3,7 @@ import { runInAction, makeAutoObservable } from "mobx";
 import { IUser } from "../Types/user/User";
 import { notify } from "../UI/Functions";
 import { UserApi } from "../API";
+import { catchHelper } from "../helpers";
 
 class User {
   public userData: IUser | null = null;
@@ -47,13 +48,10 @@ class User {
   public async toRegistration(login: string, password: string, email: string) {
     try {
       const { data } = await UserApi.register(login, password, email);
-      return data;
-    } catch (error: any) {
-      const err = error as AxiosError;
-      return {
-        success: false,
-        message: err.response?.data,
-      };
+      return data.success;
+    } catch (error) {
+      catchHelper(error);
+      return false;
     }
   }
 
@@ -66,9 +64,8 @@ class User {
           this.userData = data.userData;
         });
       }
-    } catch (error: any) {
-      const err = error as AxiosError;
-      console.log("err", err);
+    } catch (error) {
+      catchHelper(error);
     }
   }
 
@@ -84,10 +81,8 @@ class User {
       } else {
         notify(data.message, "error");
       }
-    } catch (err: any) {
-      if (err?.response?.data) {
-        notify(err?.response?.data?.message, "error");
-      }
+    } catch (error) {
+      catchHelper(error);
     }
   }
 
