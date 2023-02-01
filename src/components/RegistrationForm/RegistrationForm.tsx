@@ -89,7 +89,6 @@ export function RegistrationForm({
         toggleIsEmailCheck(true);
         try {
           const res: boolean = await emailExists(email);
-          console.log(email, res);
           isEmailExist = res;
         } catch (_) {
           isEmailExist = false;
@@ -169,7 +168,6 @@ export function RegistrationForm({
               positive: async (email: string) => {
                 isExistEmail(email);
                 await sleep();
-                console.log(isEmailExist);
                 return !isEmailExist ? true : "Такой email уже зарегестрирован";
               },
             },
