@@ -8,6 +8,7 @@ import {
   Userpage,
   NotFound,
   ForHookah,
+  TobaccoPage,
 } from "./pages";
 import "./App.scss";
 
@@ -27,6 +28,7 @@ export default function App() {
             <Route index={true} element={<HomePage />} />
             <Route path="/my-page" element={<Userpage />} />
             <Route path="/for-hookah" element={<ForHookah />} />
+            <Route path="/tobacco/:id" element={<TobaccoPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
