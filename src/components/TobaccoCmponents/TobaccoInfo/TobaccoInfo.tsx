@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { ITobacco } from "../../../Types";
-import { Image, Button } from "../../../UI";
+import { Image } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
+import { TiDocumentDelete } from "react-icons/ti";
 import "./TobaccoInfo.scss";
 
 interface ITobaccoInfo {
@@ -11,6 +13,7 @@ interface ITobaccoInfo {
 export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
   const [selectedPhoto, setPhoto] = useState<string>(tobacco.photosUrl[0]);
   const [selectedPhotoIndex, setPhotoIndex] = useState<number>(0);
+  const navigate = useNavigate();
 
   function toChangePhoto(photoUrl: string, i: number) {
     setPhoto(photoUrl);
@@ -19,7 +22,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
 
   async function deleteTobacco(id: string) {
     await TobaccoStore.deleteTobacco(id);
-    console.log("delete");
+    navigate("/for-hookah");
   }
 
   return (
@@ -48,7 +51,11 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
       </div>
       <div className="tobacco-info__info-block">
         <h1>
-          {tobacco.name} <Button click={() => deleteTobacco(tobacco._id)} />
+          {tobacco.name}
+          {/* <Button click={() => deleteTobacco(tobacco._id)} /> */}
+          <span className="tobacco-info__delete-button">
+            <TiDocumentDelete onClick={() => deleteTobacco(tobacco._id)} />
+          </span>
         </h1>
         <p className="tobacco-info__info">
           <span className="tobacco-info__label">Изготовитель:</span>
