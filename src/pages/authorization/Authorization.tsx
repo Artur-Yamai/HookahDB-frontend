@@ -10,15 +10,6 @@ import { IAuthorizationUserData, IRegistrationUserData } from "../../Types";
 import "./Authorization.scss";
 import { notify } from "../../UI/Functions";
 
-interface IAuthResponse {
-  success: boolean;
-  message: string;
-}
-
-interface IRegResponse extends IAuthResponse {
-  error: any;
-}
-
 function Authorization(): JSX.Element {
   const navigate = useNavigate();
   const [formBxActive, setFormBxActive] = useState<string>("");
@@ -34,12 +25,10 @@ function Authorization(): JSX.Element {
     login,
     password,
   }: IAuthorizationUserData): Promise<void> {
-    const res: IAuthResponse = await UserStore.toAuthorization(login, password);
+    const res: boolean = await UserStore.toAuthorization(login, password);
 
-    if (res.success) {
+    if (res) {
       navigate("/");
-    } else {
-      notify(res.message, "error");
     }
   }
 

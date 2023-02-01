@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { runInAction, makeAutoObservable } from "mobx";
 import { IUser } from "../Types/user/User";
 import { notify } from "../UI/Functions";
@@ -20,7 +19,10 @@ class User {
     makeAutoObservable(this);
   }
 
-  public async toAuthorization(login: string, password: string) {
+  public async toAuthorization(
+    login: string,
+    password: string
+  ): Promise<boolean> {
     try {
       const { data } = await UserApi.auth(login, password);
 
@@ -28,20 +30,12 @@ class User {
         runInAction(() => {
           this.userData = data.data.userData;
           localStorage.setItem("token", data.data.token);
-          return { success: data.success };
         });
-      } else {
-        return data;
       }
-    } catch (err) {
-      const error = err as AxiosError;
-      const data: any = error.response?.data;
-      const message =
-        data?.message ?? "Ошибка, попробуйте авторизироваться позже";
-      return {
-        success: false,
-        message,
-      };
+      return data.success;
+    } catch (error) {
+      catchHelper(error);
+      return false;
     }
   }
 
