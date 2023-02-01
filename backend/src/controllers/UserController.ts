@@ -60,13 +60,14 @@ export const auth = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      const message: string = "Пользователь не найден";
+      const message: string = "Неверный логин или пароль";
 
       responseHandler.exception(
         req,
         res,
         404,
-        `${req.body.login} - ${message}`
+        `${req.body.login} - ${message}`,
+        message
       );
       return;
     }
@@ -82,7 +83,8 @@ export const auth = async (req: Request, res: Response) => {
         req,
         res,
         401,
-        `${req.body.login} - ${message}`
+        `${req.body.login} - ${message}`,
+        message
       );
       return;
     }
