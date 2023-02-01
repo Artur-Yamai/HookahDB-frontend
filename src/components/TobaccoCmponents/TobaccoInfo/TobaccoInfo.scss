@@ -1,0 +1,59 @@
+@import "../../../styles/colors.scss";
+
+.tobacco-info {
+  display: flex;
+
+  &__photos-area {
+    width: 350px;
+    min-width: 350px;
+    margin: 0 50px;
+  }
+
+  &__photos-list {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  &__photo-elem {
+    width: 100px;
+    min-width: 100px;
+    height: 100px;
+    cursor: pointer;
+    margin: 0 5px;
+
+    &--selected {
+      border: 2px solid #d27e04;
+    }
+  }
+
+  &__info-block {
+    flex-grow: 1;
+    margin: 0 10px;
+    padding: 10px;
+
+    h1 {
+      padding-left: 15px;
+      margin-bottom: 35px;
+      color: #d27e04;
+      font-weight: 800;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+
+    .tobacco-info__label {
+      width: 200px;
+      font-size: 20px;
+      // margin-bottom: 2px;
+    }
+    .tobacco-info__value {
+      flex-grow: 1;
+    }
+  }
+}
