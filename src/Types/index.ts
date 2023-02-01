@@ -3,7 +3,7 @@ import {
   IRegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
 import { IUser } from "./user/User";
-import { ITobacco } from "./tobacco/tobacco";
+import { ITobacco, INewTobacco } from "./tobacco/tobacco";
 import { IErrorHTTPRequest } from "./IErrorHTTPRequest";
 
 export type {
@@ -11,5 +11,6 @@ export type {
   IRegistrationUserData,
   IUser,
   ITobacco,
+  INewTobacco,
   IErrorHTTPRequest,
 };
