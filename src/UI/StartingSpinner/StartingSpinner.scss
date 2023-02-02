@@ -1,0 +1,38 @@
+.spinner {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #333;
+  z-index: 9999;
+  transition: opacity 0.75s, visibility 0.75s;
+
+  &--hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &::after {
+    content: "";
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    border: 15px solid #ddd;
+    border-top-color: #009578;
+    animation: spin 0.75s ease-in-out infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0turn);
+  }
+
+  100% {
+    transform: rotate(1turn);
+  }
+}
