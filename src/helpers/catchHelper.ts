@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { IErrorHTTPRequest } from "../Types";
-import { notify } from "../UI/Functions";
+import { notify } from "../UI";
 
 export function catchHelper(error: unknown): void {
   const err = error as AxiosError;

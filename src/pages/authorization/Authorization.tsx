@@ -8,7 +8,7 @@ import { UserApi } from "../../API";
 import { RegistrationForm, AuthorizationForm } from "../../components";
 import { IAuthorizationUserData, IRegistrationUserData } from "../../Types";
 import "./Authorization.scss";
-import { notify } from "../../UI/Functions";
+import { notify } from "../../UI";
 
 function Authorization(): JSX.Element {
   const navigate = useNavigate();

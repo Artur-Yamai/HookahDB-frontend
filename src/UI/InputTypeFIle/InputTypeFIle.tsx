@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import { AiOutlineUpload } from "react-icons/ai";
-import { notify } from "../Functions";
+import { notify } from "../../UI";
 import "./InputTypeFIle.scss";
 
 interface IInputTypeFIle {

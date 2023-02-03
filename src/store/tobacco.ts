@@ -1,7 +1,7 @@
 import { runInAction, makeAutoObservable } from "mobx";
 import { INewTobacco, ITobacco } from "../Types";
 import { TobaccoApi } from "../API";
-import { notify } from "../UI/Functions";
+import { notify } from "../UI";
 import { catchHelper } from "../helpers";
 
 class Tobacco {

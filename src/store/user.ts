@@ -1,6 +1,6 @@
 import { runInAction, makeAutoObservable } from "mobx";
 import { IUser } from "../Types/user/User";
-import { notify } from "../UI/Functions";
+import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
 
