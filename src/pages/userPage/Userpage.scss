@@ -1,10 +1,16 @@
 @import "../../styles/colors.scss";
+@import "../../styles/screenSizes.scss";
 
 .user-page {
   width: 100%;
-  display: flex;
+
+  &__user-info {
+    width: 100%;
+    display: flex;
+  }
 
   &__avatar {
+    margin-top: 15px;
     width: 250px;
     display: flex;
     flex-direction: column;
@@ -14,25 +20,105 @@
     }
   }
 
+  &__login {
+    border-left: 15px solid $colorBlue;
+    padding-left: 15px;
+  }
+
   &__avatat-format-list {
     text-align: center;
     color: darkgray;
     font-size: 14px;
   }
 
-  &__info {
+  &__data {
     flex-grow: 1;
-    margin: 0 10px;
+    margin: 45px 10px 0;
     padding: 10px;
 
-    form > * {
+    & > * {
       margin-bottom: 15px;
     }
+  }
+}
 
-    form h1 {
-      border-left: 15px solid $colorBlue;
-      padding-left: 15px;
-      margin-bottom: 35px;
+.comment-block {
+  margin-top: 50px;
+
+  &__title {
+    padding-left: 50px;
+  }
+
+  &__no-comments-text {
+    margin-top: 20px;
+    padding-left: 50px;
+  }
+}
+
+@media (max-width: $tabMiddle) {
+  .comment-block {
+    &__title,
+    &__no-comments-text {
+      padding-left: 0px;
+    }
+  }
+}
+
+@media (max-width: $tabMin) {
+  .user-page {
+    &__user-info {
+      flex-direction: column;
+    }
+
+    &__avatar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: center;
+      width: 400px;
+
+      div:nth-of-type(2) {
+        max-width: 400px;
+      }
+    }
+
+    &__login {
+      width: 100%;
+      text-align: center;
+      border: none;
+    }
+
+    &__data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin: 15px 0px 0;
+
+      & > * {
+        width: 100%;
+        max-width: 400px !important;
+      }
+    }
+  }
+
+  .comment-block {
+    &__title,
+    &__no-comments-text {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: $mobileMax) {
+  .user-page {
+    &__avatar {
+      width: 300px;
+    }
+
+    &__data > * {
+      width: 100%;
+      max-width: 300px !important;
     }
   }
 }

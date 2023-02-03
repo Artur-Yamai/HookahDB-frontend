@@ -3,31 +3,4 @@
   flex-wrap: wrap;
   align-content: flex-start;
   width: 100%;
-
-  &__item {
-    width: calc(100% / 3 - 20px);
-    height: 300px;
-    margin: 10px;
-    background-color: rgba(0, 0, 0, 0.75);
-    box-shadow: 4px 4px 6px gray;
-    border-radius: 4px;
-  }
-}
-
-@media (max-width: 991px) {
-  .homepage {
-    &__item {
-      width: calc(100% / 2 - 20px);
-    }
-  }
-}
-
-@media (max-width: 680px) {
-  .homepage {
-    padding-right: 0;
-    padding-left: 0;
-    &__item {
-      width: calc(100% - 20px);
-    }
-  }
 }

@@ -1,4 +1,5 @@
 @import "../../styles/colors.scss";
+@import "../../styles/screenSizes.scss";
 
 .fh {
   width: 100%;
@@ -6,9 +7,15 @@
   &__filter-panel {
     width: 100%;
     height: 200px;
-
     margin-bottom: 10px;
-
     background: lightgray;
+  }
+}
+
+@media (max-width: $tabMiddle) {
+  .fh {
+    &__filter-panel {
+      margin-top: 10px;
+    }
   }
 }

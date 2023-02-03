@@ -7,11 +7,5 @@ export function HomePage() {
     arr.push(i);
   }
 
-  return (
-    <div className="homepage">
-      {arr.map((_, i) => (
-        <div key={i} className="homepage__item"></div>
-      ))}
-    </div>
-  );
+  return <div className="homepage">HomePage</div>;
 }
