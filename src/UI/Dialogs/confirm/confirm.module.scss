@@ -1,0 +1,47 @@
+@import "../../../styles/colors.scss";
+
+.substrate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.confirm {
+  margin: 0 5px;
+  margin-top: 100px;
+  max-width: 350px;
+  background-color: white;
+}
+
+.textWrapper {
+  padding: 25px 40px 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.controller {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0 20px;
+
+  button {
+    color: white;
+    padding: 5px 15px;
+    cursor: pointer;
+
+    &:first-child {
+      background-color: $colorBlue;
+    }
+
+    &:last-child {
+      background-color: orangered;
+    }
+  }
+}
