@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import { ITobacco } from "../../../Types";
 import { Image } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
-// import { TiDocumentDelete } from "react-icons/ti";
 import "./TobaccoInfo.scss";
+import { confirm } from "../../../UI/Dialogs";
 
 interface ITobaccoInfo {
   tobacco: ITobacco;
@@ -21,20 +21,37 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
   }
 
   async function deleteTobacco(id: string) {
-    await TobaccoStore.deleteTobacco(id);
-    navigate("/for-hookah");
+    const res = await confirm(
+      "Вы уверены что хотите удалить этот табак из списка?"
+    );
+    if (res) {
+      await TobaccoStore.deleteTobacco(id);
+      navigate("/for-hookah");
+    }
+  }
+
+  function updateTobacco() {
+    console.log("updateTobacco");
   }
 
   return (
     <div className="tobacco-info">
       <div className="tobacco-info__photos-area">
-        <h1>
-          {tobacco.name}
-          {/* <Button click={() => deleteTobacco(tobacco._id)} /> */}
-          {/* <span className="tobacco-info__delete-button">
-            <TiDocumentDelete onClick={() => deleteTobacco(tobacco._id)} />
-          </span> */}
-        </h1>
+        <h1>{tobacco.name}</h1>
+        <div className="tobacco-info__controllers-place">
+          <span
+            className="tobacco-info__controller"
+            onClick={() => updateTobacco()}
+          >
+            изменить
+          </span>
+          <span
+            className="tobacco-info__controller"
+            onClick={() => deleteTobacco(tobacco._id)}
+          >
+            удалить
+          </span>
+        </div>
         <Image url={selectedPhoto} />
         {tobacco.photosUrl && tobacco.photosUrl.length > 1 && (
           <ul className="tobacco-info__photos-list">

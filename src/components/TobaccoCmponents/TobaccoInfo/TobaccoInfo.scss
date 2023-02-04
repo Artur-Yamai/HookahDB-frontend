@@ -18,6 +18,28 @@
     }
   }
 
+  &__controllers-place {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  &__controller {
+    display: inline-block;
+    font-size: 16px;
+    color: gray;
+    cursor: pointer;
+    margin-left: 15px;
+
+    &:hover {
+      color: orangered;
+      text-decoration: underline;
+    }
+
+    &--delete {
+      left: 80px;
+    }
+  }
+
   &__photos-list {
     display: flex;
     justify-content: center;
