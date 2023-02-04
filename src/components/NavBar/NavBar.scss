@@ -43,19 +43,13 @@
   }
 
   ul {
-    margin: 0 10px;
-
-    li {
-      margin: 5px 0;
-    }
-
     li a {
       display: flex;
       align-items: center;
       color: #fff;
       position: relative;
       width: 100%;
-      border-radius: 5px;
+      padding: 0 10px;
     }
 
     li a:hover {
