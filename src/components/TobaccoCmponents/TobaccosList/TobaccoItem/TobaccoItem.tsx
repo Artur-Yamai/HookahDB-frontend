@@ -16,10 +16,9 @@ export function TobaccoItem({ data }: ITobaccoCard): JSX.Element {
   return (
     <div className="tc" onClick={() => goToTobaccoPage(data._id)}>
       <div className="tc__image-wrapper">
-        <Picture url={data.photosUrl[0]} />
+        <Picture url={data.photoUrl} />
       </div>
       <p className="tc__name">{data.name}</p>
-      <p className="tc__desc">{data.description}</p>
     </div>
   );
 }

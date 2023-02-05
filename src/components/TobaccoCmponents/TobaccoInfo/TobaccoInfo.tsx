@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ITobacco } from "../../../Types";
 import { Picture } from "../../../UI";
@@ -11,14 +10,7 @@ interface ITobaccoInfo {
 }
 
 export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
-  const [selectedPhoto, setPhoto] = useState<string>(tobacco.photosUrl[0]);
-  const [selectedPhotoIndex, setPhotoIndex] = useState<number>(0);
   const navigate = useNavigate();
-
-  function toChangePhoto(photoUrl: string, i: number) {
-    setPhoto(photoUrl);
-    setPhotoIndex(i);
-  }
 
   async function deleteTobacco(id: string) {
     const res = await confirm(
@@ -36,7 +28,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
 
   return (
     <div className="tobacco-info">
-      <div className="tobacco-info__photos-area">
+      <div className="tobacco-info__photo-place">
         <h1>{tobacco.name}</h1>
         <div className="tobacco-info__controllers-place">
           <span
@@ -52,26 +44,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
             удалить
           </span>
         </div>
-        <Picture url={selectedPhoto} />
-        {tobacco.photosUrl && tobacco.photosUrl.length > 1 && (
-          <ul className="tobacco-info__photos-list">
-            {tobacco.photosUrl.map((photoUrl: string, i: number) => {
-              return (
-                <li
-                  key={photoUrl}
-                  className={`tobacco-info__photo-elem ${
-                    selectedPhotoIndex === i
-                      ? "tobacco-info__photo-elem--selected"
-                      : ""
-                  }`}
-                  onClick={() => toChangePhoto(photoUrl, i)}
-                >
-                  <Picture url={photoUrl} />
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <Picture url={tobacco.photoUrl} />
       </div>
       <div className="tobacco-info__info-block">
         <p className="tobacco-info__info">

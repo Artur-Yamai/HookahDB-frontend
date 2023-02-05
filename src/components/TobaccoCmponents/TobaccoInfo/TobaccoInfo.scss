@@ -4,7 +4,7 @@
 .tobacco-info {
   display: flex;
 
-  &__photos-area {
+  &__photo-place {
     width: 100%;
     max-width: 350px;
     margin-left: 50px;
@@ -33,27 +33,6 @@
     &:hover {
       color: orangered;
       text-decoration: underline;
-    }
-
-    &--delete {
-      left: 80px;
-    }
-  }
-
-  &__photos-list {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  &__photo-elem {
-    width: calc(100% / 3 - 10px);
-    min-width: calc(100% / 3 - 10px);
-    cursor: pointer;
-    margin: 0 5px;
-
-    &--selected {
-      border: 2px solid #d27e04;
     }
   }
 
@@ -93,18 +72,13 @@
   .tobacco-info {
     flex-direction: column;
 
-    &__photos-area {
-      max-width: 100%;
+    &__photo-place {
       margin: 0;
 
       h1 {
         display: block;
         width: 100%;
         margin-bottom: 5px;
-      }
-      & > div,
-      ul {
-        max-width: 350px;
       }
     }
 
@@ -121,17 +95,13 @@
 
 @media (max-width: $mobileMax) {
   .tobacco-info {
-    &__photos-area {
+    &__photo-place {
       max-width: 100%;
       width: 100%;
 
       h1 {
         width: 100%;
         text-align: center;
-      }
-      & > div,
-      ul {
-        width: 100%;
       }
     }
   }
