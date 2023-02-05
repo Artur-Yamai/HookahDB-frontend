@@ -110,17 +110,6 @@
       width: 100%;
     }
 
-    &__toggle-button {
-      display: block;
-      position: fixed;
-      height: 60px;
-      width: 60px;
-      top: 0;
-      left: 0;
-      background-color: $colorBlue;
-      cursor: pointer;
-    }
-
     &__toggle-button span::after {
       content: "";
       position: absolute;
