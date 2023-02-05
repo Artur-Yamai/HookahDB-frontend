@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const TabaccoSchema = new mongoose.Schema(
+const TobaccoSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,7 +16,7 @@ const TabaccoSchema = new mongoose.Schema(
       required: true,
     },
     photosUrl: {
-      type: Array,
+      type: String,
     },
     userId: {
       type: String,
@@ -32,4 +32,4 @@ const TabaccoSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Tabacco", TabaccoSchema);
+export default mongoose.model("Tobacco", TobaccoSchema);

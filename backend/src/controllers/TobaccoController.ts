@@ -21,15 +21,15 @@ const upload: multer.Multer = multer({
 });
 
 export const create = [
-  upload.array("photos"),
+  upload.single("photo"),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const body = req.body;
       const userId = req.headers.userId;
-      const files: any | any[] | undefined = req.files;
+      const fileName: string | undefined = req.file?.filename;
 
-      if (!files?.length) {
-        const message: string = "Фотографии не подходят по формату";
+      if (!fileName) {
+        const message: string = "Фотография не подходят по формату";
         responseHandler.exception(
           req,
           res,
@@ -41,9 +41,7 @@ export const create = [
       }
 
       const { name, fabricator, description } = body;
-      const photosUrl: string[] = files.map(
-        (file: any) => `uploads/tobacco/${file.filename}`
-      );
+      const photosUrl: string = `uploads/tobacco/${fileName}`;
 
       const doc = new TobaccoModel({
         name,
