@@ -10,7 +10,7 @@ export async function confirm(text: string): Promise<boolean> {
   const sleep = () => new Promise((r) => (resolve = r));
 
   const substrate = document.createElement("div");
-  substrate.classList.add(style.substrate);
+  substrate.classList.add("dialog-substrate");
 
   const confirm = document.createElement("div");
   confirm.classList.add(style.confirm);
