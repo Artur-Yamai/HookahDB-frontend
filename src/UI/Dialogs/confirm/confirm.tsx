@@ -32,9 +32,11 @@ export async function confirm(text: string): Promise<boolean> {
   const notConfirmBtn = document.createElement("button");
   notConfirmBtn.innerText = "Нет";
   notConfirmBtn.addEventListener("click", () => toConfirm(false));
+  const separator = document.createElement("div");
 
   const controllerPlace = document.getElementsByClassName(style.controller)[0];
   controllerPlace.append(yepConfirmBtn);
+  controllerPlace.append(separator);
   controllerPlace.append(notConfirmBtn);
 
   function toConfirm(isConfirm: boolean) {

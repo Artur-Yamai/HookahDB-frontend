@@ -21,27 +21,30 @@
 }
 
 .textWrapper {
-  padding: 25px 40px 10px;
+  padding: 25px 40px;
   text-align: center;
   font-weight: 600;
 }
 
 .controller {
+  border-top: 1px solid lightgray;
   display: flex;
   justify-content: space-evenly;
-  padding: 10px 0 20px;
 
   button {
-    color: white;
-    padding: 5px 15px;
+    padding: 15px;
     cursor: pointer;
+    width: 50%;
+    height: 100%;
 
-    &:first-child {
-      background-color: $colorBlue;
+    &:hover {
+      background-color: lightgray;
+      transition: 0.1s;
     }
+  }
 
-    &:last-child {
-      background-color: orangered;
-    }
+  div {
+    width: 1px;
+    background-color: lightgray;
   }
 }
