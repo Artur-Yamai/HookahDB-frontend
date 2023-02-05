@@ -15,7 +15,7 @@ const TobaccoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    photosUrl: {
+    photoUrl: {
       type: String,
     },
     userId: {

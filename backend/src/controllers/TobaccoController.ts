@@ -41,14 +41,13 @@ export const create = [
       }
 
       const { name, fabricator, description } = body;
-      const photosUrl: string = `uploads/tobacco/${fileName}`;
 
       const doc = new TobaccoModel({
         name,
         fabricator,
         description,
         userId,
-        photosUrl,
+        photoUrl: `uploads/tobacco/${fileName}`,
       });
 
       const tobacco = await doc.save();
@@ -82,7 +81,8 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
       {
         isDeleted: false,
       },
-      { photosUrl: { $slice: 1 }, name: 1, fabrivator: 1, description: 1 }
+      "photoUrl name fabrivator"
+      // { photoUrl: { $slice: 1 }, name: 1, fabrivator: 1, description: 1 }
     );
 
     responseHandler.success(req, res, 201, "Получен список всех табаков", {
@@ -138,17 +138,20 @@ export const update = [
   upload.array("photos"),
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const files: any | any[] | undefined = req.files;
+      const fileName: string | undefined = req.file?.filename;
       const userId = req.headers.userId;
-
-      const photosUrl: string[] = files.map((file: any) => file.filename);
 
       const { name, fabricator, description } = req.body;
       const _id = req.params.id;
 
       const tobacco = await TobaccoModel.findOneAndUpdate(
         { _id },
-        { name, fabricator, description, files, photosUrl }
+        {
+          name,
+          fabricator,
+          description,
+          photoUrl: `uploads/tobacco/${fileName}`,
+        }
       );
 
       if (!tobacco) {
