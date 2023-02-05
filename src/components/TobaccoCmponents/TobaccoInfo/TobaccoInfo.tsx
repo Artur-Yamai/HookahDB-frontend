@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ITobacco } from "../../../Types";
-import { Image } from "../../../UI";
+import { Picture } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
 import "./TobaccoInfo.scss";
 import { confirm } from "../../../UI/Dialogs";
@@ -52,7 +52,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
             удалить
           </span>
         </div>
-        <Image url={selectedPhoto} />
+        <Picture url={selectedPhoto} />
         {tobacco.photosUrl && tobacco.photosUrl.length > 1 && (
           <ul className="tobacco-info__photos-list">
             {tobacco.photosUrl.map((photoUrl: string, i: number) => {
@@ -66,7 +66,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
                   }`}
                   onClick={() => toChangePhoto(photoUrl, i)}
                 >
-                  <Image url={photoUrl} />
+                  <Picture url={photoUrl} />
                 </li>
               );
             })}

@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { IUser } from "../../Types/user/User";
-import { Image, Input, InputTypeFIle } from "../../UI";
+import { Picture, Input, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
@@ -24,7 +24,7 @@ function Userpage(): JSX.Element {
         <div className="user-page__user-info">
           <div className="user-page__avatar">
             <h1 className="user-page__login">{user.login}</h1>
-            <Image url={user.avatarUrl} />
+            <Picture url={user.avatarUrl} />
             <InputTypeFIle
               onChange={onChange}
               label="Изменить аватар"

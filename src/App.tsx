@@ -11,6 +11,7 @@ import {
   TobaccoPage,
 } from "./pages";
 import "./App.scss";
+import "./styles/globalStyles.scss";
 import { StartingSpinner } from "./UI";
 
 export default function App() {
