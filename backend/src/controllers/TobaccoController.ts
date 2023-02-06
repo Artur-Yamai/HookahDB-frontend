@@ -82,7 +82,6 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
         isDeleted: false,
       },
       "photoUrl name fabrivator"
-      // { photoUrl: { $slice: 1 }, name: 1, fabrivator: 1, description: 1 }
     );
 
     responseHandler.success(req, res, 201, "Получен список всех табаков", {
@@ -151,7 +150,8 @@ export const update = [
           fabricator,
           description,
           photoUrl: fileName ? `uploads/tobacco/${fileName}` : fileName,
-        }
+        },
+        { new: true }
       );
 
       if (!tobacco) {
@@ -173,7 +173,8 @@ export const update = [
         `userId - ${userId} updated tobaccoId - ${_id}`,
         {
           success: true,
-          id: _id,
+          message: "Тобак успешно обнавлен",
+          body: tobacco,
         }
       );
     } catch (error) {
