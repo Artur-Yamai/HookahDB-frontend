@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Input.scss";
 
 interface IInput {
@@ -8,6 +9,7 @@ interface IInput {
   required?: boolean;
   width?: string;
   disabled?: boolean;
+  onChange?: (value: string) => void;
 }
 
 export function Input({
@@ -18,18 +20,26 @@ export function Input({
   required = true,
   width = "300px",
   disabled = false,
+  onChange,
 }: IInput): JSX.Element {
   const id = label + "-" + Math.round(Math.random() * 100000);
   const style = {
     maxWidth: width,
   };
+  const [inputValue, setInputValue] = useState<string>(value);
+
+  function change(e: React.ChangeEvent<HTMLInputElement>) {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    if (onChange) onChange(newValue);
+  }
 
   return (
     <div style={style} className="input-container">
       <input
         className="input-container__input"
-        value={value}
-        onChange={() => {}}
+        value={inputValue}
+        onChange={(e) => change(e)}
         id={id}
         type={type}
         placeholder={placeholder}
