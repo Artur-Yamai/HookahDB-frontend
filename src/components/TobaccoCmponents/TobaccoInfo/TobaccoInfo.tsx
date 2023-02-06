@@ -23,7 +23,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
     );
     if (res) {
       await TobaccoStore.deleteTobacco(id);
-      navigate("/for-hookah");
+      navigate("/");
     }
   }
 

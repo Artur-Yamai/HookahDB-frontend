@@ -38,9 +38,9 @@ export default function App() {
         <Routes>
           <Route path="/auth" element={<Authorization />} />
           <Route path="/" element={<MainLayout />}>
-            <Route index={true} element={<HomePage />} />
+            <Route index={true} element={<ForHookah />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/my-page" element={<Userpage />} />
-            <Route path="/for-hookah" element={<ForHookah />} />
             <Route path="/tobacco/:id" element={<TobaccoPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
