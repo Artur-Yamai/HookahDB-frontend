@@ -4,44 +4,38 @@ import axios from "./axios";
 export const TobaccoApi = {
   getAllTobaccos: async () => await axios.get("/tobaccos"),
 
-  createTobacco: async (
-    userId: string,
-    tobaccoData: INewTobacco,
-    photos: File[]
-  ) => {
+  createTobacco: async (tobaccoData: INewTobacco, photo: File) => {
     const formData = new FormData();
-
-    formData.append("userId", userId);
 
     const object: any = { ...tobaccoData };
     for (const key in object) {
       formData.append(key, object[key]);
     }
 
-    photos.map((photo: File) => formData.append("photos", photo));
+    formData.append("photos", photo);
 
     return await axios.post("/tobacco");
   },
 
   getTobaccoEndpoint: (id: string) => `/tobacco/${id}`,
 
-  async updateTobacco(
-    updaterUserId: string,
-    tobaccoData: ITobacco,
-    photos: File[]
-  ) {
+  async updateTobacco(tobacco: ITobacco, photo: File | undefined) {
     const formData = new FormData();
 
-    formData.append("updaterUserId", updaterUserId);
-
-    const object: any = { ...tobaccoData };
+    const object: any = { ...tobacco };
     for (const key in object) {
       formData.append(key, object[key]);
     }
 
-    photos.map((photo: File) => formData.append("photos", photo));
+    if (photo) {
+      formData.append("photo", photo);
+    }
 
-    return await axios.put(this.getTobaccoEndpoint(object._id));
+    return await axios.put(this.getTobaccoEndpoint(object._id), formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    });
   },
 
   async getTobacco(id: string) {
