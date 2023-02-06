@@ -24,7 +24,7 @@ function TobaccosList(): JSX.Element {
 
   return (
     <div className="tl">
-      {TobaccoStore.tobaccos.length &&
+      {!!TobaccoStore.tobaccos.length &&
         TobaccoStore.tobaccos.map((tobacco: ITobacco) => (
           <TobaccoItem key={tobacco._id} data={tobacco} />
         ))}
