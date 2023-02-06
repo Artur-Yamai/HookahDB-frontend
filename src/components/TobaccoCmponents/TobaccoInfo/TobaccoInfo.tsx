@@ -1,15 +1,20 @@
+import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { ITobacco } from "../../../Types";
 import { Picture } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
 import "./TobaccoInfo.scss";
 import { confirm } from "../../../UI/Dialogs";
+import { TobaccoEditDialog } from "../../Dialogs";
 
 interface ITobaccoInfo {
   tobacco: ITobacco;
 }
 
 export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
+  const refTobaccoEditDialog: React.MutableRefObject<
+    { show: (tobacco: ITobacco) => boolean } | undefined
+  > = useRef();
   const navigate = useNavigate();
 
   async function deleteTobacco(id: string) {
@@ -22,8 +27,13 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
     }
   }
 
-  function updateTobacco() {
-    console.log("updateTobacco");
+  async function updateTobacco() {
+    if (!refTobaccoEditDialog.current) return;
+
+    const res: boolean = await refTobaccoEditDialog.current.show({
+      ...tobacco,
+    });
+    console.log(res);
   }
 
   return (
@@ -62,6 +72,13 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
           <span className="tobacco-info__value">5/10</span>
         </p>
       </div>
+      {/* <Popup
+        cancel={() => toggleEditDialogVisible(false)}
+        title="Окно редактирования"
+      >
+        <p>children</p>
+      </Popup> */}
+      <TobaccoEditDialog ref={refTobaccoEditDialog} />
     </div>
   );
 }
