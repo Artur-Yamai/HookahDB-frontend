@@ -56,7 +56,7 @@ function NavBar(): JSX.Element {
   ]);
   const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);
 
-  const userData: IUser | null = UserStore.getUserData;
+  const userData: IUser | null = UserStore.userData;
 
   useEffect(() => {
     const newNavLinkList: INavLink[] = [...navLinkList];

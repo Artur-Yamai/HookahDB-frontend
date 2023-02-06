@@ -67,7 +67,7 @@ function Authorization(): JSX.Element {
     }
   }
 
-  if (UserStore.getUserData) {
+  if (UserStore.userData) {
     setTimeout(() => navigate("/"));
   }
 

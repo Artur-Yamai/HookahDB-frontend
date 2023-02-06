@@ -5,14 +5,14 @@ import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
 
 class User {
-  public userData: IUser | null = null;
+  private _userData: IUser | null = null;
 
-  public get getUserData(): IUser | null {
-    return this.userData;
+  public get userData(): IUser | null {
+    return this._userData;
   }
 
   public get getAvatar(): string | null {
-    return this.userData?.avatarUrl ?? null;
+    return this._userData?.avatarUrl ?? null;
   }
 
   constructor() {
@@ -28,7 +28,7 @@ class User {
 
       if (data.success) {
         runInAction(() => {
-          this.userData = data.data.userData;
+          this._userData = data.data.userData;
           localStorage.setItem("token", data.data.token);
         });
       }
@@ -55,7 +55,7 @@ class User {
       const { data } = await UserApi.autoAuth();
       if (data.success) {
         runInAction(() => {
-          this.userData = data.userData;
+          this._userData = data.userData;
         });
       }
     } catch (error) {
@@ -70,7 +70,7 @@ class User {
       const { data } = await UserApi.saveNewAvatar(formData);
       if (data.success) {
         runInAction(() => {
-          this.userData = data.userData;
+          this._userData = data.userData;
         });
       } else {
         notify(data.message, "error");
@@ -83,11 +83,11 @@ class User {
   public toSignOut(): void {
     localStorage.removeItem("token");
 
-    const user = this.getUserData;
+    const user = this.userData;
     if (user) {
       localStorage.setItem("login", user.login);
     }
-    this.userData = null;
+    this._userData = null;
   }
 }
 

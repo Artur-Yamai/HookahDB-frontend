@@ -5,7 +5,7 @@ import { Picture, Input, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
-  const user: IUser | null = UserStore.getUserData;
+  const user: IUser | null = UserStore.userData;
   const comments = false;
 
   function onChange(files: FileList) {
