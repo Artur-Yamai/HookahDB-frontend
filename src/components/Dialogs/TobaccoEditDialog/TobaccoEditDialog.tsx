@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { ITobacco } from "../../../Types";
-import { Input, InputTypeFIle, Picture } from "../../../UI";
+import { TextBox, InputTypeFIle, Picture } from "../../../UI";
 import { Popup } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
 import "./TobaccoEditDialog.scss";
@@ -78,7 +78,7 @@ export const TobaccoEditDialog = forwardRef((_, ref) => {
       <div className="tobacco-editor">
         <div className="editor-form">
           <div className="editor-form__field">
-            <Input
+            <TextBox
               value={tobacco?.name ?? ""}
               label="Название"
               width="100%"
@@ -86,7 +86,7 @@ export const TobaccoEditDialog = forwardRef((_, ref) => {
             />
           </div>
           <div className="editor-form__field">
-            <Input
+            <TextBox
               value={tobacco?.fabricator ?? ""}
               label="Производитель"
               width="100%"

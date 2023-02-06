@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import UserStore from "../../store/user";
 import { IUser } from "../../Types/user/User";
-import { Picture, Input, InputTypeFIle } from "../../UI";
+import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
@@ -35,8 +35,8 @@ function Userpage(): JSX.Element {
             </p>
           </div>
           <form className="user-page__data">
-            <Input label="email" value={user.email} disabled />
-            <Input label="Дата регистрацияя" value={date} disabled />
+            <TextBox label="email" value={user.email} disabled />
+            <TextBox label="Дата регистрацияя" value={date} disabled />
           </form>
         </div>
         {/* TODO: вынести в отдельный коспонент когда появятся комментарии */}

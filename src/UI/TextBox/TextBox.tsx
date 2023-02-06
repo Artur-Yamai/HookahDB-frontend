@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./Input.scss";
+import "./TextBox.scss";
 
-interface IInput {
+interface ITextBox {
   type?: "text" | "email" | "password";
   value: string;
   label: string;
@@ -12,7 +12,7 @@ interface IInput {
   onChange?: (value: string) => void;
 }
 
-export function Input({
+export function TextBox({
   type = "text",
   value,
   label,
@@ -21,7 +21,7 @@ export function Input({
   width = "300px",
   disabled = false,
   onChange,
-}: IInput): JSX.Element {
+}: ITextBox): JSX.Element {
   const id = label + "-" + Math.round(Math.random() * 100000);
   const style = {
     maxWidth: width,
