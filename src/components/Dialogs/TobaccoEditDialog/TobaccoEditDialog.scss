@@ -1,0 +1,17 @@
+.tobacco-editor {
+  &__photo {
+    margin: 0 auto;
+  }
+}
+
+.editor-form {
+  padding: 25px 40px;
+
+  &__field {
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+}
