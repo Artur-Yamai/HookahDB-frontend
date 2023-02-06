@@ -135,7 +135,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const update = [
-  upload.array("photos"),
+  upload.single("photo"),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const fileName: string | undefined = req.file?.filename;
@@ -150,7 +150,7 @@ export const update = [
           name,
           fabricator,
           description,
-          photoUrl: `uploads/tobacco/${fileName}`,
+          photoUrl: fileName ? `uploads/tobacco/${fileName}` : fileName,
         }
       );
 
