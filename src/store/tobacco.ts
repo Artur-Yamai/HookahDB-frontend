@@ -50,24 +50,25 @@ class Tobacco {
     }
   }
 
-  public async createTobacco(
-    userId: string,
-    data: INewTobacco,
-    photos: File[]
-  ) {
+  public async createTobacco(tobacco: INewTobacco, photo: File) {
     try {
-      await TobaccoApi.createTobacco(userId, data, photos);
+      const { data } = await TobaccoApi.createTobacco(tobacco, photo);
+      notify(data.message, data.success ? "info" : "error");
+      if (data.success) {
+        this._tobacco = data.body;
+      }
     } catch (error) {
       catchHelper(error);
     }
   }
-  public async updateTobacco(
-    updaterUserId: string,
-    data: ITobacco,
-    photos: File[]
-  ) {
+
+  public async updateTobacco(tobacco: ITobacco, photo: File | undefined) {
     try {
-      await TobaccoApi.updateTobacco(updaterUserId, data, photos);
+      const { data } = await TobaccoApi.updateTobacco(tobacco, photo);
+      notify(data.message, data.success ? "info" : "error");
+      if (data.success) {
+        this._tobacco = data.body;
+      }
     } catch (error) {
       catchHelper(error);
     }
