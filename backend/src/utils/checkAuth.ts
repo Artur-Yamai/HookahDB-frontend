@@ -23,7 +23,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     try {
       const decoded: string | jwt.JwtPayload = jwt.verify(token, jwtSectretKey);
       if (typeof decoded !== "string") {
-        req.headers.userId = decoded._id;
+        req.headers.userId = decoded.id;
         next();
         return;
       } else {

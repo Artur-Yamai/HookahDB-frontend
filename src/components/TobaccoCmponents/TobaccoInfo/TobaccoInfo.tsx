@@ -47,7 +47,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
           </span>
           <span
             className="tobacco-info__controller"
-            onClick={() => deleteTobacco(tobacco._id)}
+            onClick={() => deleteTobacco(tobacco.id)}
           >
             удалить
           </span>

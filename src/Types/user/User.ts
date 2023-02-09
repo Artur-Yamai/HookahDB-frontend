@@ -5,5 +5,5 @@ export interface IUser {
   roleCode: number;
   avatarUrl: string;
   updatedAt: string;
-  _id: string;
+  id: string;
 }

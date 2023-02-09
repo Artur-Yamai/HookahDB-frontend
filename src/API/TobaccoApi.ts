@@ -35,7 +35,7 @@ export const TobaccoApi = {
       formData.append("photo", photo);
     }
 
-    return await axios.put(this.getTobaccoEndpoint(object._id), formData, {
+    return await axios.put(this.getTobaccoEndpoint(object.id), formData, {
       headers: {
         "Content-type": "multipart/form-data",
       },

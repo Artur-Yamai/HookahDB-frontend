@@ -57,11 +57,11 @@ export const create = [
         req,
         res,
         201,
-        `tobaccoId - ${tobacco._id} : ${message}`,
+        `tobaccoId - ${tobacco.id} : ${message}`,
         {
           success: true,
           message,
-          body: { id: tobacco._id },
+          body: { id: tobacco.id },
         }
       );
     } catch (error) {
@@ -100,9 +100,9 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const _id = req.params.id;
+    const id = req.params.id;
     const tobacco: any = await TobaccoModel.findOne(
-      { _id, isDeleted: false },
+      { id, isDeleted: false },
       "-__v -isDeleted"
     );
 
@@ -113,13 +113,13 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
         req,
         res,
         404,
-        `tobaccoId - ${_id} : ${message}`,
+        `tobaccoId - ${id} : ${message}`,
         message
       );
       return;
     }
 
-    responseHandler.success(req, res, 200, `tobaccoId - ${_id}`, {
+    responseHandler.success(req, res, 200, `tobaccoId - ${id}`, {
       success: true,
       body: tobacco,
     });
@@ -141,10 +141,10 @@ export const update = [
       const userId = req.headers.userId;
 
       const { name, fabricator, description } = req.body;
-      const _id = req.params.id;
+      const id = req.params.id;
 
       const tobacco = await TobaccoModel.findOneAndUpdate(
-        { _id },
+        { id },
         {
           name,
           fabricator,
@@ -160,7 +160,7 @@ export const update = [
           req,
           res,
           404,
-          `tovaccoId - ${_id} : ${message}`,
+          `tovaccoId - ${id} : ${message}`,
           message
         );
         return;
@@ -170,7 +170,7 @@ export const update = [
         req,
         res,
         200,
-        `userId - ${userId} updated tobaccoId - ${_id}`,
+        `userId - ${userId} updated tobaccoId - ${id}`,
         {
           success: true,
           message: "Тобак успешно обнавлен",
@@ -190,11 +190,11 @@ export const update = [
 
 export const remove = async (req: Request, res: Response): Promise<void> => {
   try {
-    const _id: string = req.params.id;
+    const id: string = req.params.id;
     const userId = req.headers.userId;
 
     const tobacco = await TobaccoModel.findOneAndUpdate(
-      { _id },
+      { id },
       { isDeleted: true }
     );
 
@@ -204,7 +204,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
         req,
         res,
         404,
-        `tobaccoId - ${_id} - ${message}`,
+        `tobaccoId - ${id} - ${message}`,
         message
       );
       return;
@@ -216,7 +216,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
         req,
         res,
         404,
-        `tobaccoId - ${_id} - ${message}`,
+        `tobaccoId - ${id} - ${message}`,
         message
       );
       return;
@@ -226,7 +226,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       req,
       res,
       200,
-      `userId - ${userId} deleted tobaccoId - ${_id}`,
+      `userId - ${userId} deleted tobaccoId - ${id}`,
       {
         success: true,
         message: "Табак удален",

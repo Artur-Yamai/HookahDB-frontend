@@ -1,5 +1,5 @@
 export interface ITobacco {
-  _id: string;
+  id: string;
   name: string;
   fabricator: string;
   description: string;

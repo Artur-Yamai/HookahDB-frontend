@@ -32,7 +32,7 @@ function TobaccosList({ toggleLoading }: ITobaccosList): JSX.Element {
     <div className="tl">
       {!!TobaccoStore.tobaccos.length &&
         TobaccoStore.tobaccos.map((tobacco: ITobacco) => (
-          <TobaccoItem key={tobacco._id} data={tobacco} />
+          <TobaccoItem key={tobacco.id} data={tobacco} />
         ))}
     </div>
   );

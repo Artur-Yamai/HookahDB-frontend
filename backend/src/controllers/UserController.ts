@@ -44,7 +44,7 @@ export const register = async (req: Request, res: Response) => {
 
     const newUser = await doc.save();
 
-    responseHandler.success(req, res, 201, `userId - ${newUser._id}`, {
+    responseHandler.success(req, res, 201, `userId - ${newUser.id}`, {
       success: true,
     });
   } catch (error: any) {
@@ -91,7 +91,7 @@ export const auth = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       {
-        _id: user._id,
+        id: user.id,
       },
       jwtSectretKey,
       {
@@ -101,7 +101,7 @@ export const auth = async (req: Request, res: Response) => {
 
     const { passwordHash, __v, ...userData } = user._doc;
 
-    responseHandler.success(req, res, 200, `userId - ${userData._id}`, {
+    responseHandler.success(req, res, 200, `userId - ${userData.id}`, {
       success: true,
       data: { userData, token },
     });
@@ -127,7 +127,7 @@ export const getUserById = async (req: Request, res: Response) => {
       return;
     }
 
-    responseHandler.success(req, res, 200, `userId - ${user._id}`, {
+    responseHandler.success(req, res, 200, `userId - ${user.id}`, {
       success: true,
       // TODO: сделать тело ответа сообразно ответам в других функциях
       userData: user,
@@ -143,7 +143,7 @@ export const saveAvatar = [
     try {
       const userId = req.headers.userId;
       await UserModel.findOneAndUpdate(
-        { _id: userId },
+        { id: userId },
         {
           avatarUrl: `uploads/avatar/${req.file?.filename}`,
         }

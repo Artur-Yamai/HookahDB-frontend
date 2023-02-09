@@ -2,7 +2,7 @@ export class TobaccoClass {
   name: string;
   fabricator: string;
   description: string;
-  _id?: string;
+  id?: string;
   photoUrl?: string;
   userId?: string;
 
@@ -10,14 +10,14 @@ export class TobaccoClass {
     name = "",
     fabricator = "",
     description = "",
-    _id,
+    id,
     photoUrl,
     userId,
   }: TobaccoClass) {
     this.name = name;
     this.fabricator = fabricator;
     this.description = description;
-    this._id = _id;
+    this.id = id;
     this.photoUrl = photoUrl;
     this.userId = userId;
   }

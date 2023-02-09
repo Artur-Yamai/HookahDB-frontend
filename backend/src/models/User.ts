@@ -30,6 +30,13 @@ const UserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    id: true,
+    toJSON: {
+      transform(_, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
   }
 );
 

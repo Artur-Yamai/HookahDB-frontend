@@ -1,11 +1,10 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
+import { observer } from "mobx-react-lite";
 import { ITobacco } from "../../../Types";
 import { TextBox, InputTypeFIle, Picture, Popup, TextArea } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
-
 import "./TobaccoEditDialog.scss";
 import { TobaccoClass } from "../../../Classes";
-import { observer } from "mobx-react-lite";
 
 type FieldName = "name" | "fabricator" | "description";
 
@@ -25,7 +24,7 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
   async function agree() {
     if (!tobacco) return;
 
-    if (tobacco._id) {
+    if (tobacco.id) {
       await TobaccoStore.updateTobacco(tobacco, newPhoto);
     } else if (newPhoto) {
       await TobaccoStore.createTobacco(tobacco, newPhoto);
