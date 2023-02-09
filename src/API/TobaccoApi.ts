@@ -1,10 +1,10 @@
-import { INewTobacco, ITobacco } from "../Types";
 import axios from "./axios";
+import { TobaccoClass } from "../Classes";
 
 export const TobaccoApi = {
   getAllTobaccos: async () => await axios.get("/tobaccos"),
 
-  createTobacco: async (tobaccoData: INewTobacco, photo: File) => {
+  createTobacco: async (tobaccoData: TobaccoClass, photo: File) => {
     const formData = new FormData();
 
     const object: any = { ...tobaccoData };
@@ -12,14 +12,18 @@ export const TobaccoApi = {
       formData.append(key, object[key]);
     }
 
-    formData.append("photos", photo);
+    formData.append("photo", photo);
 
-    return await axios.post("/tobacco");
+    return await axios.post("/tobacco", formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    });
   },
 
   getTobaccoEndpoint: (id: string) => `/tobacco/${id}`,
 
-  async updateTobacco(tobacco: ITobacco, photo: File | undefined) {
+  async updateTobacco(tobacco: TobaccoClass, photo: File | undefined) {
     const formData = new FormData();
 
     const object: any = { ...tobacco };
