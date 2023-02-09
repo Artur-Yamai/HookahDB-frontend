@@ -4,3 +4,4 @@ export { AuthorizationForm } from "./AuthorizationForm/AuthorizationForm";
 export { RegistrationForm } from "./RegistrationForm/RegistrationForm";
 export { TobaccosList, TobaccoInfo } from "./TobaccoCmponents";
 export { TobaccoEditDialog } from "./Dialogs";
+export { FilterPanel } from "./FilterPanel/FilterPanel";

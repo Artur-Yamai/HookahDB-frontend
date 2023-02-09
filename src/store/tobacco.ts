@@ -37,6 +37,10 @@ class Tobacco {
     }
   }
 
+  public clearTobaccoLost() {
+    this._tobaccos = [];
+  }
+
   public async getTobacco(id: string) {
     try {
       const { data } = await TobaccoApi.getTobacco(id);

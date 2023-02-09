@@ -3,19 +3,4 @@
 
 .for-hookah {
   width: 100%;
-
-  &__filter-panel {
-    width: 100%;
-    height: 200px;
-    margin-bottom: 10px;
-    background: lightgray;
-  }
-}
-
-@media (max-width: $tabMiddle) {
-  .for-hookah {
-    &__filter-panel {
-      margin-top: 10px;
-    }
-  }
 }
