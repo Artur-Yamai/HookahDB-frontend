@@ -143,7 +143,7 @@ export const saveAvatar = [
     try {
       const userId = req.headers.userId;
       await UserModel.findOneAndUpdate(
-        { id: userId },
+        { _id: userId },
         {
           avatarUrl: `uploads/avatar/${req.file?.filename}`,
         }

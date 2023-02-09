@@ -101,8 +101,9 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
+    console.log(id);
     const tobacco: any = await TobaccoModel.findOne(
-      { id, isDeleted: false },
+      { _id: id, isDeleted: false },
       "-__v -isDeleted"
     );
 
@@ -144,7 +145,7 @@ export const update = [
       const id = req.params.id;
 
       const tobacco = await TobaccoModel.findOneAndUpdate(
-        { id },
+        { _id: id },
         {
           name,
           fabricator,
@@ -194,7 +195,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
     const userId = req.headers.userId;
 
     const tobacco = await TobaccoModel.findOneAndUpdate(
-      { id },
+      { _id: id },
       { isDeleted: true }
     );
 
