@@ -1,18 +1,20 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { ITobacco } from "../../../Types";
-import { TextBox, InputTypeFIle, Picture } from "../../../UI";
-import { Popup } from "../../../UI";
+import { TextBox, InputTypeFIle, Picture, Popup, TextArea } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
+
 import "./TobaccoEditDialog.scss";
+import { TobaccoClass } from "../../../Classes";
+import { observer } from "mobx-react-lite";
 
 type FieldName = "name" | "fabricator" | "description";
 
 let resolve: (value: boolean) => void;
 const sleep = (): Promise<boolean> => new Promise((r) => (resolve = r));
 
-export const TobaccoEditDialog = forwardRef((_, ref) => {
+const TobaccoEditDialog = forwardRef((_, ref) => {
   const [isVisible, toggleVisible] = useState<boolean>(false);
-  const [tobacco, setTobacco] = useState<ITobacco>({} as ITobacco);
+  const [tobacco, setTobacco] = useState<TobaccoClass>();
   const [newPhoto, setNewPhoto] = useState<File>();
 
   function cancel() {
@@ -21,22 +23,29 @@ export const TobaccoEditDialog = forwardRef((_, ref) => {
   }
 
   async function agree() {
-    await TobaccoStore.updateTobacco(tobacco, newPhoto);
+    if (!tobacco) return;
+
+    if (tobacco._id) {
+      await TobaccoStore.updateTobacco(tobacco, newPhoto);
+    } else if (newPhoto) {
+      await TobaccoStore.createTobacco(tobacco, newPhoto);
+    }
 
     toggleVisible(false);
     if (resolve) resolve(true);
   }
 
-  useImperativeHandle(
-    ref,
-    (): { show: (tobacco: ITobacco) => Promise<boolean> } => ({
-      async show(tobacco: ITobacco): Promise<boolean> {
-        setTobacco(tobacco);
-        toggleVisible(true);
-        return await sleep();
-      },
-    })
-  );
+  useImperativeHandle(ref, (): { show: () => Promise<boolean> } => ({
+    async show(): Promise<boolean> {
+      const tobacco = new TobaccoClass(
+        TobaccoStore?.tobacco ?? { name: "", fabricator: "", description: "" }
+      );
+
+      setTobacco(tobacco);
+      toggleVisible(true);
+      return await sleep();
+    },
+  }));
 
   function changeValue(newValue: string, field: FieldName) {
     const newTobacco: ITobacco = { ...tobacco } as ITobacco;
@@ -80,6 +89,7 @@ export const TobaccoEditDialog = forwardRef((_, ref) => {
           <div className="editor-form__field">
             <TextBox
               value={tobacco?.name ?? ""}
+              placeholder="Укажите название табака"
               label="Название"
               width="100%"
               onChange={(e) => changeValue(e, "name")}
@@ -88,9 +98,18 @@ export const TobaccoEditDialog = forwardRef((_, ref) => {
           <div className="editor-form__field">
             <TextBox
               value={tobacco?.fabricator ?? ""}
+              placeholder="Укажите название производителя"
               label="Производитель"
               width="100%"
               onChange={(e) => changeValue(e, "fabricator")}
+            />
+          </div>
+          <div className="editor-form__field">
+            <TextArea
+              label="Описание табака"
+              placeholder="Опишите табак"
+              text={tobacco?.description ?? ""}
+              onChange={(e) => changeValue(e, "description")}
             />
           </div>
           <div
@@ -105,3 +124,5 @@ export const TobaccoEditDialog = forwardRef((_, ref) => {
     </Popup>
   );
 });
+
+export default observer(TobaccoEditDialog);
