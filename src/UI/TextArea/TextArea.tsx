@@ -17,7 +17,6 @@ export function TextArea({
   required = true,
 }: ITextArea): JSX.Element {
   const [value, changeValue] = useState<string>(text);
-  const id = label + "-" + Math.round(Math.random() * 100000);
 
   function change(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const newValue: string = e.target.value;
@@ -33,7 +32,6 @@ export function TextArea({
         value={value}
         onChange={change}
         name="textarea"
-        id=""
         cols={30}
         rows={10}
       />

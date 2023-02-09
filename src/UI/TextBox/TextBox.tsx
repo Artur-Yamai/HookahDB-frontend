@@ -22,7 +22,6 @@ export function TextBox({
   disabled = false,
   onChange,
 }: ITextBox): JSX.Element {
-  const id = label + "-" + Math.round(Math.random() * 100000);
   const style = {
     maxWidth: width,
   };
@@ -40,7 +39,6 @@ export function TextBox({
         className="input-container__input"
         value={inputValue}
         onChange={(e) => change(e)}
-        id={id}
         type={type}
         placeholder={placeholder}
         required={required}
