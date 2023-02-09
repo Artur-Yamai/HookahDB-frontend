@@ -1,0 +1,1 @@
+export { TobaccoClass } from "./TobaccoClass";
