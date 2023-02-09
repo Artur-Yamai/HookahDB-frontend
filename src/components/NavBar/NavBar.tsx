@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { GoSignIn } from "react-icons/go";
 import { AiOutlineHome } from "react-icons/ai";
-import { TfiViewListAlt } from "react-icons/tfi";
 import { BiHelpCircle } from "react-icons/bi";
 import { TbSettings } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
@@ -32,11 +31,6 @@ function NavBar(): JSX.Element {
       caption: "Войти",
       path: "/auth",
       getIcon: () => <GoSignIn />,
-    },
-    {
-      caption: "Для кальяна",
-      path: "for-hookah",
-      getIcon: () => <TfiViewListAlt />,
     },
     {
       caption: "Главная",
