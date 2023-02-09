@@ -1,10 +1,23 @@
 @import "../../styles/screenSizes.scss";
 
 .filter-panel {
+  display: flex;
+  align-items: center;
   width: calc(100%);
   background-color: #fff;
   border-bottom: 2px solid lightgray;
   padding-bottom: 5px;
+
+  &__select {
+    flex-grow: 1;
+    margin-right: 10px;
+    border-radius: 0 !important;
+
+    // убираем у react-selector readius
+    & > div {
+      border-radius: 0;
+    }
+  }
 }
 
 @media (max-width: $tabMiddle) {

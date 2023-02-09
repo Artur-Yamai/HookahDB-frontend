@@ -13,7 +13,7 @@ interface ITobaccoInfo {
 
 export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
   const refTobaccoEditDialog: React.MutableRefObject<
-    { show: (tobacco: ITobacco) => boolean } | undefined
+    { show: () => boolean } | undefined
   > = useRef();
   const navigate = useNavigate();
 
@@ -30,9 +30,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
   async function updateTobacco() {
     if (!refTobaccoEditDialog.current) return;
 
-    const res: boolean = await refTobaccoEditDialog.current.show({
-      ...tobacco,
-    });
+    const res: boolean = await refTobaccoEditDialog.current.show();
     console.log(res);
   }
 
@@ -72,12 +70,6 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
           <span className="tobacco-info__value">5/10</span>
         </p>
       </div>
-      {/* <Popup
-        cancel={() => toggleEditDialogVisible(false)}
-        title="Окно редактирования"
-      >
-        <p>children</p>
-      </Popup> */}
       <TobaccoEditDialog ref={refTobaccoEditDialog} />
     </div>
   );

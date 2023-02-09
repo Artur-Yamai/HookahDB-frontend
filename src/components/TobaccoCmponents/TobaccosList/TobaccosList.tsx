@@ -14,8 +14,9 @@ function TobaccosList({ toggleLoading }: ITobaccosList): JSX.Element {
     getData();
 
     return function () {
-      TobaccoStore.clearTobaccoLost();
+      TobaccoStore.clearTobaccoList();
     };
+    // eslint-disable-next-line
   }, []);
 
   async function getData() {

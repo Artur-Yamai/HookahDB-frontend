@@ -1,8 +1,9 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { INewTobacco, ITobacco } from "../Types";
+import { ITobacco } from "../Types";
 import { TobaccoApi } from "../API";
 import { notify } from "../UI";
 import { catchHelper } from "../helpers";
+import { TobaccoClass } from "../Classes";
 
 class Tobacco {
   private _tobaccos: ITobacco[] = [];
@@ -37,7 +38,7 @@ class Tobacco {
     }
   }
 
-  public clearTobaccoLost() {
+  public clearTobaccoList() {
     this._tobaccos = [];
   }
 
@@ -54,24 +55,27 @@ class Tobacco {
     }
   }
 
-  public async createTobacco(tobacco: INewTobacco, photo: File) {
+  public async createTobacco(tobacco: TobaccoClass, photo: File) {
     try {
       const { data } = await TobaccoApi.createTobacco(tobacco, photo);
       notify(data.message, data.success ? "info" : "error");
       if (data.success) {
         this._tobacco = data.body;
+        this.getAllTobaccos();
       }
     } catch (error) {
       catchHelper(error);
     }
   }
 
-  public async updateTobacco(tobacco: ITobacco, photo: File | undefined) {
+  public async updateTobacco(tobacco: TobaccoClass, photo: File | undefined) {
     try {
       const { data } = await TobaccoApi.updateTobacco(tobacco, photo);
       notify(data.message, data.success ? "info" : "error");
       if (data.success) {
-        this._tobacco = data.body;
+        runInAction(() => {
+          this._tobacco = data.body;
+        });
       }
     } catch (error) {
       catchHelper(error);

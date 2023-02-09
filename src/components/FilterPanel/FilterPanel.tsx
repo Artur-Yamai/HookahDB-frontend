@@ -1,22 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Select from "react-select";
 import { ISelectOption } from "../../Types";
-import { notify } from "../../UI";
+import { Button, notify } from "../../UI";
 import "./FilterPanel.scss";
 
 interface IFilterPanel {
-  onChange: (option: ISelectOption) => void;
+  onChangeFilterValue: (option: ISelectOption) => void;
+  add: () => void;
 }
 
 const options: ISelectOption[] = [
   {
-    value: "Tobacco",
+    value: "Tobaccos",
     label: "Табаки",
   },
   { value: "Другое", label: "other" },
 ];
 
-export function FilterPanel({ onChange }: IFilterPanel): JSX.Element {
+export function FilterPanel({
+  onChangeFilterValue,
+  add,
+}: IFilterPanel): JSX.Element {
   const [selectedOption, setSelectedOption] = useState<ISelectOption | null>(
     options[0]
   );
@@ -24,22 +28,24 @@ export function FilterPanel({ onChange }: IFilterPanel): JSX.Element {
   function changeSelectValeue(option: ISelectOption | null) {
     if (option) {
       setSelectedOption(option);
-      onChange(option);
+      onChangeFilterValue(option);
     } else {
       notify("Ошибка", "error");
     }
   }
 
-  useEffect(() => {
-    console.log(selectedOption);
-  }, [selectedOption]);
-
   return (
     <div className="filter-panel">
       <Select
+        className="filter-panel__select"
         value={selectedOption}
         onChange={changeSelectValeue}
         options={options}
+      />
+      <Button
+        className="filter-panel__add-button"
+        click={add}
+        text="Добавить"
       />
     </div>
   );
