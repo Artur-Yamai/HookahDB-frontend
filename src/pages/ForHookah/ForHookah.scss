@@ -1,7 +1,7 @@
 @import "../../styles/colors.scss";
 @import "../../styles/screenSizes.scss";
 
-.fh {
+.for-hookah {
   width: 100%;
 
   &__filter-panel {
@@ -13,7 +13,7 @@
 }
 
 @media (max-width: $tabMiddle) {
-  .fh {
+  .for-hookah {
     &__filter-panel {
       margin-top: 10px;
     }
