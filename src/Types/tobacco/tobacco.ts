@@ -2,16 +2,15 @@ export interface ITobacco {
   _id: string;
   name: string;
   fabricator: string;
-  description?: string;
+  description: string;
   photoUrl: string;
-  userId?: string;
+  userId: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface INewTobacco {
-  name?: string;
-  fabricator?: string;
-  description?: string;
-  userId: string;
+  name: string;
+  fabricator: string;
+  description: string;
 }
