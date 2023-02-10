@@ -16,7 +16,9 @@ class RepositoryHelper {
       // TODO: запускать глобальный спиннер
       const result = await operation();
       console.log(result);
-      notify(result.message);
+      if (result.message) {
+        notify(result.message);
+      }
       return result;
     } catch (error) {
       this.catchHelper(error);
