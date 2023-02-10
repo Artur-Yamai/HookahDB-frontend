@@ -40,13 +40,9 @@ class User {
   }
 
   public async toRegistration(login: string, password: string, email: string) {
-    try {
-      const { data } = await UserApi.register(login, password, email);
-      return data.success;
-    } catch (error) {
-      catchHelper(error);
-      return false;
-    }
+    return await UserApi.register(login, password, email).then(
+      (r) => r.success
+    );
   }
 
   public async autoAuth() {
@@ -63,21 +59,14 @@ class User {
     }
   }
 
-  public async saveNewAvatar(avatar: File): Promise<void> {
-    try {
-      let formData = new FormData();
-      formData.append("avatar", avatar);
-      const { data } = await UserApi.saveNewAvatar(formData);
-      if (data.success) {
-        runInAction(() => {
-          this._userData = data.userData;
-        });
-      } else {
-        notify(data.message, "error");
-      }
-    } catch (error) {
-      catchHelper(error);
+  public async saveNewAvatar(photo: File): Promise<void> {
+    if (!this.userData) {
+      notify("Ошибка доступа", "error");
+      return;
     }
+
+    const data = await UserApi.saveNewAvatar({ id: this.userData?.id, photo });
+    this._userData = data.userData;
   }
 
   public toSignOut(): void {

@@ -20,12 +20,9 @@ export const UserApi = {
       "/user/register"
     ),
 
-  saveNewAvatar: async (formData: FormData) =>
-    await Repository.put("/user/saveAvatar", formData, {
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-    }),
+  async saveNewAvatar(data: { id: string; photo: File }) {
+    return await RepositoryHelper.save(data, "/user/saveAvatar");
+  },
 
   loginExists: async (login: string) =>
     await Repository.post("/user/loginExists", { login }),

@@ -9,12 +9,6 @@ import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
 import responseHandler from "../utils/responseHandler";
 
-interface IUserRegister {
-  email: string;
-  password: string;
-  login: string;
-}
-
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: avatarsDirName,
   filename: (_, file, cb) => {
@@ -31,8 +25,7 @@ const upload: multer.Multer = multer({
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { email, password, login }: IUserRegister = req.body;
-
+    const { email, password, login } = req.body;
     const salt = await bcrypt.genSalt(10);
     const passwordHash: string = await bcrypt.hash(password, salt);
 
@@ -138,10 +131,11 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const saveAvatar = [
-  upload.single("avatar"),
+  upload.single("photo"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.headers.userId;
+      const userId = req.body.id;
+      console.log(userId);
       await UserModel.findOneAndUpdate(
         { _id: userId },
         {
