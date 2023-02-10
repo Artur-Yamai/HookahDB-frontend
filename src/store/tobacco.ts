@@ -1,7 +1,6 @@
 import { runInAction, makeAutoObservable } from "mobx";
 import { ITobacco } from "../Types";
 import { TobaccoApi } from "../API";
-import { notify } from "../UI";
 import { catchHelper } from "../helpers";
 import { TobaccoClass } from "../Classes";
 
@@ -56,39 +55,23 @@ class Tobacco {
   }
 
   public async createTobacco(tobacco: TobaccoClass, photo: File) {
-    try {
-      const { data } = await TobaccoApi.createTobacco(tobacco, photo);
-      notify(data.message, data.success ? "info" : "error");
-      if (data.success) {
-        this._tobacco = data.body;
-        this.getAllTobaccos();
-      }
-    } catch (error) {
-      catchHelper(error);
+    const data = await TobaccoApi.saveTobacco(tobacco, photo);
+    if (data.success) {
+      this.getAllTobaccos();
     }
   }
 
   public async updateTobacco(tobacco: TobaccoClass, photo: File | undefined) {
-    try {
-      const { data } = await TobaccoApi.updateTobacco(tobacco, photo);
-      notify(data.message, data.success ? "info" : "error");
-      if (data.success) {
-        runInAction(() => {
-          this._tobacco = data.body;
-        });
-      }
-    } catch (error) {
-      catchHelper(error);
+    const data = await TobaccoApi.saveTobacco(tobacco, photo);
+    if (data.success) {
+      runInAction(() => {
+        this._tobacco = data.body;
+      });
     }
   }
 
   public async deleteTobacco(id: string): Promise<void> {
-    try {
-      const { data } = await TobaccoApi.delteTobacco(id);
-      notify(data.message, data.success ? "info" : "error");
-    } catch (error) {
-      catchHelper(error);
-    }
+    return await TobaccoApi.deleteTobacco(id);
   }
 }
 

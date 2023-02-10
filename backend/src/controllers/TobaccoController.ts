@@ -141,8 +141,7 @@ export const update = [
       const fileName: string | undefined = req.file?.filename;
       const userId = req.headers.userId;
 
-      const { name, fabricator, description } = req.body;
-      const id = req.params.id;
+      const { name, fabricator, description, id } = req.body;
 
       const tobacco = await TobaccoModel.findOneAndUpdate(
         { _id: id },
@@ -161,7 +160,7 @@ export const update = [
           req,
           res,
           404,
-          `tovaccoId - ${id} : ${message}`,
+          `Табак "${name}" - не найден`,
           message
         );
         return;
@@ -191,7 +190,7 @@ export const update = [
 
 export const remove = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id: string = req.params.id;
+    const id = req.body.id;
     const userId = req.headers.userId;
 
     const tobacco = await TobaccoModel.findOneAndUpdate(

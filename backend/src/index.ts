@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 import { dbURL } from "./secrets";
 import { avatarsDirName, tobaccoDirName } from "./constants";
 import { UserRouter, TobaccoRoutes } from "./routes";
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use("/uploads/avatar", express.static(avatarsDirName));
 app.use("/uploads/tobacco", express.static(tobaccoDirName));
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
   res.send("<h1>In process</h1>");
