@@ -1,7 +1,5 @@
-import { AxiosError } from "axios";
 import Repository from "../API/axios";
-// import { catchHelper } from "./catchHelper";
-import { IErrorHTTPRequest } from "../Types";
+import { catchHelper } from "./catchHelper";
 import { notify } from "../UI";
 
 const options = {
@@ -21,7 +19,7 @@ class RepositoryHelper {
       }
       return result;
     } catch (error) {
-      this.catchHelper(error);
+      catchHelper(error);
       return false;
     } finally {
       // TODO: выключать глобальный спиннер
@@ -62,19 +60,8 @@ class RepositoryHelper {
       notify(message);
       return;
     } catch (error) {
-      this.catchHelper(error);
+      catchHelper(error);
     }
-  }
-
-  private catchHelper(error: unknown) {
-    const err = error as AxiosError;
-    const data = err?.response?.data as IErrorHTTPRequest;
-    const message: string = data?.message;
-    notify(
-      message ?? "Произошла ошибка. Попробуйте повторить операцию позже",
-      "error"
-    );
-    return { success: false };
   }
 }
 
