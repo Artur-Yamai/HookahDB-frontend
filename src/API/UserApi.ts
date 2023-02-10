@@ -25,7 +25,7 @@ export const UserApi = {
   },
 
   loginExists: async (login: string) =>
-    await Repository.post("/user/loginExists", { login }),
+    await Repository.get(`/user/loginExists/${login}`),
   emailExists: async (email: string) =>
-    await Repository.post("/user/emailExists", { email }),
+    await Repository.get(`/user/emailExists/${email}`),
 };

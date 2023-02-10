@@ -152,7 +152,13 @@ export const saveAvatar = [
 
 export const loginExists = async (req: Request, res: Response) => {
   try {
-    const login: string = req.body.login;
+    const login = req.params.login;
+
+    if (!login) {
+      const message: string = "login отсутсвует";
+      responseHandler.exception(req, res, 400, message, message);
+      return;
+    }
 
     const user = await UserModel.findOne({ login }, "-passwordHash");
 
@@ -175,7 +181,13 @@ export const loginExists = async (req: Request, res: Response) => {
 
 export const emailExists = async (req: Request, res: Response) => {
   try {
-    const email: string = req.body.email;
+    const email = req.params.email;
+
+    if (!email) {
+      const message: string = "email отсутсвует";
+      responseHandler.exception(req, res, 400, message, message);
+      return;
+    }
 
     const user = await UserModel.findOne({ email }, "-passwordHash");
 

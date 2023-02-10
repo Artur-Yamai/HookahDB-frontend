@@ -24,7 +24,7 @@ router.post(
 router.get("/api/user/authByToken", checkAuth, UserController.getUserById);
 router.put("/api/user/saveAvatar", checkAuth, UserController.saveAvatar);
 
-router.post("/api/user/loginExists", UserController.loginExists);
-router.post("/api/user/emailExists", UserController.emailExists);
+router.get("/api/user/loginExists/:login", UserController.loginExists);
+router.get("/api/user/emailExists/:email", UserController.emailExists);
 
 export { router };
