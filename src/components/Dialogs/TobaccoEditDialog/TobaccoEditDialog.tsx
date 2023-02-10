@@ -31,7 +31,7 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
     }
 
     toggleVisible(false);
-    if (resolve) resolve(true);
+    resolve(true);
   }
 
   useImperativeHandle(ref, (): { show: () => Promise<boolean> } => ({
@@ -57,7 +57,6 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
     reader.onload = function (e: ProgressEvent<FileReader>) {
       const img = document.querySelector(".tobacco-editor img");
       const photo = e?.target?.result;
-      console.log(e);
       if (!img || !photo || typeof photo !== "string") return;
       img.setAttribute("src", photo);
     };
@@ -67,7 +66,6 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
 
   function changeFile(files: FileList) {
     const file: File = files[0];
-    console.log(file);
 
     if (!file) return;
     setNewPhoto(file);
