@@ -33,6 +33,29 @@ export function Popup({
     }
   };
 
+  function setMoveClass() {
+    window.onmousemove = (e: MouseEvent) => {
+      const block = popup.current;
+      if (!block) return;
+      if (
+        window.innerWidth > e.clientX + block.clientWidth / 2 &&
+        0 < e.clientX - block.clientWidth / 2
+      ) {
+        block.style.left = e.clientX - block.clientWidth / 2 + "px";
+      }
+      if (
+        window.innerHeight > e.clientY + block.clientHeight - 15 &&
+        e.clientY > 15
+      ) {
+        console.log(window.innerHeight, e.clientY);
+        block.style.top = e.clientY - 15 + "px";
+      }
+    };
+  }
+  function deleteMoveClass() {
+    window.onmousemove = null;
+  }
+
   if (!visible) return <></>;
 
   return (
@@ -43,7 +66,9 @@ export function Popup({
     >
       <div ref={popup} className="popup" style={style}>
         <header className="popup__header">
-          <h3>{title}</h3>
+          <h3 onMouseDown={setMoveClass} onMouseUp={deleteMoveClass}>
+            {title}
+          </h3>
           <button onClick={close}>
             <GrClose />
           </button>
