@@ -1,16 +1,74 @@
+@import "../../styles/constantSizes.scss";
+@import "../../styles/colors.scss";
+@import "../../styles/screenSizes.scss";
+
 .page-wrapper {
+  border: 1px solid red;
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
-  width: calc(100% - 250px);
+  width: calc(100% - 250px /* ширина минус цирина навбара */);
+  height: 100vh;
   margin-left: auto;
-  // overflow: hidden;
-  // overflow-y: auto;
+  overflow: hidden;
+  overflow-y: auto;
+
+  &--loading {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: calc(100% - 250px);
+      background-color: rgba(51, 51, 51, 0.5);
+      transition: opacity 0.75s, visibility 0.75s;
+      z-index: 2;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: inline-block;
+      height: 75px;
+      width: 75px;
+      border-radius: 50%;
+      right: calc((100% - 250px - 75px) / 2);
+      top: calc((100% - 75px) / 2);
+      border: 15px solid $colorBlue;
+      border-top-color: rgba(0, 0, 0, 0);
+      animation: spin 0.75s ease-in-out infinite;
+      z-index: 2;
+    }
+  }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $tabMiddle) {
+  body:has(.page-wrapper--loading) {
+    overflow: hidden;
+  }
+
   .page-wrapper {
     width: 100%;
     padding-top: 60px;
+
+    &--loading {
+      &::before {
+        width: 100%;
+      }
+      &::after {
+        right: calc((100% - 75px) / 2);
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0turn);
+  }
+
+  100% {
+    transform: rotate(1turn);
   }
 }
