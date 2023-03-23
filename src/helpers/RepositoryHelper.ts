@@ -47,15 +47,11 @@ class RepositoryHelper {
 
   public async delete(entityId: string, endpoint: string) {
     try {
-      const config = {
-        method: "DELETE",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+      const response = await Repository.delete(endpoint, {
+        data: {
+          id: entityId,
         },
-        data: `id=${entityId}`,
-        url: endpoint,
-      };
-      const response = await Repository.request(config);
+      });
       const message = response.data.message;
       notify(message);
       return;
