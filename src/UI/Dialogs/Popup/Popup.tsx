@@ -47,7 +47,6 @@ export function Popup({
         window.innerHeight > e.clientY + block.clientHeight - 15 &&
         e.clientY > 15
       ) {
-        console.log(window.innerHeight, e.clientY);
         block.style.top = e.clientY - 15 + "px";
       }
     };
