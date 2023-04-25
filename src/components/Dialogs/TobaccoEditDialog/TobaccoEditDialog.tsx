@@ -1,7 +1,14 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { ITobacco } from "../../../Types";
-import { TextBox, InputTypeFIle, Picture, Popup, TextArea } from "../../../UI";
+import {
+  TextBox,
+  InputTypeFIle,
+  Picture,
+  Popup,
+  TextArea,
+  notify,
+} from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
 import "./TobaccoEditDialog.scss";
 import { TobaccoClass } from "../../../Classes";
@@ -21,13 +28,15 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
     resolve(false);
   }
 
-  async function agree() {
+  async function agree(): Promise<void> {
     if (!tobacco) return;
 
     if (tobacco.id) {
       await TobaccoStore.updateTobacco(tobacco, newPhoto);
     } else if (newPhoto) {
       await TobaccoStore.createTobacco(tobacco, newPhoto);
+    } else {
+      return notify("Заполните все поля", "warning");
     }
 
     toggleVisible(false);
@@ -36,12 +45,11 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
 
   useImperativeHandle(ref, (): { show: () => Promise<boolean> } => ({
     async show(): Promise<boolean> {
-      const tobacco = new TobaccoClass(
-        TobaccoStore?.tobacco ?? { name: "", fabricator: "", description: "" }
-      );
+      const tobacco = new TobaccoClass(TobaccoStore?.tobacco);
 
       setTobacco(tobacco);
       toggleVisible(true);
+
       return await sleep();
     },
   }));

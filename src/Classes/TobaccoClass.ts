@@ -1,24 +1,19 @@
-export class TobaccoClass {
+import { INewTobacco } from "../Types";
+
+export class TobaccoClass implements INewTobacco {
   name: string;
   fabricator: string;
   description: string;
+  photoUrl: string;
   id?: string;
-  photoUrl?: string;
   userId?: string;
 
-  constructor({
-    name = "",
-    fabricator = "",
-    description = "",
-    id,
-    photoUrl,
-    userId,
-  }: TobaccoClass) {
-    this.name = name;
-    this.fabricator = fabricator;
-    this.description = description;
-    this.id = id;
-    this.photoUrl = photoUrl;
-    this.userId = userId;
+  constructor(tobacco: TobaccoClass | null) {
+    this.name = tobacco?.name ?? "";
+    this.fabricator = tobacco?.fabricator ?? "";
+    this.description = tobacco?.description ?? "";
+    this.id = tobacco?.id ?? "";
+    this.photoUrl = tobacco?.photoUrl ?? "";
+    this.userId = tobacco?.userId ?? "";
   }
 }
