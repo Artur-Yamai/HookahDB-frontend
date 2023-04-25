@@ -3,11 +3,11 @@ import { TobaccoClass } from "../Classes";
 import RepositoryHelper from "../helpers/RepositoryHelper";
 
 export const TobaccoApi = {
-  getAllTobaccos: async () => await Repository.get("/tobaccos"),
+  getAllTobaccos: async () => await RepositoryHelper.get("/tobaccos"),
 
   getTobaccoEndpoint: () => "/tobaccos",
   async getTobacco(id: string) {
-    return await Repository.get(`/tobacco/${id}`);
+    return await RepositoryHelper.get(`/tobacco/${id}`);
   },
   async saveTobacco(tobaccoData: TobaccoClass, photo: File | undefined) {
     return await RepositoryHelper.save(

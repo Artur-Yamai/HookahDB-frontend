@@ -1,5 +1,6 @@
 import Repository from "../API/axios";
 import { catchHelper } from "./catchHelper";
+import CommonStore from "../store/common";
 import { notify } from "../UI";
 
 const options = {
@@ -11,9 +12,8 @@ const options = {
 class RepositoryHelper {
   public async perfomOperation(operation: Function) {
     try {
-      // TODO: запускать глобальный спиннер
+      CommonStore.toggleLoading(true);
       const result = await operation();
-      console.log(result);
       if (result.message) {
         notify(result.message);
       }
@@ -22,8 +22,16 @@ class RepositoryHelper {
       catchHelper(error);
       return false;
     } finally {
-      // TODO: выключать глобальный спиннер
+      setTimeout(() => {
+        CommonStore.toggleLoading(false);
+      }, 500);
     }
+  }
+
+  public async get(endpoint: string) {
+    return await this.perfomOperation(async () => {
+      return await Repository.get(endpoint);
+    });
   }
 
   public async save(entity: any, endpoint: string, returnWholeResponse = true) {
@@ -47,6 +55,7 @@ class RepositoryHelper {
 
   public async delete(entityId: string, endpoint: string) {
     try {
+      CommonStore.toggleLoading(true);
       const response = await Repository.delete(endpoint, {
         data: {
           id: entityId,
@@ -57,6 +66,10 @@ class RepositoryHelper {
       return;
     } catch (error) {
       catchHelper(error);
+    } finally {
+      setTimeout(() => {
+        CommonStore.toggleLoading(false);
+      }, 500);
     }
   }
 }
