@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { tobaccoDirName } from "../constants";
 import { fileFilter } from "../utils";
 import TobaccoModel from "../models/Tobacco";
+import CommentModel from "../models/Comment";
 import responseHandler from "../utils/responseHandler";
 
 const storage: multer.StorageEngine = multer.diskStorage({
@@ -243,13 +244,33 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const getAllCommentsByTobaccoId = async (
+export const getTobaccoComments = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const id = req.params.id;
-  res.json({
-    id,
-    meth: "getAllCommentsByTobaccoId",
-  });
+  try {
+    const tobaccoId = req.params.id;
+
+    const comments = await CommentModel.find(
+      {
+        tobaccoId,
+        isDeleted: false,
+      },
+      "-__v -isDeleted"
+    );
+
+    const message: string = "Получен список комментариев";
+    responseHandler.success(req, res, 201, ``, {
+      success: true,
+      message,
+      body: comments,
+    });
+  } catch (error) {
+    console.log("error GET /tobacco/{id}/comments \n", error);
+    res.status(500).json({
+      success: false,
+      message: "Ошибка сервера",
+      body: error,
+    });
+  }
 };

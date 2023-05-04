@@ -2,9 +2,10 @@ import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import multer from "multer";
-import UserModel from "../models/User";
-import { jwtSectretKey } from "../secrets";
 import { v4 as uuidv4 } from "uuid";
+import UserModel from "../models/User";
+import CommentModel from "../models/Comment";
+import { jwtSectretKey } from "../secrets";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
 import responseHandler from "../utils/responseHandler";
@@ -212,13 +213,33 @@ export const emailExists = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllCommentsByUserId = async (
+export const getUserComments = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const id = req.params.id;
-  res.json({
-    id,
-    meth: "getAllCommentsByUserId",
-  });
+  try {
+    const userId = req.params.id;
+
+    const comments = await CommentModel.find(
+      {
+        userId,
+        isDeleted: false,
+      },
+      "-__v -isDeleted"
+    );
+
+    const message: string = "Получен список комментариев";
+    responseHandler.success(req, res, 201, ``, {
+      success: true,
+      message,
+      body: comments,
+    });
+  } catch (error) {
+    console.log("error GET /user/{id}/comments \n", error);
+    res.status(500).json({
+      success: false,
+      message: "Ошибка сервера",
+      body: error,
+    });
+  }
 };

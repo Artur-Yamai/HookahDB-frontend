@@ -10,9 +10,6 @@ router
   .post(checkAuth, TobaccoController.create)
   .put(checkAuth, TobaccoController.update)
   .delete(checkAuth, TobaccoController.remove);
-router.get(
-  "/api/tobacco/:id/comments",
-  TobaccoController.getAllCommentsByTobaccoId
-);
+router.get("/api/tobacco/:id/comments", TobaccoController.getTobaccoComments);
 
 export { router };
