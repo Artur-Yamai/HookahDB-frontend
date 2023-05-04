@@ -10,7 +10,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     const doc = new CommentModel({
       tobaccoId,
       text,
-      userId,
+      user: userId,
     });
 
     const comment = await doc.save();
@@ -45,7 +45,9 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
     const comment: any = await CommentModel.findOne(
       { _id: id, isDeleted: false },
       "-__v -isDeleted"
-    );
+    )
+      .populate("user", "login avatarUrl")
+      .exec();
 
     if (!comment) {
       const message: string = "Данные отстуствуют";
@@ -80,7 +82,9 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
         isDeleted: false,
       },
       "-__v -isDeleted"
-    );
+    )
+      .populate("user", "login avatarUrl")
+      .exec();
 
     responseHandler.success(req, res, 201, "Получен список всех комментариев", {
       success: true,

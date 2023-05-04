@@ -222,11 +222,13 @@ export const getUserComments = async (
 
     const comments = await CommentModel.find(
       {
-        userId,
+        user: userId,
         isDeleted: false,
       },
       "-__v -isDeleted"
-    );
+    )
+      .populate("user", "login avatarUrl")
+      .exec();
 
     const message: string = "Получен список комментариев";
     responseHandler.success(req, res, 201, ``, {
