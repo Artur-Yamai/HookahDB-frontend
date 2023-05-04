@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { dbURL } from "./secrets";
 import { avatarsDirName, tobaccoDirName } from "./constants";
-import { UserRouter, TobaccoRoutes } from "./routes";
+import { UserRouter, TobaccoRoutes, CommentRoutes } from "./routes";
 
 mongoose.set("strictQuery", false); // вопрос
 mongoose
@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.use(UserRouter);
 app.use(TobaccoRoutes);
+app.use(CommentRoutes);
 
 app.listen(port, () => {
   console.log("Server OK");
