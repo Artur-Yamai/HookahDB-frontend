@@ -42,7 +42,6 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
-    console.log(id);
     const comment: any = await CommentModel.findOne(
       { _id: id, isDeleted: false },
       "-__v -isDeleted"
