@@ -2,8 +2,8 @@ import { Request, Response, Router } from "express";
 import chalk from "chalk";
 import logger from "../logger/logger.service";
 
-class ResponseHandler {
-  public success(
+export default class ResponseHandler {
+  public static success(
     req: Request,
     res: Response,
     statusCode: number,
@@ -18,7 +18,7 @@ class ResponseHandler {
     });
   }
 
-  public exception(
+  public static exception(
     req: Request,
     res: Response,
     statusCode: number,
@@ -33,7 +33,12 @@ class ResponseHandler {
     });
   }
 
-  public error(req: Request, res: Response, error: any, message: string = "") {
+  public static error(
+    req: Request,
+    res: Response,
+    error: any,
+    message: string = ""
+  ) {
     let method = this.getMethod(req.method.toLowerCase());
     logger.error(method, req.path, `\t${message}`, error);
     res.status(500).json({
@@ -43,7 +48,7 @@ class ResponseHandler {
     });
   }
 
-  private getMethod(HTTPMehtod: string): string {
+  private static getMethod(HTTPMehtod: string): string {
     const lowCase = HTTPMehtod.toUpperCase();
     switch (HTTPMehtod) {
       case "get":
@@ -57,10 +62,7 @@ class ResponseHandler {
       case "post":
         return chalk.green(lowCase);
       default:
-        console.log(123);
         return lowCase;
     }
   }
 }
-
-export default new ResponseHandler();
