@@ -26,6 +26,10 @@ const upload: multer.Multer = multer({
 export const register = async (req: Request, res: Response) => {
   try {
     const { email, password, login } = req.body;
+    if (email) {
+      console.log(email, password, login);
+      return;
+    }
     const salt = await bcrypt.genSalt(10);
     const passwordHash: string = await bcrypt.hash(password, salt);
 
@@ -206,4 +210,15 @@ export const emailExists = async (req: Request, res: Response) => {
   } catch (error) {
     responseHandler.error(req, res, error, "Ошибка сервера");
   }
+};
+
+export const getAllCommentsByUserId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const id = req.params.id;
+  res.json({
+    id,
+    meth: "getAllCommentsByUserId",
+  });
 };

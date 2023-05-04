@@ -101,7 +101,6 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
-    console.log(id);
     const tobacco: any = await TobaccoModel.findOne(
       { _id: id, isDeleted: false },
       "-__v -isDeleted"
@@ -143,7 +142,7 @@ export const update = [
 
       const { name, fabricator, description, id } = req.body;
 
-      const tobacco = await TobaccoModel.findOneAndUpdate(
+      const tobacco: any = await TobaccoModel.findOneAndUpdate(
         { _id: id },
         {
           name,
@@ -166,6 +165,8 @@ export const update = [
         return;
       }
 
+      const { __v, isDeleted, ...tobaccoClearData } = tobacco._doc;
+
       responseHandler.success(
         req,
         res,
@@ -174,7 +175,7 @@ export const update = [
         {
           success: true,
           message: "Тобак успешно обнавлен",
-          body: tobacco,
+          body: tobaccoClearData,
         }
       );
     } catch (error) {
@@ -240,4 +241,15 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       body: error,
     });
   }
+};
+
+export const getAllCommentsByTobaccoId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const id = req.params.id;
+  res.json({
+    id,
+    meth: "getAllCommentsByTobaccoId",
+  });
 };
