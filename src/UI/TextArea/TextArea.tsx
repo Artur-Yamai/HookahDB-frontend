@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./TextArea.scss";
 
 interface ITextArea {
@@ -6,6 +6,8 @@ interface ITextArea {
   label: string;
   placeholder?: string;
   required?: boolean;
+  cols?: number;
+  rows?: number;
   onChange: (value: string) => void;
 }
 
@@ -15,6 +17,8 @@ export function TextArea({
   onChange,
   placeholder = "",
   required = true,
+  cols = 30,
+  rows = 10,
 }: ITextArea): JSX.Element {
   const [value, changeValue] = useState<string>(text);
 
@@ -24,6 +28,10 @@ export function TextArea({
     onChange(newValue);
   }
 
+  useEffect(() => {
+    changeValue(text);
+  }, [text]);
+
   return (
     <div className="textarea">
       <textarea
@@ -32,8 +40,8 @@ export function TextArea({
         value={value}
         onChange={change}
         name="textarea"
-        cols={30}
-        rows={10}
+        cols={cols}
+        rows={rows}
       />
       <label className="textarea__label">{label}</label>
     </div>
