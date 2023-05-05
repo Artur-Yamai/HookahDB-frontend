@@ -149,7 +149,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
     const comment = await CommentModel.findOneAndUpdate(
       {
         _id: id,
-        userId,
+        user: userId,
       },
       { isDeleted: true }
     );
