@@ -8,3 +8,4 @@ export { TobaccosList, TobaccoInfo } from "./TobaccoCmponents";
 export { TobaccoEditDialog } from "./Dialogs";
 export { FilterPanel } from "./FilterPanel/FilterPanel";
 export { HbComments } from "./Comments/HbComments";
+export { CommentCreating } from "./CommentCreating/CommentCreating";

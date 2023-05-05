@@ -35,10 +35,15 @@ function TobaccoPage() {
     return <div>Loading...</div>;
   }
 
+  const getComment = async (comment: string): Promise<boolean> => {
+    await TobaccoStore.sendNewComment(tobacco.id, comment);
+    return true;
+  };
+
   return (
     <div className="tobacco-page">
       <TobaccoInfo tobacco={tobacco} />
-      <HbComments comments={comments} />
+      <HbComments comments={comments} getComment={getComment} />
     </div>
   );
 }
