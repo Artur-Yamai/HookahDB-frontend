@@ -10,7 +10,8 @@
   transition: 0.1s;
 
   &:hover {
-    background-color: #246fe7;
+    // background-color: #246fe7;
+    filter: brightness(1.1);
     transition: 0.1s;
   }
 
