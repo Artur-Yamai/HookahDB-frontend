@@ -1,43 +1,65 @@
 @import "../../styles/colors.scss";
 
 .comment-item {
+  display: flex;
+  flex-direction: column;
   border-top: 2px solid black;
 
   &:not(:first-child) {
-    margin-top: 30px;
+    margin-top: 40px;
   }
 
   &__about-commentator {
+    position: relative;
     display: flex;
   }
 
   &__author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: $colorBlue;
     width: 100%;
-    height: 46px;
+    height: 36px;
     padding: 0px 10px;
   }
 
   &__avatar {
+    position: absolute;
     top: 0;
     left: 0;
-    width: 75px;
     min-width: 75px;
     max-width: 75px;
   }
 
   &__login {
+    padding-left: 75px;
     color: $colorWhite;
-    font-size: 24px;
+    font-size: 22px;
   }
 
   &__datetime {
     color: $colorLightGray;
     font-size: 12px;
+
+    &--now {
+      display: none;
+      transition: 1s;
+    }
+
+    &:hover .comment-item__datetime--now {
+      display: inline;
+      transition: 1s;
+    }
+
+    &:hover .comment-item__datetime--from {
+      display: none;
+      transition: 1s;
+    }
   }
 
   &__text {
     padding-left: 80px;
-    margin-top: -12px;
+    margin-top: 5px;
   }
 }

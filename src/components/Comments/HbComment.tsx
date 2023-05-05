@@ -11,7 +11,6 @@ interface IHbComment {
 export function HbComment({ comment }: IHbComment) {
   const datetime = moment(comment.createdAt).format("Do MMMM YYYY, HH:mm");
   const fromNow = moment(comment.createdAt).fromNow();
-  const dateString = `${datetime} (${fromNow})`;
 
   return (
     <li className="comment-item">
@@ -21,7 +20,10 @@ export function HbComment({ comment }: IHbComment) {
         </div>
         <div className="comment-item__author">
           <p className="comment-item__login">{comment.user.login}</p>
-          <p className="comment-item__datetime">{dateString}</p>
+          <p className="comment-item__datetime">
+            <span className="comment-item__datetime--now">{datetime}</span>
+            <span className="comment-item__datetime--from">{fromNow}</span>
+          </p>
         </div>
       </div>
 
