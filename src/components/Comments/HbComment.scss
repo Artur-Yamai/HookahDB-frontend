@@ -32,10 +32,21 @@
     max-width: 75px;
   }
 
-  &__login {
+  &__info {
+    display: flex;
+    align-items: center;
     padding-left: 75px;
     color: $colorWhite;
     font-size: 22px;
+  }
+
+  &__delete-button {
+    margin: 5px auto 0 5px;
+    cursor: pointer;
+
+    &:hover {
+      color: $colorOrangered;
+    }
   }
 
   &__datetime {

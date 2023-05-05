@@ -5,6 +5,7 @@ import TobaccoStore from "../../store/tobacco";
 import "./TobaccoPage.scss";
 import { IComment, ITobacco } from "../../Types";
 import { TobaccoInfo, HbComments } from "../../components";
+import { confirm } from "../../UI";
 
 function TobaccoPage() {
   const { id } = useParams();
@@ -30,6 +31,16 @@ function TobaccoPage() {
     }
   }, [id]);
 
+  const toDeleteComment = async (id: string): Promise<void> => {
+    const res = await confirm(
+      "Вы уверены что хотите удалить этот комментарий?"
+    );
+
+    if (res) {
+      TobaccoStore.deleteComment(id);
+    }
+  };
+
   if (!tobacco) {
     // TODO: поместить красивый спиннер ^_^
     return <div>Loading...</div>;
@@ -43,7 +54,11 @@ function TobaccoPage() {
   return (
     <div className="tobacco-page">
       <TobaccoInfo tobacco={tobacco} />
-      <HbComments comments={comments} getComment={getComment} />
+      <HbComments
+        comments={comments}
+        getComment={getComment}
+        toDeleteComment={toDeleteComment}
+      />
     </div>
   );
 }

@@ -90,6 +90,18 @@ class Tobacco {
     }
   }
 
+  public async deleteComment(id: string): Promise<void> {
+    try {
+      await CommentApi.deleteComment(id);
+      if (this.tobacco) {
+        await this.getComments(this.tobacco.id);
+      }
+      return;
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
   public async createTobacco(
     tobacco: TobaccoClass,
     photo: File
@@ -113,7 +125,11 @@ class Tobacco {
   }
 
   public async deleteTobacco(id: string): Promise<void> {
-    return await TobaccoApi.deleteTobacco(id);
+    try {
+      return await TobaccoApi.deleteTobacco(id);
+    } catch (error) {
+      catchHelper(error);
+    }
   }
 }
 
