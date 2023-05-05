@@ -258,6 +258,7 @@ export const getTobaccoComments = async (
       },
       "-__v -isDeleted"
     )
+      .sort("-createdAt")
       .populate("user", "login avatarUrl")
       .exec();
 

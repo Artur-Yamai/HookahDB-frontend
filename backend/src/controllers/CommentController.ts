@@ -83,6 +83,7 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
       },
       "-__v -isDeleted"
     )
+      .sort("-createdAt")
       .populate("user", "login avatarUrl")
       .exec();
 
