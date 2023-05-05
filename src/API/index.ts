@@ -1,4 +1,5 @@
 import { UserApi } from "./UserApi";
 import { TobaccoApi } from "./TobaccoApi";
+import { CommentApi } from "./CommentApi";
 
-export { UserApi, TobaccoApi };
+export { UserApi, TobaccoApi, CommentApi };

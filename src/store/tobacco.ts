@@ -1,6 +1,6 @@
 import { runInAction, makeAutoObservable } from "mobx";
 import { ITobacco, IComment } from "../Types";
-import { TobaccoApi } from "../API";
+import { TobaccoApi, CommentApi } from "../API";
 import { catchHelper } from "../helpers";
 import { TobaccoClass } from "../Classes";
 
@@ -29,7 +29,7 @@ class Tobacco {
     this._tobacco = null;
   }
 
-  public async getAllTobaccos() {
+  public async getAllTobaccos(): Promise<void> {
     try {
       const { data } = await TobaccoApi.getAllTobaccos();
       if (data.success) {
@@ -46,7 +46,7 @@ class Tobacco {
     this._tobaccos = [];
   }
 
-  public async getTobacco(id: string) {
+  public async getTobacco(id: string): Promise<void> {
     try {
       const { data } = await TobaccoApi.getTobacco(id);
       if (data.success) {
@@ -59,7 +59,7 @@ class Tobacco {
     }
   }
 
-  public async getComments(id: string) {
+  public async getComments(id: string): Promise<void> {
     try {
       const { data } = await TobaccoApi.getTobaccoComments(id);
       if (data.success) {
@@ -72,14 +72,38 @@ class Tobacco {
     }
   }
 
-  public async createTobacco(tobacco: TobaccoClass, photo: File) {
+  public async sendNewComment(id: string, comment: string): Promise<boolean> {
+    try {
+      const { success }: { success: boolean } = await CommentApi.createComment(
+        id,
+        comment
+      );
+
+      if (success) {
+        await this.getComments(id);
+      }
+
+      return success;
+    } catch (error) {
+      catchHelper(error);
+      return false;
+    }
+  }
+
+  public async createTobacco(
+    tobacco: TobaccoClass,
+    photo: File
+  ): Promise<void> {
     const data = await TobaccoApi.saveTobacco(tobacco, photo);
     if (data.success) {
       this.getAllTobaccos();
     }
   }
 
-  public async updateTobacco(tobacco: TobaccoClass, photo: File | undefined) {
+  public async updateTobacco(
+    tobacco: TobaccoClass,
+    photo: File | undefined
+  ): Promise<void> {
     const data = await TobaccoApi.saveTobacco(tobacco, photo);
     if (data.success) {
       runInAction(() => {
