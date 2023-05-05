@@ -21,6 +21,7 @@ function TobaccoPage() {
   useEffect(() => {
     return () => {
       TobaccoStore.clearTobaccoData();
+      TobaccoStore.clearTobaccoComments();
     };
   }, []);
 
