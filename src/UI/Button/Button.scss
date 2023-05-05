@@ -13,4 +13,14 @@
     background-color: #246fe7;
     transition: 0.1s;
   }
+
+  &:disabled {
+    background-color: lightgray;
+    color: white;
+    cursor: auto;
+
+    &:active {
+      box-shadow: none;
+    }
+  }
 }

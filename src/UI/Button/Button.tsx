@@ -5,6 +5,7 @@ interface IButton {
   text?: string;
   width?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -12,17 +13,21 @@ export function Button({
   className,
   text = "Тык",
   width,
+  disabled = false,
 }: IButton): JSX.Element {
   const style = {
     width,
   };
 
-  function onClick(e: React.MouseEvent<HTMLElement>) {
-    click(e);
-  }
+  const onClick = (e: React.MouseEvent<HTMLElement>) => click(e);
 
   return (
-    <button className={`c-button ${className}`} style={style} onClick={onClick}>
+    <button
+      className={`c-button ${className}`}
+      style={style}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {text}
     </button>
   );
