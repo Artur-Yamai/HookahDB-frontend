@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import TobaccoStore from "../../store/tobacco";
 import "./TobaccoPage.scss";
-import { ITobacco } from "../../Types";
-import { TobaccoInfo } from "../../components";
+import { IComment, ITobacco } from "../../Types";
+import { TobaccoInfo, HbComments } from "../../components";
 
 function TobaccoPage() {
   const { id } = useParams();
@@ -15,6 +15,7 @@ function TobaccoPage() {
   }
 
   const tobacco: ITobacco | null = TobaccoStore.tobacco;
+  const comments: IComment[] = TobaccoStore.comments;
 
   useEffect(() => {
     return () => {
@@ -25,6 +26,7 @@ function TobaccoPage() {
   useEffect(() => {
     if (id) {
       TobaccoStore.getTobacco(id);
+      TobaccoStore.getComments(id);
     }
   }, [id]);
 
@@ -36,6 +38,7 @@ function TobaccoPage() {
   return (
     <div className="tobacco-page">
       <TobaccoInfo tobacco={tobacco} />
+      <HbComments comments={comments} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { ITobacco } from "../Types";
+import { ITobacco, IComment } from "../Types";
 import { TobaccoApi } from "../API";
 import { catchHelper } from "../helpers";
 import { TobaccoClass } from "../Classes";
@@ -7,6 +7,7 @@ import { TobaccoClass } from "../Classes";
 class Tobacco {
   private _tobaccos: ITobacco[] = [];
   private _tobacco: ITobacco | null = null;
+  private _comments: IComment[] = [];
 
   public get tobaccos(): ITobacco[] {
     return this._tobaccos;
@@ -14,6 +15,10 @@ class Tobacco {
 
   public get tobacco(): ITobacco | null {
     return this._tobacco;
+  }
+
+  public get comments(): IComment[] {
+    return this._comments;
   }
 
   constructor() {
@@ -47,6 +52,19 @@ class Tobacco {
       if (data.success) {
         runInAction(() => {
           this._tobacco = data.body;
+        });
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async getComments(id: string) {
+    try {
+      const { data } = await TobaccoApi.getTobaccoComments(id);
+      if (data.success) {
+        runInAction(() => {
+          this._comments = data.body;
         });
       }
     } catch (error) {

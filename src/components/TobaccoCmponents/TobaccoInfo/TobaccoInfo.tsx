@@ -36,6 +36,7 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
 
   return (
     <div className="tobacco-info">
+      <TobaccoEditDialog ref={refTobaccoEditDialog} />
       <div className="tobacco-info__photo-place">
         <h1>{tobacco.name}</h1>
         <div className="tobacco-info__controllers-place">
@@ -70,7 +71,6 @@ export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
           <span className="tobacco-info__value">5/10</span>
         </p>
       </div>
-      <TobaccoEditDialog ref={refTobaccoEditDialog} />
     </div>
   );
 }

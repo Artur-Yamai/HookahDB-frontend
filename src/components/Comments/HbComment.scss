@@ -1,0 +1,43 @@
+@import "../../styles/colors.scss";
+
+.comment-item {
+  border-top: 2px solid black;
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+
+  &__about-commentator {
+    display: flex;
+  }
+
+  &__author {
+    background-color: $colorBlue;
+    width: 100%;
+    height: 46px;
+    padding: 0px 10px;
+  }
+
+  &__avatar {
+    top: 0;
+    left: 0;
+    width: 75px;
+    min-width: 75px;
+    max-width: 75px;
+  }
+
+  &__login {
+    color: $colorWhite;
+    font-size: 24px;
+  }
+
+  &__datetime {
+    color: $colorLightGray;
+    font-size: 12px;
+  }
+
+  &__text {
+    padding-left: 80px;
+    margin-top: -12px;
+  }
+}

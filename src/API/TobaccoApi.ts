@@ -18,4 +18,7 @@ export const TobaccoApi = {
   async deleteTobacco(id: string) {
     return await RepositoryHelper.delete(id, this.getTobaccoEndpoint());
   },
+
+  getTobaccoComments: async (id: string) =>
+    await Repository.get(`/tobacco/${id}/comments`),
 };
