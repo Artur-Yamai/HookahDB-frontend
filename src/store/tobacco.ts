@@ -29,6 +29,14 @@ class Tobacco {
     this._tobacco = null;
   }
 
+  public clearTobaccoComments() {
+    this._comments = [];
+  }
+
+  public clearTobaccoList() {
+    this._tobaccos = [];
+  }
+
   public async getAllTobaccos(): Promise<void> {
     try {
       const { data } = await TobaccoApi.getAllTobaccos();
@@ -40,10 +48,6 @@ class Tobacco {
     } catch (error) {
       catchHelper(error);
     }
-  }
-
-  public clearTobaccoList() {
-    this._tobaccos = [];
   }
 
   public async getTobacco(id: string): Promise<void> {
