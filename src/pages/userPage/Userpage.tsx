@@ -1,4 +1,6 @@
 import { observer } from "mobx-react-lite";
+import moment from "moment";
+import "moment/locale/ru";
 import UserStore from "../../store/user";
 import { IUser } from "../../Types/user/User";
 import { Picture, TextBox, InputTypeFIle } from "../../UI";
@@ -16,7 +18,7 @@ function Userpage(): JSX.Element {
     return <h1>Страница недоступна</h1>;
   }
 
-  const date = new Date(user.createdAt).toLocaleString();
+  const datetime = moment(user.createdAt).format("Do MMMM YYYY, HH:mm");
 
   return (
     <>
@@ -36,7 +38,7 @@ function Userpage(): JSX.Element {
           </div>
           <form className="user-page__data">
             <TextBox label="email" value={user.email} disabled />
-            <TextBox label="Дата регистрацияя" value={date} disabled />
+            <TextBox label="Дата регистрацияя" value={datetime} disabled />
           </form>
         </div>
         {/* TODO: вынести в отдельный коспонент когда появятся комментарии */}
