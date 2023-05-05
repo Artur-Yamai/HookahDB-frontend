@@ -33,9 +33,12 @@ export function TextBox({
     if (onChange) onChange(newValue);
   }
 
+  const id: string = "textbox-" + Math.round(Math.random() * 10000);
+
   return (
     <div style={style} className="input-container">
       <input
+        id={id}
         className="input-container__input"
         value={inputValue}
         onChange={(e) => change(e)}
@@ -44,7 +47,9 @@ export function TextBox({
         required={required}
         disabled={disabled}
       />
-      <label className="input-container__label">{label}</label>
+      <label htmlFor={id} className="input-container__label">
+        {label}
+      </label>
     </div>
   );
 }

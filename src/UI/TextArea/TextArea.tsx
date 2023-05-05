@@ -21,6 +21,7 @@ export function TextArea({
   rows = 10,
 }: ITextArea): JSX.Element {
   const [value, changeValue] = useState<string>(text);
+  const id: string = "textbox-" + Math.round(Math.random() * 10000);
 
   function change(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const newValue: string = e.target.value;
@@ -35,6 +36,7 @@ export function TextArea({
   return (
     <div className="textarea">
       <textarea
+        id={id}
         required={required}
         placeholder={placeholder}
         value={value}
@@ -43,7 +45,9 @@ export function TextArea({
         cols={cols}
         rows={rows}
       />
-      <label className="textarea__label">{label}</label>
+      <label htmlFor={id} className="textarea__label">
+        {label}
+      </label>
     </div>
   );
 }
