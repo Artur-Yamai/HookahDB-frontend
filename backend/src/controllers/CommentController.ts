@@ -7,6 +7,18 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     const { tobaccoId, text } = req.body;
     const userId = req.headers.userId;
 
+    if (!!CommentModel.find({ tobaccoId, user: userId })) {
+      const message = "Нельзя оставлять более одного комментария";
+      responseHandler.exception(
+        req,
+        res,
+        406,
+        `userId - ${userId} : попытка добавления более одного комментария для tobaccoId - ${tobaccoId}`,
+        message
+      );
+      return;
+    }
+
     const doc = new CommentModel({
       tobaccoId,
       text,
@@ -20,7 +32,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
       req,
       res,
       201,
-      `tobaccoId - ${comment.id} : ${message}`,
+      `commentId - ${comment.id} : ${message}`,
       {
         success: true,
         message,
