@@ -98,6 +98,8 @@ export const auth = async (req: Request, res: Response) => {
     );
 
     const { passwordHash, __v, ...userData } = user._doc;
+    userData.id = userData._id;
+    delete userData._id;
 
     responseHandler.success(req, res, 200, `userId - ${userData.id}`, {
       success: true,
@@ -114,7 +116,7 @@ export const getUserById = async (req: Request, res: Response) => {
     const user = await UserModel.findById(userId, "-passwordHash -__v");
 
     if (!user) {
-      const message: string = "Пользователь ненайден";
+      const message: string = "Пользователь не найден";
       responseHandler.exception(
         req,
         res,

@@ -7,7 +7,13 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     const { tobaccoId, text } = req.body;
     const userId = req.headers.userId;
 
-    if (!!CommentModel.find({ tobaccoId, user: userId })) {
+    const hasComment: boolean = !!(await CommentModel.findOne({
+      tobaccoId,
+      user: userId,
+      isDeleted: false,
+    }));
+
+    if (hasComment) {
       const message = "Нельзя оставлять более одного комментария";
       responseHandler.exception(
         req,
@@ -119,7 +125,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
     const userId = req.headers.userId;
 
     const comment: any = await CommentModel.findOneAndUpdate(
-      { _id: id, tobaccoId, userId },
+      { _id: id, tobaccoId, user: userId },
       { text },
       { new: true }
     );
@@ -139,7 +145,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       `userId - ${userId} updated commentId - ${id}`,
       {
         success: true,
-        message: "Тобак успешно обнавлен",
+        message: "Комментарий успешно обнавлен",
         body: commentClearData,
       }
     );
