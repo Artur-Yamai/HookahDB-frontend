@@ -7,5 +7,5 @@ export { RegistrationForm } from "./RegistrationForm/RegistrationForm";
 export { TobaccosList, TobaccoInfo } from "./TobaccoCmponents";
 export { TobaccoEditDialog } from "./Dialogs";
 export { FilterPanel } from "./FilterPanel/FilterPanel";
-export { HbComments } from "./Comments/HbComments";
-export { CommentCreating } from "./CommentCreating/CommentCreating";
+export { HbComments } from "./Comments";
+export { CommentEditor } from "./CommentEditor/CommentEditor";

@@ -1,21 +1,17 @@
 import moment from "moment";
 import "moment/locale/ru";
-import { VscTrash } from "react-icons/vsc";
-import UserStore from "../../store/user";
 import { IComment } from "../../Types";
 import { Picture } from "../../UI";
 import "./HbComment.scss";
 
 interface IHbComment {
   comment: IComment;
-  toDeleteComment: (id: string) => void;
+  children?: JSX.Element;
 }
 
-export function HbComment({ comment, toDeleteComment }: IHbComment) {
+export function HbComment({ children, comment }: IHbComment) {
   const datetime = moment(comment.createdAt).format("Do MMMM YYYY, HH:mm");
   const fromNow = moment(comment.createdAt).fromNow();
-
-  const allowDelete: boolean = UserStore.userData?.id === comment.user.id;
 
   return (
     <li className="comment-item">
@@ -26,11 +22,7 @@ export function HbComment({ comment, toDeleteComment }: IHbComment) {
         <div className="comment-item__author">
           <p className="comment-item__info">
             <span className="comment-item__login">{comment.user.login}</span>
-            <span className="comment-item__delete-button">
-              {allowDelete && (
-                <VscTrash onClick={() => toDeleteComment(comment.id)} />
-              )}
-            </span>
+            {children}
           </p>
           <p className="comment-item__datetime">
             <span className="comment-item__datetime--now">{datetime}</span>

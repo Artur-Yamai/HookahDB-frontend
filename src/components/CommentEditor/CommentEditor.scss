@@ -1,0 +1,42 @@
+@import "../../styles/colors.scss";
+
+.comment-editor {
+  margin: 5px 0 15px;
+  border-bottom: 2px solid black;
+  min-height: 175px;
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__button-place {
+    display: flex;
+  }
+
+  &__button {
+    margin-left: auto;
+
+    &--send {
+      margin-right: 5px;
+      background-color: $colorGreen;
+    }
+
+    &--cancel {
+      margin-left: auto;
+    }
+  }
+
+  &__controller {
+    margin: 5px auto 0 5px;
+    cursor: pointer;
+
+    &--edit:hover {
+      color: $colorYellow;
+    }
+
+    &--delete:hover {
+      color: $colorOrangered;
+    }
+  }
+}

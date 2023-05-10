@@ -32,7 +32,7 @@ function TobaccoPage() {
     }
   }, [id]);
 
-  const toDeleteComment = async (id: string): Promise<void> => {
+  const deleteComment = async (id: string): Promise<void> => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот комментарий?"
     );
@@ -47,8 +47,11 @@ function TobaccoPage() {
     return <div>Loading...</div>;
   }
 
-  const getComment = async (comment: string): Promise<boolean> => {
-    await TobaccoStore.sendNewComment(tobacco.id, comment);
+  const getComment = async (
+    text: string,
+    commentId: string | null
+  ): Promise<boolean> => {
+    await TobaccoStore.saveComment(tobacco.id, text, commentId);
     return true;
   };
 
@@ -58,7 +61,7 @@ function TobaccoPage() {
       <HbComments
         comments={comments}
         getComment={getComment}
-        toDeleteComment={toDeleteComment}
+        deleteComment={deleteComment}
       />
     </div>
   );

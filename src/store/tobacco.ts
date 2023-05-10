@@ -76,15 +76,20 @@ class Tobacco {
     }
   }
 
-  public async sendNewComment(id: string, comment: string): Promise<boolean> {
+  public async saveComment(
+    tobaccoId: string,
+    comment: string,
+    commentId: string | null
+  ): Promise<boolean> {
     try {
-      const { success }: { success: boolean } = await CommentApi.createComment(
-        id,
-        comment
+      const { success }: { success: boolean } = await CommentApi.saveComment(
+        tobaccoId,
+        comment,
+        commentId
       );
 
       if (success) {
-        await this.getComments(id);
+        await this.getComments(tobaccoId);
       }
 
       return success;

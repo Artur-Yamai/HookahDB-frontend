@@ -1,6 +1,14 @@
 .comments-block {
   padding: 0 5px;
 
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  & li:not(:first-child) {
+    margin-top: 40px;
+  }
+
   &__list {
     margin-bottom: 20px;
   }
