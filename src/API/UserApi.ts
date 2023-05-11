@@ -28,4 +28,7 @@ export const UserApi = {
     await Repository.get(`/user/loginExists/${login}`),
   emailExists: async (email: string) =>
     await Repository.get(`/user/emailExists/${email}`),
+
+  getFavoriteTobaccoByUserId: async (userId: string) =>
+    await Repository.get(`/user/${userId}/favoriteTobaccos`),
 };

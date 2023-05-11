@@ -1,11 +1,12 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { IUser } from "../Types/user/User";
+import { ITobacco, IUser } from "../Types";
 import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
 
 class User {
   private _userData: IUser | null = null;
+  private _favoriteTobacco: ITobacco[] = [];
 
   public get userData(): IUser | null {
     return this._userData;
@@ -13,6 +14,10 @@ class User {
 
   public get getAvatar(): string | null {
     return this._userData?.avatarUrl ?? null;
+  }
+
+  public get favoriteTobacco(): ITobacco[] {
+    return this._favoriteTobacco;
   }
 
   constructor() {
@@ -77,6 +82,19 @@ class User {
       localStorage.setItem("login", user.login);
     }
     this._userData = null;
+  }
+
+  public async getFavoriteTobaccoByUserId(userId: string) {
+    try {
+      const data = await UserApi.getFavoriteTobaccoByUserId(userId);
+      console.log(data);
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public clearFavoriteTobaccoList() {
+    this._favoriteTobacco = [];
   }
 }
 

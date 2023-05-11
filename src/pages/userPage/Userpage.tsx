@@ -1,21 +1,25 @@
+import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import moment from "moment";
 import "moment/locale/ru";
 import UserStore from "../../store/user";
-import { IUser } from "../../Types/user/User";
+import { IUser } from "../../Types";
 import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 
 function Userpage(): JSX.Element {
   const user: IUser | null = UserStore.userData;
-  const comments = false;
+
+  useEffect(() => {
+    if (user?.id) {
+      UserStore.getFavoriteTobaccoByUserId(user.id);
+    }
+  }, []);
+
+  if (user === null) return <h1>Страница недоступна</h1>;
 
   function onChange(files: FileList) {
     UserStore.saveNewAvatar(files[0]);
-  }
-
-  if (user === null) {
-    return <h1>Страница недоступна</h1>;
   }
 
   const datetime = moment(user.createdAt).format("Do MMMM YYYY, HH:mm");
@@ -41,18 +45,8 @@ function Userpage(): JSX.Element {
             <TextBox label="Дата регистрацияя" value={datetime} disabled />
           </form>
         </div>
-        {/* TODO: вынести в отдельный коспонент когда появятся комментарии */}
-        <div className="comment-block">
-          <h2 className="comment-block__title">Оставленные комментарии</h2>
-          {comments ? (
-            <ul></ul>
-          ) : (
-            <h4 className="comment-block__no-comments-text">
-              Ваших комментариев нет. Займитесь этим, чтоли ¯\_(ツ)_/¯
-            </h4>
-          )}
-        </div>
       </div>
+      {/* {UserStore.favoriteTobacco && <TobaccosList/>} */}
     </>
   );
 }

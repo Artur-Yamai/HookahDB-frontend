@@ -42,19 +42,6 @@
   }
 }
 
-.comment-block {
-  margin-top: 50px;
-
-  &__title {
-    padding-left: 50px;
-  }
-
-  &__no-comments-text {
-    margin-top: 20px;
-    padding-left: 50px;
-  }
-}
-
 @media (max-width: $tabMiddle) {
   .comment-block {
     &__title,
@@ -99,13 +86,6 @@
         width: 100%;
         max-width: 400px !important;
       }
-    }
-  }
-
-  .comment-block {
-    &__title,
-    &__no-comments-text {
-      text-align: center;
     }
   }
 }
