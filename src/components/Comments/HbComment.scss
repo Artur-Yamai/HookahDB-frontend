@@ -26,6 +26,11 @@
     left: 0;
     min-width: 75px;
     max-width: 75px;
+
+    img {
+      width: 75px;
+      max-height: 75px;
+    }
   }
 
   &__info {

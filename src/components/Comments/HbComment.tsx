@@ -3,6 +3,7 @@ import "moment/locale/ru";
 import { IComment } from "../../Types";
 import { Picture } from "../../UI";
 import "./HbComment.scss";
+import config from "../../configuration";
 
 interface IHbComment {
   comment: IComment;
@@ -16,9 +17,10 @@ export function HbComment({ children, comment }: IHbComment) {
   return (
     <li className="comment-item">
       <div className="comment-item__about-commentator">
-        <div className="comment-item__avatar">
-          <Picture url={comment.user.avatarUrl} />
-        </div>
+        <Picture
+          className="comment-item__avatar"
+          url={comment.user.avatarUrl}
+        />
         <div className="comment-item__author">
           <p className="comment-item__info">
             <span className="comment-item__login">{comment.user.login}</span>
