@@ -3,7 +3,6 @@ import "moment/locale/ru";
 import { IComment } from "../../Types";
 import { Picture } from "../../UI";
 import "./HbComment.scss";
-import config from "../../configuration";
 
 interface IHbComment {
   comment: IComment;
