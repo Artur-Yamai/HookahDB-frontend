@@ -18,21 +18,23 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
 
   useEffect(() => {
     if (UserStore.userData) {
-      const comms = [...comments];
-      const index = comms.findIndex(
+      const newComments = [...comments];
+      const index = newComments.findIndex(
         (comment) => comment.user.id === UserStore.userData?.id
       );
 
       if (index !== -1) {
-        const cmt = comms[index];
-        comms.splice(index, 1);
+        const myComment = newComments[index];
+        newComments.splice(index, 1);
 
-        setMyComment(cmt);
-        setOtherComments(comms);
+        setMyComment(myComment);
+        setOtherComments(newComments);
       } else {
+        setMyComment(null);
         setOtherComments(comments);
       }
     } else {
+      setMyComment(null);
       setOtherComments(comments);
     }
   }, [comments]);
