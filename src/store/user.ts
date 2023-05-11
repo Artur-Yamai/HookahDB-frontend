@@ -65,13 +65,23 @@ class User {
   }
 
   public async saveNewAvatar(photo: File): Promise<void> {
-    if (!this.userData) {
-      notify("Ошибка доступа", "error");
-      return;
-    }
+    try {
+      if (!this.userData) {
+        notify("Ошибка доступа", "error");
+        return;
+      }
 
-    const data = await UserApi.saveNewAvatar({ id: this.userData?.id, photo });
-    this._userData = data.userData;
+      const data = await UserApi.saveNewAvatar({
+        id: this.userData?.id,
+        photo,
+      });
+
+      runInAction(() => {
+        this._userData = data.body;
+      });
+    } catch (error) {
+      catchHelper(error);
+    }
   }
 
   public toSignOut(): void {
@@ -87,7 +97,10 @@ class User {
   public async getFavoriteTobaccoByUserId(userId: string) {
     try {
       const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
-      this._favoriteTobacco = data.body;
+
+      runInAction(() => {
+        this._favoriteTobacco = data.body;
+      });
     } catch (error) {
       catchHelper(error);
     }
