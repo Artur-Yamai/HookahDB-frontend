@@ -5,7 +5,7 @@ import responseHandler from "./responseHandler";
 import { tokenDecoded } from "../helpers";
 
 export default (req: Request, res: Response, next: NextFunction) => {
-  const noAccessFunc = (token: string | jwt.JwtPayload | null) => {
+  const noAccessFunc = (token: string | jwt.JwtPayload) => {
     responseHandler.exception(
       req,
       res,
