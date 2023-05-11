@@ -2,14 +2,10 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { jwtSectretKey } from "../secrets";
 import responseHandler from "./responseHandler";
+import { tokenDecoded } from "../helpers";
 
 export default (req: Request, res: Response, next: NextFunction) => {
-  const token: string = (req.headers.authorization || "").replace(
-    /Bearer\s?/,
-    ""
-  );
-
-  const noAccessFunc = () => {
+  const noAccessFunc = (token: string | jwt.JwtPayload | null) => {
     responseHandler.exception(
       req,
       res,
@@ -19,20 +15,17 @@ export default (req: Request, res: Response, next: NextFunction) => {
     );
   };
 
-  if (token) {
-    try {
-      const decoded: string | jwt.JwtPayload = jwt.verify(token, jwtSectretKey);
-      if (typeof decoded !== "string") {
-        req.headers.userId = decoded.id;
-        next();
-        return;
-      } else {
-        return noAccessFunc();
-      }
-    } catch (error) {
-      return noAccessFunc();
-    }
+  if (!req.headers.authorization) {
+    return noAccessFunc("");
+  }
+
+  const data: jwt.JwtPayload | string = tokenDecoded(req.headers.authorization);
+
+  if (typeof data !== "string") {
+    req.headers.userId = data.id;
+    next();
+    return;
   } else {
-    return noAccessFunc();
+    return noAccessFunc(data);
   }
 };
