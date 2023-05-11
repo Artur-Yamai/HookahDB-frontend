@@ -5,6 +5,7 @@ export interface ITobacco {
   description: string;
   photoUrl: string;
   userId: string;
+  isFavorite: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
