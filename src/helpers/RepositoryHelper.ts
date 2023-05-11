@@ -63,7 +63,7 @@ class RepositoryHelper {
       });
       const message = response.data.message;
       notify(message);
-      return;
+      return response.data.success;
     } catch (error) {
       catchHelper(error);
     } finally {
