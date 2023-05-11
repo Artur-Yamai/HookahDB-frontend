@@ -6,6 +6,7 @@ import UserStore from "../../store/user";
 import { IUser } from "../../Types";
 import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
+import { TobaccosList } from "../../components";
 
 function Userpage(): JSX.Element {
   const user: IUser | null = UserStore.userData;
@@ -14,7 +15,7 @@ function Userpage(): JSX.Element {
     if (user?.id) {
       UserStore.getFavoriteTobaccoByUserId(user.id);
     }
-  }, []);
+  }, [user?.id]);
 
   if (user === null) return <h1>Страница недоступна</h1>;
 
@@ -46,7 +47,9 @@ function Userpage(): JSX.Element {
           </form>
         </div>
       </div>
-      {/* {UserStore.favoriteTobacco && <TobaccosList/>} */}
+      {UserStore.favoriteTobacco && (
+        <TobaccosList tobaccoList={UserStore.favoriteTobacco} />
+      )}
     </>
   );
 }

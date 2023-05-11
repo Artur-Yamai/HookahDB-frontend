@@ -86,8 +86,8 @@ class User {
 
   public async getFavoriteTobaccoByUserId(userId: string) {
     try {
-      const data = await UserApi.getFavoriteTobaccoByUserId(userId);
-      console.log(data);
+      const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
+      this._favoriteTobacco = data.body;
     } catch (error) {
       catchHelper(error);
     }
