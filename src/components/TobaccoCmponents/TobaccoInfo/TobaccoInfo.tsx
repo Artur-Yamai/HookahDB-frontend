@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import UserStore from "../../../store/user";
 import { ITobacco } from "../../../Types";
 import { Picture } from "../../../UI";
 import "./TobaccoInfo.scss";
@@ -32,23 +33,25 @@ function TobaccoInfo({
       </div>
       <div className="tobacco-info">
         <div className="tobacco-info__common-data">
-          <div className="tobacco-info__controllers-place">
-            <span
-              className="tobacco-info__controller"
-              onClick={() => updateTobacco()}
-            >
-              изменить
-            </span>
-            <span
-              className="tobacco-info__controller"
-              onClick={() => deleteTobacco(tobacco.id)}
-            >
-              удалить
-            </span>
-            <button onClick={() => toggleFavorite()} className={className}>
-              {tobacco.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
-            </button>
-          </div>
+          {UserStore.userData && (
+            <div className="tobacco-info__controllers-place">
+              <span
+                className="tobacco-info__controller"
+                onClick={() => updateTobacco()}
+              >
+                изменить
+              </span>
+              <span
+                className="tobacco-info__controller"
+                onClick={() => deleteTobacco(tobacco.id)}
+              >
+                удалить
+              </span>
+              <button onClick={() => toggleFavorite()} className={className}>
+                {tobacco.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
+              </button>
+            </div>
+          )}
           <Picture url={tobacco.photoUrl} />
         </div>
         <div className="tobacco-info__info-block">
