@@ -5,6 +5,7 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import UserModel from "../models/User";
 import CommentModel from "../models/Comment";
+import FavoriteTobaccoModel from "../models/FavoriteTobacco";
 import { jwtSectretKey } from "../secrets";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
@@ -27,10 +28,6 @@ const upload: multer.Multer = multer({
 export const register = async (req: Request, res: Response) => {
   try {
     const { email, password, login } = req.body;
-    if (email) {
-      console.log(email, password, login);
-      return;
-    }
     const salt = await bcrypt.genSalt(10);
     const passwordHash: string = await bcrypt.hash(password, salt);
 
@@ -240,5 +237,44 @@ export const getUserComments = async (
     });
   } catch (error) {
     responseHandler.error(req, res, error, "Комментарии не получены");
+  }
+};
+
+export const getFavoritesTobaccoByUserId = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const userId = req.params.id;
+
+    const list = await FavoriteTobaccoModel.find(
+      {
+        user: userId,
+      },
+      "-__v"
+    )
+      .populate("tobacco", "id name photoUrl")
+      .exec();
+
+    const message = "Список избранного успешно получен";
+    responseHandler.success(
+      req,
+      res,
+      201,
+      `Получен списко избранных табаков пользователя`,
+      {
+        success: true,
+        message,
+        // TODO: найти как получать из БД данные сразу в нужном виде
+        body: list.map((el) => el.tobacco),
+      }
+    );
+  } catch (error) {
+    responseHandler.error(
+      req,
+      res,
+      error,
+      "Не был получен список избранных табаков"
+    );
   }
 };

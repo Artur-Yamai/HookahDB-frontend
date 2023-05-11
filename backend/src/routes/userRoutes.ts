@@ -29,4 +29,9 @@ router.get("/api/user/emailExists/:email", UserController.emailExists);
 
 router.get("/api/user/:id/comments", UserController.getUserComments);
 
+router.get(
+  "/api/user/:id/favoriteTobaccos",
+  UserController.getFavoritesTobaccoByUserId
+);
+
 export { router };
