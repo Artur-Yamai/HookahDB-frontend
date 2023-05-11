@@ -115,9 +115,13 @@ class Tobacco {
     tobacco: TobaccoClass,
     photo: File
   ): Promise<void> {
-    const data = await TobaccoApi.saveTobacco(tobacco, photo);
-    if (data.success) {
-      this.getAllTobaccos();
+    try {
+      const data = await TobaccoApi.saveTobacco(tobacco, photo);
+      if (data.success) {
+        this.getAllTobaccos();
+      }
+    } catch (error) {
+      catchHelper(error);
     }
   }
 
@@ -125,17 +129,43 @@ class Tobacco {
     tobacco: TobaccoClass,
     photo: File | undefined
   ): Promise<void> {
-    const data = await TobaccoApi.saveTobacco(tobacco, photo);
-    if (data.success) {
-      runInAction(() => {
-        this._tobacco = data.body;
-      });
+    try {
+      const data = await TobaccoApi.saveTobacco(tobacco, photo);
+      if (data.success) {
+        runInAction(() => {
+          this._tobacco = data.body;
+        });
+      }
+    } catch (error) {
+      catchHelper(error);
     }
   }
 
   public async deleteTobacco(id: string): Promise<void> {
     try {
-      return await TobaccoApi.deleteTobacco(id);
+      await TobaccoApi.deleteTobacco(id);
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async addToFavoriteList(tobaccoId: string): Promise<void> {
+    try {
+      const res = await TobaccoApi.addToFavoriteList(tobaccoId);
+      if (res) {
+        await this.getTobacco(tobaccoId);
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async deleteFromFavoriteList(tobaccoId: string): Promise<void> {
+    try {
+      const res: boolean = await TobaccoApi.deleteFromFavoriteList(tobaccoId);
+      if (res) {
+        await this.getTobacco(tobaccoId);
+      }
     } catch (error) {
       catchHelper(error);
     }
