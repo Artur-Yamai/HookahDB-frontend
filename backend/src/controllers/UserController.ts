@@ -129,8 +129,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
     responseHandler.success(req, res, 200, `userId - ${user.id}`, {
       success: true,
-      // TODO: сделать тело ответа сообразно ответам в других функциях
-      userData: user,
+      body: user,
     });
   } catch (error) {
     responseHandler.error(req, res, error, "Нет доступа");

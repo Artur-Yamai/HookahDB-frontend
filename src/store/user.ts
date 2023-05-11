@@ -51,7 +51,7 @@ class User {
       const { data } = await UserApi.autoAuth();
       if (data.success) {
         runInAction(() => {
-          this._userData = data.userData;
+          this._userData = data.body;
         });
       }
     } catch (error) {
