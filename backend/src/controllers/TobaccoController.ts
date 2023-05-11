@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { tobaccoDirName } from "../constants";
 import { fileFilter } from "../utils";
 import TobaccoModel from "../models/Tobacco";
+import FavoriteTobaccoModel from "../models/FavoriteTobacco";
 import CommentModel from "../models/Comment";
 import responseHandler from "../utils/responseHandler";
+import { tokenDecoded } from "../helpers";
 
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: tobaccoDirName,
@@ -91,6 +93,7 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
+    let isFavorite: boolean = false;
     const id = req.params.id;
     const tobacco: any = await TobaccoModel.findOne(
       { _id: id, isDeleted: false },
@@ -109,6 +112,19 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
       );
       return;
     }
+
+    const token: string | undefined = req.headers.authorization;
+    if (token) {
+      const data = tokenDecoded(token);
+      if (typeof data !== "string") {
+        isFavorite = !!(await FavoriteTobaccoModel.findOne({
+          user: data.id,
+          tobacco: tobacco.id,
+        }));
+      }
+    }
+
+    tobacco._doc.isFavorite = isFavorite;
 
     responseHandler.success(req, res, 200, `tobaccoId - ${id}`, {
       success: true,

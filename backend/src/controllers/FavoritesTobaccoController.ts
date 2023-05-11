@@ -55,7 +55,7 @@ export const addToFavoritesTobacco = async (
 
 export const removeToFavoritesTobacco = async (req: Request, res: Response) => {
   try {
-    const tobaccoId = req.body.tobaccoId;
+    const tobaccoId = req.body.id;
     const userId = req.headers.userId;
 
     const result = await FavoriteTobaccoModel.deleteOne({
@@ -76,7 +76,7 @@ export const removeToFavoritesTobacco = async (req: Request, res: Response) => {
         }
       );
     } else {
-      const message = "Табак небыл удален из избранного";
+      const message = "Табак не был удален из избранного";
       responseHandler.exception(
         req,
         res,
