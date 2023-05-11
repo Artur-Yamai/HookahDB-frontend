@@ -1,26 +1,51 @@
 @import "../../../styles/colors.scss";
 @import "../../../styles/screenSizes.scss";
 
+.tobacco-title {
+  // display: flex;
+  width: 100%;
+  margin-left: 50px;
+  text-align: left;
+
+  h1 {
+    color: $colorBlue;
+    font-weight: 800;
+    font-size: 30px;
+  }
+}
+
 .tobacco-info {
   display: flex;
 
-  &__photo-place {
+  &__common-data {
     width: 100%;
     max-width: 350px;
     margin-left: 50px;
+  }
 
-    h1 {
-      display: flex;
-      flex-direction: row-reverse;
-      align-items: center;
-      color: #d27e04;
-      font-weight: 800;
+  &__favorite-button {
+    font-size: 30px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: $colorBlue;
+    align-self: flex-end;
+
+    &--fill {
+      color: $colorGreen;
+    }
+
+    &:active {
+      box-shadow: none;
     }
   }
 
   &__controllers-place {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     width: 100%;
     margin-bottom: 20px;
+    justify-content: flex-start;
   }
 
   &__controller {
@@ -28,7 +53,7 @@
     font-size: 16px;
     color: gray;
     cursor: pointer;
-    margin-left: 15px;
+    margin-right: 10px;
 
     &:hover {
       color: orangered;
@@ -66,10 +91,16 @@
 }
 
 @media (max-width: $netbooks) {
+  .tobacco-title {
+    // justify-content: center;
+    margin-left: 10px;
+  }
+
   .tobacco-info {
     flex-direction: column;
+    // align-items: center;
 
-    &__photo-place {
+    &__common-data {
       margin: 0;
 
       h1 {
@@ -90,9 +121,32 @@
   }
 }
 
+@media (max-width: $tabMiddle) {
+  .tobacco-title {
+    justify-content: center;
+    flex-direction: column;
+
+    h1 {
+      text-align: center;
+    }
+
+    &__favorite-button {
+      text-align: center;
+    }
+  }
+
+  .tobacco-info {
+    align-items: center;
+
+    &__controllers-place {
+      text-align: center;
+    }
+  }
+}
+
 @media (max-width: $mobileMax) {
   .tobacco-info {
-    &__photo-place {
+    &__common-data {
       max-width: 100%;
       width: 100%;
 
