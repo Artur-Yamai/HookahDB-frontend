@@ -1,20 +1,22 @@
 import { useState, useRef, useEffect } from "react";
 import "./ForHookah.scss";
+import { observer } from "mobx-react-lite";
 import TobaccoStore from "../../store/tobacco";
 import { TobaccosList } from "../../components/TobaccoCmponents";
 import { FilterPanel } from "../../components";
 import { ISelectOption } from "../../Types";
 import { TobaccoEditDialog } from "../../components";
 
-export function ForHookah(): JSX.Element {
+function ForHookah(): JSX.Element {
   const [selectedList, toggleSelectedList] = useState<string>("Tobaccos");
   const refTobaccoEditDialog: React.MutableRefObject<
     { show: () => boolean } | undefined
   > = useRef();
 
-  function onChange(option: ISelectOption) {
+  const onChange = (option: ISelectOption) => {
     toggleSelectedList(option.value);
-  }
+    getData();
+  };
 
   async function add() {
     if (selectedList === "Tobaccos") {
@@ -29,22 +31,19 @@ export function ForHookah(): JSX.Element {
     getData();
 
     return function () {
-      TobaccoStore.clearTobaccoList();
+      clearData();
     };
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line
-  }, [selectedList]);
 
   const getData = async () => {
     if (selectedList === "Tobaccos") {
       await TobaccoStore.getAllTobaccos();
     }
+  };
 
-    setTimeout(() => {}, 200);
+  const clearData = () => {
+    TobaccoStore.clearTobaccoList();
   };
 
   return (
@@ -57,3 +56,5 @@ export function ForHookah(): JSX.Element {
     </div>
   );
 }
+
+export default observer(ForHookah);
