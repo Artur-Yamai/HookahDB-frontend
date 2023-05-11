@@ -5,6 +5,7 @@ import { Button, notify } from "../../UI";
 import "./FilterPanel.scss";
 
 interface IFilterPanel {
+  showAddButton: boolean;
   onChangeFilterValue: (option: ISelectOption) => void;
   add: () => void;
 }
@@ -15,6 +16,7 @@ const options: ISelectOption[] = [
 ];
 
 export function FilterPanel({
+  showAddButton,
   onChangeFilterValue,
   add,
 }: IFilterPanel): JSX.Element {
@@ -39,11 +41,13 @@ export function FilterPanel({
         onChange={changeSelectValeue}
         options={options}
       />
-      <Button
-        className="filter-panel__add-button"
-        click={add}
-        text="Добавить"
-      />
+      {showAddButton && (
+        <Button
+          className="filter-panel__add-button"
+          click={add}
+          text="Добавить"
+        />
+      )}
     </div>
   );
 }

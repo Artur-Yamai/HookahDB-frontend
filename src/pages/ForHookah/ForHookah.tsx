@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "./ForHookah.scss";
 import { observer } from "mobx-react-lite";
 import TobaccoStore from "../../store/tobacco";
+import UserStore from "../../store/user";
 import { TobaccosList } from "../../components/TobaccoCmponents";
 import { FilterPanel } from "../../components";
 import { ISelectOption } from "../../Types";
@@ -48,7 +49,11 @@ function ForHookah(): JSX.Element {
 
   return (
     <div className="for-hookah">
-      <FilterPanel onChangeFilterValue={onChange} add={add} />
+      <FilterPanel
+        onChangeFilterValue={onChange}
+        add={add}
+        showAddButton={!!UserStore?.userData}
+      />
       {selectedList === "Tobaccos" && (
         <TobaccosList tobaccoList={TobaccoStore.tobaccos} />
       )}
