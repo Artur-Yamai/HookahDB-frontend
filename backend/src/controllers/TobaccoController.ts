@@ -66,12 +66,7 @@ export const create = [
         }
       );
     } catch (error) {
-      console.log("error POST /tobacco", error);
-      res.status(500).json({
-        success: false,
-        message: "Ошибка сервера",
-        body: error,
-      });
+      responseHandler.error(req, res, error, "Табак не был создан");
     }
   },
 ];
@@ -90,12 +85,7 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
       body: tobaccos,
     });
   } catch (error) {
-    console.log("error GET /tobaccos", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Табаки небыли получены");
   }
 };
 
@@ -125,12 +115,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
       body: tobacco,
     });
   } catch (error) {
-    console.log("error GET /tobacco/:id", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Табак не был получен");
   }
 };
 
@@ -180,12 +165,7 @@ export const update = [
         }
       );
     } catch (error) {
-      console.log("error PUT /tobacco", error);
-      res.status(500).json({
-        success: false,
-        message: "Ошибка сервера",
-        body: error,
-      });
+      responseHandler.error(req, res, error, "Табак не был обнавлен");
     }
   },
 ];
@@ -235,12 +215,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       }
     );
   } catch (error) {
-    console.log("error DELETE /tobacco", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Табак не был удален");
   }
 };
 
@@ -269,11 +244,11 @@ export const getTobaccoComments = async (
       body: comments,
     });
   } catch (error) {
-    console.log("error GET /tobacco/{id}/comments \n", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(
+      req,
+      res,
+      error,
+      "Комментарии табака не были получены"
+    );
   }
 };

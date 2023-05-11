@@ -48,12 +48,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
       }
     );
   } catch (error) {
-    console.log("error POST /comments", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Комментарий не был создан");
   }
 };
 
@@ -84,12 +79,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
       body: comment,
     });
   } catch (error) {
-    console.log("error GET /comment/{id}", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Комментарий не был получен");
   }
 };
 
@@ -110,12 +100,7 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
       body: comments,
     });
   } catch (error) {
-    console.log("error GET /comments", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Комментарии не были получены");
   }
 };
 
@@ -150,12 +135,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       }
     );
   } catch (error) {
-    console.log("error PUT /comments", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Комментарий не был обновлен");
   }
 };
 
@@ -207,11 +187,6 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       }
     );
   } catch (error) {
-    console.log("error DELETE /comments", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Комментарий не был удален");
   }
 };

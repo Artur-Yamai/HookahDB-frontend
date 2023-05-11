@@ -181,7 +181,7 @@ export const loginExists = async (req: Request, res: Response) => {
       }
     );
   } catch (error) {
-    responseHandler.error(req, res, error, "Ошибка сервера");
+    responseHandler.error(req, res, error, "Логин не проверен");
   }
 };
 
@@ -210,7 +210,7 @@ export const emailExists = async (req: Request, res: Response) => {
       }
     );
   } catch (error) {
-    responseHandler.error(req, res, error, "Ошибка сервера");
+    responseHandler.error(req, res, error, "Email не проверен");
   }
 };
 
@@ -239,11 +239,6 @@ export const getUserComments = async (
       body: comments,
     });
   } catch (error) {
-    console.log("error GET /user/{id}/comments \n", error);
-    res.status(500).json({
-      success: false,
-      message: "Ошибка сервера",
-      body: error,
-    });
+    responseHandler.error(req, res, error, "Комментарии не получены");
   }
 };

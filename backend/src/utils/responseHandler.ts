@@ -37,8 +37,9 @@ export default class ResponseHandler {
     req: Request,
     res: Response,
     error: any,
-    message: string = ""
+    text: string = ""
   ) {
+    const message: string = `ОШИБКА СЕРВЕРА. ${text}`;
     let method = this.getMethod(req.method.toLowerCase());
     logger.error(method, req.path, `\t${message}`, error);
     res.status(500).json({
