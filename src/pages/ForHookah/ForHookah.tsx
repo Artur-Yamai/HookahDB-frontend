@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./ForHookah.scss";
+import TobaccoStore from "../../store/tobacco";
 import { TobaccosList } from "../../components/TobaccoCmponents";
 import { FilterPanel } from "../../components";
 import { ISelectOption } from "../../Types";
@@ -7,7 +8,6 @@ import { TobaccoEditDialog } from "../../components";
 
 export function ForHookah(): JSX.Element {
   const [selectedList, toggleSelectedList] = useState<string>("Tobaccos");
-  const [loading, toggleLoading] = useState<boolean>(false);
   const refTobaccoEditDialog: React.MutableRefObject<
     { show: () => boolean } | undefined
   > = useRef();
@@ -25,12 +25,33 @@ export function ForHookah(): JSX.Element {
     }
   }
 
+  useEffect(() => {
+    getData();
+
+    return function () {
+      TobaccoStore.clearTobaccoList();
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line
+  }, [selectedList]);
+
+  const getData = async () => {
+    if (selectedList === "Tobaccos") {
+      await TobaccoStore.getAllTobaccos();
+    }
+
+    setTimeout(() => {}, 200);
+  };
+
   return (
     <div className="for-hookah">
       <FilterPanel onChangeFilterValue={onChange} add={add} />
-      {loading && <div>Loading...</div>}
       {selectedList === "Tobaccos" && (
-        <TobaccosList toggleLoading={toggleLoading} />
+        <TobaccosList tobaccoList={TobaccoStore.tobaccos} />
       )}
       <TobaccoEditDialog ref={refTobaccoEditDialog} />
     </div>

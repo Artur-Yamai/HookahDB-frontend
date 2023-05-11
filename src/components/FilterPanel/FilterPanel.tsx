@@ -10,11 +10,8 @@ interface IFilterPanel {
 }
 
 const options: ISelectOption[] = [
-  {
-    value: "Tobaccos",
-    label: "Табаки",
-  },
-  { value: "Другое", label: "other" },
+  { value: "Tobaccos", label: "Табаки" },
+  { value: "Other", label: "Другое" },
 ];
 
 export function FilterPanel({
