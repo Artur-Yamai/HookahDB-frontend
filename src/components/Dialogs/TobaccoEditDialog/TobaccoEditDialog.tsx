@@ -43,16 +43,17 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
     resolve(true);
   }
 
-  useImperativeHandle(ref, (): { show: () => Promise<boolean> } => ({
-    async show(): Promise<boolean> {
-      const tobacco = new TobaccoClass(TobaccoStore?.tobacco);
+  useImperativeHandle(
+    ref,
+    (): { show: (tobacco: ITobacco | null) => Promise<boolean> } => ({
+      async show(tobacco: ITobacco | null): Promise<boolean> {
+        setTobacco(new TobaccoClass(tobacco));
+        toggleVisible(true);
 
-      setTobacco(tobacco);
-      toggleVisible(true);
-
-      return await sleep();
-    },
-  }));
+        return await sleep();
+      },
+    })
+  );
 
   function changeValue(newValue: string, field: FieldName) {
     const newTobacco: ITobacco = { ...tobacco } as ITobacco;

@@ -1,76 +1,75 @@
-import { useRef } from "react";
-import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { ITobacco } from "../../../Types";
 import { Picture } from "../../../UI";
-import TobaccoStore from "../../../store/tobacco";
 import "./TobaccoInfo.scss";
-import { confirm } from "../../../UI/Dialogs";
-import { TobaccoEditDialog } from "../../Dialogs";
 
 interface ITobaccoInfo {
   tobacco: ITobacco;
+  deleteTobacco: (id: string) => void;
+  updateTobacco: () => void;
+  toggleFavorite: () => void;
 }
 
-export function TobaccoInfo({ tobacco }: ITobaccoInfo): JSX.Element {
-  const refTobaccoEditDialog: React.MutableRefObject<
-    { show: () => boolean } | undefined
-  > = useRef();
-  const navigate = useNavigate();
+function TobaccoInfo({
+  tobacco,
+  deleteTobacco,
+  updateTobacco,
+  toggleFavorite,
+}: ITobaccoInfo): JSX.Element {
+  const [className, changeClassName] = useState<string>();
 
-  async function deleteTobacco(id: string) {
-    const res = await confirm(
-      "Вы уверены что хотите удалить этот табак из списка?"
-    );
-    if (res) {
-      await TobaccoStore.deleteTobacco(id);
-      navigate("/");
-    }
-  }
-
-  async function updateTobacco() {
-    if (!refTobaccoEditDialog.current) return;
-
-    const res: boolean = await refTobaccoEditDialog.current.show();
-    console.log(res);
-  }
+  useEffect(() => {
+    const cls = tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : "";
+    changeClassName(`${cls} tobacco-info__favorite-button`);
+  }, [tobacco.isFavorite]);
 
   return (
-    <div className="tobacco-info">
-      <TobaccoEditDialog ref={refTobaccoEditDialog} />
-      <div className="tobacco-info__photo-place">
+    <>
+      <div className="tobacco-title">
         <h1>{tobacco.name}</h1>
-        <div className="tobacco-info__controllers-place">
-          <span
-            className="tobacco-info__controller"
-            onClick={() => updateTobacco()}
-          >
-            изменить
-          </span>
-          <span
-            className="tobacco-info__controller"
-            onClick={() => deleteTobacco(tobacco.id)}
-          >
-            удалить
-          </span>
+      </div>
+      <div className="tobacco-info">
+        <div className="tobacco-info__common-data">
+          <div className="tobacco-info__controllers-place">
+            <span
+              className="tobacco-info__controller"
+              onClick={() => updateTobacco()}
+            >
+              изменить
+            </span>
+            <span
+              className="tobacco-info__controller"
+              onClick={() => deleteTobacco(tobacco.id)}
+            >
+              удалить
+            </span>
+            <button onClick={() => toggleFavorite()} className={className}>
+              {tobacco.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
+            </button>
+          </div>
+          <Picture url={tobacco.photoUrl} />
         </div>
-        <Picture url={tobacco.photoUrl} />
-      </div>
-      <div className="tobacco-info__info-block">
-        <p className="tobacco-info__info">
-          <span className="tobacco-info__label">Изготовитель:</span>
-          <span className="tobacco-info__value">{tobacco.fabricator}</span>
-        </p>
-        <p className="tobacco-info__info">
-          <span className="tobacco-info__label">Описание:</span>
-          <span className="tobacco-info__value">{tobacco.description}</span>
-        </p>
+        <div className="tobacco-info__info-block">
+          <p className="tobacco-info__info">
+            <span className="tobacco-info__label">Изготовитель:</span>
+            <span className="tobacco-info__value">{tobacco.fabricator}</span>
+          </p>
+          <p className="tobacco-info__info">
+            <span className="tobacco-info__label">Описание:</span>
+            <span className="tobacco-info__value">{tobacco.description}</span>
+          </p>
 
-        <p className="tobacco-info__info">
-          {/* нужен отдельный компонент оценки и спиннер на время подгрузки */}
-          <span className="tobacco-info__label">Оценка:</span>
-          <span className="tobacco-info__value">5/10</span>
-        </p>
+          <p className="tobacco-info__info">
+            {/* нужен отдельный компонент оценки и спиннер на время подгрузки */}
+            <span className="tobacco-info__label">Оценка:</span>
+            <span className="tobacco-info__value">5/10</span>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
+
+export default observer(TobaccoInfo);
