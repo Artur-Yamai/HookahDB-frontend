@@ -43,7 +43,7 @@ export const register = async (req: Request, res: Response) => {
       success: true,
     });
   } catch (error: any) {
-    responseHandler.error(req, res, error, "Не удалось зарегестрироваться");
+    responseHandler.error(req, res, error, "Не удалось зарегистрироваться");
   }
 };
 

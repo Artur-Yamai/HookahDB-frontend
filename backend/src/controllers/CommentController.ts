@@ -130,7 +130,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       `userId - ${userId} updated commentId - ${id}`,
       {
         success: true,
-        message: "Комментарий успешно обнавлен",
+        message: "Комментарий успешно обновлен",
         body: commentClearData,
       }
     );

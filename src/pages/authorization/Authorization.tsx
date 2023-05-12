@@ -40,10 +40,10 @@ function Authorization(): JSX.Element {
   }: IRegistrationUserData): Promise<boolean> {
     const res: boolean = await UserStore.toRegistration(login, password, email);
     if (res) {
-      notify("Регистрацния прошла успешно. Авторизируйтесь", "success", 3000);
+      notify("Регистрация прошла успешно. Авторизируйтесь", "success", 3000);
       toGoSignupPage(false);
     } else {
-      notify("Не удалось зарегестрироваться", "error");
+      notify("Не удалось зарегистрироваться", "error");
     }
 
     return res;
@@ -81,7 +81,7 @@ function Authorization(): JSX.Element {
         </NavLink>
         <div className="blueBg">
           <div className="authorization__box authorization__signin">
-            <h2>Уже зарегестрированы?</h2>
+            <h2>Уже зарегистрированы?</h2>
             <button className="signinBtn" onClick={() => toGoSignupPage(false)}>
               Войти
             </button>

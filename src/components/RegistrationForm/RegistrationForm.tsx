@@ -168,7 +168,7 @@ export function RegistrationForm({
               positive: async (email: string) => {
                 isExistEmail(email);
                 await sleep();
-                return !isEmailExist ? true : "Такой email уже зарегестрирован";
+                return !isEmailExist ? true : "Такой email уже зарегистрирован";
               },
             },
           })}
@@ -217,7 +217,7 @@ export function RegistrationForm({
         )}
       </p>
 
-      <input type="submit" value="Зарегестрироваться" />
+      <input type="submit" value="Зарегистрироваться" />
     </form>
   );
 }

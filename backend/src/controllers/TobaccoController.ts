@@ -55,7 +55,7 @@ export const create = [
 
       const tobacco = await doc.save();
 
-      const message: string = "Новый тобак сохранен";
+      const message: string = "Новый табак сохранен";
       responseHandler.success(
         req,
         res,
@@ -176,12 +176,12 @@ export const update = [
         `userId - ${userId} updated tobaccoId - ${id}`,
         {
           success: true,
-          message: "Тобак успешно обнавлен",
+          message: "Табак успешно обновлен",
           body: tobaccoClearData,
         }
       );
     } catch (error) {
-      responseHandler.error(req, res, error, "Табак не был обнавлен");
+      responseHandler.error(req, res, error, "Табак не был обновлен");
     }
   },
 ];

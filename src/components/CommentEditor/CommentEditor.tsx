@@ -80,7 +80,7 @@ export function CommentEditor({
           <Button
             className="comment-editor__button--send"
             click={sendComment}
-            text="Отрпавить"
+            text="Отправить"
             disabled={sendButtonDisabled}
           />
           {text && (
