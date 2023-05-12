@@ -167,7 +167,13 @@ export const update = [
         return;
       }
 
-      const { __v, isDeleted, ...tobaccoClearData } = tobacco._doc;
+      const { __v, isDeleted, _id, ...tobaccoClearData } = tobacco._doc;
+      tobaccoClearData.id = _id;
+
+      tobaccoClearData.isFavorite = !!(await FavoriteTobaccoModel.findOne({
+        user: userId,
+        tobacco: tobacco.id,
+      }));
 
       responseHandler.success(
         req,
