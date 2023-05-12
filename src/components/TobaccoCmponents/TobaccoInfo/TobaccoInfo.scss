@@ -92,22 +92,18 @@
 
 @media (max-width: $netbooks) {
   .tobacco-title {
-    // justify-content: center;
     margin-left: 10px;
   }
 
   .tobacco-info {
     flex-direction: column;
-    // align-items: center;
 
     &__common-data {
       margin: 0;
+    }
 
-      h1 {
-        display: block;
-        width: 100%;
-        margin-bottom: 5px;
-      }
+    &__controllers-place {
+      margin-left: 10px;
     }
 
     &__info-block {
@@ -125,6 +121,7 @@
   .tobacco-title {
     justify-content: center;
     flex-direction: column;
+    margin-left: 0px;
 
     h1 {
       text-align: center;
@@ -139,7 +136,7 @@
     align-items: center;
 
     &__controllers-place {
-      text-align: center;
+      justify-content: center;
     }
   }
 }
