@@ -1,3 +1,4 @@
 import tokenDecoded from "./tokenDecoded";
+import dateHelper from "./dateHelper";
 
-export { tokenDecoded };
+export { tokenDecoded, dateHelper };
