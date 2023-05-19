@@ -3,4 +3,3 @@
 // Эти нужны чтобы приложение не крашнулось
 
 export { jwtSectretKey } from "./jwtSectretKey";
-export { dbURL } from "./dbURL";
