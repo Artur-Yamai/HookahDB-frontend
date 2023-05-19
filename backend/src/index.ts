@@ -1,7 +1,5 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
-import { dbURL } from "./secrets";
 import { avatarsDirName, tobaccoDirName } from "./constants";
 import {
   UserRouter,
@@ -9,12 +7,6 @@ import {
   CommentRoutes,
   favoriteTobaccoRoutes,
 } from "./routes";
-
-mongoose.set("strictQuery", false); // вопрос
-mongoose
-  .connect(dbURL)
-  .then(() => console.log("DB is ok"))
-  .catch((err: Error) => console.error("DB error", err));
 
 const port: number = 6060;
 const app: express.Express = express();
