@@ -1,9 +1,12 @@
 import RepositoryHelper from "../helpers/RepositoryHelper";
 const resource = "/comments";
 
-export const CommentApi = {
-  saveComment: (tobaccoId: string, text: string, commentId: string | null) =>
-    RepositoryHelper.save({ tobaccoId, text, id: commentId }, resource),
+type EntityType = "tobacco";
 
-  deleteComment: (id: string) => RepositoryHelper.delete(id, resource),
+export const CommentApi = {
+  saveComment: (entityId: string, entityType: EntityType, text: string) =>
+    RepositoryHelper.save({ entityId, entityType, text }, resource),
+
+  deleteComment: (entityId: string) =>
+    RepositoryHelper.delete(entityId, resource),
 };

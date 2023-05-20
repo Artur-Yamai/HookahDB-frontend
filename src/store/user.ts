@@ -33,7 +33,7 @@ class User {
 
       if (data.success) {
         runInAction(() => {
-          this._userData = data.data.userData;
+          this._userData = data.data.user;
           localStorage.setItem("token", data.data.token);
         });
       }

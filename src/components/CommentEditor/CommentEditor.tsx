@@ -8,7 +8,7 @@ import { HbComment } from "../Comments/HbComment";
 
 interface ICommentEditor {
   getComment: (text: string) => Promise<boolean>;
-  deleteComment: (id: string) => void;
+  deleteComment: (tobaccoId: string) => void;
   comment: IComment | null;
 }
 
@@ -58,7 +58,7 @@ export function CommentEditor({
                 <AiFillEdit />
               </span>
               <span className="comment-editor__controller comment-editor__controller--delete">
-                <FiTrash2 onClick={() => deleteComment(comment.id)} />
+                <FiTrash2 onClick={() => deleteComment(comment.tobaccoId)} />
               </span>
             </>
           </HbComment>

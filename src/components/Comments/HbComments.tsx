@@ -8,8 +8,8 @@ import { observer } from "mobx-react-lite";
 
 interface IHdbComments {
   comments: IComment[];
-  getComment: (text: string, commentId: string | null) => Promise<boolean>;
-  deleteComment: (id: string) => void;
+  getComment: (text: string) => Promise<boolean>;
+  deleteComment: (tobaccoId: string) => void;
 }
 
 function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
@@ -20,7 +20,7 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
     if (UserStore.userData) {
       const newComments = [...comments];
       const index = newComments.findIndex(
-        (comment) => comment.user.id === UserStore.userData?.id
+        (comment) => comment.userId === UserStore.userData?.id
       );
 
       if (index !== -1) {
@@ -43,7 +43,7 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
     <div className="comments-block">
       {UserStore.userData && (
         <CommentEditor
-          getComment={(text) => getComment(text, myComment?.id ?? null)}
+          getComment={(text) => getComment(text)}
           deleteComment={deleteComment}
           comment={myComment}
         />
@@ -51,7 +51,10 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
       <h2>Комментарии пользователей</h2>
       <ul className="comments-block__list">
         {otherComments.map((comment) => (
-          <HbComment key={comment.id} comment={comment} />
+          <HbComment
+            key={comment.userId + comment.tobaccoId}
+            comment={comment}
+          />
         ))}
       </ul>
     </div>

@@ -51,13 +51,13 @@ function TobaccoPage() {
     refTobaccoEditDialog.current.show(tobacco);
   };
 
-  const deleteComment = async (id: string): Promise<void> => {
+  const deleteComment = async (tobaccoId: string): Promise<void> => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот комментарий?"
     );
 
     if (res) {
-      TobaccoStore.deleteComment(id);
+      TobaccoStore.deleteComment(tobaccoId);
     }
   };
 
@@ -76,11 +76,8 @@ function TobaccoPage() {
     return <div>Loading...</div>;
   }
 
-  const getComment = async (
-    text: string,
-    commentId: string | null
-  ): Promise<boolean> => {
-    await TobaccoStore.saveComment(tobacco.id, text, commentId);
+  const getComment = async (text: string): Promise<boolean> => {
+    await TobaccoStore.saveComment(tobacco.id, text);
     return true;
   };
 
