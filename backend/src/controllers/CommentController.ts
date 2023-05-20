@@ -1,37 +1,21 @@
 import { Request, Response } from "express";
-import CommentModel from "../models/Comment";
+import db from "../models/db";
 import responseHandler from "../utils/responseHandler";
 
 export const create = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.headers.userId;
+  const { entityType, entityId, text } = req.body;
   try {
-    const { tobaccoId, text } = req.body;
-    const userId = req.headers.userId;
+    const queryResult = await db.query(
+      `
+      INSERT INTO hookah.comment_table ( user_id, entity_id, entity_type, comment_text)
+      VALUES ($1, $2, $3, $4)
+      RETURNING entity_id AS id
+      `,
+      [userId, entityId, entityType, text]
+    );
 
-    const hasComment: boolean = !!(await CommentModel.findOne({
-      tobaccoId,
-      user: userId,
-      isDeleted: false,
-    }));
-
-    if (hasComment) {
-      const message = "Нельзя оставлять более одного комментария";
-      responseHandler.exception(
-        req,
-        res,
-        406,
-        `userId - ${userId} : попытка добавления более одного комментария для tobaccoId - ${tobaccoId}`,
-        message
-      );
-      return;
-    }
-
-    const doc = new CommentModel({
-      tobaccoId,
-      text,
-      user: userId,
-    });
-
-    const comment = await doc.save();
+    const comment = queryResult.rows[0];
 
     const message = "Комментарий успешно сохранен";
     responseHandler.success(
@@ -47,91 +31,57 @@ export const create = async (req: Request, res: Response): Promise<void> => {
         },
       }
     );
-  } catch (error) {
-    responseHandler.error(req, res, error, "Комментарий не был создан");
-  }
-};
-
-export const getById = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const id = req.params.id;
-    const comment: any = await CommentModel.findOne(
-      { _id: id, isDeleted: false },
-      "-__v -isDeleted"
-    )
-      .populate("user", "login avatarUrl")
-      .exec();
-
-    if (!comment) {
-      const message: string = "Данные отстуствуют";
+  } catch (error: any) {
+    if (error?.detail?.indexOf("already exists") > -1) {
+      const message = "Нельзя оставлять более одного комментария";
       responseHandler.exception(
         req,
         res,
-        404,
-        `commentId - ${id} : ${message}`,
+        406,
+        `userId - ${userId} : попытка добавления более одного комментария для ${entityType} - ${entityId}`,
         message
       );
       return;
     }
 
-    responseHandler.success(req, res, 200, `tobaccoId - ${id}`, {
-      success: true,
-      body: comment,
-    });
-  } catch (error) {
-    responseHandler.error(req, res, error, "Комментарий не был получен");
-  }
-};
-
-export const getAll = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const comments = await CommentModel.find(
-      {
-        isDeleted: false,
-      },
-      "-__v -isDeleted"
-    )
-      .sort("-createdAt")
-      .populate("user", "login avatarUrl")
-      .exec();
-
-    responseHandler.success(req, res, 201, "Получен список всех комментариев", {
-      success: true,
-      body: comments,
-    });
-  } catch (error) {
-    responseHandler.error(req, res, error, "Комментарии не были получены");
+    responseHandler.error(req, res, error, "Комментарий не был создан");
   }
 };
 
 export const update = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { tobaccoId, text, id } = req.body;
+    const { entityId, text } = req.body;
     const userId = req.headers.userId;
 
-    const comment: any = await CommentModel.findOneAndUpdate(
-      { _id: id, tobaccoId, user: userId },
-      { text },
-      { new: true }
+    const queryResult = await db.query(
+      `
+      UPDATE hookah.comment_table
+      SET comment_text = COALESCE($1, comment_text),
+        updated_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
+      WHERE entity_id = $2 AND user_id = $3
+      RETURNING entity_type AS "entityType";
+
+      `,
+      [text, entityId, userId]
     );
 
-    if (!comment) {
+    const comment = queryResult.rows[0];
+
+    if (!comment?.entityType) {
       const message = "Комментарий не найден";
       responseHandler.exception(req, res, 404, message, message);
       return;
     }
 
-    const { __v, isDeleted, ...commentClearData } = comment._doc;
-
     responseHandler.success(
       req,
       res,
       200,
-      `userId - ${userId} updated commentId - ${id}`,
+      `userId - ${userId} updated comment by ${comment.entityType} with id - ${comment.entityId}`,
       {
         success: true,
         message: "Комментарий успешно обновлен",
-        body: commentClearData,
+        body: comment,
       }
     );
   } catch (error) {
@@ -141,36 +91,28 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 
 export const remove = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = req.body.id;
+    const entityId = req.body.id;
     const userId = req.headers.userId;
 
-    const comment = await CommentModel.findOneAndUpdate(
-      {
-        _id: id,
-        user: userId,
-      },
-      { isDeleted: true }
+    const queryResult = await db.query(
+      `
+      UPDATE hookah.comment_table
+      SET is_deleted = true, updated_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
+      WHERE entity_id = $1 AND user_id = $2 AND is_deleted = false
+      RETURNING entity_type AS "entityType"
+      `,
+      [entityId, userId]
     );
 
-    if (!comment) {
+    const comment = queryResult.rows[0];
+
+    if (!comment?.entityType) {
       const message = "Такой комментарий не найден";
       responseHandler.exception(
         req,
         res,
         404,
-        `commentId - ${id} - ${message}`,
-        message
-      );
-      return;
-    }
-
-    if (comment.isDeleted) {
-      const message = "Данный комментарий уже удален";
-      responseHandler.exception(
-        req,
-        res,
-        404,
-        `commentId - ${id} - ${message}`,
+        `comment by entityId - ${entityId} from userId - ${userId} - ${message}`,
         message
       );
       return;
@@ -180,7 +122,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       req,
       res,
       200,
-      `userId - ${userId} deleted commentId - ${id}`,
+      `userId - ${userId} deleted comment for ${comment.entityType} with id = ${entityId}`,
       {
         success: true,
         message: "Комментарий удален",

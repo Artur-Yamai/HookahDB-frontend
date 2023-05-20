@@ -3,9 +3,7 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import { tobaccoDirName } from "../constants";
 import { fileFilter } from "../utils";
-import TobaccoModel from "../models/Tobacco";
-import FavoriteTobaccoModel from "../models/FavoriteTobacco";
-import CommentModel from "../models/Comment";
+import db from "../models/db";
 import responseHandler from "../utils/responseHandler";
 import { tokenDecoded } from "../helpers";
 
@@ -45,15 +43,30 @@ export const create = [
 
       const { name, fabricator, description } = body;
 
-      const doc = new TobaccoModel({
-        name,
-        fabricator,
-        description,
-        userId,
-        photoUrl: `uploads/tobacco/${fileName}`,
-      });
+      const queryResult = await db.query(
+        `
+        INSERT INTO hookah.tobacco_table (
+          tobacco_id,
+          tobacco_name,
+          fabricator,
+          tobacco_description,
+          user_id,
+          photo_url
+        ) VALUES (
+          $1, $2, $3, $4, $5, $6
+        ) RETURNING tobacco_id AS id
+        `,
+        [
+          uuidv4(),
+          name,
+          fabricator,
+          description,
+          userId,
+          `uploads/tobacco/${fileName}`,
+        ]
+      );
 
-      const tobacco = await doc.save();
+      const tobacco = queryResult.rows[0].id;
 
       const message: string = "Новый табак сохранен";
       responseHandler.success(
@@ -75,12 +88,21 @@ export const create = [
 
 export const getAll = async (req: Request, res: Response): Promise<void> => {
   try {
-    const tobaccos: any = await TobaccoModel.find(
-      {
-        isDeleted: false,
-      },
-      "photoUrl name fabrivator"
+    const queryResult = await db.query(
+      `
+      SELECT
+        tobacco_id AS id,
+        photo_url AS "photoUrl",
+        tobacco_name AS name,
+        fabricator
+      FROM
+        hookah.tobacco_table
+      WHERE
+        is_deleted = false
+      `
     );
+
+    const tobaccos = queryResult.rows;
 
     responseHandler.success(req, res, 201, "Получен список всех табаков", {
       success: true,
@@ -93,12 +115,43 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 
 export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
-    let isFavorite: boolean = false;
-    const id = req.params.id;
-    const tobacco: any = await TobaccoModel.findOne(
-      { _id: id, isDeleted: false },
-      "-__v -isDeleted"
+    const tobaccoId = req.params.id;
+
+    const userId: string = ((): string => {
+      const token: string | undefined = req.headers.authorization;
+      if (token) {
+        const data = tokenDecoded(token);
+        if (typeof data !== "string") {
+          return data.id;
+        }
+      }
+      return "";
+    })();
+
+    const queryResult = await db.query(
+      `
+        SELECT
+          tobacco_table.tobacco_id AS "id",
+          tobacco_table.tobacco_name AS "name",
+          tobacco_table.fabricator,
+          tobacco_table.tobacco_description AS description,
+          tobacco_table.photo_url AS "photoUrl",
+          tobacco_table.created_at AS "createdAt",
+          tobacco_table.updated_at AS "updatedAt",
+          COALESCE($1 = (
+            SELECT tobacco_id
+            FROM hookah.favorite_tobacco_table
+            WHERE user_id = $2 AND tobacco_id = $1
+          ), false) AS "isFavorite",
+          favorite_tobacco_table.user_id
+        FROM hookah.tobacco_table
+        LEFT JOIN hookah.favorite_tobacco_table ON favorite_tobacco_table.tobacco_id = tobacco_table.tobacco_id
+        WHERE tobacco_table.tobacco_id = $1 AND is_deleted = false
+      `,
+      [tobaccoId, userId]
     );
+
+    const tobacco = queryResult.rows[0];
 
     if (!tobacco) {
       const message: string = "Данные отстуствуют";
@@ -107,26 +160,13 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
         req,
         res,
         404,
-        `tobaccoId - ${id} : ${message}`,
+        `tobaccoId - ${tobaccoId} : ${message}`,
         message
       );
       return;
     }
 
-    const token: string | undefined = req.headers.authorization;
-    if (token) {
-      const data = tokenDecoded(token);
-      if (typeof data !== "string") {
-        isFavorite = !!(await FavoriteTobaccoModel.findOne({
-          user: data.id,
-          tobacco: tobacco.id,
-        }));
-      }
-    }
-
-    tobacco._doc.isFavorite = isFavorite;
-
-    responseHandler.success(req, res, 200, `tobaccoId - ${id}`, {
+    responseHandler.success(req, res, 200, `tobaccoId - ${tobaccoId}`, {
       success: true,
       body: tobacco,
     });
@@ -144,16 +184,38 @@ export const update = [
 
       const { name, fabricator, description, id } = req.body;
 
-      const tobacco: any = await TobaccoModel.findOneAndUpdate(
-        { _id: id },
-        {
-          name,
+      const queryResult = await db.query(
+        `
+        UPDATE 
+          hookah.tobacco_table
+        SET
+          tobacco_name = COALESCE($1, tobacco_name),
+          fabricator = COALESCE($2, fabricator),
+          tobacco_description = COALESCE($3, tobacco_description),
+          photo_url = COALESCE($4, photo_url),
+          updated_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
+        WHERE
+          tobacco_id = $5
+        RETURNING 
+          tobacco_id AS id,
+          tobacco_name AS name,
           fabricator,
-          description,
-          photoUrl: fileName ? `uploads/tobacco/${fileName}` : fileName,
-        },
-        { new: true }
+          tobacco_description AS description,
+          photo_url AS "photoUrl",
+          user_id AS "userId",
+          created_at AS "createdAt",
+          updated_at AS "updatedAt"
+      `,
+        [
+          name, // $1
+          fabricator, // $2
+          description, // $3
+          fileName ? `uploads/tobacco/${fileName}` : fileName, // $4
+          id, // $6
+        ]
       );
+
+      const tobacco = queryResult.rows[0];
 
       if (!tobacco) {
         const message = "табак не найден";
@@ -161,19 +223,16 @@ export const update = [
           req,
           res,
           404,
-          `Табак "${name}" - не найден`,
+          `tobaccoId "${id}" - не найден`,
           message
         );
         return;
       }
 
-      const { __v, isDeleted, _id, ...tobaccoClearData } = tobacco._doc;
-      tobaccoClearData.id = _id;
-
-      tobaccoClearData.isFavorite = !!(await FavoriteTobaccoModel.findOne({
-        user: userId,
-        tobacco: tobacco.id,
-      }));
+      // tobaccoClearData.isFavorite = !!(await FavoriteTobaccoModel.findOne({
+      //   user: userId,
+      //   tobacco: tobacco.id,
+      // }));
 
       responseHandler.success(
         req,
@@ -183,7 +242,7 @@ export const update = [
         {
           success: true,
           message: "Табак успешно обновлен",
-          body: tobaccoClearData,
+          body: tobacco,
         }
       );
     } catch (error) {
@@ -197,25 +256,25 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
     const id = req.body.id;
     const userId = req.headers.userId;
 
-    const tobacco = await TobaccoModel.findOneAndUpdate(
-      { _id: id },
-      { isDeleted: true }
+    const queryResult = await db.query(
+      `
+      UPDATE
+        hookah.tobacco_table
+      SET
+        is_deleted = true
+      WHERE
+        tobacco_id = $1
+      RETURNING
+        tobacco_id AS id,
+        is_deleted AS "isDeleted"
+    `,
+      [id]
     );
+
+    const tobacco = queryResult.rows[0];
 
     if (!tobacco) {
       const message = "Такого табака нет";
-      responseHandler.exception(
-        req,
-        res,
-        404,
-        `tobaccoId - ${id} - ${message}`,
-        message
-      );
-      return;
-    }
-
-    if (tobacco.isDeleted) {
-      const message = "Данный табак уже удален";
       responseHandler.exception(
         req,
         res,
@@ -247,17 +306,26 @@ export const getTobaccoComments = async (
 ): Promise<void> => {
   try {
     const tobaccoId = req.params.id;
+    console.log(tobaccoId);
 
-    const comments = await CommentModel.find(
-      {
-        tobaccoId,
-        isDeleted: false,
-      },
-      "-__v -isDeleted"
-    )
-      .sort("-createdAt")
-      .populate("user", "login avatarUrl")
-      .exec();
+    const queryResult = await db.query(
+      `
+      SELECT 
+        comment_table.entity_id AS "tobaccoId",
+        comment_table.created_at AS "createdAt",
+        comment_table.updated_at AS "updatedAt",
+        user_table.user_id AS "userId",
+        user_table.login AS "userLogin",
+        user_table.avatar_url AS "userAvatarUrl",
+        comment_table.comment_text AS "text"    
+      FROM hookah.comment_table
+      INNER JOIN hookah.user_table ON comment_table.user_id = user_table.user_id
+      WHERE comment_table.entity_id = $1 AND comment_table.is_deleted = false;
+    `,
+      [tobaccoId]
+    );
+
+    const comments = queryResult.rows;
 
     const message: string = "Получен список комментариев";
     responseHandler.success(req, res, 201, ``, {

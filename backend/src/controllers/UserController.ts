@@ -3,9 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
-import UserModel from "../models/User";
-import CommentModel from "../models/Comment";
-import FavoriteTobaccoModel from "../models/FavoriteTobacco";
+import db from "../models/db";
 import { jwtSectretKey } from "../secrets";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
@@ -31,17 +29,29 @@ export const register = async (req: Request, res: Response) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash: string = await bcrypt.hash(password, salt);
 
-    const doc = new UserModel({
-      email,
-      passwordHash,
-      login,
-    });
+    const queryResult = await db.query(
+      `
+      INSERT INTO hookah.user_table (
+        user_id,
+        login,
+        email,
+        password_hash
+      ) VALUES (
+        $1, $2, $3, $4
+      ) RETURNING user_id AS id
+      `,
+      [uuidv4(), login, email, passwordHash]
+    );
 
-    const newUser = await doc.save();
-
-    responseHandler.success(req, res, 201, `userId - ${newUser.id}`, {
-      success: true,
-    });
+    responseHandler.success(
+      req,
+      res,
+      201,
+      `userId - ${queryResult.rows[0]?.id}`,
+      {
+        success: true,
+      }
+    );
   } catch (error: any) {
     responseHandler.error(req, res, error, "Не удалось зарегистрироваться");
   }
@@ -49,10 +59,25 @@ export const register = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
   try {
-    // TODO: заменить any на что-то адекватное
-    const user: any = await UserModel.findOne({
-      login: req.body.login,
-    });
+    const login: string = req.body.login;
+
+    const queryResult = await db.query(
+      `
+      SELECT
+        user_id AS id,
+        login,
+        email,
+        password_hash AS "passwordHash",
+        role_code AS "roleCode",
+        avatar_url AS "avatarUrl",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt"
+      FROM hookah.user_table WHERE login = $1
+    `,
+      [login]
+    );
+
+    const user = queryResult.rows[0];
 
     if (!user) {
       const message: string = "Неверный логин или пароль";
@@ -61,7 +86,7 @@ export const auth = async (req: Request, res: Response) => {
         req,
         res,
         404,
-        `${req.body.login} - ${message}`,
+        `${login} - ${message}`,
         message
       );
       return;
@@ -94,13 +119,9 @@ export const auth = async (req: Request, res: Response) => {
       }
     );
 
-    const { passwordHash, __v, ...userData } = user._doc;
-    userData.id = userData._id;
-    delete userData._id;
-
-    responseHandler.success(req, res, 200, `userId - ${userData.id}`, {
+    responseHandler.success(req, res, 200, `userId - ${user.id}`, {
       success: true,
-      data: { userData, token },
+      data: { user, token },
     });
   } catch (error) {
     responseHandler.error(req, res, error, "Не удалось авторизоваться");
@@ -110,7 +131,26 @@ export const auth = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.headers.userId;
-    const user = await UserModel.findById(userId, "-passwordHash -__v");
+    const queryResult = await db.query(
+      `
+      SELECT
+        user_id AS id,
+        login,
+        email,
+        password_hash AS "passwordHash",
+        role_code AS "roleCode",
+        avatar_url AS "avatarUrl",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt"
+      FROM 
+        hookah.user_table 
+      WHERE 
+        user_id = $1
+    `,
+      [userId]
+    );
+
+    const user = queryResult.rows[0];
 
     if (!user) {
       const message: string = "Пользователь не найден";
@@ -138,13 +178,19 @@ export const saveAvatar = [
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.body.id;
-      console.log(userId);
-      await UserModel.findOneAndUpdate(
-        { _id: userId },
-        {
-          avatarUrl: `uploads/avatar/${req.file?.filename}`,
-        }
+      const fileName = req.file?.filename;
+
+      if (!fileName) {
+        throw Error("Фото небыло сохранено");
+      }
+
+      await db.query(
+        `UPDATE hookah.user_table 
+        SET avatar_url = $1, updated_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
+        WHERE user_id = $2`,
+        [`uploads/avatar/${fileName}`, userId]
       );
+
       next();
     } catch (error) {
       responseHandler.error(req, res, error, "Не удалось сохранить аватар");
@@ -163,7 +209,12 @@ export const loginExists = async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await UserModel.findOne({ login }, "-passwordHash");
+    const queryResult = await db.query(
+      `SELECT user_id FROM hookah.user_table WHERE login = $1`,
+      [login]
+    );
+
+    const user = queryResult.rows[0];
 
     responseHandler.success(
       req,
@@ -192,7 +243,12 @@ export const emailExists = async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await UserModel.findOne({ email }, "-passwordHash");
+    const queryResult = await db.query(
+      `SELECT user_id FROM hookah.user_table WHERE email = $1`,
+      [email]
+    );
+
+    const user = queryResult.rows[0];
 
     responseHandler.success(
       req,
@@ -211,34 +267,25 @@ export const emailExists = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserComments = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const userId = req.params.id;
+// export const getUserComments = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   try {
+//     const userId = req.params.id;
 
-    const comments = await CommentModel.find(
-      {
-        user: userId,
-        isDeleted: false,
-      },
-      "-__v -isDeleted"
-    )
-      .sort("-createdAt")
-      .populate("user", "login avatarUrl")
-      .exec();
+//    const comments = to get comments
 
-    const message: string = "Получен список комментариев";
-    responseHandler.success(req, res, 201, ``, {
-      success: true,
-      message,
-      body: comments,
-    });
-  } catch (error) {
-    responseHandler.error(req, res, error, "Комментарии не получены");
-  }
-};
+//     const message: string = "Получен список комментариев";
+//     responseHandler.success(req, res, 201, ``, {
+//       success: true,
+//       message,
+//       body: comments,
+//     });
+//   } catch (error) {
+//     responseHandler.error(req, res, error, "Комментарии не получены");
+//   }
+// };
 
 export const getFavoritesTobaccoByUserId = async (
   req: Request,
@@ -247,14 +294,21 @@ export const getFavoritesTobaccoByUserId = async (
   try {
     const userId = req.params.id;
 
-    const list = await FavoriteTobaccoModel.find(
-      {
-        user: userId,
-      },
-      "-__v"
-    )
-      .populate("tobacco", "id name photoUrl")
-      .exec();
+    const queryResult = await db.query(
+      `
+      SELECT
+        tobacco_table.tobacco_id AS "id",
+        tobacco_table.photo_url AS "photoUrl",
+        tobacco_table.tobacco_name AS "name",
+        tobacco_table.fabricator AS "fabricator"	
+      FROM hookah.favorite_tobacco_table
+      INNER JOIN hookah.tobacco_table ON tobacco_table.tobacco_id = favorite_tobacco_table.tobacco_id
+      WHERE favorite_tobacco_table.user_id = $1
+    `,
+      [userId]
+    );
+
+    const tobaccoList = queryResult.rows;
 
     const message = "Список избранного успешно получен";
     responseHandler.success(
@@ -266,7 +320,7 @@ export const getFavoritesTobaccoByUserId = async (
         success: true,
         message,
         // TODO: найти как получать из БД данные сразу в нужном виде
-        body: list.map((el) => el.tobacco),
+        body: tobaccoList,
       }
     );
   } catch (error) {
