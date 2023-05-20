@@ -43,7 +43,7 @@ function Userpage(): JSX.Element {
           </div>
           <form className="user-page__data">
             <TextBox label="email" value={user.email} disabled />
-            <TextBox label="Дата регистрацияя" value={datetime} disabled />
+            <TextBox label="Дата регистрации" value={datetime} disabled />
           </form>
         </div>
       </div>
