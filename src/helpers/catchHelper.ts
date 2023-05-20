@@ -6,6 +6,7 @@ export function catchHelper(error: unknown): void {
   const err = error as AxiosError;
   const data = err?.response?.data as IErrorHTTPRequest;
   const message: string = data?.message;
+  console.error(data);
   notify(
     message ?? "Произошла ошибка. Попробуйте повторить операцию позже",
     "error"
