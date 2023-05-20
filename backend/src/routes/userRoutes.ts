@@ -1,4 +1,4 @@
-import { Router, Response, Request, NextFunction } from "express";
+import { Router } from "express";
 import { registerValidation, loginValidation } from "../validations";
 import multer from "multer";
 import { UserController } from "../controllers";
@@ -27,7 +27,7 @@ router.put("/api/user/saveAvatar", checkAuth, UserController.saveAvatar);
 router.get("/api/user/loginExists/:login", UserController.loginExists);
 router.get("/api/user/emailExists/:email", UserController.emailExists);
 
-router.get("/api/user/:id/comments", UserController.getUserComments);
+// router.get("/api/user/:id/comments", UserController.getUserComments);
 
 router.get(
   "/api/user/:id/favoriteTobaccos",
