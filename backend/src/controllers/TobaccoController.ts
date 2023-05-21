@@ -136,8 +136,8 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
           tobacco_table.fabricator,
           tobacco_table.tobacco_description AS description,
           tobacco_table.photo_url AS "photoUrl",
-          tobacco_table.created_at AS "createdAt",
-          tobacco_table.updated_at AS "updatedAt",
+          CONCAT(tobacco_table.created_at::text, 'Z') AS "createdAt",
+          CONCAT(tobacco_table.updated_at::text, 'Z') AS "updatedAt",
           COALESCE($1 = (
             SELECT tobacco_id
             FROM hookah.favorite_tobacco_table
@@ -203,8 +203,8 @@ export const update = [
           tobacco_description AS description,
           photo_url AS "photoUrl",
           user_id AS "userId",
-          created_at AS "createdAt",
-          updated_at AS "updatedAt"
+          CONCAT(created_at::text, 'Z') AS "createdAt",
+          CONCAT(updated_at::text, 'Z') AS "updatedAt"
       `,
         [
           name, // $1
@@ -312,8 +312,8 @@ export const getTobaccoComments = async (
       `
       SELECT 
         comment_table.entity_id AS "tobaccoId",
-        comment_table.created_at AS "createdAt",
-        comment_table.updated_at AS "updatedAt",
+        CONCAT(comment_table.created_at::text, 'Z') AS "createdAt",
+        CONCAT(comment_table.updated_at::text, 'Z') AS "updatedAt",
         user_table.user_id AS "userId",
         user_table.login AS "userLogin",
         user_table.avatar_url AS "userAvatarUrl",
@@ -326,6 +326,8 @@ export const getTobaccoComments = async (
     );
 
     const comments = queryResult.rows;
+
+    console.log(comments[0].createdAt);
 
     const message: string = "Получен список комментариев";
     responseHandler.success(req, res, 201, ``, {

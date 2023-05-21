@@ -70,8 +70,8 @@ export const auth = async (req: Request, res: Response) => {
         password_hash AS "passwordHash",
         role_code AS "roleCode",
         avatar_url AS "avatarUrl",
-        created_at AS "createdAt",
-        updated_at AS "updatedAt"
+        CONCAT(created_at::text, 'Z') AS "createdAt",
+        CONCAT(updated_at::text, 'Z') AS "updatedAt"
       FROM hookah.user_table WHERE login = $1
     `,
       [login]
@@ -140,8 +140,8 @@ export const getUserById = async (req: Request, res: Response) => {
         password_hash AS "passwordHash",
         role_code AS "roleCode",
         avatar_url AS "avatarUrl",
-        created_at AS "createdAt",
-        updated_at AS "updatedAt"
+        CONCAT(created_at::text, 'Z') AS "createdAt",
+        CONCAT(updated_at::text, 'Z') AS "updatedAt"
       FROM 
         hookah.user_table 
       WHERE 
