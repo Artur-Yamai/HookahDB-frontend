@@ -1,21 +1,14 @@
 import chalk from "chalk";
+import moment from "moment";
 
 const lessThanTen = (n: number): string => (n < 10 ? `0${n}` : `${n}`);
 
 class LoggerService {
   private getDate(): string {
     const now: Date = new Date();
-    const year: number = now.getFullYear();
-    const month: number = now.getMonth() + 1;
-    const day: number = now.getDate();
-    const H: number = now.getHours();
-    const M: number = now.getMinutes();
-    const S: number = now.getSeconds();
-    const ms: number = now.getMilliseconds();
+    const datetime = moment(now).format("DD-MM-YYYY HH:mm:ss.SSS");
 
-    return `${lessThanTen(day)}-${lessThanTen(month)}-${year} ${lessThanTen(
-      H
-    )}:${lessThanTen(M)}:${lessThanTen(S)}.${ms}`;
+    return chalk.green(datetime);
   }
 
   private logger(...args: unknown[]): void {
