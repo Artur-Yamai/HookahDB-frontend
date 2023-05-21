@@ -204,14 +204,26 @@ export const update = [
           photo_url AS "photoUrl",
           user_id AS "userId",
           CONCAT(created_at::text, 'Z') AS "createdAt",
-          CONCAT(updated_at::text, 'Z') AS "updatedAt"
+          CONCAT(updated_at::text, 'Z') AS "updatedAt",
+          (
+            SELECT
+              COALESCE($5 = (
+                SELECT tobacco_id
+                FROM hookah.favorite_tobacco_table
+                WHERE user_id = $6 AND tobacco_id = $5
+              ), false) AS "isFavorite"
+            FROM hookah.tobacco_table
+            LEFT JOIN hookah.favorite_tobacco_table ON favorite_tobacco_table.tobacco_id = tobacco_table.tobacco_id
+            WHERE tobacco_table.tobacco_id = $5 AND is_deleted = false
+            ) AS "isFavorite"
       `,
         [
           name, // $1
           fabricator, // $2
           description, // $3
           fileName ? `uploads/tobacco/${fileName}` : fileName, // $4
-          id, // $6
+          id, // $5
+          userId, // $6
         ]
       );
 
