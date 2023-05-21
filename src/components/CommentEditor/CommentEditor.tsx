@@ -37,7 +37,6 @@ export function CommentEditor({
   }, [visibleTextArea, comment?.text]);
 
   const sendComment = async (): Promise<void> => {
-    console.log(comment?.id);
     const res: boolean = await getComment(text.trim(), comment?.id ?? null);
     if (res) setText("");
   };
