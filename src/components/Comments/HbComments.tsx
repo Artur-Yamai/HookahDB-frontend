@@ -22,22 +22,23 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
       const index = newComments.findIndex(
         (comment) => comment.userId === UserStore.userData?.id
       );
+      console.log(index);
 
       if (index !== -1) {
         const myComment = newComments[index];
+        console.log(myComment);
         newComments.splice(index, 1);
 
         setMyComment(myComment);
         setOtherComments(newComments);
-      } else {
-        setMyComment(null);
-        setOtherComments(comments);
+        return;
       }
-    } else {
-      setMyComment(null);
-      setOtherComments(comments);
     }
-  }, [comments]);
+    setMyComment(null);
+    setOtherComments(comments);
+
+    // eslint-disable-next-line
+  }, [comments, UserStore.userData]); // Если comments придет раньше UserStore.userData, то повторного поиска комментария авторизированного юзера не будет
 
   return (
     <div className="comments-block">
