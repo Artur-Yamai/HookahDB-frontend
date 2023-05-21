@@ -4,9 +4,12 @@ const resource = "/comments";
 type EntityType = "tobacco";
 
 export const CommentApi = {
-  saveComment: (entityId: string, entityType: EntityType, text: string) =>
-    RepositoryHelper.save({ entityId, entityType, text }, resource),
+  saveComment: (
+    id: string | null,
+    entityId: string,
+    entityType: EntityType,
+    text: string
+  ) => RepositoryHelper.save({ id, entityId, entityType, text }, resource),
 
-  deleteComment: (entityId: string) =>
-    RepositoryHelper.delete(entityId, resource),
+  deleteComment: (id: string) => RepositoryHelper.delete(id, resource),
 };

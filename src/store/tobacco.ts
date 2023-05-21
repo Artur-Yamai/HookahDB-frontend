@@ -77,11 +77,13 @@ class Tobacco {
   }
 
   public async saveComment(
-    tobaccoId: string,
-    comment: string
+    comment: string,
+    id: string | null,
+    tobaccoId: string
   ): Promise<boolean> {
     try {
       const { success }: { success: boolean } = await CommentApi.saveComment(
+        id,
         tobaccoId,
         "tobacco",
         comment
@@ -98,9 +100,9 @@ class Tobacco {
     }
   }
 
-  public async deleteComment(tobaccoId: string): Promise<void> {
+  public async deleteComment(id: string): Promise<void> {
     try {
-      await CommentApi.deleteComment(tobaccoId);
+      await CommentApi.deleteComment(id);
       if (this.tobacco) {
         await this.getComments(this.tobacco.id);
       }

@@ -8,8 +8,8 @@ import { observer } from "mobx-react-lite";
 
 interface IHdbComments {
   comments: IComment[];
-  getComment: (text: string) => Promise<boolean>;
-  deleteComment: (tobaccoId: string) => void;
+  getComment: (text: string, id: string | null) => Promise<boolean>;
+  deleteComment: (id: string) => void;
 }
 
 function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
@@ -43,7 +43,7 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
     <div className="comments-block">
       {UserStore.userData && (
         <CommentEditor
-          getComment={(text) => getComment(text)}
+          getComment={getComment}
           deleteComment={deleteComment}
           comment={myComment}
         />

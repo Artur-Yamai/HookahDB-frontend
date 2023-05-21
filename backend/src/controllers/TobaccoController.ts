@@ -311,6 +311,7 @@ export const getTobaccoComments = async (
     const queryResult = await db.query(
       `
       SELECT 
+        comment_table.comment_id AS "id",
         comment_table.entity_id AS "tobaccoId",
         CONCAT(comment_table.created_at::text, 'Z') AS "createdAt",
         CONCAT(comment_table.updated_at::text, 'Z') AS "updatedAt",
@@ -326,8 +327,6 @@ export const getTobaccoComments = async (
     );
 
     const comments = queryResult.rows;
-
-    console.log(comments[0].createdAt);
 
     const message: string = "Получен список комментариев";
     responseHandler.success(req, res, 201, ``, {

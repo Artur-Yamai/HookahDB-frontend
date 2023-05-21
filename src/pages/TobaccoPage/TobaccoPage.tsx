@@ -76,8 +76,11 @@ function TobaccoPage() {
     return <div>Loading...</div>;
   }
 
-  const getComment = async (text: string): Promise<boolean> => {
-    await TobaccoStore.saveComment(tobacco.id, text);
+  const getComment = async (
+    text: string,
+    id: string | null
+  ): Promise<boolean> => {
+    await TobaccoStore.saveComment(text, id, tobacco.id);
     return true;
   };
 

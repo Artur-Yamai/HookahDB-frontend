@@ -7,8 +7,8 @@ import { IComment } from "../../Types";
 import { HbComment } from "../Comments/HbComment";
 
 interface ICommentEditor {
-  getComment: (text: string) => Promise<boolean>;
-  deleteComment: (tobaccoId: string) => void;
+  getComment: (text: string, id: string | null) => Promise<boolean>;
+  deleteComment: (id: string) => void;
   comment: IComment | null;
 }
 
@@ -37,7 +37,8 @@ export function CommentEditor({
   }, [visibleTextArea, comment?.text]);
 
   const sendComment = async (): Promise<void> => {
-    const res: boolean = await getComment(text.trim());
+    console.log(comment?.id);
+    const res: boolean = await getComment(text.trim(), comment?.id ?? null);
     if (res) setText("");
   };
 
@@ -58,7 +59,7 @@ export function CommentEditor({
                 <AiFillEdit />
               </span>
               <span className="comment-editor__controller comment-editor__controller--delete">
-                <FiTrash2 onClick={() => deleteComment(comment.tobaccoId)} />
+                <FiTrash2 onClick={() => deleteComment(comment.id)} />
               </span>
             </>
           </HbComment>
