@@ -1,8 +1,9 @@
+import { NotifyTypes } from "../../Types";
 import style from "./notify.module.scss";
 
 export function notify(
   text: string,
-  type: "info" | "success" | "warning" | "error" = "info",
+  type: NotifyTypes = "info",
   timer: number = 2000
 ): void {
   const app = document.getElementsByClassName("app")[0];
