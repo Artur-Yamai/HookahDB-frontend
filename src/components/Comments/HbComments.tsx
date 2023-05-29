@@ -22,11 +22,9 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
       const index = newComments.findIndex(
         (comment) => comment.userId === UserStore.userData?.id
       );
-      console.log(index);
 
       if (index !== -1) {
         const myComment = newComments[index];
-        console.log(myComment);
         newComments.splice(index, 1);
 
         setMyComment(myComment);
