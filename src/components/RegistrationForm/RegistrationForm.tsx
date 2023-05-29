@@ -122,11 +122,14 @@ export function RegistrationForm({
       message: "Максимум 30 символов",
     },
     pattern: {
-      value: /^[A-Za-z0-9]/,
-      message: "Логин должен содержать латинские буквы и цифры",
+      value: /^[A-Za-z0-9]+$/,
+      message: "Логин должен содержать только латинские буквы и цифры",
     },
     validate: {
       positive: async (login: string) => {
+        if (parseInt(login[0])) {
+          return "Логин должен начинаться с латинской буквы";
+        }
         isExistLogin(login);
         await sleep();
         return !isLoginExist ? true : "Логин занят";
