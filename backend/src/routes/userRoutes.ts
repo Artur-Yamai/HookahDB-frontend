@@ -21,11 +21,13 @@ router.post(
   handleValidationErrors,
   UserController.auth
 );
-router.get("/api/user/authByToken", checkAuth, UserController.getUserById);
+router.get("/api/user/authByToken", checkAuth, UserController.authById);
 router.put("/api/user/saveAvatar", checkAuth, UserController.saveAvatar);
 
 router.get("/api/user/loginExists/:login", UserController.loginExists);
 router.get("/api/user/emailExists/:email", UserController.emailExists);
+
+router.get("/api/user/:id", UserController.getUserById);
 
 // router.get("/api/user/:id/comments", UserController.getUserComments);
 

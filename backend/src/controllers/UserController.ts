@@ -8,6 +8,7 @@ import { jwtSectretKey } from "../secrets";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
 import responseHandler from "../utils/responseHandler";
+import { body } from "express-validator";
 
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: avatarsDirName,
@@ -130,7 +131,7 @@ export const auth = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserById = async (req: Request, res: Response) => {
+export const authById = async (req: Request, res: Response) => {
   try {
     const userId = req.headers.userId;
     const queryResult = await db.query(
@@ -200,8 +201,52 @@ export const saveAvatar = [
       responseHandler.error(req, res, error, "Не удалось сохранить аватар");
     }
   },
-  getUserById,
+  authById,
 ];
+
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const queryResult = await db.query(
+      `
+      SELECT
+        user_id AS id,
+        login,
+        email,
+        role_code AS "roleCode",
+        avatar_url AS "avatarUrl",
+        CONCAT(created_at::text, 'Z') AS "createdAt",
+        CONCAT(updated_at::text, 'Z') AS "updatedAt"
+      FROM
+        hookah.user_table
+      WHERE
+        user_id = $1
+    `,
+      [id]
+    );
+
+    const user = queryResult.rows[0];
+
+    if (!user) {
+      const message: string = "Пользователь не найден";
+      responseHandler.exception(
+        req,
+        res,
+        404,
+        `userId - ${id} : ${message}`,
+        message
+      );
+      return;
+    }
+
+    responseHandler.success(req, res, 200, `userId - ${user.id}`, {
+      success: true,
+      body: user,
+    });
+  } catch (error) {
+    responseHandler.error(req, res, error, "Юзер не был найден");
+  }
+};
 
 export const loginExists = async (req: Request, res: Response) => {
   try {
