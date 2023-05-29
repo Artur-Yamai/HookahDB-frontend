@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IRegistrationUserData } from "../../Types";
 
@@ -27,6 +27,7 @@ export function RegistrationForm({
   loginExists,
   emailExists,
 }: IRegistrationForm): JSX.Element {
+  const [passDontConfirmText, setPassDontConfirmText] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -126,7 +127,6 @@ export function RegistrationForm({
     },
     validate: {
       positive: async (login: string) => {
-        console.log("positive");
         isExistLogin(login);
         await sleep();
         return !isLoginExist ? true : "Логин занят";
@@ -138,8 +138,7 @@ export function RegistrationForm({
     required: "Поле Email обязательно для заполнения",
     pattern: {
       value:
-        // eslint-disable-next-line
-        /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
+        /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
       message: "Некорректный email",
     },
     validate: {
@@ -157,11 +156,6 @@ export function RegistrationForm({
       value: 8,
       message: "Пароль должен содержать не менее 8 символов",
     },
-    validate: (value: string) => {
-      if (watch("confirmPassword") !== value) {
-        return "Пароли не совпадают";
-      }
-    },
   });
 
   const confirmPasswordValidator = register("confirmPassword", {
@@ -176,6 +170,18 @@ export function RegistrationForm({
   const getErrorText = (text: string | undefined) => {
     return <span className="rf__error-text">{text}</span>;
   };
+
+  useEffect(() => {
+    if (
+      watch("confirmPassword").length &&
+      watch("confirmPassword") !== watch("password")
+    ) {
+      setPassDontConfirmText("Пароли не совпадают");
+    } else {
+      setPassDontConfirmText("");
+    }
+    // eslint-disable-next-line
+  }, [watch("confirmPassword"), watch("password")]);
 
   return (
     <form onSubmit={formSubmit} className="rf">
@@ -202,14 +208,20 @@ export function RegistrationForm({
         {errors?.password && getErrorText(errors.password.message)}
       </p>
 
-      <p className={`rf__input-wrapper ${getClassName("confirmPassword")}`}>
+      <p
+        className={`rf__input-wrapper ${
+          passDontConfirmText ? "rf__input-wrapper--error" : ""
+        } ${getClassName("confirmPassword")}`}
+      >
         <input
           {...confirmPasswordValidator}
           type="password"
           placeholder="Confirm password"
         />
-        {errors?.confirmPassword &&
-          getErrorText(errors.confirmPassword.message)}
+        {passDontConfirmText
+          ? getErrorText(passDontConfirmText)
+          : errors?.confirmPassword &&
+            getErrorText(errors.confirmPassword.message)}
       </p>
 
       <input type="submit" value="Зарегистрироваться" />

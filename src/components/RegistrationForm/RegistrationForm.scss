@@ -3,12 +3,12 @@
     position: relative;
     margin-bottom: 25px;
 
-    &.rf__input-wrapper--error input {
-      border: 1px solid orangered !important;
-    }
-
     &.rf__input-wrapper--success input {
       border: 1px solid rgb(5, 198, 5) !important;
+    }
+
+    &.rf__input-wrapper--error input {
+      border: 1px solid orangered !important;
     }
   }
 
