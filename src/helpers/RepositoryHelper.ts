@@ -2,6 +2,7 @@ import Repository from "../API/axios";
 import { catchHelper } from "./catchHelper";
 import CommonStore from "../store/common";
 import { notify } from "../UI";
+import { NotifyTypes } from "../Types";
 
 const options = {
   headers: {
@@ -10,12 +11,12 @@ const options = {
 };
 
 class RepositoryHelper {
-  public async perfomOperation(operation: Function) {
+  public async perfomOperation(notifyType: NotifyTypes, operation: Function) {
     try {
       CommonStore.toggleLoading(true);
       const result = await operation();
       if (result.message) {
-        notify(result.message);
+        notify(result.message, notifyType);
       }
       return result;
     } catch (error) {
@@ -29,7 +30,7 @@ class RepositoryHelper {
   }
 
   public async get(endpoint: string) {
-    return await this.perfomOperation(async () => {
+    return await this.perfomOperation("info", async () => {
       return await Repository.get(endpoint);
     });
   }
@@ -41,7 +42,7 @@ class RepositoryHelper {
     for (const key in obj) {
       form.append(key, obj[key]);
     }
-    return await this.perfomOperation(async () => {
+    return await this.perfomOperation("success", async () => {
       if (obj.id) {
         const response = await Repository.put(endpoint, form, options);
         return returnWholeResponse ? response.data : obj.id;
@@ -62,7 +63,7 @@ class RepositoryHelper {
         },
       });
       const message = response.data.message;
-      notify(message);
+      notify(message, "success");
       return response.data.success;
     } catch (error) {
       catchHelper(error);
