@@ -119,6 +119,8 @@ export const auth = async (req: Request, res: Response) => {
       }
     );
 
+    delete user.passwordHash;
+
     responseHandler.success(req, res, 200, `userId - ${user.id}`, {
       success: true,
       data: { user, token },
@@ -163,6 +165,8 @@ export const getUserById = async (req: Request, res: Response) => {
       );
       return;
     }
+
+    delete user.passwordHash;
 
     responseHandler.success(req, res, 200, `userId - ${user.id}`, {
       success: true,
