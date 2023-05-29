@@ -1,3 +1,3 @@
-import HbComments from "./HbComments";
+import CommentsList from "./CommentsList";
 
-export { HbComments };
+export { CommentsList };

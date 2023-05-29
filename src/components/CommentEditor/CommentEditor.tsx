@@ -4,7 +4,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { Button, TextArea } from "../../UI";
 import "./CommentEditor.scss";
 import { IComment } from "../../Types";
-import { HbComment } from "../Comments/HbComment";
+import { CommentItem } from "../Comments/CommentItem";
 
 interface ICommentEditor {
   getComment: (text: string, id: string | null) => Promise<boolean>;
@@ -49,7 +49,7 @@ export function CommentEditor({
       <div className="comment-editor comment-editor--has-comment">
         <h3>Ваш комментарий</h3>
         {comment && (
-          <HbComment comment={comment}>
+          <CommentItem comment={comment}>
             <>
               <span
                 className="comment-editor__controller comment-editor__controller--edit"
@@ -61,7 +61,7 @@ export function CommentEditor({
                 <FiTrash2 onClick={() => deleteComment(comment.id)} />
               </span>
             </>
-          </HbComment>
+          </CommentItem>
         )}
       </div>
     );

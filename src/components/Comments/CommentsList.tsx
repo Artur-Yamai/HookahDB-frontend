@@ -1,18 +1,18 @@
 import { IComment } from "../../Types";
-import { CommentEditor } from "../../components";
-import { HbComment } from "./HbComment";
+import { CommentEditor } from "..";
+import { CommentItem } from "./CommentItem";
 import UserStore from "../../store/user";
-import "./HbComments.scss";
+import "./CommentsList.scss";
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
-interface IHdbComments {
+interface ICommentsList {
   comments: IComment[];
   getComment: (text: string, id: string | null) => Promise<boolean>;
   deleteComment: (id: string) => void;
 }
 
-function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
+function CommentsList({ comments, getComment, deleteComment }: ICommentsList) {
   const [myComment, setMyComment] = useState<IComment | null>(null);
   const [otherComments, setOtherComments] = useState<IComment[]>([]);
 
@@ -50,7 +50,7 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
       <h2>Комментарии пользователей</h2>
       <ul className="comments-block__list">
         {otherComments.map((comment) => (
-          <HbComment
+          <CommentItem
             key={comment.userId + comment.tobaccoId}
             comment={comment}
           />
@@ -60,4 +60,4 @@ function HbComments({ comments, getComment, deleteComment }: IHdbComments) {
   );
 }
 
-export default observer(HbComments);
+export default observer(CommentsList);

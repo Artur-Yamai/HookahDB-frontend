@@ -2,14 +2,14 @@ import moment from "moment";
 import "moment/locale/ru";
 import { IComment } from "../../Types";
 import { Picture } from "../../UI";
-import "./HbComment.scss";
+import "./CommentItem.scss";
 
-interface IHbComment {
+interface ICommentItem {
   comment: IComment;
   children?: JSX.Element;
 }
 
-export function HbComment({ children, comment }: IHbComment) {
+export function CommentItem({ children, comment }: ICommentItem) {
   const datetime = moment(comment.createdAt).format("Do MMMM YYYY, HH:mm");
   const fromNow = moment(comment.createdAt).fromNow();
 

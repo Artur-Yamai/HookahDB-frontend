@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import TobaccoStore from "../../store/tobacco";
 import "./TobaccoPage.scss";
 import { IComment, ITobacco } from "../../Types";
-import { TobaccoInfo, HbComments, TobaccoEditDialog } from "../../components";
+import { TobaccoInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
 function TobaccoPage() {
@@ -93,7 +93,7 @@ function TobaccoPage() {
         updateTobacco={updateTobacco}
         toggleFavorite={toggleFavorite}
       />
-      <HbComments
+      <CommentsList
         comments={comments}
         getComment={getComment}
         deleteComment={deleteComment}
