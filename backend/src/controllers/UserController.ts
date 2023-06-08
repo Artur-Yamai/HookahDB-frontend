@@ -8,7 +8,6 @@ import { jwtSectretKey } from "../secrets";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
 import responseHandler from "../utils/responseHandler";
-import { body } from "express-validator";
 
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: avatarsDirName,
@@ -352,7 +351,7 @@ export const getFavoritesTobaccoByUserId = async (
         tobacco_table.fabricator AS "fabricator"	
       FROM hookah.favorite_tobacco_table
       INNER JOIN hookah.tobacco_table ON tobacco_table.tobacco_id = favorite_tobacco_table.tobacco_id
-      WHERE favorite_tobacco_table.user_id = $1
+      WHERE favorite_tobacco_table.user_id = $1 AND is_deleted = false
     `,
       [userId]
     );
