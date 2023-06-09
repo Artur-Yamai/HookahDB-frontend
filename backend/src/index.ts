@@ -11,8 +11,8 @@ import {
 const port: number = 6060;
 const app: express.Express = express();
 app.use(express.json());
-app.use("/uploads/avatar", express.static(avatarsDirName));
-app.use("/uploads/tobacco", express.static(tobaccoDirName));
+app.use("/uploads/avatars", express.static(avatarsDirName));
+app.use("/uploads/tobaccos", express.static(tobaccoDirName));
 app.use(cors());
 
 app.get("/", (req, res) => {

@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
 import { tobaccoDirName } from "../constants";
 import { fileFilter } from "../utils";
 import db from "../models/db";
 import responseHandler from "../utils/responseHandler";
 import { tokenDecoded } from "../helpers";
+import logger from "../logger/logger.service";
 
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: tobaccoDirName,
@@ -62,7 +64,7 @@ export const create = [
           fabricator,
           description,
           userId,
-          `uploads/tobacco/${fileName}`,
+          `uploads/tobaccos/${fileName}`,
         ]
       );
 
@@ -179,10 +181,24 @@ export const update = [
   upload.single("photo"),
   async (req: Request, res: Response): Promise<void> => {
     try {
+      let oldPhotoUrl: string = "";
       const fileName: string | undefined = req.file?.filename;
+      console.log(fileName);
       const userId = req.headers.userId;
 
       const { name, fabricator, description, id } = req.body;
+
+      if (fileName) {
+        const queryResult = await db.query(
+          `SELECT photo_url AS "photoUrl"
+          FROM hookah.tobacco_table
+          WHERE tobacco_id = $1
+          `,
+          [id]
+        );
+
+        oldPhotoUrl = queryResult.rows[0].photoUrl;
+      }
 
       const queryResult = await db.query(
         `
@@ -221,7 +237,7 @@ export const update = [
           name, // $1
           fabricator, // $2
           description, // $3
-          fileName ? `uploads/tobacco/${fileName}` : fileName, // $4
+          fileName ? `uploads/tobaccos/${fileName}` : fileName, // $4
           id, // $5
           userId, // $6
         ]
@@ -245,6 +261,13 @@ export const update = [
       //   user: userId,
       //   tobacco: tobacco.id,
       // }));
+
+      if (oldPhotoUrl) {
+        const path = "./dist/" + oldPhotoUrl;
+        fs.unlink(path, (err) => {
+          if (err) logger.error(err.message);
+        });
+      }
 
       responseHandler.success(
         req,

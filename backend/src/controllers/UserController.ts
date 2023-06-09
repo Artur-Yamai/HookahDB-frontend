@@ -3,11 +3,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
 import db from "../models/db";
 import { jwtSectretKey } from "../secrets";
 import { avatarsDirName } from "../constants";
 import { fileFilter } from "../utils";
 import responseHandler from "../utils/responseHandler";
+import logger from "../logger/logger.service";
 
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: avatarsDirName,
@@ -188,12 +190,28 @@ export const saveAvatar = [
         throw Error("Фото небыло сохранено");
       }
 
-      await db.query(
-        `UPDATE hookah.user_table 
+      const queryResult = await db.query(
+        `
+        WITH oldValue AS (
+          SELECT avatar_url AS "avatarUrl" 
+          FROM hookah.user_table 
+          WHERE user_id = $2
+        )
+        UPDATE hookah.user_table 
         SET avatar_url = $1, updated_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
-        WHERE user_id = $2`,
-        [`uploads/avatar/${fileName}`, userId]
+        WHERE user_id = $2
+        RETURNING (SELECT * FROM oldValue)`,
+        [`uploads/avatars/${fileName}`, userId]
       );
+
+      const oldAvatarUrl = queryResult.rows[0]?.avatarUrl;
+
+      if (oldAvatarUrl) {
+        const path = "./dist/" + oldAvatarUrl;
+        fs.unlink(path, (err) => {
+          if (err) logger.error(err.message);
+        });
+      }
 
       next();
     } catch (error) {
