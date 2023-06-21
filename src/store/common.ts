@@ -16,4 +16,6 @@ class Common {
   }
 }
 
-export default new Common();
+const common = new Common();
+
+export default common;

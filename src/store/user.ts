@@ -111,4 +111,6 @@ class User {
   }
 }
 
-export default new User();
+const user = new User();
+
+export default user;

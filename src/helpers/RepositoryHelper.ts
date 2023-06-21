@@ -75,4 +75,6 @@ class RepositoryHelper {
   }
 }
 
-export default new RepositoryHelper();
+const repositoryHelper = new RepositoryHelper();
+
+export default repositoryHelper;
