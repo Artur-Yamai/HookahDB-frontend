@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { FiTrash2 } from "react-icons/fi";
 import { Button, TextArea } from "../../UI";
@@ -19,16 +19,15 @@ export function CommentEditor({
 }: ICommentEditor) {
   const [text, setText] = useState<string>("");
   const [visibleTextArea, toggleVisibleTextArea] = useState<boolean>(false);
-  const [sendButtonDisabled, toggleSendButtonDisabled] =
-    useState<boolean>(true);
 
   useEffect(() => {
     toggleVisibleTextArea(!comment);
   }, [comment]);
 
-  useEffect(() => {
-    toggleSendButtonDisabled(text.trim().length < 20 || text === comment?.text);
-  }, [text, comment?.text]);
+  const sendButtonDisabled = useMemo(
+    () => text.trim().length < 20 || text === comment?.text,
+    [text, comment?.text]
+  );
 
   useEffect(() => {
     if (!visibleTextArea) {

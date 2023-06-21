@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import UserStore from "../../../store/user";
@@ -19,11 +19,9 @@ function TobaccoInfo({
   updateTobacco,
   toggleFavorite,
 }: ITobaccoInfo): JSX.Element {
-  const [className, changeClassName] = useState<string>();
-
-  useEffect(() => {
+  const favoriteButtonClass = useMemo(() => {
     const cls = tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : "";
-    changeClassName(`${cls} tobacco-info__favorite-button`);
+    return `tobacco-info__favorite-button ${cls}`;
   }, [tobacco.isFavorite]);
 
   return (
@@ -47,7 +45,10 @@ function TobaccoInfo({
               >
                 удалить
               </span>
-              <button onClick={() => toggleFavorite()} className={className}>
+              <button
+                onClick={() => toggleFavorite()}
+                className={favoriteButtonClass}
+              >
                 {tobacco.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
               </button>
             </div>
