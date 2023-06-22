@@ -1,0 +1,15 @@
+@import "../../styles/colors.scss";
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+
+  &__value {
+    margin-left: 10px;
+  }
+
+  &__count {
+    color: gray;
+    margin-left: 10px;
+  }
+}
