@@ -2,8 +2,10 @@ import { useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import UserStore from "../../../store/user";
+import RatingStore from "../../../store/rating";
+import TobaccoStore from "../../../store/tobacco";
 import { ITobacco } from "../../../Types";
-import { Picture } from "../../../UI";
+import { Picture, RatingStars } from "../../../UI";
 import "./TobaccoInfo.scss";
 
 interface ITobaccoInfo {
@@ -23,6 +25,15 @@ function TobaccoInfo({
     const cls = tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : "";
     return `tobacco-info__favorite-button ${cls}`;
   }, [tobacco.isFavorite]);
+
+  const changeRating = async (value: number) => {
+    const isChange: boolean = await RatingStore.changeRating({
+      id: tobacco.isRated ? `${tobacco.id}:${UserStore.userData}` : null,
+      entityId: tobacco.id,
+      rating: value,
+    });
+    isChange && TobaccoStore.getTobacco(tobacco.id);
+  };
 
   return (
     <>
@@ -67,8 +78,13 @@ function TobaccoInfo({
 
           <p className="tobacco-info__info">
             {/* нужен отдельный компонент оценки и спиннер на время подгрузки */}
-            <span className="tobacco-info__label">Оценка:</span>
-            <span className="tobacco-info__value">5/10</span>
+            <RatingStars
+              count={5}
+              value={tobacco.rating}
+              ratingsQuantity={tobacco.ratingsQuantity}
+              showDetails={true}
+              onChange={changeRating}
+            />
           </p>
         </div>
       </div>

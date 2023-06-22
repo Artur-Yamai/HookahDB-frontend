@@ -1,5 +1,4 @@
-import { UserApi } from "./UserApi";
-import { TobaccoApi } from "./TobaccoApi";
-import { CommentApi } from "./CommentApi";
-
-export { UserApi, TobaccoApi, CommentApi };
+export * from "./UserApi";
+export * from "./TobaccoApi";
+export * from "./CommentApi";
+export * from "./RatingApi";
