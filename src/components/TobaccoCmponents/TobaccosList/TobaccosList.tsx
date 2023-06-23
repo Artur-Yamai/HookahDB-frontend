@@ -12,7 +12,7 @@ function TobaccosList({ tobaccoList }: ITobaccosList): JSX.Element {
     <div className="tl">
       {!!tobaccoList.length &&
         tobaccoList.map((tobacco: ITobacco) => (
-          <TobaccoItem key={tobacco.id} data={tobacco} />
+          <TobaccoItem key={tobacco.id} tobacco={tobacco} />
         ))}
     </div>
   );
