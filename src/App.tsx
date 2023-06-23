@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useMount } from "./hooks";
 import UserStore from "./store/user";
 import { MainLayout } from "./components";
 import {
@@ -27,9 +28,9 @@ export default function App() {
 
   // Если юзер авторизировался ранее и его токен еще жив
   // Тогда происходит автоматическая авторизация
-  useEffect(() => {
+  useMount(() => {
     getUser();
-  }, []);
+  });
 
   return (
     <BrowserRouter>

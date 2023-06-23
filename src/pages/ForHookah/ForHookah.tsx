@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import "./ForHookah.scss";
 import { observer } from "mobx-react-lite";
+import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import UserStore from "../../store/user";
 import { TobaccosList } from "../../components/TobaccoCmponents";
@@ -28,14 +29,13 @@ function ForHookah(): JSX.Element {
     }
   }
 
-  useEffect(() => {
+  useMount(() => {
     getData();
+  });
 
-    return function () {
-      clearData();
-    };
-    // eslint-disable-next-line
-  }, []);
+  useUnmount(() => {
+    clearData();
+  });
 
   const getData = async () => {
     if (selectedList === "Tobaccos") {

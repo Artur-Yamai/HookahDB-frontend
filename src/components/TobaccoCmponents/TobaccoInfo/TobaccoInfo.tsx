@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import UserStore from "../../../store/user";
+import RatingStore from "../../../store/rating";
+import TobaccoStore from "../../../store/tobacco";
 import { ITobacco } from "../../../Types";
-import { Picture } from "../../../UI";
+import { Picture, RatingStars } from "../../../UI";
 import "./TobaccoInfo.scss";
 
 interface ITobaccoInfo {
@@ -19,12 +21,19 @@ function TobaccoInfo({
   updateTobacco,
   toggleFavorite,
 }: ITobaccoInfo): JSX.Element {
-  const [className, changeClassName] = useState<string>();
-
-  useEffect(() => {
+  const favoriteButtonClass = useMemo(() => {
     const cls = tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : "";
-    changeClassName(`${cls} tobacco-info__favorite-button`);
+    return `tobacco-info__favorite-button ${cls}`;
   }, [tobacco.isFavorite]);
+
+  const changeRating = async (value: number) => {
+    const isChange: boolean = await RatingStore.changeRating({
+      id: tobacco.isRated ? `${tobacco.id}:${UserStore.userData}` : null,
+      entityId: tobacco.id,
+      rating: value,
+    });
+    isChange && TobaccoStore.getTobacco(tobacco.id);
+  };
 
   return (
     <>
@@ -47,7 +56,10 @@ function TobaccoInfo({
               >
                 удалить
               </span>
-              <button onClick={() => toggleFavorite()} className={className}>
+              <button
+                onClick={() => toggleFavorite()}
+                className={favoriteButtonClass}
+              >
                 {tobacco.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
               </button>
             </div>
@@ -63,12 +75,14 @@ function TobaccoInfo({
             <span className="tobacco-info__label">Описание:</span>
             <span className="tobacco-info__value">{tobacco.description}</span>
           </p>
-
-          <p className="tobacco-info__info">
-            {/* нужен отдельный компонент оценки и спиннер на время подгрузки */}
-            <span className="tobacco-info__label">Оценка:</span>
-            <span className="tobacco-info__value">5/10</span>
-          </p>
+          <RatingStars
+            edit={UserStore.isAuth}
+            count={5}
+            value={tobacco.rating}
+            ratingsQuantity={tobacco.ratingsQuantity}
+            showDetails={true}
+            onChange={changeRating}
+          />
         </div>
       </div>
     </>

@@ -1,0 +1,19 @@
+@import "../../styles/colors.scss";
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+
+  &__value {
+    min-width: 45px;
+    text-align: center;
+    margin-left: 10px;
+    color: white;
+    padding: 2px 4px;
+  }
+
+  &__count {
+    color: gray;
+    margin-left: 10px;
+  }
+}

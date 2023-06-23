@@ -20,6 +20,10 @@ class User {
     return this._favoriteTobacco;
   }
 
+  public get isAuth(): boolean {
+    return !!this._userData;
+  }
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -111,4 +115,6 @@ class User {
   }
 }
 
-export default new User();
+const user = new User();
+
+export default user;

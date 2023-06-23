@@ -4,21 +4,32 @@ import { Picture } from "../../../../UI";
 import { useNavigate } from "react-router";
 
 interface ITobaccoCard {
-  data: ITobacco;
+  tobacco: ITobacco;
 }
 
-export function TobaccoItem({ data }: ITobaccoCard): JSX.Element {
+export function TobaccoItem({ tobacco }: ITobaccoCard): JSX.Element {
   const navigate = useNavigate();
-  function goToTobaccoPage(id: string) {
-    navigate(`/tobacco/${id}`);
-  }
+  const goToTobaccoPage = (id: string) => navigate(`/tobacco/${id}`);
+
+  const getClassName = (rating: number): string =>
+    rating >= 4
+      ? "green"
+      : rating >= 3
+      ? "yellow"
+      : rating > 0
+      ? "red"
+      : "gray";
 
   return (
-    <div className="tc" onClick={() => goToTobaccoPage(data.id)}>
+    <div
+      data-rating={+tobacco.rating}
+      className={`tc ${getClassName(+tobacco.rating)}`}
+      onClick={() => goToTobaccoPage(tobacco.id)}
+    >
       <div className="tc__image-wrapper">
-        <Picture url={data.photoUrl} />
+        <Picture url={tobacco.photoUrl} />
       </div>
-      <p className="tc__name">{data.name}</p>
+      <p className="tc__name">{tobacco.name}</p>
     </div>
   );
 }

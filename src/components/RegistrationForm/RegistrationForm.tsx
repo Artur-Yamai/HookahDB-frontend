@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { IRegistrationUserData } from "../../Types";
 
@@ -27,7 +27,6 @@ export function RegistrationForm({
   loginExists,
   emailExists,
 }: IRegistrationForm): JSX.Element {
-  const [passDontConfirmText, setPassDontConfirmText] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -43,6 +42,16 @@ export function RegistrationForm({
       confirmPassword: "",
     },
   });
+
+  const passDontConfirmText = useMemo(
+    () =>
+      watch("confirmPassword").length &&
+      watch("confirmPassword") !== watch("password")
+        ? "Пароли не совпадают"
+        : "",
+    // eslint-disable-next-line
+    [watch, watch("confirmPassword"), watch("password")]
+  );
 
   const formSubmit = handleSubmit(async ({ login, email, password }) => {
     const userData: IRegistrationUserData = { login, email, password };
@@ -173,18 +182,6 @@ export function RegistrationForm({
   const getErrorText = (text: string | undefined) => {
     return <span className="rf__error-text">{text}</span>;
   };
-
-  useEffect(() => {
-    if (
-      watch("confirmPassword").length &&
-      watch("confirmPassword") !== watch("password")
-    ) {
-      setPassDontConfirmText("Пароли не совпадают");
-    } else {
-      setPassDontConfirmText("");
-    }
-    // eslint-disable-next-line
-  }, [watch("confirmPassword"), watch("password")]);
 
   return (
     <form onSubmit={formSubmit} className="rf">

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import "./TobaccoPage.scss";
 import { IComment, ITobacco } from "../../Types";
@@ -21,12 +22,10 @@ function TobaccoPage() {
   const tobacco: ITobacco | null = TobaccoStore.tobacco;
   const comments: IComment[] = TobaccoStore.comments;
 
-  useEffect(() => {
-    return () => {
-      TobaccoStore.clearTobaccoData();
-      TobaccoStore.clearTobaccoComments();
-    };
-  }, []);
+  useUnmount(() => {
+    TobaccoStore.clearTobaccoData();
+    TobaccoStore.clearTobaccoComments();
+  });
 
   useEffect(() => {
     if (id) {

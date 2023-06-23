@@ -8,6 +8,7 @@ import { IErrorHTTPRequest } from "./IErrorHTTPRequest";
 import { ISelectOption } from "./SelectOption";
 import { IComment } from "./comment/comment";
 import { NotifyTypes } from "./NotifyTypes";
+import { IRating } from "./IRating";
 
 export type {
   IAuthorizationUserData,
@@ -19,4 +20,5 @@ export type {
   ISelectOption,
   IComment,
   NotifyTypes,
+  IRating,
 };

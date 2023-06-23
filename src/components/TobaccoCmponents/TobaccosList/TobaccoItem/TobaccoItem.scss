@@ -1,4 +1,7 @@
+@import "../../../../styles/colors.scss";
+
 .tc {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,6 +11,34 @@
   overflow: hidden;
   cursor: pointer;
   transition: 0.3s;
+
+  &::after {
+    content: attr(data-rating);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    text-align: center;
+    color: white;
+    padding: 2px 4px;
+    font-size: 26px;
+  }
+
+  &.green::after {
+    background-color: $colorGreen;
+  }
+
+  &.yellow::after {
+    background-color: $colorYellow;
+  }
+
+  &.red::after {
+    background-color: $colorOrangered;
+  }
+
+  &.gray::after {
+    background-color: $colorLightGray;
+  }
 
   &:hover {
     transform: scale(1.05);

@@ -1,5 +1,5 @@
 {
-  "name": "hookahdb",
+  "name": "hookahdb-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -50,6 +50,6 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^7.0.3"
+    "node-sass": "^9.0.0"
   }
 }

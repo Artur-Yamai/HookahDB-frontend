@@ -173,4 +173,6 @@ class Tobacco {
   }
 }
 
-export default new Tobacco();
+const tobacco = new Tobacco();
+
+export default tobacco;
