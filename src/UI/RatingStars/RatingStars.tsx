@@ -1,6 +1,6 @@
 import { useState, cloneElement } from "react";
 import { RatingProps } from "./RatingProps";
-import { EmptyStar, HalfStar, FullStar } from "./Star";
+import { EmptyStar, HalfStar, FullStar } from "./Stars";
 import "./RatingStars.scss";
 
 export function RatingStars({
