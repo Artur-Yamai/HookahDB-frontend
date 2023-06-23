@@ -8,6 +8,7 @@ export interface ITobacco {
   isFavorite: boolean;
   rating: number;
   ratingsQuantity: number;
+  markQuantity: number;
   isRated: boolean;
   createdAt?: string;
   updatedAt?: string;

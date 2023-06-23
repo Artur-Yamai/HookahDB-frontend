@@ -21,10 +21,10 @@ function TobaccoInfo({
   updateTobacco,
   toggleFavorite,
 }: ITobaccoInfo): JSX.Element {
-  const favoriteButtonClass = useMemo(() => {
-    const cls = tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : "";
-    return `tobacco-info__favorite-button ${cls}`;
-  }, [tobacco.isFavorite]);
+  const favoriteButtonClass = useMemo(
+    () => (tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : ""),
+    [tobacco.isFavorite]
+  );
 
   const changeRating = async (value: number) => {
     const isChange: boolean = await RatingStore.changeRating({
@@ -58,7 +58,8 @@ function TobaccoInfo({
               </span>
               <button
                 onClick={() => toggleFavorite()}
-                className={favoriteButtonClass}
+                className={`tobacco-info__favorite-button ${favoriteButtonClass}`}
+                data-mark-quantity={tobacco.markQuantity}
               >
                 {tobacco.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
               </button>

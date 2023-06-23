@@ -24,6 +24,7 @@
   }
 
   &__favorite-button {
+    position: relative;
     font-size: 30px;
     margin-left: 5px;
     cursor: pointer;
@@ -36,6 +37,15 @@
 
     &:active {
       box-shadow: none;
+    }
+
+    &::after {
+      content: attr(data-mark-quantity);
+      position: absolute;
+      font-size: 24px;
+      top: 0px;
+      right: -16px;
+      color: $colorBlack;
     }
   }
 
