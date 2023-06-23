@@ -9,12 +9,23 @@ interface ITobaccoCard {
 
 export function TobaccoItem({ data }: ITobaccoCard): JSX.Element {
   const navigate = useNavigate();
-  function goToTobaccoPage(id: string) {
-    navigate(`/tobacco/${id}`);
-  }
+  const goToTobaccoPage = (id: string) => navigate(`/tobacco/${id}`);
+
+  const getClassName = (rating: number): string =>
+    rating >= 4
+      ? "green"
+      : rating >= 3
+      ? "yellow"
+      : rating > 0
+      ? "red"
+      : "gray";
 
   return (
-    <div className="tc" onClick={() => goToTobaccoPage(data.id)}>
+    <div
+      data-rating={+data.rating}
+      className={`tc ${getClassName(+data.rating)}`}
+      onClick={() => goToTobaccoPage(data.id)}
+    >
       <div className="tc__image-wrapper">
         <Picture url={data.photoUrl} />
       </div>
