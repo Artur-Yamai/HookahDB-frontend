@@ -75,17 +75,14 @@ function TobaccoInfo({
             <span className="tobacco-info__label">Описание:</span>
             <span className="tobacco-info__value">{tobacco.description}</span>
           </p>
-
-          <p className="tobacco-info__info">
-            {/* нужен отдельный компонент оценки и спиннер на время подгрузки */}
-            <RatingStars
-              count={5}
-              value={tobacco.rating}
-              ratingsQuantity={tobacco.ratingsQuantity}
-              showDetails={true}
-              onChange={changeRating}
-            />
-          </p>
+          <RatingStars
+            edit={UserStore.isAuth}
+            count={5}
+            value={tobacco.rating}
+            ratingsQuantity={tobacco.ratingsQuantity}
+            showDetails={true}
+            onChange={changeRating}
+          />
         </div>
       </div>
     </>
