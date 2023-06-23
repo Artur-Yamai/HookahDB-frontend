@@ -59,12 +59,12 @@ export function RatingStars({
   };
 
   return (
-    <span className={`rating-stars ${className}`}>
+    <div className={`rating-stars ${className}`}>
       {Array(count)
         .fill(null)
         .map((_, i) => {
           return (
-            <span
+            <div
               key={i}
               style={{ cursor: "pointer" }}
               onMouseMove={() => handleMouseMove(i)}
@@ -72,23 +72,26 @@ export function RatingStars({
               onClick={() => handleClick(i)}
             >
               {cloneElement(getIcon(i), { size, color: getColor(i) })}
-            </span>
+            </div>
           );
         })}
       {showDetails && (
         <>
-          <span
+          <div
             className="rating-stars__value"
-            style={{ fontSize: size * 0.75, color: activeColor }}
+            style={{ fontSize: size * 0.9, backgroundColor: activeColor }}
+            data-background-color={activeColor}
           >
             {value ?? 0}
-          </span>
-          <sub
-            className="rating-stars__count"
-            style={{ fontSize: size }}
-          >{`${ratingsQuantity}`}</sub>
+          </div>
+          {ratingsQuantity !== null && (
+            <div
+              className="rating-stars__count"
+              style={{ fontSize: size * 0.75 }}
+            >{`${ratingsQuantity}`}</div>
+          )}
         </>
       )}
-    </span>
+    </div>
   );
 }
