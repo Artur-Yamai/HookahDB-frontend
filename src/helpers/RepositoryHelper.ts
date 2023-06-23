@@ -11,9 +11,13 @@ const options = {
 };
 
 class RepositoryHelper {
-  public async perfomOperation(notifyType: NotifyTypes, operation: Function) {
+  public async perfomOperation(
+    notifyType: NotifyTypes,
+    showSpinner: boolean,
+    operation: Function
+  ) {
     try {
-      CommonStore.toggleLoading(true);
+      showSpinner && CommonStore.toggleLoading(true);
       const result = await operation();
       if (result.message) {
         notify(result.message, notifyType);
@@ -24,25 +28,30 @@ class RepositoryHelper {
       return false;
     } finally {
       setTimeout(() => {
-        CommonStore.toggleLoading(false);
+        showSpinner && CommonStore.toggleLoading(false);
       }, 500);
     }
   }
 
-  public async get(endpoint: string) {
-    return await this.perfomOperation("info", async () => {
+  public async get(endpoint: string, showSpinner = true) {
+    return await this.perfomOperation("info", showSpinner, async () => {
       return await Repository.get(endpoint);
     });
   }
 
-  public async save(entity: any, endpoint: string, returnWholeResponse = true) {
+  public async save(
+    entity: any,
+    endpoint: string,
+    returnWholeResponse = true,
+    showSpinner = true
+  ) {
     const obj = { ...entity };
 
     var form = new FormData();
     for (const key in obj) {
       form.append(key, obj[key]);
     }
-    return await this.perfomOperation("success", async () => {
+    return await this.perfomOperation("success", showSpinner, async () => {
       if (obj.id) {
         const response = await Repository.put(endpoint, form, options);
         return returnWholeResponse ? response.data : obj.id;
@@ -54,9 +63,9 @@ class RepositoryHelper {
     });
   }
 
-  public async delete(entityId: string, endpoint: string) {
+  public async delete(entityId: string, endpoint: string, showSpinner = true) {
     try {
-      CommonStore.toggleLoading(true);
+      showSpinner && CommonStore.toggleLoading(true);
       const response = await Repository.delete(endpoint, {
         data: {
           id: entityId,
@@ -69,7 +78,7 @@ class RepositoryHelper {
       catchHelper(error);
     } finally {
       setTimeout(() => {
-        CommonStore.toggleLoading(false);
+        showSpinner && CommonStore.toggleLoading(false);
       }, 500);
     }
   }
