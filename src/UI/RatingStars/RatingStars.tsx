@@ -4,7 +4,7 @@ import { EmptyStar, HalfStar, FullStar } from "./Stars";
 import "./RatingStars.scss";
 
 export function RatingStars({
-  className,
+  className = "",
   count,
   value,
   color = "#ffd700",
@@ -59,37 +59,36 @@ export function RatingStars({
   };
 
   return (
-    <div className={`rating-stars ${className}`}>
-      {Array(count)
-        .fill(null)
-        .map((_, i) => {
-          return (
-            <div
-              key={i}
-              style={{ cursor: "pointer" }}
-              onMouseMove={() => handleMouseMove(i)}
-              onMouseLeave={handleMouseLeave}
-              onClick={() => handleClick(i)}
-            >
-              {cloneElement(getIcon(i), { size, color: getColor(i) })}
-            </div>
-          );
-        })}
+    <div style={{ fontSize: size }} className={`rating-stars ${className}`}>
+      <ul
+        className="rating-stars__wrapper"
+        data-ratings-quantity={`Оценок: ${ratingsQuantity}`}
+      >
+        {Array(count)
+          .fill(null)
+          .map((_, i) => {
+            return (
+              <li
+                className="rating-stars__star"
+                key={i}
+                onMouseMove={() => handleMouseMove(i)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => handleClick(i)}
+              >
+                {cloneElement(getIcon(i), { size, color: getColor(i) })}
+              </li>
+            );
+          })}
+      </ul>
       {showDetails && (
         <>
           <div
             className="rating-stars__value"
-            style={{ fontSize: size * 0.9, backgroundColor: activeColor }}
+            style={{ backgroundColor: activeColor }}
             data-background-color={activeColor}
           >
             {value ?? 0}
           </div>
-          {ratingsQuantity !== null && (
-            <div
-              className="rating-stars__count"
-              style={{ fontSize: size * 0.75 }}
-            >{`${ratingsQuantity}`}</div>
-          )}
         </>
       )}
     </div>

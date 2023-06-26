@@ -2,18 +2,34 @@
 
 .rating-stars {
   display: flex;
-  align-items: center;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    &::after {
+      content: attr(data-ratings-quantity);
+      position: absolute;
+      bottom: -60%;
+      font-size: 0.6em;
+      color: gray;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  &__star {
+    display: flex;
+    cursor: pointer;
+  }
 
   &__value {
+    font-size: 0.9em;
     min-width: 45px;
     text-align: center;
     margin-left: 10px;
     color: white;
     padding: 2px 4px;
-  }
-
-  &__count {
-    color: gray;
-    margin-left: 10px;
   }
 }
