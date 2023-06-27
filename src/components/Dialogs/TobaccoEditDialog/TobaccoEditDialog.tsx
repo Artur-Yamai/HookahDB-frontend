@@ -1,12 +1,14 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { ITobacco } from "../../../Types";
+import { IReference, ITobacco } from "../../../Types";
+import { ReferenceApi } from "../../../API";
 import {
   TextBox,
   InputTypeFIle,
   Picture,
   Popup,
   TextArea,
+  Select,
   notify,
 } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
@@ -22,6 +24,8 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
   const [isVisible, toggleVisible] = useState<boolean>(false);
   const [tobacco, setTobacco] = useState<TobaccoClass>();
   const [newPhoto, setNewPhoto] = useState<File>();
+  const [fabricators, setFabricators] = useState<IReference[]>([]);
+  const [loading, toggleLoading] = useState<boolean>(false);
 
   function cancel() {
     toggleVisible(false);
@@ -29,6 +33,7 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
   }
 
   async function agree(): Promise<void> {
+    console.log(tobacco);
     if (!tobacco) return;
 
     if (tobacco.id) {
@@ -50,16 +55,31 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
         setTobacco(new TobaccoClass(tobacco));
         toggleVisible(true);
 
+        toggleLoading(true);
+        const result: IReference[] | null = await ReferenceApi.getReference(
+          "fabricator"
+        );
+        toggleLoading(false);
+        if (result) {
+          setFabricators(result);
+        }
+
         return await sleep();
       },
     })
   );
 
-  function changeValue(newValue: string, field: FieldName) {
+  const changeValue = (newValue: string, field: FieldName): void => {
     const newTobacco: ITobacco = { ...tobacco } as ITobacco;
     newTobacco[field] = newValue;
     setTobacco(newTobacco);
-  }
+  };
+
+  const changeSelectValue = (newValue: IReference) => {
+    const newTobacco = { ...tobacco } as ITobacco;
+    newTobacco.fabricator = newValue?.id ?? "";
+    setTobacco(newTobacco);
+  };
 
   function renderFile(file: File) {
     const reader: FileReader = new FileReader();
@@ -93,21 +113,23 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
       <div className="tobacco-editor">
         <div className="editor-form">
           <div className="editor-form__field">
+            <Select
+              isLoading={loading}
+              options={fabricators}
+              onChange={changeSelectValue}
+              isClearable={true}
+              placeholder="Выберите производителя"
+              valueKey="id"
+              labelKey="value"
+            />
+          </div>
+          <div className="editor-form__field">
             <TextBox
               value={tobacco?.name ?? ""}
               placeholder="Укажите название табака"
               label="Название"
               width="100%"
               onChange={(e) => changeValue(e, "name")}
-            />
-          </div>
-          <div className="editor-form__field">
-            <TextBox
-              value={tobacco?.fabricator ?? ""}
-              placeholder="Укажите название производителя"
-              label="Производитель"
-              width="100%"
-              onChange={(e) => changeValue(e, "fabricator")}
             />
           </div>
           <div className="editor-form__field">
