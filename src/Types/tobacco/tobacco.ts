@@ -2,6 +2,7 @@ export interface ITobacco {
   id: string;
   name: string;
   fabricator: string;
+  fabricatorId: string;
   description: string;
   photoUrl: string;
   userId: string;
@@ -12,10 +13,4 @@ export interface ITobacco {
   isRated: boolean;
   createdAt?: string;
   updatedAt?: string;
-}
-
-export interface INewTobacco {
-  name: string;
-  fabricator: string;
-  description: string;
 }
