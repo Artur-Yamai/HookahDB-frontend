@@ -4,16 +4,14 @@
   padding-top: 10px;
   position: relative;
   min-width: 80px;
-  height: 48px;
 
   &__input {
     width: 100%;
-    border: 1px solid #111;
-    padding: 6px;
+    border: 1px solid $colorGray;
+    padding: 8px 10px;
     font-size: 16px;
     color: #111;
     font-weight: 300;
-    margin: 1px;
 
     &::placeholder {
       transition: 0.1s;
@@ -32,12 +30,12 @@
     top: 18px;
     left: 12px;
     transition: 0.3s;
-    color: rgb(131, 131, 131);
+    color: $colorGray;
     cursor: text;
   }
 
   &__input:disabled {
-    background-color: lightgray;
+    opacity: 0.5;
   }
 
   &__input:focus + .input-container__label,
@@ -45,7 +43,7 @@
   &__input:disabled + .input-container__label {
     transform: translateX(-10px) translateY(-25px);
     font-size: 14px;
-    color: black;
+    color: $colorGray;
   }
 
   &__input:focus + .input-container__label {

@@ -6,11 +6,10 @@
   padding-top: 15px;
 
   textarea {
-    padding: 6px;
+    padding: 8px 10px;
     width: 100%;
-    border: 1px solid #111;
+    border: 1px solid $colorGray;
     font-size: 16px;
-    margin: 1px;
     resize: none;
 
     &:focus {
@@ -35,7 +34,7 @@
     &:disabled + .textarea__label {
       transform: translateX(-10px) translateY(-25px);
       font-size: 14px;
-      color: black;
+      color: $colorGray;
     }
 
     &:focus + .textarea__label {
