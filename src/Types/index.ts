@@ -9,6 +9,7 @@ import { ISelectOption } from "./SelectOption";
 import { IComment } from "./comment/comment";
 import { NotifyTypes } from "./NotifyTypes";
 import { IRating } from "./IRating";
+import { IReference } from "./IReference";
 
 export type {
   IAuthorizationUserData,
@@ -21,4 +22,5 @@ export type {
   IComment,
   NotifyTypes,
   IRating,
+  IReference,
 };
