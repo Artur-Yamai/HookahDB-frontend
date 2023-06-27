@@ -7,3 +7,4 @@ export { notify } from "./notify/notify";
 export { confirm, Popup } from "./Dialogs";
 export { TextArea } from "./TextArea/TextArea";
 export { RatingStars } from "./RatingStars/RatingStars";
+export { Select } from "./Select/Select";

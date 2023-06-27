@@ -1,0 +1,12 @@
+@import "../../styles/colors.scss";
+
+.custom-select {
+  &__control {
+    border-radius: 0px !important;
+    border-color: $colorGray !important;
+  }
+
+  &__indicator {
+    padding: 4px;
+  }
+}
