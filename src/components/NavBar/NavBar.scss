@@ -44,6 +44,7 @@
   }
 
   ul {
+    .navbar__elem,
     li a {
       display: flex;
       align-items: center;
@@ -53,6 +54,7 @@
       padding: 0 10px;
     }
 
+    .navbar__elem:hover,
     li a:hover {
       background-color: #9cc2ff;
     }
@@ -62,6 +64,7 @@
       color: #365fa1;
     }
 
+    .navbar__elem .navbar__icon,
     li a .navbar__icon {
       position: relative;
       display: flex;
@@ -72,17 +75,22 @@
       line-height: 70px;
     }
 
+    .navbar__elem .navbar__icon svg,
     li a .navbar__icon svg {
       font-size: 1.75em;
     }
 
-    li a .navbar__title {
+    .navbar__elem .navbar__title li a .navbar__title {
       position: relative;
       display: block;
       padding: 0 10px;
       height: 60px;
       line-height: 60px;
       white-space: nowrap;
+    }
+
+    .navbar__elem {
+      cursor: pointer;
     }
   }
 }

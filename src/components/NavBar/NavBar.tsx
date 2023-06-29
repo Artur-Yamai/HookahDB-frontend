@@ -3,8 +3,8 @@ import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { GoSignIn } from "react-icons/go";
 import { AiOutlineHome } from "react-icons/ai";
-import { BiHelpCircle } from "react-icons/bi";
-import { TbSettings } from "react-icons/tb";
+// import { BiHelpCircle } from "react-icons/bi";
+// import { TbSettings } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
 import { ImDatabase } from "react-icons/im";
@@ -19,12 +19,8 @@ interface INavLink {
   getIcon: () => JSX.Element;
 }
 
-function NavBar(): JSX.Element {
+const NavBar = (): JSX.Element => {
   const navigate = useNavigate();
-  // const [activeClass, setActiveClass]: [string, Function] = useState("");
-  // const toggle = function (): void {
-  //   setActiveClass(activeClass ? "" : "navbar__active navbar--active");
-  // };
 
   const [navLinkList, setNavLinkList] = useState<INavLink[]>([
     {
@@ -37,16 +33,16 @@ function NavBar(): JSX.Element {
       path: ".",
       getIcon: () => <AiOutlineHome />,
     },
-    {
-      caption: "Контакты",
-      path: "contacts",
-      getIcon: () => <BiHelpCircle />,
-    },
-    {
-      caption: "Настройки",
-      path: "settings",
-      getIcon: () => <TbSettings />,
-    },
+    // {
+    //   caption: "Контакты",
+    //   path: "contacts",
+    //   getIcon: () => <BiHelpCircle />,
+    // },
+    // {
+    //   caption: "Настройки",
+    //   path: "settings",
+    //   getIcon: () => <TbSettings />,
+    // },
   ]);
   const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);
 
@@ -74,14 +70,12 @@ function NavBar(): JSX.Element {
     // eslint-disable-next-line
   }, [userData]);
 
-  function signOut() {
+  const signOut = () => {
     UserStore.toSignOut();
     navigate("/");
-  }
+  };
 
-  function navbarToggle() {
-    toggleVisibleMenu(!isVisibleMenu);
-  }
+  const navbarToggle = () => toggleVisibleMenu(!isVisibleMenu);
 
   return (
     <>
@@ -107,15 +101,24 @@ function NavBar(): JSX.Element {
               </li>
             );
           })}
+          {userData && (
+            <>
+              <hr />
+              <li
+                className="navbar__elem navbar__elem--exit-button"
+                onClick={signOut}
+              >
+                <span className="navbar__icon">
+                  <VscSignOut />
+                </span>
+                <span className="navbar__title">Выход</span>
+              </li>
+            </>
+          )}
         </ul>
-        {userData && (
-          <button className="navbar__signout-button" onClick={signOut}>
-            <VscSignOut />
-          </button>
-        )}
       </nav>
     </>
   );
-}
+};
 
 export default observer(NavBar);
