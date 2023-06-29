@@ -19,3 +19,4 @@
 - Axios (09.01.2023)
 - Mobx (09.01.2023)
 - React-hook-form (09.01.2023)
+- generate-react-cli (29.06.2023)
