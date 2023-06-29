@@ -1,5 +1,7 @@
 @import "./styles/colors.scss";
 
+$colorLightblue: #4b90ff;
+
 * {
   margin: 0;
   padding: 0;
@@ -58,4 +60,36 @@ hr {
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 1000;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  // overflow-x: none;
+}
+::-webkit-scrollbar-track {
+  background: linear-gradient(
+    to left,
+    $colorWhite calc(100% / 3),
+    $colorGray calc(100% / 3),
+    $colorGray calc(100% / 3 * 2),
+    $colorWhite calc(100% / 3 * 2)
+  );
+  width: 1px;
+  margin-block: 2px;
+}
+::-webkit-scrollbar-thumb {
+  // background: $colorBlue;
+  background: -webkit-linear-gradient(
+    to right,
+    $colorLightblue,
+    $colorBlue,
+    $colorLightblue
+  );
+  background: linear-gradient(
+    to right,
+    $colorLightblue,
+    $colorBlue,
+    $colorLightblue
+  );
+  border-radius: 0.3em;
 }
