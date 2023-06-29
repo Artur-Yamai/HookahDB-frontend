@@ -104,10 +104,7 @@ const NavBar = (): JSX.Element => {
           {userData && (
             <>
               <hr />
-              <li
-                className="navbar__elem navbar__elem--exit-button"
-                onClick={signOut}
-              >
+              <li className="navbar__elem" onClick={signOut}>
                 <span className="navbar__icon">
                   <VscSignOut />
                 </span>
