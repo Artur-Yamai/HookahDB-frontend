@@ -1,10 +1,10 @@
-export { Picture } from "./Picture/Picture";
-export { Button } from "./Button/Button";
-export { TextBox } from "./TextBox/TextBox";
-export { InputTypeFIle } from "./InputTypeFIle/InputTypeFIle";
-export { StartingSpinner } from "./StartingSpinner/StartingSpinner";
+export { Picture } from "./Picture";
+export { Button } from "./Button";
+export { TextBox } from "./TextBox";
+export { InputTypeFIle } from "./InputTypeFIle";
+export { StartingSpinner } from "./StartingSpinner";
 export { notify } from "./notify/notify";
 export { confirm, Popup } from "./Dialogs";
-export { TextArea } from "./TextArea/TextArea";
-export { RatingStars } from "./RatingStars/RatingStars";
-export { Select } from "./Select/Select";
+export { TextArea } from "./TextArea";
+export { RatingStars } from "./RatingStars";
+export { Select } from "./Select";
