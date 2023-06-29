@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GrClose } from "react-icons/gr";
 import { Button } from "../../Button/Button";
 import "./Popup.scss";
@@ -13,7 +13,7 @@ interface IPopup {
   height?: string;
 }
 
-export function Popup({
+export const Popup = ({
   visible = false,
   close,
   agree,
@@ -21,9 +21,10 @@ export function Popup({
   children,
   width = "600px",
   height = "400px",
-}: IPopup): JSX.Element {
+}: IPopup): JSX.Element => {
   const popup = useRef<HTMLDivElement>(null);
-  const style = { width, height };
+  const [popupHeight, setPopupHeight] = useState<string>(height);
+  const [popupWidth, setPopupWidth] = useState<string>(width);
 
   const toHidden = (e: React.MouseEvent<HTMLElement>): void => {
     if (!popup.current) return;
@@ -33,7 +34,26 @@ export function Popup({
     }
   };
 
-  function setMoveClass() {
+  useEffect(() => {
+    if (visible) {
+      window.onscroll = () => false;
+      const correctHeight = height.includes("px")
+        ? Math.min(Number.parseFloat(height), window.innerHeight)
+        : height;
+      setPopupHeight(`${correctHeight}px`);
+
+      const correctWidth = width.includes("px")
+        ? Math.min(Number.parseFloat(width), window.innerWidth)
+        : height;
+      setPopupWidth(`${correctWidth}px`);
+    } else {
+      window.onscroll = () => true;
+    }
+  }, [visible, height, width]);
+
+  const style = { width: popupWidth, height: popupHeight };
+
+  const setMoveClass = () => {
     window.onmousemove = (e: MouseEvent) => {
       const block = popup.current;
       if (!block) return;
@@ -50,10 +70,9 @@ export function Popup({
         block.style.top = e.clientY - 15 + "px";
       }
     };
-  }
-  function deleteMoveClass() {
-    window.onmousemove = null;
-  }
+  };
+
+  const deleteMoveClass = () => (window.onmousemove = null);
 
   if (!visible) return <></>;
 
@@ -80,4 +99,4 @@ export function Popup({
       </div>
     </div>
   );
-}
+};
