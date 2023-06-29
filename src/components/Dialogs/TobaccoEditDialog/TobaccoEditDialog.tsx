@@ -56,7 +56,8 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
       close={cancel}
       agree={agree}
       title="Табак"
-      height="700px"
+      height="900px"
+      width="650px"
     >
       <TobaccoEditor
         setNewTobaccosData={setNewTobaccosData}
