@@ -10,7 +10,7 @@ import { BiUserCircle } from "react-icons/bi";
 import { ImDatabase } from "react-icons/im";
 import UserStore from "../../store/user";
 import { IUser } from "../../Types/user/User";
-import { useNavigate } from "react-router";
+import { NavBarElem } from "./NavBarElem";
 import "./NavBar.scss";
 
 interface INavLink {
@@ -20,8 +20,6 @@ interface INavLink {
 }
 
 const NavBar = (): JSX.Element => {
-  const navigate = useNavigate();
-
   const [navLinkList, setNavLinkList] = useState<INavLink[]>([
     {
       caption: "Войти",
@@ -44,9 +42,12 @@ const NavBar = (): JSX.Element => {
     //   getIcon: () => <TbSettings />,
     // },
   ]);
-  const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);
 
+  const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);
   const userData: IUser | null = UserStore.userData;
+
+  const signOut = () => UserStore.toSignOut();
+  const navbarToggle = () => toggleVisibleMenu(!isVisibleMenu);
 
   useEffect(() => {
     const newNavLinkList: INavLink[] = [...navLinkList];
@@ -70,13 +71,6 @@ const NavBar = (): JSX.Element => {
     // eslint-disable-next-line
   }, [userData]);
 
-  const signOut = () => {
-    UserStore.toSignOut();
-    navigate("/");
-  };
-
-  const navbarToggle = () => toggleVisibleMenu(!isVisibleMenu);
-
   return (
     <>
       <nav className={`navbar ${isVisibleMenu ? "navbar--active" : ""}`}>
@@ -93,23 +87,25 @@ const NavBar = (): JSX.Element => {
         <ul>
           {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
             return (
-              <li key={i} onClick={navbarToggle}>
-                <NavLink to={linkInfo.path}>
-                  <span className="navbar__icon">{linkInfo.getIcon()}</span>
-                  <span className="navbar__title">{linkInfo.caption}</span>
-                </NavLink>
-              </li>
+              <NavBarElem
+                key={i}
+                path={linkInfo.path}
+                navbarToggle={navbarToggle}
+                icon={linkInfo.getIcon()}
+                caption={linkInfo.caption}
+              />
             );
           })}
           {userData && (
             <>
               <hr />
-              <li className="navbar__elem" onClick={signOut}>
-                <span className="navbar__icon">
-                  <VscSignOut />
-                </span>
-                <span className="navbar__title">Выход</span>
-              </li>
+              <NavBarElem
+                className="navbar__exit-button"
+                path="/"
+                navbarToggle={signOut}
+                icon={<VscSignOut />}
+                caption="Выход"
+              />
             </>
           )}
         </ul>
