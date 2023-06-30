@@ -1,16 +1,13 @@
+import { Link } from "react-router-dom";
 import "./TobaccoItem.scss";
 import { ITobacco } from "../../../../Types";
 import { Picture } from "../../../../UI";
-import { useNavigate } from "react-router";
 
 interface ITobaccoCard {
   tobacco: ITobacco;
 }
 
-export function TobaccoItem({ tobacco }: ITobaccoCard): JSX.Element {
-  const navigate = useNavigate();
-  const goToTobaccoPage = (id: string) => navigate(`/tobacco/${id}`);
-
+export const TobaccoItem = ({ tobacco }: ITobaccoCard) => {
   const getClassName = (rating: number): string =>
     rating >= 4
       ? "green"
@@ -21,15 +18,15 @@ export function TobaccoItem({ tobacco }: ITobaccoCard): JSX.Element {
       : "gray";
 
   return (
-    <div
-      data-rating={+tobacco.rating}
-      className={`tc ${getClassName(+tobacco.rating)}`}
-      onClick={() => goToTobaccoPage(tobacco.id)}
+    <Link
+      to={`/tobacco/${tobacco.id}`}
+      data-rating={tobacco.rating}
+      className={`tc ${getClassName(tobacco.rating)}`}
     >
       <div className="tc__image-wrapper">
         <Picture url={tobacco.photoUrl} />
       </div>
       <p className="tc__name">{tobacco.name}</p>
-    </div>
+    </Link>
   );
-}
+};
