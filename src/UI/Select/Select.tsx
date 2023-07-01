@@ -4,6 +4,7 @@ import { SelectProps } from "./SelectProps";
 import "./Select.scss";
 
 export const Select = ({
+  className = "",
   options,
   value,
   onChange,
@@ -30,6 +31,7 @@ export const Select = ({
 
   return (
     <ReactSelect
+      className={className}
       value={intermediateValue}
       classNamePrefix="custom-select"
       isLoading={isLoading}
