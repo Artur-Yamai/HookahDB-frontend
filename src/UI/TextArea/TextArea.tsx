@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import "./TextArea.scss";
 
 interface ITextArea {
+  className?: string;
   text: string;
   label: string;
   placeholder?: string;
@@ -11,7 +12,8 @@ interface ITextArea {
   onChange: (value: string) => void;
 }
 
-export function TextArea({
+export const TextArea = ({
+  className = "",
   text,
   label,
   onChange,
@@ -19,22 +21,22 @@ export function TextArea({
   required = true,
   cols = 30,
   rows = 10,
-}: ITextArea): JSX.Element {
+}: ITextArea) => {
   const [value, changeValue] = useState<string>(text);
-  const id: string = "textbox-" + Math.round(Math.random() * 10000);
+  const id: string = useId();
 
-  function change(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const change = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue: string = e.target.value;
     changeValue(newValue);
     onChange(newValue);
-  }
+  };
 
   useEffect(() => {
     changeValue(text);
   }, [text]);
 
   return (
-    <div className="textarea">
+    <p className={`textarea ${className}`}>
       <textarea
         id={id}
         required={required}
@@ -48,6 +50,6 @@ export function TextArea({
       <label htmlFor={id} className="textarea__label">
         {label}
       </label>
-    </div>
+    </p>
   );
-}
+};

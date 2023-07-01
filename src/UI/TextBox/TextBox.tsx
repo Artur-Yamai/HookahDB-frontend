@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import "./TextBox.scss";
 
-interface ITextBox {
+interface TextBoxProps {
+  className?: string;
   type?: "text" | "email" | "password";
+  name: string;
   value: string;
   label: string;
   placeholder?: string;
@@ -12,36 +14,37 @@ interface ITextBox {
   onChange?: (value: string) => void;
 }
 
-export function TextBox({
+export const TextBox = ({
+  className = "",
   type = "text",
+  name,
   value,
   label,
   placeholder = "Заполните поле",
-  required = true,
-  width = "300px",
+  required = false,
+  width = "100%",
   disabled = false,
   onChange,
-}: ITextBox): JSX.Element {
-  const style = {
-    maxWidth: width,
-  };
+}: TextBoxProps) => {
+  const style = { maxWidth: width };
+  const id: string = useId();
+
   const [inputValue, setInputValue] = useState<string>(value);
 
-  function change(e: React.ChangeEvent<HTMLInputElement>) {
+  const change = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const newValue = e.target.value;
     setInputValue(newValue);
     if (onChange) onChange(newValue);
-  }
-
-  const id: string = "textbox-" + Math.round(Math.random() * 10000);
+  };
 
   return (
-    <div style={style} className="input-container">
+    <p style={style} className={`input-container ${className}`}>
       <input
         id={id}
+        name={name}
         className="input-container__input"
         value={inputValue}
-        onChange={(e) => change(e)}
+        onChange={change}
         type={type}
         placeholder={placeholder}
         required={required}
@@ -50,6 +53,6 @@ export function TextBox({
       <label htmlFor={id} className="input-container__label">
         {label}
       </label>
-    </div>
+    </p>
   );
-}
+};
