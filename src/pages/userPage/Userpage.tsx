@@ -42,8 +42,13 @@ function Userpage(): JSX.Element {
             </p>
           </div>
           <form className="user-page__data">
-            <TextBox label="email" value={user.email} disabled />
-            <TextBox label="Дата регистрации" value={datetime} disabled />
+            <TextBox name="email" label="email" value={user.email} disabled />
+            <TextBox
+              name="regDate"
+              label="Дата регистрации"
+              value={datetime}
+              disabled
+            />
           </form>
         </div>
       </div>
