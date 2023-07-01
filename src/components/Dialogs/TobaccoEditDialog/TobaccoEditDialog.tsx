@@ -14,15 +14,15 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
   const [tobacco, setTobacco] = useState<TobaccoClass>(new TobaccoClass(null));
   const [newPhoto, setNewPhoto] = useState<File>();
 
-  function cancel() {
+  const cancel = () => {
     toggleVisible(false);
     resolve(false);
-  }
+  };
 
   const setNewTobaccosData = (tobacco: TobaccoClass): void =>
     setTobacco(tobacco);
 
-  async function agree(): Promise<void> {
+  const agree = async (): Promise<void> => {
     console.log(tobacco);
     if (!tobacco) return;
 
@@ -36,7 +36,7 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
 
     toggleVisible(false);
     resolve(true);
-  }
+  };
 
   useImperativeHandle(
     ref,
