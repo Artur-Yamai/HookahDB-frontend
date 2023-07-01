@@ -65,45 +65,43 @@ export const TobaccoEditor = ({
   };
 
   return (
-    <div className="tobacco-editor">
-      <div className="editor-form">
-        <div className="editor-form__field">
-          <Select
-            options={fabricators}
-            value={tobacco?.fabricatorId}
-            isLoading={loading}
-            onChange={changeSelectValue}
-            isClearable={true}
-            placeholder="Выберите производителя"
-            valueKey="id"
-            labelKey="value"
-          />
-        </div>
-        <div className="editor-form__field">
-          <TextBox
-            value={tobacco?.name ?? ""}
-            placeholder="Укажите название табака"
-            label="Название"
-            width="100%"
-            onChange={(e) => changeValue(e, "name")}
-          />
-        </div>
-        <div className="editor-form__field">
-          <TextArea
-            label="Описание табака"
-            placeholder="Опишите табак"
-            text={tobacco?.description ?? ""}
-            onChange={(e) => changeValue(e, "description")}
-          />
-        </div>
-        <div
-          className="editor-form__field tobacco-editor__photo"
-          style={{ width: "300px" }}
-        >
-          <Picture url={tobacco?.photoUrl} />
-          <InputTypeFIle onChange={changeFile} label="Сменить изображение" />
-        </div>
+    <form className="tobacco-editor editor-form">
+      <div className="editor-form__field">
+        <Select
+          options={fabricators}
+          value={tobacco?.fabricatorId}
+          isLoading={loading}
+          onChange={changeSelectValue}
+          isClearable={true}
+          placeholder="Выберите производителя"
+          valueKey="id"
+          labelKey="value"
+        />
       </div>
-    </div>
+      <TextBox
+        name="name"
+        value={tobacco?.name ?? ""}
+        placeholder="Укажите название табака"
+        label="Название"
+        width="100%"
+        onChange={(e) => changeValue(e, "name")}
+      />
+      <div className="editor-form__field">
+        <TextArea
+          label="Описание табака"
+          placeholder="Опишите табак"
+          text={tobacco?.description ?? ""}
+          onChange={(e) => changeValue(e, "description")}
+        />
+      </div>
+      <div
+        className="editor-form__field tobacco-editor__photo"
+        style={{ width: "300px" }}
+      >
+        <Picture url={tobacco?.photoUrl} />
+        <InputTypeFIle onChange={changeFile} label="Сменить изображение" />
+      </div>
+      <button type="submit">submit</button>
+    </form>
   );
 };
