@@ -101,7 +101,6 @@ export const TobaccoEditor = ({
         <Picture url={tobacco?.photoUrl} />
         <InputTypeFIle onChange={changeFile} label="Сменить изображение" />
       </div>
-      <button type="submit">submit</button>
     </form>
   );
 };
