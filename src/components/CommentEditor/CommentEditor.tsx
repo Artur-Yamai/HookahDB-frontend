@@ -3,12 +3,12 @@ import { AiFillEdit } from "react-icons/ai";
 import { FiTrash2 } from "react-icons/fi";
 import { Button, TextArea } from "../../UI";
 import "./CommentEditor.scss";
-import { Comment } from "../../Types";
+import { Comment, GUID } from "../../Types";
 import { CommentItem } from "../Comments/CommentItem";
 
 interface CommentEditorProps {
-  getComment: (text: string, id: string | null) => Promise<boolean>;
-  deleteComment: (id: string) => void;
+  getComment: (text: string, id: GUID | null) => Promise<boolean>;
+  deleteComment: (id: GUID) => void;
   comment: Comment | null;
 }
 

@@ -1,5 +1,5 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { Tobacco, User } from "../Types";
+import { GUID, Tobacco, User } from "../Types";
 import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
@@ -98,7 +98,7 @@ class UserStore {
     this._userData = null;
   }
 
-  public async getFavoriteTobaccoByUserId(userId: string) {
+  public async getFavoriteTobaccoByUserId(userId: GUID) {
     try {
       const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
 

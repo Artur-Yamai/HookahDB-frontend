@@ -4,13 +4,13 @@ import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import UserStore from "../../../store/user";
 import RatingStore from "../../../store/rating";
 import TobaccoStore from "../../../store/tobacco";
-import { Tobacco } from "../../../Types";
+import { GUID, Tobacco } from "../../../Types";
 import { Picture, RatingStars } from "../../../UI";
 import "./TobaccoInfo.scss";
 
 interface TobaccoInfoProps {
   tobacco: Tobacco;
-  deleteTobacco: (id: string) => void;
+  deleteTobacco: (id: GUID) => void;
   updateTobacco: () => void;
   toggleFavorite: () => void;
 }

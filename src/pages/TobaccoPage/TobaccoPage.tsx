@@ -4,12 +4,13 @@ import { observer } from "mobx-react-lite";
 import { useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import "./TobaccoPage.scss";
-import { Comment, Tobacco } from "../../Types";
+import { Comment, GUID, Tobacco } from "../../Types";
 import { TobaccoInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
 const TobaccoPage = () => {
-  const { id } = useParams();
+  let { id } = useParams();
+  id = id as GUID | undefined;
   const navigate = useNavigate();
   const refTobaccoEditDialog: React.MutableRefObject<
     { show: (tobacco: Tobacco | null) => boolean } | undefined
@@ -34,7 +35,7 @@ const TobaccoPage = () => {
     }
   }, [id]);
 
-  const deleteTobacco = async (id: string) => {
+  const deleteTobacco = async (id: GUID) => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот табак из списка?"
     );
@@ -50,7 +51,7 @@ const TobaccoPage = () => {
     refTobaccoEditDialog.current.show(tobacco);
   };
 
-  const deleteComment = async (tobaccoId: string): Promise<void> => {
+  const deleteComment = async (tobaccoId: GUID): Promise<void> => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот комментарий?"
     );
@@ -77,7 +78,7 @@ const TobaccoPage = () => {
 
   const getComment = async (
     text: string,
-    id: string | null
+    id: GUID | null
   ): Promise<boolean> => {
     await TobaccoStore.saveComment(text, id, tobacco.id);
     return true;

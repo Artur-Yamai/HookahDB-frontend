@@ -1,5 +1,7 @@
+import { GUID } from "../GUID";
+
 export interface Comment {
-  id: string;
+  id: GUID;
   tobaccoId: string;
   userId: string;
   login: string;

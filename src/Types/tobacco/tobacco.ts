@@ -1,5 +1,7 @@
+import { GUID } from "../GUID";
+
 export interface Tobacco {
-  id: string;
+  id: GUID;
   name: string;
   fabricator: string;
   fabricatorId: string;

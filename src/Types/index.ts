@@ -10,6 +10,7 @@ import { Comment } from "./comment/comment";
 import { NotifyTypes } from "./NotifyTypes";
 import { Rating } from "./Rating";
 import { Reference } from "./Reference";
+import { GUID } from "./GUID";
 
 export type {
   AuthorizationUserData,
@@ -22,4 +23,5 @@ export type {
   NotifyTypes,
   Rating,
   Reference,
+  GUID,
 };

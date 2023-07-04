@@ -1,16 +1,16 @@
-import { Tobacco } from "../Types";
+import { GUID, Tobacco } from "../Types";
 
 export class TobaccoClass
   implements
-    Pick<Tobacco, "name" | "fabricatorId" | "description" | "photoUrl" | "id">
+    Pick<Tobacco, "name" | "fabricatorId" | "description" | "photoUrl">
 {
   name: string = "";
   fabricatorId: string = "";
   description: string = "";
   photoUrl: string = "";
-  id: string = "";
+  id: GUID | null = null;
 
-  constructor(tobacco: Tobacco | null) {
+  constructor(tobacco?: Tobacco) {
     if (!tobacco) return;
 
     this.name = tobacco.name;

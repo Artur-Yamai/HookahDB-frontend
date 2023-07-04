@@ -1,3 +1,5 @@
+import { GUID } from "../GUID";
+
 export interface User {
   createdAt: string;
   email: string;
@@ -5,5 +7,5 @@ export interface User {
   roleCode: number;
   avatarUrl: string;
   updatedAt: string;
-  id: string;
+  id: GUID;
 }

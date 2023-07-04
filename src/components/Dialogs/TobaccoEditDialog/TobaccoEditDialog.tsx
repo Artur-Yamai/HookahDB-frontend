@@ -11,7 +11,7 @@ const sleep = (): Promise<boolean> => new Promise((r) => (resolve = r));
 
 const TobaccoEditDialog = forwardRef((_, ref) => {
   const [isVisible, toggleVisible] = useState<boolean>(false);
-  const [tobacco, setTobacco] = useState<TobaccoClass>(new TobaccoClass(null));
+  const [tobacco, setTobacco] = useState<TobaccoClass>(new TobaccoClass());
   const [newPhoto, setNewPhoto] = useState<File>();
 
   const cancel = () => {
@@ -42,7 +42,10 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
     ref,
     (): { show: (tobacco: Tobacco | null) => Promise<boolean> } => ({
       async show(tobacco: Tobacco | null): Promise<boolean> {
-        setTobacco(new TobaccoClass(tobacco ?? null));
+        const tbcClass = tobacco
+          ? new TobaccoClass(tobacco)
+          : new TobaccoClass();
+        setTobacco(tbcClass);
         toggleVisible(true);
 
         return await sleep();

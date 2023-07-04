@@ -1,5 +1,5 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { Tobacco, Comment } from "../Types";
+import { Tobacco, Comment, GUID } from "../Types";
 import { TobaccoApi, CommentApi } from "../API";
 import { catchHelper } from "../helpers";
 import { TobaccoClass } from "../Classes";
@@ -78,8 +78,8 @@ class TobaccoStore {
 
   public async saveComment(
     comment: string,
-    id: string | null,
-    tobaccoId: string
+    id: GUID | null,
+    tobaccoId: GUID
   ): Promise<boolean> {
     try {
       const { success }: { success: boolean } = await CommentApi.saveComment(
@@ -100,7 +100,7 @@ class TobaccoStore {
     }
   }
 
-  public async deleteComment(id: string): Promise<void> {
+  public async deleteComment(id: GUID): Promise<void> {
     try {
       await CommentApi.deleteComment(id);
       if (this.tobacco) {
@@ -142,7 +142,7 @@ class TobaccoStore {
     }
   }
 
-  public async deleteTobacco(id: string): Promise<void> {
+  public async deleteTobacco(id: GUID): Promise<void> {
     try {
       await TobaccoApi.deleteTobacco(id);
     } catch (error) {
@@ -150,7 +150,7 @@ class TobaccoStore {
     }
   }
 
-  public async addToFavoriteList(tobaccoId: string): Promise<void> {
+  public async addToFavoriteList(tobaccoId: GUID): Promise<void> {
     try {
       const res = await TobaccoApi.addToFavoriteList(tobaccoId);
       if (res) {
@@ -161,7 +161,7 @@ class TobaccoStore {
     }
   }
 
-  public async deleteFromFavoriteList(tobaccoId: string): Promise<void> {
+  public async deleteFromFavoriteList(tobaccoId: GUID): Promise<void> {
     try {
       const res: boolean = await TobaccoApi.deleteFromFavoriteList(tobaccoId);
       if (res) {

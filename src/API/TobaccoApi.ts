@@ -1,6 +1,7 @@
 import Repository from "./axios";
 import { TobaccoClass } from "../Classes";
 import RepositoryHelper from "../helpers/RepositoryHelper";
+import { GUID } from "../Types";
 
 export const TobaccoApi = {
   getAllTobaccos: async () => await RepositoryHelper.get("/tobaccos"),
@@ -15,16 +16,16 @@ export const TobaccoApi = {
       this.getTobaccoEndpoint()
     );
   },
-  async deleteTobacco(id: string) {
+  async deleteTobacco(id: GUID) {
     return await RepositoryHelper.delete(id, this.getTobaccoEndpoint());
   },
 
   getTobaccoComments: async (id: string) =>
     await Repository.get(`/tobacco/${id}/comments`),
 
-  addToFavoriteList: async (tobaccoId: string) =>
+  addToFavoriteList: async (tobaccoId: GUID) =>
     await RepositoryHelper.save({ tobaccoId }, "/favoriteTobacco"),
 
-  deleteFromFavoriteList: async (tobaccoId: string) =>
+  deleteFromFavoriteList: async (tobaccoId: GUID) =>
     await RepositoryHelper.delete(tobaccoId, "/favoriteTobacco"),
 };
