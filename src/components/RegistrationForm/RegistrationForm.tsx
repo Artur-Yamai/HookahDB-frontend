@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { IRegistrationUserData } from "../../Types";
+import { RegistrationUserData } from "../../Types";
 
 import "./RegistrationForm.scss";
 
-interface IRegistrationForm {
-  onSubmit: (userData: IRegistrationUserData) => Promise<boolean>;
+interface RegistrationFormProps {
+  onSubmit: (userData: RegistrationUserData) => Promise<boolean>;
   loginExists: (login: string) => Promise<boolean>;
   emailExists: (email: string) => Promise<boolean>;
 }
@@ -26,7 +26,7 @@ export function RegistrationForm({
   onSubmit,
   loginExists,
   emailExists,
-}: IRegistrationForm): JSX.Element {
+}: RegistrationFormProps): JSX.Element {
   const {
     register,
     handleSubmit,
@@ -54,7 +54,7 @@ export function RegistrationForm({
   );
 
   const formSubmit = handleSubmit(async ({ login, email, password }) => {
-    const userData: IRegistrationUserData = { login, email, password };
+    const userData: RegistrationUserData = { login, email, password };
     const res: boolean = await onSubmit(userData);
     if (res) {
       reset({ login: "", email: "", password: "", confirmPassword: "" });

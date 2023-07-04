@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ReferenceApi } from "../../../API";
-import { IReference } from "../../../Types";
+import { Reference } from "../../../Types";
 import { TobaccoEditorProps } from "./TobaccoEditorProps";
 import { TextBox, InputTypeFIle, Picture, TextArea, Select } from "../../../UI";
 import { useMount } from "../../../hooks";
@@ -16,11 +16,11 @@ export const TobaccoEditor = ({
 }: TobaccoEditorProps) => {
   const [tobacco, setTobacco] = useState<TobaccoClass>(tobaccoData);
   const [loading, toggleLoading] = useState<boolean>(false);
-  const [fabricators, setFabricators] = useState<IReference[]>([]);
+  const [fabricators, setFabricators] = useState<Reference[]>([]);
 
   useMount(async () => {
     toggleLoading(true);
-    const result: IReference[] | null = await ReferenceApi.getReference(
+    const result: Reference[] | null = await ReferenceApi.getReference(
       "fabricator"
     );
     toggleLoading(false);
@@ -36,7 +36,7 @@ export const TobaccoEditor = ({
     setNewTobaccosData(newTobacco);
   };
 
-  const changeSelectValue = (newValue: IReference) => {
+  const changeSelectValue = (newValue: Reference) => {
     const newTobacco = { ...tobacco } as TobaccoClass;
     newTobacco.fabricatorId = newValue?.id ?? "";
     setTobacco(newTobacco);

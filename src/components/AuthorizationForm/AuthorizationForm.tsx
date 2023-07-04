@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import { IAuthorizationUserData } from "../../Types";
+import { AuthorizationUserData } from "../../Types";
 import "./AuthorizationForm.scss";
 import { notify } from "../../UI";
 
-interface IAuthorizationForm {
-  onSubmit: (userData: IAuthorizationUserData) => void;
+interface AuthorizationFormProps {
+  onSubmit: (userData: AuthorizationUserData) => void;
 }
 
 interface FormValues {
@@ -14,7 +14,7 @@ interface FormValues {
 
 export function AuthorizationForm({
   onSubmit,
-}: IAuthorizationForm): JSX.Element {
+}: AuthorizationFormProps): JSX.Element {
   const { register, handleSubmit } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {

@@ -1,11 +1,11 @@
 import { hostName } from "./hostName";
 
-interface IConfiguration {
+interface Configuration {
   apiUrl: string;
   photoUrl: string;
 }
 
-const config: IConfiguration = {
+const config: Configuration = {
   apiUrl:
     process.env.NODE_ENV === "production"
       ? window.location.origin + "/api/"

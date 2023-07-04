@@ -6,7 +6,7 @@ import { ImDatabase } from "react-icons/im";
 import UserStore from "../../store/user";
 import { UserApi } from "../../API";
 import { RegistrationForm, AuthorizationForm } from "../../components";
-import { IAuthorizationUserData, IRegistrationUserData } from "../../Types";
+import { AuthorizationUserData, RegistrationUserData } from "../../Types";
 import "./Authorization.scss";
 import { notify } from "../../UI";
 
@@ -24,7 +24,7 @@ const Authorization = () => {
   async function toSignin({
     login,
     password,
-  }: IAuthorizationUserData): Promise<void> {
+  }: AuthorizationUserData): Promise<void> {
     const res: boolean = await UserStore.toAuthorization(login, password);
 
     if (res) {
@@ -37,7 +37,7 @@ const Authorization = () => {
     login,
     email,
     password,
-  }: IRegistrationUserData): Promise<boolean> {
+  }: RegistrationUserData): Promise<boolean> {
     const res: boolean = await UserStore.toRegistration(login, password, email);
     if (res) {
       notify("Регистрация прошла успешно. Авторизируйтесь", "success", 3000);

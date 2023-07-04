@@ -1,23 +1,23 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { ITobacco, IComment } from "../Types";
+import { Tobacco, Comment } from "../Types";
 import { TobaccoApi, CommentApi } from "../API";
 import { catchHelper } from "../helpers";
 import { TobaccoClass } from "../Classes";
 
-class Tobacco {
-  private _tobaccos: ITobacco[] = [];
-  private _tobacco: ITobacco | null = null;
-  private _comments: IComment[] = [];
+class TobaccoStore {
+  private _tobaccos: Tobacco[] = [];
+  private _tobacco: Tobacco | null = null;
+  private _comments: Comment[] = [];
 
-  public get tobaccos(): ITobacco[] {
+  public get tobaccos(): Tobacco[] {
     return this._tobaccos;
   }
 
-  public get tobacco(): ITobacco | null {
+  public get tobacco(): Tobacco | null {
     return this._tobacco;
   }
 
-  public get comments(): IComment[] {
+  public get comments(): Comment[] {
     return this._comments;
   }
 
@@ -173,6 +173,6 @@ class Tobacco {
   }
 }
 
-const tobacco = new Tobacco();
+const tobacco = new TobaccoStore();
 
 export default tobacco;

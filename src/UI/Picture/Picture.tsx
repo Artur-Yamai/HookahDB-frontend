@@ -1,6 +1,6 @@
 import config from "../../configuration";
 
-interface IImage {
+interface PictureProps {
   url?: string;
   alt?: string;
   className?: string;
@@ -10,7 +10,7 @@ export function Picture({
   url,
   className,
   alt = "Изображение",
-}: IImage): JSX.Element {
+}: PictureProps): JSX.Element {
   const avatarUrl = url ? config.photoUrl + url : "noimg.jpg";
 
   return (

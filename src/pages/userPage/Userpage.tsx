@@ -3,13 +3,13 @@ import { observer } from "mobx-react-lite";
 import moment from "moment";
 import "moment/locale/ru";
 import UserStore from "../../store/user";
-import { IUser } from "../../Types";
+import { User } from "../../Types";
 import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 import { TobaccosList } from "../../components";
 
-function Userpage(): JSX.Element {
-  const user: IUser | null = UserStore.userData;
+const Userpage = () => {
+  const user: User | null = UserStore.userData;
 
   useEffect(() => {
     if (user?.id) {
@@ -57,6 +57,6 @@ function Userpage(): JSX.Element {
       )}
     </>
   );
-}
+};
 
 export default observer(Userpage);

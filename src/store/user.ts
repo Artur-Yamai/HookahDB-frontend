@@ -1,14 +1,14 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { ITobacco, IUser } from "../Types";
+import { Tobacco, User } from "../Types";
 import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
 
-class User {
-  private _userData: IUser | null = null;
-  private _favoriteTobacco: ITobacco[] = [];
+class UserStore {
+  private _userData: User | null = null;
+  private _favoriteTobacco: Tobacco[] = [];
 
-  public get userData(): IUser | null {
+  public get userData(): User | null {
     return this._userData;
   }
 
@@ -16,7 +16,7 @@ class User {
     return this._userData?.avatarUrl ?? null;
   }
 
-  public get favoriteTobacco(): ITobacco[] {
+  public get favoriteTobacco(): Tobacco[] {
     return this._favoriteTobacco;
   }
 
@@ -115,6 +115,6 @@ class User {
   }
 }
 
-const user = new User();
+const user = new UserStore();
 
 export default user;

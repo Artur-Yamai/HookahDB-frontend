@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import "./TobaccoPage.scss";
-import { IComment, ITobacco } from "../../Types";
+import { Comment, Tobacco } from "../../Types";
 import { TobaccoInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
@@ -12,15 +12,15 @@ function TobaccoPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const refTobaccoEditDialog: React.MutableRefObject<
-    { show: (tobacco: ITobacco | null) => boolean } | undefined
+    { show: (tobacco: Tobacco | null) => boolean } | undefined
   > = useRef();
 
   if (!id) {
     navigate("/notFound");
   }
 
-  const tobacco: ITobacco | null = TobaccoStore.tobacco;
-  const comments: IComment[] = TobaccoStore.comments;
+  const tobacco: Tobacco | null = TobaccoStore.tobacco;
+  const comments: Comment[] = TobaccoStore.comments;
 
   useUnmount(() => {
     TobaccoStore.clearTobaccoData();

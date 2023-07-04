@@ -1,8 +1,8 @@
-export interface IAuthorizationUserData {
+export interface AuthorizationUserData {
   login: string;
   password: string;
 }
 
-export interface IRegistrationUserData extends IAuthorizationUserData {
+export interface RegistrationUserData extends AuthorizationUserData {
   email: string;
 }

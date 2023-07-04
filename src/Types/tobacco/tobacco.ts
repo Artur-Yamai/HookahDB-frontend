@@ -1,4 +1,4 @@
-export interface ITobacco {
+export interface Tobacco {
   id: string;
   name: string;
   fabricator: string;

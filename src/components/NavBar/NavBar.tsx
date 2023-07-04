@@ -9,18 +9,18 @@ import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
 import { ImDatabase } from "react-icons/im";
 import UserStore from "../../store/user";
-import { IUser } from "../../Types/user/User";
+import { User } from "../../Types/user/User";
 import { NavBarElem } from "./NavBarElem";
 import "./NavBar.scss";
 
-interface INavLink {
+interface NavLinkProps {
   caption: string;
   path: string;
   getIcon: () => JSX.Element;
 }
 
-const NavBar = (): JSX.Element => {
-  const [navLinkList, setNavLinkList] = useState<INavLink[]>([
+const NavBar = () => {
+  const [navLinkList, setNavLinkList] = useState<NavLinkProps[]>([
     {
       caption: "Войти",
       path: "/auth",
@@ -44,13 +44,13 @@ const NavBar = (): JSX.Element => {
   ]);
 
   const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);
-  const userData: IUser | null = UserStore.userData;
+  const userData: User | null = UserStore.userData;
 
   const signOut = () => UserStore.toSignOut();
   const navbarToggle = () => toggleVisibleMenu(!isVisibleMenu);
 
   useEffect(() => {
-    const newNavLinkList: INavLink[] = [...navLinkList];
+    const newNavLinkList: NavLinkProps[] = [...navLinkList];
 
     const login = userData?.login;
 
@@ -85,7 +85,7 @@ const NavBar = (): JSX.Element => {
           </NavLink>
         </div>
         <ul>
-          {navLinkList.map((linkInfo: INavLink, i: number): JSX.Element => {
+          {navLinkList.map((linkInfo: NavLinkProps, i: number): JSX.Element => {
             return (
               <NavBarElem
                 key={i}

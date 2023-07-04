@@ -1,4 +1,4 @@
-export interface IUser {
+export interface User {
   createdAt: string;
   email: string;
   login: string;

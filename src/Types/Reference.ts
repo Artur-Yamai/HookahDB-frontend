@@ -1,4 +1,4 @@
-export interface IReference {
+export interface Reference {
   id: string;
   value: string;
 }

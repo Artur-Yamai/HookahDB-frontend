@@ -1,7 +1,7 @@
 import { useState, useEffect, useId } from "react";
 import "./TextArea.scss";
 
-interface ITextArea {
+interface TextAreaProps {
   className?: string;
   text: string;
   label: string;
@@ -21,7 +21,7 @@ export const TextArea = ({
   required = true,
   cols = 30,
   rows = 10,
-}: ITextArea) => {
+}: TextAreaProps) => {
   const [value, changeValue] = useState<string>(text);
   const id: string = useId();
 

@@ -1,15 +1,15 @@
 import moment from "moment";
 import "moment/locale/ru";
-import { IComment } from "../../Types";
+import { Comment } from "../../Types";
 import { Picture } from "../../UI";
 import "./CommentItem.scss";
 
-interface ICommentItem {
-  comment: IComment;
+interface CommentItemProps {
+  comment: Comment;
   children?: JSX.Element;
 }
 
-export function CommentItem({ children, comment }: ICommentItem) {
+export function CommentItem({ children, comment }: CommentItemProps) {
   const datetime = moment(comment.createdAt).format("Do MMMM YYYY, HH:mm");
   const fromNow = moment(comment.createdAt).fromNow();
 

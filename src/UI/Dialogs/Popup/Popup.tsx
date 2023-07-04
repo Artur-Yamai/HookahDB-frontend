@@ -3,7 +3,7 @@ import { GrClose } from "react-icons/gr";
 import { Button } from "../../Button/Button";
 import "./Popup.scss";
 
-interface IPopup {
+interface PopupProps {
   visible: boolean;
   close: () => void;
   agree: () => void;
@@ -21,7 +21,7 @@ export const Popup = ({
   children,
   width = "600px",
   height = "400px",
-}: IPopup): JSX.Element => {
+}: PopupProps): JSX.Element => {
   const popup = useRef<HTMLDivElement>(null);
   const [popupHeight, setPopupHeight] = useState<string>(height);
   const [popupWidth, setPopupWidth] = useState<string>(width);

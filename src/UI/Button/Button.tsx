@@ -1,6 +1,6 @@
 import "./Button.scss";
 
-interface IButton {
+interface ButtonProps {
   click: (event: React.MouseEvent<HTMLElement>) => void;
   text?: string;
   width?: string;
@@ -14,7 +14,7 @@ export function Button({
   text = "Тык",
   width,
   disabled = false,
-}: IButton): JSX.Element {
+}: ButtonProps): JSX.Element {
   const style = {
     width,
   };

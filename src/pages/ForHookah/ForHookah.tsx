@@ -6,7 +6,7 @@ import TobaccoStore from "../../store/tobacco";
 import UserStore from "../../store/user";
 import { TobaccosList } from "../../components/TobaccoCmponents";
 import { FilterPanel } from "../../components";
-import { ISelectOption } from "../../Types";
+import { SelectOption } from "../../Types";
 import { TobaccoEditDialog } from "../../components";
 
 function ForHookah(): JSX.Element {
@@ -15,7 +15,7 @@ function ForHookah(): JSX.Element {
     { show: () => boolean } | undefined
   > = useRef();
 
-  const onChange = (option: ISelectOption) => {
+  const onChange = (option: SelectOption) => {
     toggleSelectedList(option.value);
     getData();
   };

@@ -1,4 +1,4 @@
-import { IComment } from "../../Types";
+import { Comment } from "../../Types";
 import { CommentEditor } from "..";
 import { CommentItem } from "./CommentItem";
 import UserStore from "../../store/user";
@@ -6,15 +6,19 @@ import "./CommentsList.scss";
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
-interface ICommentsList {
-  comments: IComment[];
+interface CommentsListProps {
+  comments: Comment[];
   getComment: (text: string, id: string | null) => Promise<boolean>;
   deleteComment: (id: string) => void;
 }
 
-function CommentsList({ comments, getComment, deleteComment }: ICommentsList) {
-  const [myComment, setMyComment] = useState<IComment | null>(null);
-  const [otherComments, setOtherComments] = useState<IComment[]>([]);
+function CommentsList({
+  comments,
+  getComment,
+  deleteComment,
+}: CommentsListProps) {
+  const [myComment, setMyComment] = useState<Comment | null>(null);
+  const [otherComments, setOtherComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     if (UserStore.userData) {

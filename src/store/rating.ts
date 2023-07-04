@@ -2,14 +2,14 @@ import { makeAutoObservable } from "mobx";
 import { catchHelper } from "../helpers";
 
 import { RatingApi } from "../API";
-import { IRating } from "../Types";
+import { Rating } from "../Types";
 
-class Rating {
+class RatingStore {
   constructor() {
     makeAutoObservable(this);
   }
 
-  async changeRating(rating: IRating): Promise<boolean> {
+  async changeRating(rating: Rating): Promise<boolean> {
     try {
       return await RatingApi.saveRating(rating).then((r) => r.success);
     } catch (error) {
@@ -19,6 +19,6 @@ class Rating {
   }
 }
 
-const reting = new Rating();
+const reting = new RatingStore();
 
 export default reting;

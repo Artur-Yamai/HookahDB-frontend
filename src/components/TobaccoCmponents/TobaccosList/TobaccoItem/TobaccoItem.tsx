@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import "./TobaccoItem.scss";
-import { ITobacco } from "../../../../Types";
+import { Tobacco } from "../../../../Types";
 import { Picture } from "../../../../UI";
 
-interface ITobaccoCard {
-  tobacco: ITobacco;
+interface TobaccoCardProps {
+  tobacco: Tobacco;
 }
 
-export const TobaccoItem = ({ tobacco }: ITobaccoCard) => {
+export const TobaccoItem = ({ tobacco }: TobaccoCardProps) => {
   const getClassName = (rating: number): string =>
     rating >= 4
       ? "green"

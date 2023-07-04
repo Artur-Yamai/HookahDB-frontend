@@ -3,20 +3,20 @@ import { AiFillEdit } from "react-icons/ai";
 import { FiTrash2 } from "react-icons/fi";
 import { Button, TextArea } from "../../UI";
 import "./CommentEditor.scss";
-import { IComment } from "../../Types";
+import { Comment } from "../../Types";
 import { CommentItem } from "../Comments/CommentItem";
 
-interface ICommentEditor {
+interface CommentEditorProps {
   getComment: (text: string, id: string | null) => Promise<boolean>;
   deleteComment: (id: string) => void;
-  comment: IComment | null;
+  comment: Comment | null;
 }
 
 export function CommentEditor({
   getComment,
   deleteComment,
   comment,
-}: ICommentEditor) {
+}: CommentEditorProps) {
   const [text, setText] = useState<string>("");
   const [visibleTextArea, toggleVisibleTextArea] = useState<boolean>(false);
 

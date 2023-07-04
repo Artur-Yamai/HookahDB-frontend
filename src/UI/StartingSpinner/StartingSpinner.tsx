@@ -1,9 +1,9 @@
 import "./StartingSpinner.scss";
 
-interface ISpinner {
+interface StartingSpinnerProps {
   loading: boolean;
 }
 
-export function StartingSpinner({ loading }: ISpinner): JSX.Element {
+export const StartingSpinner = ({ loading }: StartingSpinnerProps) => {
   return <div className={`spinner ${!loading ? "spinner--hidden" : ""}`} />;
-}
+};

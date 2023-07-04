@@ -1,25 +1,25 @@
 import {
-  IAuthorizationUserData,
-  IRegistrationUserData,
+  AuthorizationUserData,
+  RegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
-import { IUser } from "./user/User";
-import { ITobacco } from "./tobacco/tobacco";
-import { IErrorHTTPRequest } from "./IErrorHTTPRequest";
-import { ISelectOption } from "./SelectOption";
-import { IComment } from "./comment/comment";
+import { User } from "./user/User";
+import { Tobacco } from "./tobacco/tobacco";
+import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
+import { SelectOption } from "./SelectOption";
+import { Comment } from "./comment/comment";
 import { NotifyTypes } from "./NotifyTypes";
-import { IRating } from "./IRating";
-import { IReference } from "./IReference";
+import { Rating } from "./Rating";
+import { Reference } from "./Reference";
 
 export type {
-  IAuthorizationUserData,
-  IRegistrationUserData,
-  IUser,
-  ITobacco,
-  IErrorHTTPRequest,
-  ISelectOption,
-  IComment,
+  AuthorizationUserData,
+  RegistrationUserData,
+  User,
+  Tobacco,
+  ErrorHTTPRequest,
+  SelectOption,
+  Comment,
   NotifyTypes,
-  IRating,
-  IReference,
+  Rating,
+  Reference,
 };

@@ -4,12 +4,12 @@ import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import UserStore from "../../../store/user";
 import RatingStore from "../../../store/rating";
 import TobaccoStore from "../../../store/tobacco";
-import { ITobacco } from "../../../Types";
+import { Tobacco } from "../../../Types";
 import { Picture, RatingStars } from "../../../UI";
 import "./TobaccoInfo.scss";
 
-interface ITobaccoInfo {
-  tobacco: ITobacco;
+interface TobaccoInfoProps {
+  tobacco: Tobacco;
   deleteTobacco: (id: string) => void;
   updateTobacco: () => void;
   toggleFavorite: () => void;
@@ -20,7 +20,7 @@ function TobaccoInfo({
   deleteTobacco,
   updateTobacco,
   toggleFavorite,
-}: ITobaccoInfo): JSX.Element {
+}: TobaccoInfoProps): JSX.Element {
   const favoriteButtonClass = useMemo(
     () => (tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : ""),
     [tobacco.isFavorite]

@@ -1,8 +1,8 @@
-import { ITobacco } from "../Types";
+import { Tobacco } from "../Types";
 
 export class TobaccoClass
   implements
-    Pick<ITobacco, "name" | "fabricatorId" | "description" | "photoUrl" | "id">
+    Pick<Tobacco, "name" | "fabricatorId" | "description" | "photoUrl" | "id">
 {
   name: string = "";
   fabricatorId: string = "";
@@ -10,7 +10,7 @@ export class TobaccoClass
   photoUrl: string = "";
   id: string = "";
 
-  constructor(tobacco: ITobacco | null) {
+  constructor(tobacco: Tobacco | null) {
     if (!tobacco) return;
 
     this.name = tobacco.name;

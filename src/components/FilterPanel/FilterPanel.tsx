@@ -1,16 +1,16 @@
 import { useState } from "react";
 import Select from "react-select";
-import { ISelectOption } from "../../Types";
+import { SelectOption } from "../../Types";
 import { Button, notify } from "../../UI";
 import "./FilterPanel.scss";
 
-interface IFilterPanel {
+interface FilterPanelProps {
   showAddButton: boolean;
-  onChangeFilterValue: (option: ISelectOption) => void;
+  onChangeFilterValue: (option: SelectOption) => void;
   add: () => void;
 }
 
-const options: ISelectOption[] = [
+const options: SelectOption[] = [
   { value: "Tobaccos", label: "Табаки" },
   { value: "Other", label: "Другое" },
 ];
@@ -19,12 +19,12 @@ export function FilterPanel({
   showAddButton,
   onChangeFilterValue,
   add,
-}: IFilterPanel): JSX.Element {
-  const [selectedOption, setSelectedOption] = useState<ISelectOption | null>(
+}: FilterPanelProps): JSX.Element {
+  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
     options[0]
   );
 
-  function changeSelectValeue(option: ISelectOption | null) {
+  function changeSelectValeue(option: SelectOption | null) {
     if (option) {
       setSelectedOption(option);
       onChangeFilterValue(option);

@@ -3,7 +3,7 @@ import { AiOutlineUpload } from "react-icons/ai";
 import { notify } from "../../UI";
 import "./InputTypeFIle.scss";
 
-interface IInputTypeFIle {
+interface InputTypeFileProps {
   label?: string;
   width?: string;
   multiple?: boolean;
@@ -17,7 +17,7 @@ export function InputTypeFIle({
   accept,
   multiple = false,
   onChange,
-}: IInputTypeFIle): JSX.Element {
+}: InputTypeFileProps): JSX.Element {
   function getFiles(e: ChangeEvent<HTMLInputElement>) {
     const files: FileList | null = e.currentTarget.files;
     if (files === null) {

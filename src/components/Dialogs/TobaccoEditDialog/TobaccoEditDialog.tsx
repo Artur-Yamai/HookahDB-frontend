@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { ITobacco } from "../../../Types";
+import { Tobacco } from "../../../Types";
 import { Popup, notify } from "../../../UI";
 import TobaccoStore from "../../../store/tobacco";
 import { TobaccoClass } from "../../../Classes";
@@ -40,8 +40,8 @@ const TobaccoEditDialog = forwardRef((_, ref) => {
 
   useImperativeHandle(
     ref,
-    (): { show: (tobacco: ITobacco | null) => Promise<boolean> } => ({
-      async show(tobacco: ITobacco | null): Promise<boolean> {
+    (): { show: (tobacco: Tobacco | null) => Promise<boolean> } => ({
+      async show(tobacco: Tobacco | null): Promise<boolean> {
         setTobacco(new TobaccoClass(tobacco ?? null));
         toggleVisible(true);
 
