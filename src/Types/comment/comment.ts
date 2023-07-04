@@ -2,7 +2,7 @@ export interface IComment {
   id: string;
   tobaccoId: string;
   userId: string;
-  userLogin: string;
+  login: string;
   userAvatarUrl: string;
   text: string;
   createdAt: string;

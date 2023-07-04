@@ -17,13 +17,13 @@ export function CommentItem({ children, comment }: ICommentItem) {
     <li className="comment-item">
       <div className="comment-item__about-commentator">
         <Picture
-          alt={"аватар " + comment.userLogin}
+          alt={"аватар " + comment.login}
           className="comment-item__avatar"
           url={comment.userAvatarUrl}
         />
         <div className="comment-item__author">
           <p className="comment-item__info">
-            <span className="comment-item__login">{comment.userLogin}</span>
+            <span className="comment-item__login">{comment.login}</span>
             {children}
           </p>
           <p className="comment-item__datetime">
