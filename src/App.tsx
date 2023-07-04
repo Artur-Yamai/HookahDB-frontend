@@ -15,7 +15,7 @@ import "./App.scss";
 import "./styles/globalStyles.scss";
 import { StartingSpinner } from "./UI";
 
-export const App = () => {
+export default function App() {
   const [loading, toggleLoading] = useState<boolean>(true);
 
   const getUser = async () => {
@@ -49,4 +49,4 @@ export const App = () => {
       </div>
     </BrowserRouter>
   );
-};
+}
