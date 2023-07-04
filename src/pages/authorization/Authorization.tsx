@@ -10,7 +10,7 @@ import { IAuthorizationUserData, IRegistrationUserData } from "../../Types";
 import "./Authorization.scss";
 import { notify } from "../../UI";
 
-function Authorization(): JSX.Element {
+const Authorization = () => {
   const navigate = useNavigate();
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
@@ -108,6 +108,6 @@ function Authorization(): JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 export default observer(Authorization);
