@@ -15,12 +15,12 @@ interface TobaccoInfoProps {
   toggleFavorite: () => void;
 }
 
-function TobaccoInfo({
+const TobaccoInfo = ({
   tobacco,
   deleteTobacco,
   updateTobacco,
   toggleFavorite,
-}: TobaccoInfoProps): JSX.Element {
+}: TobaccoInfoProps): JSX.Element => {
   const favoriteButtonClass = useMemo(
     () => (tobacco.isFavorite ? "tobacco-info__favorite-button--fill" : ""),
     [tobacco.isFavorite]
@@ -88,6 +88,6 @@ function TobaccoInfo({
       </div>
     </>
   );
-}
+};
 
 export default observer(TobaccoInfo);

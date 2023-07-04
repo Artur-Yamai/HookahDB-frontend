@@ -15,29 +15,29 @@ const Authorization = () => {
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
 
-  function toGoSignupPage(isActive: boolean): void {
+  const toGoSignupPage = (isActive: boolean): void => {
     setFormBxActive(isActive ? "authorization__formBx--active" : "");
     setStartPageActive(isActive ? "authorization--active" : "");
-  }
+  };
 
   // Авторизация
-  async function toSignin({
+  const toSignin = async ({
     login,
     password,
-  }: AuthorizationUserData): Promise<void> {
+  }: AuthorizationUserData): Promise<void> => {
     const res: boolean = await UserStore.toAuthorization(login, password);
 
     if (res) {
       navigate("/");
     }
-  }
+  };
 
   // Регистрация
-  async function toSignup({
+  const toSignup = async ({
     login,
     email,
     password,
-  }: RegistrationUserData): Promise<boolean> {
+  }: RegistrationUserData): Promise<boolean> => {
     const res: boolean = await UserStore.toRegistration(login, password, email);
     if (res) {
       notify("Регистрация прошла успешно. Авторизируйтесь", "success", 3000);
@@ -47,25 +47,25 @@ const Authorization = () => {
     }
 
     return res;
-  }
+  };
 
-  async function loginExists(login: string): Promise<boolean> {
+  const loginExists = async (login: string): Promise<boolean> => {
     try {
       const { data } = await UserApi.loginExists(login);
       return data.success ? data.body.isExists : false;
     } catch (_) {
       return false;
     }
-  }
+  };
 
-  async function emailExists(email: string): Promise<boolean> {
+  const emailExists = async (email: string): Promise<boolean> => {
     try {
       const { data } = await UserApi.emailExists(email);
       return data.success ? data.body.isExists : false;
     } catch (_) {
       return false;
     }
-  }
+  };
 
   if (UserStore.userData) {
     setTimeout(() => navigate("/"));

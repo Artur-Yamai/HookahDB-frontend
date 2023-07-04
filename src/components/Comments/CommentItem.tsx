@@ -9,7 +9,7 @@ interface CommentItemProps {
   children?: JSX.Element;
 }
 
-export function CommentItem({ children, comment }: CommentItemProps) {
+export const CommentItem = ({ children, comment }: CommentItemProps) => {
   const datetime = moment(comment.createdAt).format("Do MMMM YYYY, HH:mm");
   const fromNow = moment(comment.createdAt).fromNow();
 
@@ -36,4 +36,4 @@ export function CommentItem({ children, comment }: CommentItemProps) {
       <div className="comment-item__text">{comment.text}</div>
     </li>
   );
-}
+};

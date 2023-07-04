@@ -22,11 +22,11 @@ type FormFiled = "login" | "email" | "password" | "confirmPassword";
 let resolve: any;
 const sleep = () => new Promise((r) => (resolve = r));
 
-export function RegistrationForm({
+export const RegistrationForm = ({
   onSubmit,
   loginExists,
   emailExists,
-}: RegistrationFormProps): JSX.Element {
+}: RegistrationFormProps): JSX.Element => {
   const {
     register,
     handleSubmit,
@@ -227,4 +227,4 @@ export function RegistrationForm({
       <input type="submit" value="Зарегистрироваться" />
     </form>
   );
-}
+};

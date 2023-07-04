@@ -8,7 +8,7 @@ import { Comment, Tobacco } from "../../Types";
 import { TobaccoInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
-function TobaccoPage() {
+const TobaccoPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const refTobaccoEditDialog: React.MutableRefObject<
@@ -99,6 +99,6 @@ function TobaccoPage() {
       />
     </div>
   );
-}
+};
 
 export default observer(TobaccoPage);

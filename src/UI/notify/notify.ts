@@ -1,11 +1,11 @@
 import { NotifyTypes } from "../../Types";
 import style from "./notify.module.scss";
 
-export function notify(
+export const notify = (
   text: string,
   type: NotifyTypes = "info",
   timer: number = 2000
-): void {
+): void => {
   const app = document.getElementsByClassName("app")[0];
   const notifyWrap = document.createElement("div");
   notifyWrap.classList.add(style.notify);
@@ -27,4 +27,4 @@ export function notify(
     notifyWrap.classList.remove(style.show);
     setTimeout(() => app.removeChild(notifyWrap), 500);
   }, timer);
-}
+};

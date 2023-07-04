@@ -8,13 +8,13 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export function Button({
+export const Button = ({
   click,
   className,
   text = "Тык",
   width,
   disabled = false,
-}: ButtonProps): JSX.Element {
+}: ButtonProps): JSX.Element => {
   const style = {
     width,
   };
@@ -31,4 +31,4 @@ export function Button({
       {text}
     </button>
   );
-}
+};

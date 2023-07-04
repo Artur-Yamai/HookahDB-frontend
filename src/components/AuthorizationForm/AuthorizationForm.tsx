@@ -12,9 +12,9 @@ interface FormValues {
   password: string;
 }
 
-export function AuthorizationForm({
+export const AuthorizationForm = ({
   onSubmit,
-}: AuthorizationFormProps): JSX.Element {
+}: AuthorizationFormProps): JSX.Element => {
   const { register, handleSubmit } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
@@ -47,4 +47,4 @@ export function AuthorizationForm({
       <input type="button" value="Забыли пароль?" onClick={toForgot} />
     </form>
   );
-}
+};

@@ -45,7 +45,7 @@ export const TobaccoEditor = ({
 
   const renderFile = (file: File) => {
     const reader: FileReader = new FileReader();
-    reader.onload = function (e: ProgressEvent<FileReader>) {
+    reader.onload = (e: ProgressEvent<FileReader>) => {
       const img = document.querySelector(".tobacco-editor img");
       const photo = e?.target?.result;
       if (!img || !photo || typeof photo !== "string") return;

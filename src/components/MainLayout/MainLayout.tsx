@@ -4,7 +4,7 @@ import NavBar from "../NavBar/NavBar";
 import CommonStore from "../../store/common";
 import "./MainLayout.scss";
 
-function MainLayout(): JSX.Element {
+const MainLayout = (): JSX.Element => {
   return (
     <>
       <NavBar />
@@ -17,6 +17,6 @@ function MainLayout(): JSX.Element {
       </div>
     </>
   );
-}
+};
 
 export default observer(MainLayout);

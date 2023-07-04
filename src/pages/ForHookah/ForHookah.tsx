@@ -9,7 +9,7 @@ import { FilterPanel } from "../../components";
 import { SelectOption } from "../../Types";
 import { TobaccoEditDialog } from "../../components";
 
-function ForHookah(): JSX.Element {
+const ForHookah = (): JSX.Element => {
   const [selectedList, toggleSelectedList] = useState<string>("Tobaccos");
   const refTobaccoEditDialog: React.MutableRefObject<
     { show: () => boolean } | undefined
@@ -20,14 +20,14 @@ function ForHookah(): JSX.Element {
     getData();
   };
 
-  async function add() {
+  const add = async () => {
     if (selectedList === "Tobaccos") {
       if (!refTobaccoEditDialog.current) return;
 
       const res: boolean = await refTobaccoEditDialog.current.show();
       console.log(res);
     }
-  }
+  };
 
   useMount(() => {
     getData();
@@ -60,6 +60,6 @@ function ForHookah(): JSX.Element {
       <TobaccoEditDialog ref={refTobaccoEditDialog} />
     </div>
   );
-}
+};
 
 export default observer(ForHookah);

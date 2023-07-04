@@ -19,9 +19,9 @@ const Userpage = () => {
 
   if (user === null) return <h1>Страница недоступна</h1>;
 
-  function onChange(files: FileList) {
+  const onChange = (files: FileList) => {
     UserStore.saveNewAvatar(files[0]);
-  }
+  };
 
   const datetime = moment(user.createdAt).format("Do MMMM YYYY, HH:mm");
 

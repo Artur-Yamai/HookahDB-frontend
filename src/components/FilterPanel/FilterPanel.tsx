@@ -15,23 +15,23 @@ const options: SelectOption[] = [
   { value: "Other", label: "Другое" },
 ];
 
-export function FilterPanel({
+export const FilterPanel = ({
   showAddButton,
   onChangeFilterValue,
   add,
-}: FilterPanelProps): JSX.Element {
+}: FilterPanelProps): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
     options[0]
   );
 
-  function changeSelectValeue(option: SelectOption | null) {
+  const changeSelectValeue = (option: SelectOption | null) => {
     if (option) {
       setSelectedOption(option);
       onChangeFilterValue(option);
     } else {
       notify("Ошибка", "error");
     }
-  }
+  };
 
   return (
     <div className="filter-panel">
@@ -50,4 +50,4 @@ export function FilterPanel({
       )}
     </div>
   );
-}
+};

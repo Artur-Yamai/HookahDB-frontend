@@ -1,6 +1,6 @@
 import "./HomePage.scss";
 
-export function HomePage() {
+export const HomePage = () => {
   const arr: number[] = [];
 
   for (let i: number = 0; i < 16; i++) {
@@ -8,4 +8,4 @@ export function HomePage() {
   }
 
   return <div className="homepage">HomePage</div>;
-}
+};

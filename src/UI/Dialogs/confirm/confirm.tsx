@@ -1,6 +1,6 @@
 import style from "./confirm.module.scss";
 
-export async function confirm(text: string): Promise<boolean> {
+export const confirm = async (text: string): Promise<boolean> => {
   const app = document.getElementById("root");
 
   if (!app) return false;
@@ -39,16 +39,16 @@ export async function confirm(text: string): Promise<boolean> {
   controllerPlace.append(separator);
   controllerPlace.append(notConfirmBtn);
 
-  function toConfirm(isConfirm: boolean) {
+  const toConfirm = (isConfirm: boolean) => {
     result = isConfirm;
     yepConfirmBtn.removeEventListener("click", () => toConfirm(true));
     notConfirmBtn.removeEventListener("click", () => toConfirm(true));
     resolve();
-  }
+  };
 
   await sleep();
 
   app.removeChild(substrate);
 
   return result;
-}
+};

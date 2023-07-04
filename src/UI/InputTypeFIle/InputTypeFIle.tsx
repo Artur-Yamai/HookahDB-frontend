@@ -11,21 +11,21 @@ interface InputTypeFileProps {
   onChange: (files: FileList) => void;
 }
 
-export function InputTypeFIle({
+export const InputTypeFIle = ({
   label = "Выберите файл",
   width,
   accept,
   multiple = false,
   onChange,
-}: InputTypeFileProps): JSX.Element {
-  function getFiles(e: ChangeEvent<HTMLInputElement>) {
+}: InputTypeFileProps): JSX.Element => {
+  const getFiles = (e: ChangeEvent<HTMLInputElement>) => {
     const files: FileList | null = e.currentTarget.files;
     if (files === null) {
       notify("Не удалось загрузить файл(ы)", "warning");
     } else {
       onChange(files);
     }
-  }
+  };
 
   const style = {
     width,
@@ -51,4 +51,4 @@ export function InputTypeFIle({
       </label>
     </div>
   );
-}
+};

@@ -12,11 +12,11 @@ interface CommentsListProps {
   deleteComment: (id: string) => void;
 }
 
-function CommentsList({
+const CommentsList = ({
   comments,
   getComment,
   deleteComment,
-}: CommentsListProps) {
+}: CommentsListProps) => {
   const [myComment, setMyComment] = useState<Comment | null>(null);
   const [otherComments, setOtherComments] = useState<Comment[]>([]);
 
@@ -62,6 +62,6 @@ function CommentsList({
       </ul>
     </div>
   );
-}
+};
 
 export default observer(CommentsList);

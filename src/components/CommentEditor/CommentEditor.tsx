@@ -12,11 +12,11 @@ interface CommentEditorProps {
   comment: Comment | null;
 }
 
-export function CommentEditor({
+export const CommentEditor = ({
   getComment,
   deleteComment,
   comment,
-}: CommentEditorProps) {
+}: CommentEditorProps) => {
   const [text, setText] = useState<string>("");
   const [visibleTextArea, toggleVisibleTextArea] = useState<boolean>(false);
 
@@ -100,4 +100,4 @@ export function CommentEditor({
       </div>
     </>
   );
-}
+};

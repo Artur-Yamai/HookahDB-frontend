@@ -6,11 +6,11 @@ interface PictureProps {
   className?: string;
 }
 
-export function Picture({
+export const Picture = ({
   url,
   className,
   alt = "Изображение",
-}: PictureProps): JSX.Element {
+}: PictureProps): JSX.Element => {
   const avatarUrl = url ? config.photoUrl + url : "noimg.jpg";
 
   return (
@@ -18,4 +18,4 @@ export function Picture({
       <img src={avatarUrl} alt={alt} className="w100" />
     </picture>
   );
-}
+};

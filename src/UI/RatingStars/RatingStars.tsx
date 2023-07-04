@@ -3,7 +3,7 @@ import { RatingProps } from "./RatingProps";
 import { EmptyStar, HalfStar, FullStar } from "./Stars";
 import "./RatingStars.scss";
 
-export function RatingStars({
+export const RatingStars = ({
   className = "",
   count,
   value,
@@ -19,7 +19,7 @@ export function RatingStars({
   emptyIcon = <EmptyStar />,
   halfIcon = <HalfStar />,
   fullIcon = <FullStar />,
-}: RatingProps): JSX.Element {
+}: RatingProps): JSX.Element => {
   const [hoverValue, setHoverValue] = useState<number | undefined>(undefined);
 
   const handleMouseMove = (index: number) => {
@@ -93,4 +93,4 @@ export function RatingStars({
       )}
     </div>
   );
-}
+};

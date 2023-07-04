@@ -7,7 +7,7 @@ interface TobaccosListProps {
   tobaccoList: Tobacco[];
 }
 
-function TobaccosList({ tobaccoList }: TobaccosListProps): JSX.Element {
+const TobaccosList = ({ tobaccoList }: TobaccosListProps): JSX.Element => {
   return (
     <div className="tl">
       {!!tobaccoList.length &&
@@ -16,6 +16,6 @@ function TobaccosList({ tobaccoList }: TobaccosListProps): JSX.Element {
         ))}
     </div>
   );
-}
+};
 
 export default observer(TobaccosList);

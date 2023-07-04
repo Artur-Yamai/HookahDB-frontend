@@ -15,16 +15,16 @@ import "./App.scss";
 import "./styles/globalStyles.scss";
 import { StartingSpinner } from "./UI";
 
-export default function App() {
+export const App = () => {
   const [loading, toggleLoading] = useState<boolean>(true);
 
-  async function getUser() {
+  const getUser = async () => {
     await UserStore.autoAuth();
     setTimeout(() => {
       toggleLoading(false);
       // 500млс, потому что запросы обрабатываются слишком быстро, и спинер прячется сразу же
     }, 500);
-  }
+  };
 
   // Если юзер авторизировался ранее и его токен еще жив
   // Тогда происходит автоматическая авторизация
@@ -49,4 +49,4 @@ export default function App() {
       </div>
     </BrowserRouter>
   );
-}
+};

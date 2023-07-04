@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { ErrorHTTPRequest } from "../Types";
 import { notify } from "../UI";
 
-export function catchHelper(error: unknown): void {
+export const catchHelper = (error: unknown): void => {
   const err = error as AxiosError;
   const data = err?.response?.data as ErrorHTTPRequest;
   const message: string = data?.message;
@@ -11,4 +11,4 @@ export function catchHelper(error: unknown): void {
     message ?? "Произошла ошибка. Попробуйте повторить операцию позже",
     "error"
   );
-}
+};
