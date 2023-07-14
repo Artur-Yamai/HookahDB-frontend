@@ -163,10 +163,8 @@ class TobaccoStore {
 
   public async deleteFromFavoriteList(tobaccoId: GUID): Promise<void> {
     try {
-      const res: boolean = await TobaccoApi.deleteFromFavoriteList(tobaccoId);
-      if (res) {
-        await this.getTobacco(tobaccoId);
-      }
+      await TobaccoApi.deleteFromFavoriteList(tobaccoId);
+      await this.getTobacco(tobaccoId);
     } catch (error) {
       catchHelper(error);
     }

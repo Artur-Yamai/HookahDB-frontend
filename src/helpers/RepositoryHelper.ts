@@ -10,7 +10,7 @@ const options = {
   },
 };
 
-class RepositoryHelper {
+export class RepositoryHelper {
   public async perfomOperation(
     notifyType: NotifyTypes,
     showSpinner: boolean,
@@ -65,20 +65,14 @@ class RepositoryHelper {
 
   public async delete(entityId: string, endpoint: string, showSpinner = true) {
     try {
-      showSpinner && CommonStore.toggleLoading(true);
-      const response = await Repository.delete(endpoint, {
-        data: {
-          id: entityId,
-        },
-      });
-      const message = response.data.message;
-      notify(message, "success");
-      return response.data.success;
+      CommonStore.toggleLoading(showSpinner);
+      await Repository.delete(endpoint, { data: { id: entityId } });
+      return true;
     } catch (error) {
       catchHelper(error);
     } finally {
       setTimeout(() => {
-        showSpinner && CommonStore.toggleLoading(false);
+        CommonStore.toggleLoading(false);
       }, 500);
     }
   }
