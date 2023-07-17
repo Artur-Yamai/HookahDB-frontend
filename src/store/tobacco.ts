@@ -82,12 +82,8 @@ class TobaccoStore {
     tobaccoId: GUID
   ): Promise<boolean> {
     try {
-      const { success }: { success: boolean } = await CommentApi.saveComment(
-        id,
-        tobaccoId,
-        "tobacco",
-        comment
-      );
+      const { success }: { success: boolean } =
+        await CommentApi.saveTobaccoComment(id, tobaccoId, comment);
 
       if (success) {
         await this.getComments(tobaccoId);
@@ -102,11 +98,10 @@ class TobaccoStore {
 
   public async deleteComment(id: GUID): Promise<void> {
     try {
-      await CommentApi.deleteComment(id);
+      await CommentApi.deleteTobaccoComment(id);
       if (this.tobacco) {
         await this.getComments(this.tobacco.id);
       }
-      return;
     } catch (error) {
       catchHelper(error);
     }
