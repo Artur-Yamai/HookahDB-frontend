@@ -8,7 +8,7 @@ import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { SelectOption } from "./SelectOption";
 import { Comment } from "./comment/comment";
 import { NotifyTypes } from "./NotifyTypes";
-import { Rating } from "./Rating";
+import { Rating, TobaccoRating } from "./Ratings";
 import { Reference } from "./Reference";
 import { GUID } from "./GUID";
 
@@ -22,6 +22,7 @@ export type {
   Comment,
   NotifyTypes,
   Rating,
+  TobaccoRating,
   Reference,
   GUID,
 };
