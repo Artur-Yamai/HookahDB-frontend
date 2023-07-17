@@ -2,16 +2,16 @@ import { makeAutoObservable } from "mobx";
 import { catchHelper } from "../helpers";
 
 import { RatingApi } from "../API";
-import { Rating } from "../Types";
+import { TobaccoRating } from "../Types";
 
 class RatingStore {
   constructor() {
     makeAutoObservable(this);
   }
 
-  async changeRating(rating: Rating): Promise<boolean> {
+  async changeTobaccoRating(rating: TobaccoRating): Promise<boolean> {
     try {
-      return await RatingApi.saveRating(rating).then((r) => r.success);
+      return await RatingApi.saveTobaccoRating(rating).then((r) => r.success);
     } catch (error) {
       catchHelper(error);
       return false;

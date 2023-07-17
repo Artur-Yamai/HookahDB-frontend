@@ -27,9 +27,9 @@ const TobaccoInfo = ({
   );
 
   const changeRating = async (value: number) => {
-    const isChange: boolean = await RatingStore.changeRating({
+    const isChange: boolean = await RatingStore.changeTobaccoRating({
       id: tobacco.isRated ? `${tobacco.id}:${UserStore.userData}` : null,
-      entityId: tobacco.id,
+      tobaccoId: tobacco.id,
       rating: value,
     });
     isChange && TobaccoStore.getTobacco(tobacco.id);
