@@ -3,7 +3,7 @@
 .textarea {
   position: relative;
   width: 100%;
-  padding-top: 15px;
+  padding-top: 20px;
 
   textarea {
     padding: 8px 10px;
@@ -15,7 +15,7 @@
     &:focus {
       outline: none !important;
       border-radius: 0;
-      border: 2px solid $colorBlue;
+      border: 1px solid $colorBlue;
       margin: 0;
     }
 
@@ -46,7 +46,7 @@
     position: absolute;
     top: 18px;
     left: 10px;
-    top: 23px;
+    top: 28px;
     transition: 0.3s;
     color: rgb(131, 131, 131);
     cursor: text;
