@@ -24,6 +24,10 @@ class UserStore {
     return !!this._userData;
   }
 
+  public get userCodeRole(): number {
+    return this._userData?.roleCode ?? -1;
+  }
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -48,13 +52,17 @@ class UserStore {
     }
   }
 
-  public async toRegistration(login: string, password: string, email: string) {
+  public async toRegistration(
+    login: string,
+    password: string,
+    email: string
+  ): Promise<boolean> {
     return await UserApi.register(login, password, email).then(
       (r) => r.success
     );
   }
 
-  public async autoAuth() {
+  public async autoAuth(): Promise<void> {
     if (!localStorage.token) return;
     try {
       const { data } = await UserApi.autoAuth();
@@ -98,7 +106,7 @@ class UserStore {
     this._userData = null;
   }
 
-  public async getFavoriteTobaccoByUserId(userId: GUID) {
+  public async getFavoriteTobaccoByUserId(userId: GUID): Promise<void> {
     try {
       const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
 
@@ -110,7 +118,7 @@ class UserStore {
     }
   }
 
-  public clearFavoriteTobaccoList() {
+  public clearFavoriteTobaccoList(): void {
     this._favoriteTobacco = [];
   }
 }

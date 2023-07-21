@@ -7,6 +7,7 @@ import TobaccoStore from "../../../store/tobacco";
 import { GUID, Tobacco } from "../../../Types";
 import { Picture, RatingStars } from "../../../UI";
 import "./TobaccoInfo.scss";
+import { RoleCodes, rightsCheck } from "../../../helpers";
 
 interface TobaccoInfoProps {
   tobacco: Tobacco;
@@ -26,7 +27,7 @@ const TobaccoInfo = ({
     [tobacco.isFavorite]
   );
 
-  const changeRating = async (value: number) => {
+  const changeRating = async (value: number): Promise<void> => {
     const isChange: boolean = await RatingStore.changeTobaccoRating({
       id: tobacco.isRated ? `${tobacco.id}:${UserStore.userData}` : null,
       tobaccoId: tobacco.id,
@@ -44,18 +45,22 @@ const TobaccoInfo = ({
         <div className="tobacco-info__common-data">
           {UserStore.userData && (
             <div className="tobacco-info__controllers-place">
-              <span
-                className="tobacco-info__controller"
-                onClick={() => updateTobacco()}
-              >
-                изменить
-              </span>
-              <span
-                className="tobacco-info__controller"
-                onClick={() => deleteTobacco(tobacco.id)}
-              >
-                удалить
-              </span>
+              {rightsCheck(RoleCodes.moderator) && (
+                <>
+                  <span
+                    className="tobacco-info__controller"
+                    onClick={() => updateTobacco()}
+                  >
+                    изменить
+                  </span>
+                  <span
+                    className="tobacco-info__controller"
+                    onClick={() => deleteTobacco(tobacco.id)}
+                  >
+                    удалить
+                  </span>
+                </>
+              )}
               <button
                 onClick={() => toggleFavorite()}
                 className={`tobacco-info__favorite-button ${favoriteButtonClass}`}

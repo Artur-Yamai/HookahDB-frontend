@@ -3,11 +3,11 @@ import "./ForHookah.scss";
 import { observer } from "mobx-react-lite";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
-import UserStore from "../../store/user";
 import { TobaccosList } from "../../components/TobaccoCmponents";
 import { FilterPanel } from "../../components";
 import { SelectOption } from "../../Types";
 import { TobaccoEditDialog } from "../../components";
+import { RoleCodes, rightsCheck } from "../../helpers";
 
 const ForHookah = (): JSX.Element => {
   const [selectedList, toggleSelectedList] = useState<string>("Tobaccos");
@@ -15,12 +15,12 @@ const ForHookah = (): JSX.Element => {
     { show: () => boolean } | undefined
   > = useRef();
 
-  const onChange = (option: SelectOption) => {
+  const onChange = (option: SelectOption): void => {
     toggleSelectedList(option.value);
     getData();
   };
 
-  const add = async () => {
+  const add = async (): Promise<void> => {
     if (selectedList === "Tobaccos") {
       if (!refTobaccoEditDialog.current) return;
 
@@ -37,13 +37,13 @@ const ForHookah = (): JSX.Element => {
     clearData();
   });
 
-  const getData = async () => {
+  const getData = async (): Promise<void> => {
     if (selectedList === "Tobaccos") {
       await TobaccoStore.getAllTobaccos();
     }
   };
 
-  const clearData = () => {
+  const clearData = (): void => {
     TobaccoStore.clearTobaccoList();
   };
 
@@ -52,7 +52,7 @@ const ForHookah = (): JSX.Element => {
       <FilterPanel
         onChangeFilterValue={onChange}
         add={add}
-        showAddButton={!!UserStore?.userData}
+        showAddButton={rightsCheck(RoleCodes.moderator)}
       />
       {selectedList === "Tobaccos" && (
         <TobaccosList tobaccoList={TobaccoStore.tobaccos} />
