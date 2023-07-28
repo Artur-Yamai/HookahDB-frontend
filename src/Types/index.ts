@@ -3,6 +3,7 @@ import {
   RegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
+import { ProductListName } from "./ProductListName";
 import { Rating, TobaccoRating } from "./Ratings";
 import { SelectOption } from "./SelectOption";
 import { NotifyTypes } from "./NotifyTypes";
@@ -18,6 +19,7 @@ export type {
   AuthorizationUserData,
   RegistrationUserData,
   ErrorHTTPRequest,
+  ProductListName,
   TobaccoRating,
   SelectOption,
   NotifyTypes,
