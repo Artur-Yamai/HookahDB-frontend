@@ -11,8 +11,8 @@ interface FilterPanelProps {
 }
 
 const options: SelectOption[] = [
-  { value: "Tobaccos", label: "Табаки" },
-  { value: "Other", label: "Другое" },
+  { value: "tobaccos", label: "Табаки" },
+  { value: "coals", label: "Угли" },
 ];
 
 export const FilterPanel = ({
@@ -20,7 +20,7 @@ export const FilterPanel = ({
   onChangeFilterValue,
   add,
 }: FilterPanelProps): JSX.Element => {
-  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
+  const [selectedOption, setSelectedOption] = useState<SelectOption>(
     options[0]
   );
 
