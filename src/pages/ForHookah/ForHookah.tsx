@@ -3,25 +3,27 @@ import "./ForHookah.scss";
 import { observer } from "mobx-react-lite";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
-import { TobaccosList } from "../../components/TobaccoCmponents";
+import CoalStore from "../../store/coal";
+import { TobaccosList, CoalList } from "../../components";
 import { FilterPanel } from "../../components";
-import { SelectOption } from "../../Types";
+import { ProductListName, SelectOption } from "../../Types";
 import { TobaccoEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
 
 const ForHookah = (): JSX.Element => {
-  const [selectedList, toggleSelectedList] = useState<string>("Tobaccos");
+  const [selectedList, toggleSelectedList] =
+    useState<ProductListName>("tobaccos");
   const refTobaccoEditDialog: React.MutableRefObject<
     { show: () => boolean } | undefined
   > = useRef();
 
   const onChange = (option: SelectOption): void => {
     toggleSelectedList(option.value);
-    getData();
+    getData(option.value);
   };
 
   const add = async (): Promise<void> => {
-    if (selectedList === "Tobaccos") {
+    if (selectedList === "tobaccos") {
       if (!refTobaccoEditDialog.current) return;
 
       const res: boolean = await refTobaccoEditDialog.current.show();
@@ -30,21 +32,29 @@ const ForHookah = (): JSX.Element => {
   };
 
   useMount(() => {
-    getData();
+    getData(selectedList);
   });
 
   useUnmount(() => {
     clearData();
   });
 
-  const getData = async (): Promise<void> => {
-    if (selectedList === "Tobaccos") {
-      await TobaccoStore.getAllTobaccos();
+  const getData = async (selectedList: ProductListName): Promise<void> => {
+    clearData();
+
+    switch (selectedList) {
+      case "tobaccos":
+        await TobaccoStore.getAllTobaccos();
+        break;
+      case "coals":
+        await CoalStore.getAllCoals();
+        break;
     }
   };
 
   const clearData = (): void => {
     TobaccoStore.clearTobaccoList();
+    CoalStore.clearCoalList();
   };
 
   return (
@@ -54,9 +64,10 @@ const ForHookah = (): JSX.Element => {
         add={add}
         showAddButton={rightsCheck(RoleCodes.moderator)}
       />
-      {selectedList === "Tobaccos" && (
+      {selectedList === "tobaccos" && (
         <TobaccosList tobaccoList={TobaccoStore.tobaccos} />
       )}
+      {selectedList === "coals" && <CoalList coalList={CoalStore.coals} />}
       <TobaccoEditDialog ref={refTobaccoEditDialog} />
     </div>
   );
