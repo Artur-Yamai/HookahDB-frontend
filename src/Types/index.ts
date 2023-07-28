@@ -2,27 +2,31 @@ import {
   AuthorizationUserData,
   RegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
-import { User } from "./user/User";
-import { Tobacco } from "./tobacco/tobacco";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
-import { SelectOption } from "./SelectOption";
-import { Comment } from "./comment/comment";
-import { NotifyTypes } from "./NotifyTypes";
 import { Rating, TobaccoRating } from "./Ratings";
+import { SelectOption } from "./SelectOption";
+import { NotifyTypes } from "./NotifyTypes";
+import { Comment } from "./comment/comment";
+import { Tobacco } from "./tobacco/tobacco";
 import { Reference } from "./Reference";
+import { Product } from "./product";
+import { User } from "./user/User";
+import { Coal } from "./coal/coal";
 import { GUID } from "./GUID";
 
 export type {
   AuthorizationUserData,
   RegistrationUserData,
-  User,
-  Tobacco,
   ErrorHTTPRequest,
-  SelectOption,
-  Comment,
-  NotifyTypes,
-  Rating,
   TobaccoRating,
+  SelectOption,
+  NotifyTypes,
   Reference,
+  Comment,
+  Tobacco,
+  Product,
+  Rating,
+  User,
+  Coal,
   GUID,
 };
