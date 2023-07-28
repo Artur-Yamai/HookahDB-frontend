@@ -7,3 +7,4 @@ export { TobaccoEditDialog } from "./Dialogs";
 export { FilterPanel } from "./FilterPanel";
 export { CommentsList } from "./Comments";
 export { CommentEditor } from "./CommentEditor";
+export { CoalList } from "./CoalComponents";
