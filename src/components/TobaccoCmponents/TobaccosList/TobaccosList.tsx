@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Tobacco } from "../../../Types";
-import { TobaccoItem } from "./TobaccoItem/TobaccoItem";
-import "./TobaccosList.scss";
+import { TobaccoItem } from "./TobaccoItem";
 
 interface TobaccosListProps {
   tobaccoList: Tobacco[];
@@ -9,7 +8,7 @@ interface TobaccosListProps {
 
 const TobaccosList = ({ tobaccoList }: TobaccosListProps): JSX.Element => {
   return (
-    <div className="tl">
+    <div className="propduct-list">
       {!!tobaccoList.length &&
         tobaccoList.map((tobacco: Tobacco) => (
           <TobaccoItem key={tobacco.id} tobacco={tobacco} />
