@@ -1,20 +1,19 @@
 import { observer } from "mobx-react-lite";
+import { ProductsList } from "../..";
+import { ProductItem } from "../../../UI";
+import TobaccoStore from "../../../store/tobacco";
 import { Tobacco } from "../../../Types";
-import { TobaccoItem } from "./TobaccoItem";
 
-interface TobaccosListProps {
-  tobaccoList: Tobacco[];
-}
-
-const TobaccosList = ({ tobaccoList }: TobaccosListProps): JSX.Element => {
+export const TobaccosList = observer(() => {
   return (
-    <div className="propduct-list">
-      {!!tobaccoList.length &&
-        tobaccoList.map((tobacco: Tobacco) => (
-          <TobaccoItem key={tobacco.id} tobacco={tobacco} />
-        ))}
-    </div>
+    <ProductsList>
+      {TobaccoStore.tobaccos.map((tobacco: Tobacco) => (
+        <ProductItem
+          key={tobacco.id}
+          data={tobacco}
+          url={`/tobacco/${tobacco.id}`}
+        />
+      ))}
+    </ProductsList>
   );
-};
-
-export default observer(TobaccosList);
+});

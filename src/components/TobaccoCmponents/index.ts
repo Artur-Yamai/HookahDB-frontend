@@ -1,4 +1,4 @@
-import TobaccosList from "./TobaccosList/TobaccosList";
-import TobaccoInfo from "./TobaccoInfo/TobaccoInfo";
+import { TobaccoInfo } from "./TobaccosInfo";
+import { TobaccosList } from "./TobaccosList";
 
-export { TobaccosList, TobaccoInfo };
+export { TobaccoInfo, TobaccosList };
