@@ -1,1 +1,0 @@
-export { CoalList } from "./CoalList";

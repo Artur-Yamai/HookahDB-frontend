@@ -4,26 +4,24 @@ import { observer } from "mobx-react-lite";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import CoalStore from "../../store/coal";
-import { TobaccosList, CoalList } from "../../components";
-import { FilterPanel } from "../../components";
+import { FilterPanel, TobaccosList, CoalList } from "../../components";
 import { ProductListName, SelectOption } from "../../Types";
-import { TobaccoEditDialog } from "../../components";
+// import { TobaccoEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
 
 const ForHookah = (): JSX.Element => {
-  const [selectedList, toggleSelectedList] =
-    useState<ProductListName>("tobaccos");
+  const [productName, setProductName] = useState<ProductListName>("tobaccos");
   const refTobaccoEditDialog: React.MutableRefObject<
     { show: () => boolean } | undefined
   > = useRef();
 
   const onChange = (option: SelectOption): void => {
-    toggleSelectedList(option.value);
+    setProductName(option.value);
     getData(option.value);
   };
 
   const add = async (): Promise<void> => {
-    if (selectedList === "tobaccos") {
+    if (productName === "tobaccos") {
       if (!refTobaccoEditDialog.current) return;
 
       const res: boolean = await refTobaccoEditDialog.current.show();
@@ -32,17 +30,17 @@ const ForHookah = (): JSX.Element => {
   };
 
   useMount(() => {
-    getData(selectedList);
+    getData(productName);
   });
 
   useUnmount(() => {
     clearData();
   });
 
-  const getData = async (selectedList: ProductListName): Promise<void> => {
+  const getData = async (productName: ProductListName): Promise<void> => {
     clearData();
 
-    switch (selectedList) {
+    switch (productName) {
       case "tobaccos":
         await TobaccoStore.getAllTobaccos();
         break;
@@ -64,11 +62,8 @@ const ForHookah = (): JSX.Element => {
         add={add}
         showAddButton={rightsCheck(RoleCodes.moderator)}
       />
-      {selectedList === "tobaccos" && (
-        <TobaccosList tobaccoList={TobaccoStore.tobaccos} />
-      )}
-      {selectedList === "coals" && <CoalList coalList={CoalStore.coals} />}
-      <TobaccoEditDialog ref={refTobaccoEditDialog} />
+      {(productName === "tobaccos" && <TobaccosList />) ||
+        (productName === "coals" && <CoalList />)}
     </div>
   );
 };
