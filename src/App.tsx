@@ -10,6 +10,7 @@ import {
   NotFound,
   ForHookah,
   TobaccoPage,
+  CoalPage,
 } from "./pages";
 import "./App.scss";
 import "./styles/globalStyles.scss";
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/my-page" element={<Userpage />} />
             <Route path="/tobacco/:id" element={<TobaccoPage />} />
+            <Route path="/coal/:id" element={<CoalPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

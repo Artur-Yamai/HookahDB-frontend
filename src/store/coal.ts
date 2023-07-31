@@ -5,9 +5,14 @@ import { CoalApi } from "../API";
 
 class CoalStore {
   private _coals: Coal[] = [];
+  private _coal: Coal | null = null;
 
   public get coals(): Coal[] {
     return this._coals;
+  }
+
+  public get coal(): Coal | null {
+    return this._coal;
   }
 
   constructor() {
@@ -23,6 +28,19 @@ class CoalStore {
       const { data } = await CoalApi.getAllCoals();
       if (data.success) {
         runInAction(() => (this._coals = data.body));
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async getCoal(id: string): Promise<void> {
+    try {
+      const { data } = await CoalApi.getCoal(id);
+      if (data.success) {
+        runInAction(() => {
+          this._coal = data.body;
+        });
       }
     } catch (error) {
       catchHelper(error);
