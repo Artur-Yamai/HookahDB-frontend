@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from "react-router";
 import CoalStore from "../../store/coal";
-import { ProductInfo } from "../../components";
+import { ProductInfo, CommentsList } from "../../components";
 import "./CoalPage.scss";
 import { GUID, Coal } from "../../Types";
 import { confirm } from "../../UI";
@@ -37,6 +37,16 @@ export const CoalPage = observer(() => {
     }
   };
 
+  const deleteComment = async (id: GUID): Promise<void> => {
+    const res = await confirm(
+      "Вы уверены что хотите удалить этот комментарий?"
+    );
+
+    if (res) {
+      console.log(`deleteComment ${id}`);
+    }
+  };
+
   const coal: Coal | null = CoalStore.coal;
 
   if (!coal) {
@@ -44,14 +54,27 @@ export const CoalPage = observer(() => {
     return <div>Loading...</div>;
   }
 
+  const getComment = async (
+    text: string,
+    id: GUID | null
+  ): Promise<boolean> => {
+    console.log("getComment", text, id);
+    return true;
+  };
+
   return (
-    <div className="coalPage">
+    <div className="coalPage w100">
       <ProductInfo
         product={coal}
         onDelete={deleteCoal}
         onUpdate={() => console.log("updateTobacco")}
         onChangeRating={(value: number) => console.log("onChangeRating", value)}
         toggleFavorite={() => console.log("toggleFavorite")}
+      />
+      <CommentsList
+        comments={[]}
+        getComment={getComment}
+        deleteComment={deleteComment}
       />
     </div>
   );
