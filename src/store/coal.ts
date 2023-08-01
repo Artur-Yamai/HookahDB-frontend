@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Coal } from "../Types";
+import { Coal, GUID } from "../Types";
 import { catchHelper } from "../helpers";
 import { CoalApi } from "../API";
 
@@ -23,6 +23,10 @@ class CoalStore {
     this._coals = [];
   }
 
+  public clearCoalData(): void {
+    this._coal = null;
+  }
+
   public async getAllCoals(): Promise<void> {
     try {
       const { data } = await CoalApi.getAllCoals();
@@ -42,6 +46,14 @@ class CoalStore {
           this._coal = data.body;
         });
       }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async deleteCoal(id: GUID): Promise<void> {
+    try {
+      await CoalApi.deleteCoal(id);
     } catch (error) {
       catchHelper(error);
     }
