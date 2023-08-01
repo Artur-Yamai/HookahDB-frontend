@@ -3,12 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
+import RatingStore from "../../store/rating";
+import UserStore from "../../store/user";
 import "./TobaccoPage.scss";
 import { Comment, GUID, Tobacco } from "../../Types";
-import { TobaccoInfo, CommentsList, TobaccoEditDialog } from "../../components";
+import { ProductInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
-const TobaccoPage = () => {
+export const TobaccoPage = observer(() => {
   let { id } = useParams();
   id = id as GUID | undefined;
   const navigate = useNavigate();
@@ -84,13 +86,23 @@ const TobaccoPage = () => {
     return true;
   };
 
+  const onChangeRating = async (value: number): Promise<void> => {
+    const isChange: boolean = await RatingStore.changeTobaccoRating({
+      id: tobacco.isRated ? `${tobacco.id}:${UserStore.userData}` : null,
+      tobaccoId: tobacco.id,
+      rating: value,
+    });
+    isChange && TobaccoStore.getTobacco(tobacco.id);
+  };
+
   return (
     <div className="tobacco-page">
       <TobaccoEditDialog ref={refTobaccoEditDialog} />
-      <TobaccoInfo
-        tobacco={tobacco}
-        deleteTobacco={deleteTobacco}
-        updateTobacco={updateTobacco}
+      <ProductInfo
+        product={tobacco}
+        onDelete={deleteTobacco}
+        onUpdate={updateTobacco}
+        onChangeRating={onChangeRating}
         toggleFavorite={toggleFavorite}
       />
       <CommentsList
@@ -100,6 +112,4 @@ const TobaccoPage = () => {
       />
     </div>
   );
-};
-
-export default observer(TobaccoPage);
+});
