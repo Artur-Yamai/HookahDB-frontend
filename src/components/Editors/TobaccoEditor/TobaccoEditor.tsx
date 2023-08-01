@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { ReferenceApi } from "../../../API";
 import { Reference } from "../../../Types";
-import { TobaccoEditorProps } from "./TobaccoEditorProps";
 import { TextBox, InputTypeFIle, Picture, TextArea, Select } from "../../../UI";
 import { useMount } from "../../../hooks";
 import { TobaccoClass } from "../../../Classes";
+import { ProductClass } from "../../../Classes/ProductClass";
 import "./TobaccoEditor.scss";
+
+export interface TobaccoEditorProps {
+  productData: ProductClass;
+  setNewData: (product: ProductClass) => void;
+  pullNewPhoto: (file: File) => void;
+}
 
 type FieldName = "name" | "description";
 
 export const TobaccoEditor = ({
-  tobaccoData,
+  productData,
   pullNewPhoto,
-  setNewTobaccosData,
+  setNewData,
 }: TobaccoEditorProps) => {
-  const [tobacco, setTobacco] = useState<TobaccoClass>(tobaccoData);
+  const [tobacco, setTobacco] = useState<TobaccoClass>(productData);
   const [loading, toggleLoading] = useState<boolean>(false);
   const [fabricators, setFabricators] = useState<Reference[]>([]);
 
@@ -33,14 +39,14 @@ export const TobaccoEditor = ({
     const newTobacco: TobaccoClass = { ...tobacco } as TobaccoClass;
     newTobacco[field] = newValue;
     setTobacco(newTobacco);
-    setNewTobaccosData(newTobacco);
+    setNewData(newTobacco);
   };
 
   const changeSelectValue = (newValue: Reference) => {
     const newTobacco = { ...tobacco } as TobaccoClass;
     newTobacco.fabricatorId = newValue?.id ?? "";
     setTobacco(newTobacco);
-    setNewTobaccosData(newTobacco);
+    setNewData(newTobacco);
   };
 
   const renderFile = (file: File) => {

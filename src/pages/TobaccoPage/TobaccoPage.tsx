@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useUnmount } from "../../hooks";
@@ -8,15 +8,14 @@ import UserStore from "../../store/user";
 import "./TobaccoPage.scss";
 import { Comment, GUID, Tobacco } from "../../Types";
 import { ProductInfo, CommentsList, TobaccoEditDialog } from "../../components";
-import { confirm } from "../../UI";
+import { confirm, notify } from "../../UI";
+import { TobaccoClass } from "../../Classes";
 
 export const TobaccoPage = observer(() => {
+  const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
   let { id } = useParams();
   id = id as GUID | undefined;
   const navigate = useNavigate();
-  const refTobaccoEditDialog: React.MutableRefObject<
-    { show: (tobacco: Tobacco | null) => boolean } | undefined
-  > = useRef();
 
   if (!id) {
     navigate("/notFound");
@@ -47,10 +46,8 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const updateTobacco = async () => {
-    if (!refTobaccoEditDialog.current) return;
-
-    refTobaccoEditDialog.current.show(tobacco);
+  const updateTobacco = () => {
+    toggleVisibleDialog(true);
   };
 
   const deleteComment = async (tobaccoId: GUID): Promise<void> => {
@@ -71,6 +68,23 @@ export const TobaccoPage = observer(() => {
     } else {
       await TobaccoStore.addToFavoriteList(tobacco.id);
     }
+  };
+
+  const saveData = async (
+    tobacco: TobaccoClass,
+    newPhoto?: File
+  ): Promise<void> => {
+    console.log(tobacco, newPhoto);
+    if (tobacco.id) {
+      console.log(tobacco.name);
+      await TobaccoStore.updateTobacco(tobacco, newPhoto);
+    } else if (newPhoto) {
+      await TobaccoStore.createTobacco(tobacco, newPhoto);
+    } else {
+      return notify("Не все поля заполнены", "warning");
+    }
+
+    toggleVisibleDialog(false);
   };
 
   if (!tobacco) {
@@ -97,7 +111,12 @@ export const TobaccoPage = observer(() => {
 
   return (
     <div className="tobacco-page">
-      <TobaccoEditDialog ref={refTobaccoEditDialog} />
+      <TobaccoEditDialog
+        isVisible={isVisibleDialog}
+        tobacco={TobaccoStore.tobacco}
+        closeDislog={() => toggleVisibleDialog(false)}
+        saveData={saveData}
+      />
       <ProductInfo
         product={tobacco}
         onDelete={deleteTobacco}

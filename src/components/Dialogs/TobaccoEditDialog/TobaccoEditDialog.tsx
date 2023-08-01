@@ -1,74 +1,51 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Tobacco } from "../../../Types";
-import { Popup, notify } from "../../../UI";
-import TobaccoStore from "../../../store/tobacco";
-import { TobaccoClass } from "../../../Classes";
+import { Popup } from "../../../UI";
 import { TobaccoEditor } from "../../Editors";
+import { TobaccoClass } from "../../../Classes";
 
-let resolve: (value: boolean) => void;
-const sleep = (): Promise<boolean> => new Promise((r) => (resolve = r));
+interface TobaccoEditDialogProps {
+  isVisible: boolean;
+  tobacco: Tobacco | null;
+  closeDislog: () => void;
+  saveData: (tobacco: TobaccoClass, file?: File) => void;
+}
 
-const TobaccoEditDialog = forwardRef((_, ref) => {
-  const [isVisible, toggleVisible] = useState<boolean>(false);
-  const [tobacco, setTobacco] = useState<TobaccoClass>(new TobaccoClass());
-  const [newPhoto, setNewPhoto] = useState<File>();
+export const TobaccoEditDialog = observer(
+  ({ isVisible, tobacco, closeDislog, saveData }: TobaccoEditDialogProps) => {
+    const [data, setData] = useState<TobaccoClass | null>(null);
+    const [newPhoto, setNewPhoto] = useState<File>();
 
-  const cancel = () => {
-    toggleVisible(false);
-    resolve(false);
-  };
+    useEffect(() => {
+      isVisible ? setData(new TobaccoClass(tobacco)) : setData(null);
+    }, [isVisible]);
 
-  const setNewTobaccosData = (tobacco: TobaccoClass): void =>
-    setTobacco(tobacco);
+    const setNewData = (tobacco: TobaccoClass): void => setData(tobacco);
 
-  const agree = async (): Promise<void> => {
-    console.log(tobacco);
-    if (!tobacco) return;
+    const agree = async (): Promise<void> => {
+      if (!data) return;
 
-    if (tobacco.id) {
-      await TobaccoStore.updateTobacco(tobacco, newPhoto);
-    } else if (newPhoto) {
-      await TobaccoStore.createTobacco(tobacco, newPhoto);
-    } else {
-      return notify("Заполните все поля", "warning");
-    }
+      saveData(data, newPhoto);
+    };
 
-    toggleVisible(false);
-    resolve(true);
-  };
+    if (!data) return <></>;
 
-  useImperativeHandle(
-    ref,
-    (): { show: (tobacco: Tobacco | null) => Promise<boolean> } => ({
-      async show(tobacco: Tobacco | null): Promise<boolean> {
-        const tbcClass = tobacco
-          ? new TobaccoClass(tobacco)
-          : new TobaccoClass();
-        setTobacco(tbcClass);
-        toggleVisible(true);
-
-        return await sleep();
-      },
-    })
-  );
-
-  return (
-    <Popup
-      visible={isVisible}
-      close={cancel}
-      agree={agree}
-      title="Табак"
-      height="900px"
-      width="650px"
-    >
-      <TobaccoEditor
-        setNewTobaccosData={setNewTobaccosData}
-        tobaccoData={tobacco}
-        pullNewPhoto={setNewPhoto}
-      />
-    </Popup>
-  );
-});
-
-export default observer(TobaccoEditDialog);
+    return (
+      <Popup
+        visible={isVisible}
+        close={() => closeDislog()}
+        agree={agree}
+        title="Табак"
+        height="900px"
+        width="650px"
+      >
+        <TobaccoEditor
+          setNewData={setNewData}
+          productData={data}
+          pullNewPhoto={setNewPhoto}
+        />
+      </Popup>
+    );
+  }
+);
