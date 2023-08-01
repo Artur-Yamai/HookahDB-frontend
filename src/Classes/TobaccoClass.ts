@@ -1,4 +1,4 @@
-import { GUID, Tobacco } from "../Types";
+import { Tobacco } from "../Types";
 import { ProductClass } from "./ProductClass";
 
 export class TobaccoClass extends ProductClass {
