@@ -1,4 +1,3 @@
-import Repository from "./axios";
 import { TobaccoClass } from "../Classes";
 import RepositoryHelper from "../helpers/RepositoryHelper";
 import { GUID } from "../Types";
@@ -7,10 +6,10 @@ export const TobaccoApi = {
   getAllTobaccos: async () => await RepositoryHelper.get("/tobaccos"),
 
   getTobaccoEndpoint: () => "/tobaccos",
-  async getTobacco(id: string) {
-    return await RepositoryHelper.get(`/tobacco/${id}`);
-  },
-  async saveTobacco(tobaccoData: TobaccoClass, photo: File | undefined) {
+  getTobacco: async (id: string) =>
+    await RepositoryHelper.get(`/tobacco/${id}`),
+
+  async saveTobacco(tobaccoData: TobaccoClass, photo?: File) {
     return await RepositoryHelper.save(
       { ...tobaccoData, photo },
       this.getTobaccoEndpoint()
@@ -21,7 +20,7 @@ export const TobaccoApi = {
   },
 
   getTobaccoComments: async (id: string) =>
-    await Repository.get(`/tobacco/${id}/comments`),
+    await RepositoryHelper.get(`/tobacco/${id}/comments`),
 
   addToFavoriteList: async (tobaccoId: GUID) =>
     await RepositoryHelper.save({ tobaccoId }, "/favoriteTobacco"),
