@@ -8,8 +8,7 @@ import UserStore from "../../store/user";
 import "./TobaccoPage.scss";
 import { Comment, GUID, Tobacco } from "../../Types";
 import { ProductInfo, CommentsList, TobaccoEditDialog } from "../../components";
-import { confirm, notify } from "../../UI";
-import { TobaccoClass } from "../../Classes";
+import { confirm } from "../../UI";
 
 export const TobaccoPage = observer(() => {
   const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
@@ -70,23 +69,6 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const saveData = async (
-    tobacco: TobaccoClass,
-    newPhoto?: File
-  ): Promise<void> => {
-    console.log(tobacco, newPhoto);
-    if (tobacco.id) {
-      console.log(tobacco.name);
-      await TobaccoStore.updateTobacco(tobacco, newPhoto);
-    } else if (newPhoto) {
-      await TobaccoStore.createTobacco(tobacco, newPhoto);
-    } else {
-      return notify("Не все поля заполнены", "warning");
-    }
-
-    toggleVisibleDialog(false);
-  };
-
   if (!tobacco) {
     // TODO: поместить красивый спиннер ^_^
     return <div>Loading...</div>;
@@ -115,7 +97,6 @@ export const TobaccoPage = observer(() => {
         isVisible={isVisibleDialog}
         tobacco={TobaccoStore.tobacco}
         closeDialog={() => toggleVisibleDialog(false)}
-        saveData={saveData}
       />
       <ProductInfo
         product={tobacco}

@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Tobacco } from "../../../Types";
-import { Popup } from "../../../UI";
+import { Popup, notify } from "../../../UI";
 import { TobaccoEditor } from "../../Editors";
 import { TobaccoClass } from "../../../Classes";
+import TobaccoStore from "../../../store/tobacco";
 
 interface TobaccoEditDialogProps {
   isVisible: boolean;
   tobacco: Tobacco | null;
   closeDialog: () => void;
-  saveData: (tobacco: TobaccoClass, file?: File) => void;
 }
 
 export const TobaccoEditDialog = observer(
-  ({ isVisible, tobacco, closeDialog, saveData }: TobaccoEditDialogProps) => {
+  ({ isVisible, tobacco, closeDialog }: TobaccoEditDialogProps) => {
     const [data, setData] = useState<TobaccoClass | null>(null);
     const [newPhoto, setNewPhoto] = useState<File>();
 
@@ -26,7 +26,15 @@ export const TobaccoEditDialog = observer(
     const agree = async (): Promise<void> => {
       if (!data) return;
 
-      saveData(data, newPhoto);
+      if (data.id) {
+        await TobaccoStore.updateTobacco(data, newPhoto);
+      } else if (newPhoto) {
+        await TobaccoStore.createTobacco(data, newPhoto);
+      } else {
+        return notify("Заполните все поля", "warning");
+      }
+
+      closeDialog();
     };
 
     if (!data) return <></>;
@@ -34,7 +42,7 @@ export const TobaccoEditDialog = observer(
     return (
       <Popup
         visible={isVisible}
-        close={() => closeDialog()}
+        close={closeDialog}
         agree={agree}
         title="Табак"
         height="900px"
