@@ -1,12 +1,12 @@
 import { useState } from "react";
-import "./ForHookah.scss";
 import { observer } from "mobx-react-lite";
+import "./ForHookah.scss";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import CoalStore from "../../store/coal";
 import { FilterPanel, TobaccosList, CoalList } from "../../components";
 import { ProductListName, SelectOption } from "../../Types";
-import { TobaccoEditDialog } from "../../components";
+import { TobaccoEditDialog, CoalEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
 
 const ForHookah = (): JSX.Element => {
@@ -61,7 +61,16 @@ const ForHookah = (): JSX.Element => {
           <TobaccosList />
         </>
       )) ||
-        (productName === "coals" && <CoalList />)}
+        (productName === "coals" && (
+          <>
+            <CoalEditDialog
+              coal={CoalStore.coal}
+              isVisible={isVisibleDialog}
+              closeDialog={() => toggleVisibleDialog(false)}
+            />
+            <CoalList />
+          </>
+        ))}
     </div>
   );
 };
