@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Popup, notify } from "../../../UI";
-import "./CoalEditDialog.scss";
 import { Coal } from "../../../Types";
 import { CoalClass } from "../../../Classes";
 import { CoalStore } from "../../../store";
+import { ProductEditor } from "../../Editors";
 
 interface CoalEditDialogProps {
   isVisible: boolean;
@@ -42,13 +42,17 @@ export const CoalEditDialog = observer(
     return (
       <Popup
         visible={isVisible}
-        close={() => closeDialog()}
+        close={closeDialog}
         agree={agree}
         title="Уголь"
         height="900px"
         width="650px"
       >
-        <div>{coal?.name}</div>
+        <ProductEditor
+          setNewData={setNewData}
+          productData={data}
+          pullNewPhoto={setNewPhoto}
+        />
       </Popup>
     );
   }
