@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import config from "../../configuration";
 import { useMount } from "../../hooks";
 
@@ -15,16 +15,25 @@ export const Picture = ({
   alt = "Изображение",
   onClick,
 }: PictureProps): JSX.Element => {
-  const [avatarUrl, setAvatarUrl] = useState<string>("noimg.jpg");
-
-  useMount(() => {
+  const noImgPath: string = "../noimg.jpg";
+  const [avatarUrl, setAvatarUrl] = useState<string>(noImgPath);
+  const setImage = () => {
     const img = new Image();
     const path = config.photoUrl + url;
 
     img.onload = () => setAvatarUrl(path);
-    img.onerror = () => setAvatarUrl("noimg.jpg");
+    img.onerror = () => setAvatarUrl(noImgPath);
 
     img.src = path;
+  };
+
+  useEffect(() => {
+    setImage();
+    // eslint-disable-next-line
+  }, [url]);
+
+  useMount(() => {
+    setImage();
   });
 
   return (
