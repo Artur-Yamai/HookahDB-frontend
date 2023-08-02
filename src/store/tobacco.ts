@@ -123,14 +123,12 @@ class TobaccoStore {
 
   public async updateTobacco(
     tobacco: TobaccoClass,
-    photo: File | undefined
+    photo?: File
   ): Promise<void> {
     try {
       const data = await TobaccoApi.saveTobacco(tobacco, photo);
       if (data.success) {
-        runInAction(() => {
-          this._tobacco = data.body;
-        });
+        runInAction(() => (this._tobacco = data.body));
       }
     } catch (error) {
       catchHelper(error);
