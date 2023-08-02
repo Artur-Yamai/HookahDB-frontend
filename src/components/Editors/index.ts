@@ -1,1 +1,1 @@
-export { TobaccoEditor } from "./TobaccoEditor/TobaccoEditor";
+export { ProductEditor } from "./ProductEditor/";

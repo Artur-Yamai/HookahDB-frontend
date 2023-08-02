@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Tobacco } from "../../../Types";
 import { Popup, notify } from "../../../UI";
-import { TobaccoEditor } from "../../Editors";
+import { ProductEditor } from "../../Editors";
 import { TobaccoClass } from "../../../Classes";
 import TobaccoStore from "../../../store/tobacco";
 
@@ -48,7 +48,7 @@ export const TobaccoEditDialog = observer(
         height="900px"
         width="650px"
       >
-        <TobaccoEditor
+        <ProductEditor
           setNewData={setNewData}
           productData={data}
           pullNewPhoto={setNewPhoto}
