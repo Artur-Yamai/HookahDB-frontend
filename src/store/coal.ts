@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { Coal, GUID } from "../Types";
 import { catchHelper } from "../helpers";
 import { CoalApi } from "../API";
+import { CoalClass } from "../Classes";
 
 class CoalStore {
   private _coals: Coal[] = [];
@@ -45,6 +46,28 @@ class CoalStore {
         runInAction(() => {
           this._coal = data.body;
         });
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async createCoal(coal: CoalClass, photo: File): Promise<void> {
+    try {
+      const data = await CoalApi.saveCoal(coal, photo);
+      if (data.success) {
+        this.getAllCoals();
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async updateCoal(coal: CoalClass, photo?: File): Promise<void> {
+    try {
+      const data = await CoalApi.saveCoal(coal, photo);
+      if (data.success) {
+        runInAction(() => (this._coal = data.body));
       }
     } catch (error) {
       catchHelper(error);
