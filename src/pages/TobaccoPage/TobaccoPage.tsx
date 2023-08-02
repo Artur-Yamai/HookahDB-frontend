@@ -45,10 +45,6 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const updateTobacco = () => {
-    toggleVisibleDialog(true);
-  };
-
   const deleteComment = async (tobaccoId: GUID): Promise<void> => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот комментарий?"
@@ -101,7 +97,7 @@ export const TobaccoPage = observer(() => {
       <ProductInfo
         product={tobacco}
         onDelete={deleteTobacco}
-        onUpdate={updateTobacco}
+        onUpdate={() => toggleVisibleDialog(true)}
         onChangeRating={onChangeRating}
         toggleFavorite={toggleFavorite}
       />
