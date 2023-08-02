@@ -1,3 +1,2 @@
-import { TobaccoEditDialog } from "./TobaccoEditDialog/TobaccoEditDialog";
-
-export { TobaccoEditDialog };
+export { TobaccoEditDialog } from "./TobaccoEditDialog";
+export { CoalEditDialog } from "./CoalEditDialog";

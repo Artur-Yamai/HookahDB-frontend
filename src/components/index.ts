@@ -4,7 +4,7 @@ export * as NavBar from "./NavBar";
 export { RegistrationForm } from "./RegistrationForm";
 export { ProductInfo } from "./ProductInfo";
 export { TobaccosList } from "./TobaccoCmponents";
-export { TobaccoEditDialog } from "./Dialogs";
+export { TobaccoEditDialog, CoalEditDialog } from "./Dialogs";
 export { FilterPanel } from "./FilterPanel";
 export { CommentsList } from "./Comments";
 export { CommentEditor } from "./CommentEditor";

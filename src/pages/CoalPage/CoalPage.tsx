@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from "react-router";
 import CoalStore from "../../store/coal";
-import { ProductInfo, CommentsList } from "../../components";
+import { CoalEditDialog, ProductInfo, CommentsList } from "../../components";
 import "./CoalPage.scss";
 import { GUID, Coal } from "../../Types";
 import { confirm } from "../../UI";
 import { useUnmount } from "../../hooks";
 
+type paramsType = { id: GUID };
+
 export const CoalPage = observer(() => {
-  let { id } = useParams();
-  id = id as GUID | undefined;
+  const [isVisible, toggleVisible] = useState<boolean>(false);
+  let { id } = useParams<paramsType>();
   const navigate = useNavigate();
 
   if (!id) {
@@ -26,6 +28,10 @@ export const CoalPage = observer(() => {
       CoalStore.getCoal(id);
     }
   }, [id]);
+
+  const updateCoal = (): void => {
+    toggleVisible(true);
+  };
 
   const deleteCoal = async (id: GUID) => {
     const res = await confirm(
@@ -64,10 +70,15 @@ export const CoalPage = observer(() => {
 
   return (
     <div className="coalPage w100">
+      <CoalEditDialog
+        coal={CoalStore.coal}
+        isVisible={isVisible}
+        closeDialog={() => toggleVisible(false)}
+      />
       <ProductInfo
         product={coal}
         onDelete={deleteCoal}
-        onUpdate={() => console.log("updateTobacco")}
+        onUpdate={updateCoal}
         onChangeRating={(value: number) => console.log("onChangeRating", value)}
         toggleFavorite={() => console.log("toggleFavorite")}
       />
