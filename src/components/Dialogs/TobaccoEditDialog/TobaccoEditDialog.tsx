@@ -8,18 +8,18 @@ import { TobaccoClass } from "../../../Classes";
 interface TobaccoEditDialogProps {
   isVisible: boolean;
   tobacco: Tobacco | null;
-  closeDislog: () => void;
+  closeDialog: () => void;
   saveData: (tobacco: TobaccoClass, file?: File) => void;
 }
 
 export const TobaccoEditDialog = observer(
-  ({ isVisible, tobacco, closeDislog, saveData }: TobaccoEditDialogProps) => {
+  ({ isVisible, tobacco, closeDialog, saveData }: TobaccoEditDialogProps) => {
     const [data, setData] = useState<TobaccoClass | null>(null);
     const [newPhoto, setNewPhoto] = useState<File>();
 
     useEffect(() => {
       isVisible ? setData(new TobaccoClass(tobacco)) : setData(null);
-    }, [isVisible]);
+    }, [isVisible, tobacco]);
 
     const setNewData = (tobacco: TobaccoClass): void => setData(tobacco);
 
@@ -34,7 +34,7 @@ export const TobaccoEditDialog = observer(
     return (
       <Popup
         visible={isVisible}
-        close={() => closeDislog()}
+        close={() => closeDialog()}
         agree={agree}
         title="Табак"
         height="900px"

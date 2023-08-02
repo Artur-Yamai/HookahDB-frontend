@@ -114,7 +114,7 @@ export const TobaccoPage = observer(() => {
       <TobaccoEditDialog
         isVisible={isVisibleDialog}
         tobacco={TobaccoStore.tobacco}
-        closeDislog={() => toggleVisibleDialog(false)}
+        closeDialog={() => toggleVisibleDialog(false)}
         saveData={saveData}
       />
       <ProductInfo
