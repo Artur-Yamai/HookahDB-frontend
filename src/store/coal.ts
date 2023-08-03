@@ -81,6 +81,26 @@ class CoalStore {
       catchHelper(error);
     }
   }
+
+  public async addToFavoriteList(coalId: GUID): Promise<void> {
+    try {
+      const res = await CoalApi.addToFavoriteList(coalId);
+      if (res) {
+        await this.getCoal(coalId);
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async deleteFromFavoriteList(coalId: GUID): Promise<void> {
+    try {
+      await CoalApi.deleteFromFavoriteList(coalId);
+      await this.getCoal(coalId);
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
 }
 
 const coal = new CoalStore();

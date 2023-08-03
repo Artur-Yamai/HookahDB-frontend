@@ -18,4 +18,10 @@ export const CoalApi = {
   async deleteCoal(id: GUID) {
     return await RepositoryHelper.delete(id, this.getCoalEndpoint());
   },
+
+  addToFavoriteList: async (coalId: GUID) =>
+    await RepositoryHelper.save({ coalId }, "/favorite/coal"),
+
+  deleteFromFavoriteList: async (coalId: GUID) =>
+    await RepositoryHelper.delete(coalId, "/favorite/coal"),
 };

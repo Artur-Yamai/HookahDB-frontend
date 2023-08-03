@@ -62,6 +62,14 @@ export const CoalPage = observer(() => {
     return <div>Loading...</div>;
   }
 
+  const toggleFavorite = async () => {
+    if (coal.isFavorite) {
+      await CoalStore.deleteFromFavoriteList(coal.id);
+    } else {
+      await CoalStore.addToFavoriteList(coal.id);
+    }
+  };
+
   const getComment = async (
     text: string,
     id: GUID | null
@@ -91,7 +99,7 @@ export const CoalPage = observer(() => {
         onDelete={deleteCoal}
         onUpdate={updateCoal}
         onChangeRating={onChangeRating}
-        toggleFavorite={() => console.log("toggleFavorite")}
+        toggleFavorite={toggleFavorite}
       />
       <CommentsList
         comments={[]}
