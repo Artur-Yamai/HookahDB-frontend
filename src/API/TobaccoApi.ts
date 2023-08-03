@@ -23,8 +23,8 @@ export const TobaccoApi = {
     await RepositoryHelper.get(`/tobacco/${id}/comments`),
 
   addToFavoriteList: async (tobaccoId: GUID) =>
-    await RepositoryHelper.save({ tobaccoId }, "/favoriteTobacco"),
+    await RepositoryHelper.save({ tobaccoId }, "/favorite/tobacco"),
 
   deleteFromFavoriteList: async (tobaccoId: GUID) =>
-    await RepositoryHelper.delete(tobaccoId, "/favoriteTobacco"),
+    await RepositoryHelper.delete(tobaccoId, "/favorite/tobacco"),
 };
