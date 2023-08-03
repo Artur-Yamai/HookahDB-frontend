@@ -19,6 +19,9 @@ export const CoalApi = {
     return await RepositoryHelper.delete(id, this.getCoalEndpoint());
   },
 
+  getCoalComments: async (id: string) =>
+    await RepositoryHelper.get(`coal/${id}/comments`),
+
   addToFavoriteList: async (coalId: GUID) =>
     await RepositoryHelper.save({ coalId }, "/favorite/coal"),
 

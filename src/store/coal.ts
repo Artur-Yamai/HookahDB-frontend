@@ -1,12 +1,13 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Coal, GUID } from "../Types";
+import { Coal, GUID, Comment } from "../Types";
 import { catchHelper } from "../helpers";
-import { CoalApi } from "../API";
+import { CoalApi, CommentApi } from "../API";
 import { CoalClass } from "../Classes";
 
 class CoalStore {
   private _coals: Coal[] = [];
   private _coal: Coal | null = null;
+  private _comments: Comment[] = [];
 
   public get coals(): Coal[] {
     return this._coals;
@@ -16,12 +17,20 @@ class CoalStore {
     return this._coal;
   }
 
+  public get comments(): Comment[] {
+    return this._comments;
+  }
+
   constructor() {
     makeAutoObservable(this);
   }
 
   public clearCoalList(): void {
     this._coals = [];
+  }
+
+  public clearCoalComments(): void {
+    this._comments = [];
   }
 
   public clearCoalData(): void {
@@ -46,6 +55,44 @@ class CoalStore {
         runInAction(() => {
           this._coal = data.body;
         });
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async getComments(id: string): Promise<void> {
+    try {
+      const { data } = await CoalApi.getCoalComments(id);
+      if (data.success) {
+        runInAction(() => (this._comments = data.body));
+      }
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async saveComment(comment: string, id: GUID | null, coalId: GUID) {
+    try {
+      const { success }: { success: boolean } =
+        await CommentApi.saveCoalComment(id, coalId, comment);
+
+      if (success) {
+        await this.getComments(coalId);
+      }
+
+      return success;
+    } catch (error) {
+      catchHelper(error);
+      return false;
+    }
+  }
+
+  public async deleteComment(id: GUID): Promise<void> {
+    try {
+      await CommentApi.deleteCoalComment(id);
+      if (this.coal) {
+        await this.getComments(this.coal.id);
       }
     } catch (error) {
       catchHelper(error);
