@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from "react-router";
 import CoalStore from "../../store/coal";
+import RatingStore from "../../store/rating";
+import UserStore from "../../store/user";
 import { CoalEditDialog, ProductInfo, CommentsList } from "../../components";
 import "./CoalPage.scss";
 import { GUID, Coal } from "../../Types";
@@ -18,6 +20,8 @@ export const CoalPage = observer(() => {
   if (!id) {
     navigate("/notFound");
   }
+
+  const coal: Coal | null = CoalStore.coal;
 
   useUnmount(() => {
     CoalStore.clearCoalData();
@@ -53,8 +57,6 @@ export const CoalPage = observer(() => {
     }
   };
 
-  const coal: Coal | null = CoalStore.coal;
-
   if (!coal) {
     // TODO: поместить красивый спиннер ^_^
     return <div>Loading...</div>;
@@ -68,6 +70,15 @@ export const CoalPage = observer(() => {
     return true;
   };
 
+  const onChangeRating = async (value: number): Promise<void> => {
+    const isChange: boolean = await RatingStore.changeCoalRating({
+      id: coal.isRated ? `${coal.id}:${UserStore.userData}` : null,
+      coalId: coal.id,
+      rating: value,
+    });
+    isChange && CoalStore.getCoal(coal.id);
+  };
+
   return (
     <div className="coalPage w100">
       <CoalEditDialog
@@ -79,7 +90,7 @@ export const CoalPage = observer(() => {
         product={coal}
         onDelete={deleteCoal}
         onUpdate={updateCoal}
-        onChangeRating={(value: number) => console.log("onChangeRating", value)}
+        onChangeRating={onChangeRating}
         toggleFavorite={() => console.log("toggleFavorite")}
       />
       <CommentsList

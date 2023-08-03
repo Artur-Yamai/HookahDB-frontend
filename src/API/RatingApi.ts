@@ -5,4 +5,7 @@ const resource = "/rating";
 export const RatingApi = {
   saveTobaccoRating: async (rating: Rating) =>
     await RepositoryHelper.save(rating, `${resource}/tobacco`),
+
+  saveCoalRating: async (rating: Rating) =>
+    await RepositoryHelper.save(rating, `${resource}/coal`),
 };

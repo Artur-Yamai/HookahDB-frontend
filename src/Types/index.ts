@@ -2,9 +2,9 @@ import {
   AuthorizationUserData,
   RegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
+import { Rating, TobaccoRating, CoalRating } from "./Ratings";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { ProductListName } from "./ProductListName";
-import { Rating, TobaccoRating } from "./Ratings";
 import { SelectOption } from "./SelectOption";
 import { NotifyTypes } from "./NotifyTypes";
 import { Comment } from "./comment/comment";
@@ -23,6 +23,7 @@ export type {
   TobaccoRating,
   SelectOption,
   NotifyTypes,
+  CoalRating,
   Reference,
   Comment,
   Tobacco,
