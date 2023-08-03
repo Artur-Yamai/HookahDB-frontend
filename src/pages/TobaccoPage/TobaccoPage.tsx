@@ -55,20 +55,18 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const toggleFavorite = async () => {
-    if (!tobacco?.id) return;
+  if (!tobacco) {
+    // TODO: поместить красивый спиннер ^_^
+    return <div>Loading...</div>;
+  }
 
+  const toggleFavorite = async () => {
     if (tobacco.isFavorite) {
       await TobaccoStore.deleteFromFavoriteList(tobacco.id);
     } else {
       await TobaccoStore.addToFavoriteList(tobacco.id);
     }
   };
-
-  if (!tobacco) {
-    // TODO: поместить красивый спиннер ^_^
-    return <div>Loading...</div>;
-  }
 
   const getComment = async (
     text: string,

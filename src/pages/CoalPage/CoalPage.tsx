@@ -6,7 +6,7 @@ import RatingStore from "../../store/rating";
 import UserStore from "../../store/user";
 import { CoalEditDialog, ProductInfo, CommentsList } from "../../components";
 import "./CoalPage.scss";
-import { GUID, Coal } from "../../Types";
+import { Comment, GUID, Coal } from "../../Types";
 import { confirm } from "../../UI";
 import { useUnmount } from "../../hooks";
 
@@ -22,20 +22,19 @@ export const CoalPage = observer(() => {
   }
 
   const coal: Coal | null = CoalStore.coal;
+  const comments: Comment[] = CoalStore.comments;
 
   useUnmount(() => {
     CoalStore.clearCoalData();
+    CoalStore.clearCoalComments();
   });
 
   useEffect(() => {
     if (id) {
       CoalStore.getCoal(id);
+      CoalStore.getComments(id);
     }
   }, [id]);
-
-  const updateCoal = (): void => {
-    toggleVisible(true);
-  };
 
   const deleteCoal = async (id: GUID) => {
     const res = await confirm(
@@ -53,7 +52,7 @@ export const CoalPage = observer(() => {
     );
 
     if (res) {
-      console.log(`deleteComment ${id}`);
+      CoalStore.deleteComment(id);
     }
   };
 
@@ -74,7 +73,7 @@ export const CoalPage = observer(() => {
     text: string,
     id: GUID | null
   ): Promise<boolean> => {
-    console.log("getComment", text, id);
+    await CoalStore.saveComment(text, id, coal.id);
     return true;
   };
 
@@ -97,12 +96,12 @@ export const CoalPage = observer(() => {
       <ProductInfo
         product={coal}
         onDelete={deleteCoal}
-        onUpdate={updateCoal}
+        onUpdate={() => toggleVisible(true)}
         onChangeRating={onChangeRating}
         toggleFavorite={toggleFavorite}
       />
       <CommentsList
-        comments={[]}
+        comments={comments}
         getComment={getComment}
         deleteComment={deleteComment}
       />

@@ -67,9 +67,7 @@ class TobaccoStore {
     try {
       const { data } = await TobaccoApi.getTobaccoComments(id);
       if (data.success) {
-        runInAction(() => {
-          this._comments = data.body;
-        });
+        runInAction(() => (this._comments = data.body));
       }
     } catch (error) {
       catchHelper(error);
