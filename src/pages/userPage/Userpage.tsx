@@ -6,7 +6,7 @@ import UserStore from "../../store/user";
 import { User } from "../../Types";
 import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
-// import { TobaccosList } from "../../components";
+import { TobaccosList } from "../../components";
 
 const Userpage = () => {
   const user: User | null = UserStore.userData;
@@ -52,7 +52,9 @@ const Userpage = () => {
           </form>
         </div>
       </div>
-      {/* {UserStore.favoriteTobacco && <TobaccosList />} */}
+      {UserStore.favoriteTobacco && (
+        <TobaccosList tobaccos={UserStore.favoriteTobacco} />
+      )}
     </>
   );
 };

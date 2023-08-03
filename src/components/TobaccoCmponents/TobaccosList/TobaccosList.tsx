@@ -1,13 +1,16 @@
 import { observer } from "mobx-react-lite";
 import { ProductsList } from "../..";
 import { ProductItem } from "../../../UI";
-import TobaccoStore from "../../../store/tobacco";
 import { Tobacco } from "../../../Types";
 
-export const TobaccosList = observer(() => {
+interface TobaccosListProps {
+  tobaccos: Tobacco[];
+}
+
+export const TobaccosList = observer(({ tobaccos }: TobaccosListProps) => {
   return (
     <ProductsList>
-      {TobaccoStore.tobaccos.map((tobacco: Tobacco) => (
+      {tobaccos.map((tobacco: Tobacco) => (
         <ProductItem
           key={tobacco.id}
           data={tobacco}
