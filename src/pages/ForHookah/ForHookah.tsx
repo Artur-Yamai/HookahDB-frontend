@@ -1,63 +1,76 @@
-import { useState, useRef } from "react";
-import "./ForHookah.scss";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
+import "./ForHookah.scss";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
-import { TobaccosList } from "../../components/TobaccoCmponents";
-import { FilterPanel } from "../../components";
-import { SelectOption } from "../../Types";
-import { TobaccoEditDialog } from "../../components";
+import CoalStore from "../../store/coal";
+import { FilterPanel, TobaccosList, CoalList } from "../../components";
+import { ProductListName, SelectOption } from "../../Types";
+import { TobaccoEditDialog, CoalEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
 
 const ForHookah = (): JSX.Element => {
-  const [selectedList, toggleSelectedList] = useState<string>("Tobaccos");
-  const refTobaccoEditDialog: React.MutableRefObject<
-    { show: () => boolean } | undefined
-  > = useRef();
+  const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
+  const [productName, setProductName] = useState<ProductListName>("tobaccos");
 
   const onChange = (option: SelectOption): void => {
-    toggleSelectedList(option.value);
-    getData();
-  };
-
-  const add = async (): Promise<void> => {
-    if (selectedList === "Tobaccos") {
-      if (!refTobaccoEditDialog.current) return;
-
-      const res: boolean = await refTobaccoEditDialog.current.show();
-      console.log(res);
-    }
+    setProductName(option.value);
+    getData(option.value);
   };
 
   useMount(() => {
-    getData();
+    getData(productName);
   });
 
   useUnmount(() => {
     clearData();
   });
 
-  const getData = async (): Promise<void> => {
-    if (selectedList === "Tobaccos") {
-      await TobaccoStore.getAllTobaccos();
+  const getData = async (productName: ProductListName): Promise<void> => {
+    clearData();
+
+    switch (productName) {
+      case "tobaccos":
+        await TobaccoStore.getAllTobaccos();
+        break;
+      case "coals":
+        await CoalStore.getAllCoals();
+        break;
     }
   };
 
   const clearData = (): void => {
     TobaccoStore.clearTobaccoList();
+    CoalStore.clearCoalList();
   };
 
   return (
     <div className="for-hookah">
       <FilterPanel
         onChangeFilterValue={onChange}
-        add={add}
+        add={() => toggleVisibleDialog(true)}
         showAddButton={rightsCheck(RoleCodes.moderator)}
       />
-      {selectedList === "Tobaccos" && (
-        <TobaccosList tobaccoList={TobaccoStore.tobaccos} />
-      )}
-      <TobaccoEditDialog ref={refTobaccoEditDialog} />
+      {(productName === "tobaccos" && (
+        <>
+          <TobaccoEditDialog
+            tobacco={TobaccoStore.tobacco}
+            isVisible={isVisibleDialog}
+            closeDialog={() => toggleVisibleDialog(false)}
+          />
+          <TobaccosList />
+        </>
+      )) ||
+        (productName === "coals" && (
+          <>
+            <CoalEditDialog
+              coal={CoalStore.coal}
+              isVisible={isVisibleDialog}
+              closeDialog={() => toggleVisibleDialog(false)}
+            />
+            <CoalList />
+          </>
+        ))}
     </div>
   );
 };

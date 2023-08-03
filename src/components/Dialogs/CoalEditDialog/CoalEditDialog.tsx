@@ -1,35 +1,35 @@
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Tobacco } from "../../../Types";
 import { Popup, notify } from "../../../UI";
+import { Coal } from "../../../Types";
+import { CoalClass } from "../../../Classes";
+import { CoalStore } from "../../../store";
 import { ProductEditor } from "../../Editors";
-import { TobaccoClass } from "../../../Classes";
-import TobaccoStore from "../../../store/tobacco";
 
-interface TobaccoEditDialogProps {
+interface CoalEditDialogProps {
   isVisible: boolean;
-  tobacco: Tobacco | null;
+  coal: Coal | null;
   closeDialog: () => void;
 }
 
-export const TobaccoEditDialog = observer(
-  ({ isVisible, tobacco, closeDialog }: TobaccoEditDialogProps) => {
-    const [data, setData] = useState<TobaccoClass | null>(null);
+export const CoalEditDialog = observer(
+  ({ isVisible, coal, closeDialog }: CoalEditDialogProps) => {
+    const [data, setData] = useState<CoalClass | null>(null);
     const [newPhoto, setNewPhoto] = useState<File>();
 
     useEffect(() => {
-      isVisible ? setData(new TobaccoClass(tobacco)) : setData(null);
-    }, [isVisible, tobacco]);
+      isVisible ? setData(new CoalClass(coal)) : setData(null);
+    }, [isVisible, coal]);
 
-    const setNewData = (tobacco: TobaccoClass): void => setData(tobacco);
+    const setNewData = (coal: CoalClass): void => setData(coal);
 
     const agree = async (): Promise<void> => {
       if (!data) return;
 
       if (data.id) {
-        await TobaccoStore.updateTobacco(data, newPhoto);
+        await CoalStore.updateCoal(data, newPhoto);
       } else if (newPhoto) {
-        await TobaccoStore.createTobacco(data, newPhoto);
+        await CoalStore.createCoal(data, newPhoto);
       } else {
         return notify("Заполните все поля", "warning");
       }
@@ -44,7 +44,7 @@ export const TobaccoEditDialog = observer(
         visible={isVisible}
         close={closeDialog}
         agree={agree}
-        title="Табак"
+        title="Уголь"
         height="900px"
         width="650px"
       >

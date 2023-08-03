@@ -1,6 +1,6 @@
-@import "../../../../styles/colors.scss";
+@import "../../styles/colors.scss";
 
-.tc {
+.product-item {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -77,37 +77,37 @@
 }
 
 @media (max-width: 1680px) {
-  .tc {
+  .product-item {
     width: calc(100% / 5 - 30px);
   }
 }
 
 @media (max-width: 1380px) {
-  .tc {
+  .product-item {
     width: calc(100% / 5 - 30px);
   }
 }
 
 @media (max-width: 1380px) {
-  .tc {
+  .product-item {
     width: calc(100% / 4 - 30px);
   }
 }
 
 @media (max-width: 1280px) {
-  .tc {
+  .product-item {
     width: calc(100% / 3 - 30px);
   }
 }
 
 @media (max-width: 990px) {
-  .tc {
+  .product-item {
     width: calc(100% / 2 - 30px);
   }
 }
 
 @media (max-width: 750px) {
-  .tc {
+  .product-item {
     width: 100%;
     margin: 0 auto 140px;
 

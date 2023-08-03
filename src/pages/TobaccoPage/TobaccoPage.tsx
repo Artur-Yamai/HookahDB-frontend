@@ -1,20 +1,20 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
+import RatingStore from "../../store/rating";
+import UserStore from "../../store/user";
 import "./TobaccoPage.scss";
 import { Comment, GUID, Tobacco } from "../../Types";
-import { TobaccoInfo, CommentsList, TobaccoEditDialog } from "../../components";
+import { ProductInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
-const TobaccoPage = () => {
+export const TobaccoPage = observer(() => {
+  const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
   let { id } = useParams();
   id = id as GUID | undefined;
   const navigate = useNavigate();
-  const refTobaccoEditDialog: React.MutableRefObject<
-    { show: (tobacco: Tobacco | null) => boolean } | undefined
-  > = useRef();
 
   if (!id) {
     navigate("/notFound");
@@ -43,12 +43,6 @@ const TobaccoPage = () => {
       await TobaccoStore.deleteTobacco(id);
       navigate("/");
     }
-  };
-
-  const updateTobacco = async () => {
-    if (!refTobaccoEditDialog.current) return;
-
-    refTobaccoEditDialog.current.show(tobacco);
   };
 
   const deleteComment = async (tobaccoId: GUID): Promise<void> => {
@@ -84,13 +78,27 @@ const TobaccoPage = () => {
     return true;
   };
 
+  const onChangeRating = async (value: number): Promise<void> => {
+    const isChange: boolean = await RatingStore.changeTobaccoRating({
+      id: tobacco.isRated ? `${tobacco.id}:${UserStore.userData}` : null,
+      tobaccoId: tobacco.id,
+      rating: value,
+    });
+    isChange && TobaccoStore.getTobacco(tobacco.id);
+  };
+
   return (
     <div className="tobacco-page">
-      <TobaccoEditDialog ref={refTobaccoEditDialog} />
-      <TobaccoInfo
-        tobacco={tobacco}
-        deleteTobacco={deleteTobacco}
-        updateTobacco={updateTobacco}
+      <TobaccoEditDialog
+        isVisible={isVisibleDialog}
+        tobacco={TobaccoStore.tobacco}
+        closeDialog={() => toggleVisibleDialog(false)}
+      />
+      <ProductInfo
+        product={tobacco}
+        onDelete={deleteTobacco}
+        onUpdate={() => toggleVisibleDialog(true)}
+        onChangeRating={onChangeRating}
         toggleFavorite={toggleFavorite}
       />
       <CommentsList
@@ -100,6 +108,4 @@ const TobaccoPage = () => {
       />
     </div>
   );
-};
-
-export default observer(TobaccoPage);
+});

@@ -8,3 +8,7 @@ export interface Rating {
 export interface TobaccoRating extends Rating {
   tobaccoId: GUID;
 }
+
+export interface CoalRating extends Rating {
+  coalId: GUID;
+}

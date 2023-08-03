@@ -1,20 +1,25 @@
 import { useState } from "react";
 import { ReferenceApi } from "../../../API";
 import { Reference } from "../../../Types";
-import { TobaccoEditorProps } from "./TobaccoEditorProps";
 import { TextBox, InputTypeFIle, Picture, TextArea, Select } from "../../../UI";
 import { useMount } from "../../../hooks";
-import { TobaccoClass } from "../../../Classes";
-import "./TobaccoEditor.scss";
+import { ProductClass } from "../../../Classes";
+import "./ProductEditor.scss";
+
+export interface ProductEditorProps {
+  productData: ProductClass;
+  setNewData: (product: ProductClass) => void;
+  pullNewPhoto: (file: File) => void;
+}
 
 type FieldName = "name" | "description";
 
-export const TobaccoEditor = ({
-  tobaccoData,
+export const ProductEditor = ({
+  productData,
   pullNewPhoto,
-  setNewTobaccosData,
-}: TobaccoEditorProps) => {
-  const [tobacco, setTobacco] = useState<TobaccoClass>(tobaccoData);
+  setNewData,
+}: ProductEditorProps) => {
+  const [product, setProduct] = useState<ProductClass>(productData);
   const [loading, toggleLoading] = useState<boolean>(false);
   const [fabricators, setFabricators] = useState<Reference[]>([]);
 
@@ -30,23 +35,23 @@ export const TobaccoEditor = ({
   });
 
   const changeValue = (newValue: string, field: FieldName): void => {
-    const newTobacco: TobaccoClass = { ...tobacco } as TobaccoClass;
-    newTobacco[field] = newValue;
-    setTobacco(newTobacco);
-    setNewTobaccosData(newTobacco);
+    const newProduct: ProductClass = { ...product } as ProductClass;
+    newProduct[field] = newValue;
+    setProduct(newProduct);
+    setNewData(newProduct);
   };
 
   const changeSelectValue = (newValue: Reference) => {
-    const newTobacco = { ...tobacco } as TobaccoClass;
-    newTobacco.fabricatorId = newValue?.id ?? "";
-    setTobacco(newTobacco);
-    setNewTobaccosData(newTobacco);
+    const newProduct: ProductClass = { ...product };
+    newProduct.fabricatorId = newValue?.id ?? "";
+    setProduct(newProduct);
+    setNewData(newProduct);
   };
 
   const renderFile = (file: File) => {
     const reader: FileReader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
-      const img = document.querySelector(".tobacco-editor img");
+      const img = document.querySelector(".product-editor img");
       const photo = e?.target?.result;
       if (!img || !photo || typeof photo !== "string") return;
       img.setAttribute("src", photo);
@@ -65,40 +70,40 @@ export const TobaccoEditor = ({
   };
 
   return (
-    <form className="tobacco-editor editor-form">
+    <form className="product-editor editor-form">
       <div className="editor-form__field">
         <Select
           options={fabricators}
-          value={tobacco?.fabricatorId}
+          value={product?.fabricatorId}
           isLoading={loading}
           onChange={changeSelectValue}
           isClearable={true}
-          placeholder="Выберите производителя"
+          placeholder="Производитель"
           valueKey="id"
           labelKey="value"
         />
       </div>
       <TextBox
         name="name"
-        value={tobacco?.name ?? ""}
-        placeholder="Укажите название табака"
+        value={product?.name ?? ""}
+        placeholder="Добавьте название"
         label="Название"
         width="100%"
         onChange={(e) => changeValue(e, "name")}
       />
       <div className="editor-form__field">
         <TextArea
-          label="Описание табака"
-          placeholder="Опишите табак"
-          text={tobacco?.description ?? ""}
+          label="Введите"
+          placeholder="Описание"
+          text={product?.description ?? ""}
           onChange={(e) => changeValue(e, "description")}
         />
       </div>
       <div
-        className="editor-form__field tobacco-editor__photo"
+        className="editor-form__field product-editor__photo"
         style={{ width: "300px" }}
       >
-        <Picture url={tobacco?.photoUrl} />
+        <Picture url={product?.photoUrl} />
         <InputTypeFIle onChange={changeFile} label="Сменить изображение" />
       </div>
     </form>
