@@ -1,5 +1,5 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { GUID, Tobacco, User } from "../Types";
+import { GUID, Tobacco, Coal, User } from "../Types";
 import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
@@ -7,6 +7,7 @@ import { catchHelper } from "../helpers";
 class UserStore {
   private _userData: User | null = null;
   private _favoriteTobacco: Tobacco[] = [];
+  private _favoriteCoal: Coal[] = [];
 
   public get userData(): User | null {
     return this._userData;
@@ -18,6 +19,10 @@ class UserStore {
 
   public get favoriteTobacco(): Tobacco[] {
     return this._favoriteTobacco;
+  }
+
+  public get favoriteCoal(): Coal[] {
+    return this._favoriteCoal;
   }
 
   public get isAuth(): boolean {
@@ -110,9 +115,17 @@ class UserStore {
     try {
       const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
 
-      runInAction(() => {
-        this._favoriteTobacco = data.body;
-      });
+      runInAction(() => (this._favoriteTobacco = data.body));
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async getFavoriteCoalByUserId(userId: GUID): Promise<void> {
+    try {
+      const { data } = await UserApi.getFavoriteCoalByUserId(userId);
+
+      runInAction(() => (this._favoriteCoal = data.body));
     } catch (error) {
       catchHelper(error);
     }
@@ -120,6 +133,10 @@ class UserStore {
 
   public clearFavoriteTobaccoList(): void {
     this._favoriteTobacco = [];
+  }
+
+  public clearFavoriteCoalList(): void {
+    this._favoriteCoal = [];
   }
 }
 

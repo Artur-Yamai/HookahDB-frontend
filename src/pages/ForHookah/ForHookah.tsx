@@ -58,7 +58,7 @@ const ForHookah = (): JSX.Element => {
             isVisible={isVisibleDialog}
             closeDialog={() => toggleVisibleDialog(false)}
           />
-          <TobaccosList />
+          <TobaccosList tobaccos={TobaccoStore.tobaccos} />
         </>
       )) ||
         (productName === "coals" && (
@@ -68,7 +68,7 @@ const ForHookah = (): JSX.Element => {
               isVisible={isVisibleDialog}
               closeDialog={() => toggleVisibleDialog(false)}
             />
-            <CoalList />
+            <CoalList coals={CoalStore.coals} />
           </>
         ))}
     </div>

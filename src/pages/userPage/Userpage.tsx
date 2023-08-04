@@ -6,7 +6,8 @@ import UserStore from "../../store/user";
 import { User } from "../../Types";
 import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
-// import { TobaccosList } from "../../components";
+import { CoalList, TobaccosList } from "../../components";
+import { useUnmount } from "../../hooks";
 
 const Userpage = () => {
   const user: User | null = UserStore.userData;
@@ -14,8 +15,14 @@ const Userpage = () => {
   useEffect(() => {
     if (user?.id) {
       UserStore.getFavoriteTobaccoByUserId(user.id);
+      UserStore.getFavoriteCoalByUserId(user.id);
     }
   }, [user?.id]);
+
+  useUnmount(() => {
+    UserStore.clearFavoriteTobaccoList();
+    UserStore.clearFavoriteCoalList();
+  });
 
   if (user === null) return <h1>Страница недоступна</h1>;
 
@@ -52,7 +59,18 @@ const Userpage = () => {
           </form>
         </div>
       </div>
-      {/* {UserStore.favoriteTobacco && <TobaccosList />} */}
+      {UserStore.favoriteTobacco.length && (
+        <>
+          <h1>Угли</h1>
+          <TobaccosList tobaccos={UserStore.favoriteTobacco} />
+        </>
+      )}
+      {UserStore.favoriteCoal && (
+        <>
+          <h1>Угли</h1>
+          <CoalList coals={UserStore.favoriteCoal} />
+        </>
+      )}
     </>
   );
 };
