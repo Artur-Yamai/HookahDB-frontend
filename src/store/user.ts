@@ -115,9 +115,17 @@ class UserStore {
     try {
       const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
 
-      runInAction(() => {
-        this._favoriteTobacco = data.body;
-      });
+      runInAction(() => (this._favoriteTobacco = data.body));
+    } catch (error) {
+      catchHelper(error);
+    }
+  }
+
+  public async getFavoriteCoalByUserId(userId: GUID): Promise<void> {
+    try {
+      const { data } = await UserApi.getFavoriteCoalByUserId(userId);
+
+      runInAction(() => (this._favoriteCoal = data.body));
     } catch (error) {
       catchHelper(error);
     }
@@ -125,6 +133,10 @@ class UserStore {
 
   public clearFavoriteTobaccoList(): void {
     this._favoriteTobacco = [];
+  }
+
+  public clearFavoriteCoalList(): void {
+    this._favoriteCoal = [];
   }
 }
 

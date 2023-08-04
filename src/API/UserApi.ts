@@ -32,4 +32,7 @@ export const UserApi = {
 
   getFavoriteTobaccoByUserId: async (userId: GUID) =>
     await Repository.get(`/user/${userId}/favoriteTobaccos`),
+
+  getFavoriteCoalByUserId: async (userId: GUID) =>
+    await Repository.get(`/user/${userId}/favoriteCoals`),
 };
