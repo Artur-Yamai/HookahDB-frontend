@@ -13,7 +13,7 @@ export const InteractionList = ({
 }: InteractionListProps) => (
   <ul
     className={`interaction-list ${isActive ? "interaction-list--active" : ""}`}
-    style={{ height: `${buttonList.length * 40 + 10}px` }}
+    style={{ height: `${buttonList.length * 40 + 8}px` }}
   >
     {buttonList.map((data: MenuInteractionButton, i) => (
       <InteractionListItem
