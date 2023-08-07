@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import { InteractionButton } from "./InteractionButton";
 import { InteractionList } from "./InteractionList";
 import { MenuInteractionButton } from "../../Types";
@@ -8,20 +8,26 @@ interface MenuInteractionProps {
   buttonList: MenuInteractionButton[];
 }
 
-export const MenuInteraction = ({ buttonList }: MenuInteractionProps) => {
-  const [isActive, toggleActiveStatus] = useState<boolean>(false);
+export const MenuInteraction = forwardRef(
+  ({ buttonList }: MenuInteractionProps, ref) => {
+    const [isActive, toggleActiveStatus] = useState<boolean>(false);
 
-  return (
-    <div
-      className={`menu-interaction ${
-        isActive ? "menu-interaction--active" : ""
-      }`}
-    >
-      <InteractionButton
-        isActive={isActive}
-        onClick={() => toggleActiveStatus(!isActive)}
-      />
-      <InteractionList isActive={isActive} buttonList={buttonList} />
-    </div>
-  );
-};
+    const hideList = () => toggleActiveStatus(false);
+
+    useImperativeHandle(ref, () => ({ hideList }));
+
+    return (
+      <div
+        className={`menu-interaction ${
+          isActive ? "menu-interaction--active" : ""
+        }`}
+      >
+        <InteractionButton
+          isActive={isActive}
+          onClick={() => toggleActiveStatus(!isActive)}
+        />
+        <InteractionList isActive={isActive} buttonList={buttonList} />
+      </div>
+    );
+  }
+);
