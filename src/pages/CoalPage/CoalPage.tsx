@@ -9,6 +9,7 @@ import "./CoalPage.scss";
 import { Comment, GUID, Coal } from "../../Types";
 import { confirm } from "../../UI";
 import { useUnmount } from "../../hooks";
+import { Helmet } from "react-helmet";
 
 type paramsType = { id: GUID };
 
@@ -87,24 +88,29 @@ export const CoalPage = observer(() => {
   };
 
   return (
-    <div className="coalPage w100">
-      <CoalEditDialog
-        coal={CoalStore.coal}
-        isVisible={isVisible}
-        closeDialog={() => toggleVisible(false)}
-      />
-      <ProductInfo
-        product={coal}
-        onDelete={deleteCoal}
-        onUpdate={() => toggleVisible(true)}
-        onChangeRating={onChangeRating}
-        toggleFavorite={toggleFavorite}
-      />
-      <CommentsList
-        comments={comments}
-        getComment={getComment}
-        deleteComment={deleteComment}
-      />
-    </div>
+    <>
+      <Helmet>
+        <title>{coal.name}</title>
+      </Helmet>
+      <div className="coalPage w100">
+        <CoalEditDialog
+          coal={CoalStore.coal}
+          isVisible={isVisible}
+          closeDialog={() => toggleVisible(false)}
+        />
+        <ProductInfo
+          product={coal}
+          onDelete={deleteCoal}
+          onUpdate={() => toggleVisible(true)}
+          onChangeRating={onChangeRating}
+          toggleFavorite={toggleFavorite}
+        />
+        <CommentsList
+          comments={comments}
+          getComment={getComment}
+          deleteComment={deleteComment}
+        />
+      </div>
+    </>
   );
 });

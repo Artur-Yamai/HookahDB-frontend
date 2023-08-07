@@ -8,6 +8,7 @@ import { Picture, TextBox, InputTypeFIle } from "../../UI";
 import "./Userpage.scss";
 import { CoalList, TobaccosList } from "../../components";
 import { useUnmount } from "../../hooks";
+import { Helmet } from "react-helmet";
 
 const Userpage = () => {
   const user: User | null = UserStore.userData;
@@ -34,6 +35,9 @@ const Userpage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{user.login}</title>
+      </Helmet>
       <div className="user-page">
         <div className="user-page__user-info">
           <div className="user-page__avatar">

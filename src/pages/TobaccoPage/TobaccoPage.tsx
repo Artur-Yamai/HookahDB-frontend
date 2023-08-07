@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { Helmet } from "react-helmet";
 import { useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import RatingStore from "../../store/rating";
@@ -68,13 +69,8 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const getComment = async (
-    text: string,
-    id: GUID | null
-  ): Promise<boolean> => {
+  const getComment = async (text: string, id: GUID | null): Promise<boolean> =>
     await TobaccoStore.saveComment(text, id, tobacco.id);
-    return true;
-  };
 
   const onChangeRating = async (value: number): Promise<void> => {
     const isChange: boolean = await RatingStore.changeTobaccoRating({
@@ -86,24 +82,29 @@ export const TobaccoPage = observer(() => {
   };
 
   return (
-    <div className="tobacco-page">
-      <TobaccoEditDialog
-        isVisible={isVisibleDialog}
-        tobacco={TobaccoStore.tobacco}
-        closeDialog={() => toggleVisibleDialog(false)}
-      />
-      <ProductInfo
-        product={tobacco}
-        onDelete={deleteTobacco}
-        onUpdate={() => toggleVisibleDialog(true)}
-        onChangeRating={onChangeRating}
-        toggleFavorite={toggleFavorite}
-      />
-      <CommentsList
-        comments={comments}
-        getComment={getComment}
-        deleteComment={deleteComment}
-      />
-    </div>
+    <>
+      <Helmet>
+        <title>{tobacco.name}</title>
+      </Helmet>
+      <div className="tobacco-page">
+        <TobaccoEditDialog
+          isVisible={isVisibleDialog}
+          tobacco={TobaccoStore.tobacco}
+          closeDialog={() => toggleVisibleDialog(false)}
+        />
+        <ProductInfo
+          product={tobacco}
+          onDelete={deleteTobacco}
+          onUpdate={() => toggleVisibleDialog(true)}
+          onChangeRating={onChangeRating}
+          toggleFavorite={toggleFavorite}
+        />
+        <CommentsList
+          comments={comments}
+          getComment={getComment}
+          deleteComment={deleteComment}
+        />
+      </div>
+    </>
   );
 });
