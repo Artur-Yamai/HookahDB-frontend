@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -17,6 +17,10 @@ interface ProductInfoProps {
   toggleFavorite: () => void;
 }
 
+interface InteractionRef {
+  hideList: () => void;
+}
+
 export const ProductInfo = observer(
   ({
     product,
@@ -25,6 +29,7 @@ export const ProductInfo = observer(
     onChangeRating,
     toggleFavorite,
   }: ProductInfoProps): JSX.Element => {
+    const InteractionRef = useRef<InteractionRef>(null);
     const favoriteButtonClass = useMemo(
       () => (product.isFavorite ? "product-info__favorite-button--fill" : ""),
       [product.isFavorite]
@@ -34,7 +39,12 @@ export const ProductInfo = observer(
       {
         title: "Изменить",
         icon: <AiOutlineEdit />,
-        method: () => onUpdate(),
+        method: () => {
+          onUpdate();
+          if (InteractionRef.current) {
+            InteractionRef.current?.hideList();
+          }
+        },
       },
       {
         title: "Удалить",
@@ -60,7 +70,10 @@ export const ProductInfo = observer(
                   {product.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
                 </button>
                 {rightsCheck(RoleCodes.moderator) && (
-                  <MenuInteraction buttonList={buttonList} />
+                  <MenuInteraction
+                    ref={InteractionRef}
+                    buttonList={buttonList}
+                  />
                 )}
               </div>
             )}
