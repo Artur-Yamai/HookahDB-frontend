@@ -4,10 +4,10 @@ import { useMount } from "./hooks";
 import UserStore from "./store/user";
 import { MainLayout } from "./components";
 import {
-  Authorization,
+  AuthorizationPage,
   HomePage,
   Userpage,
-  NotFound,
+  NotFoundPage,
   ForHookah,
   TobaccoPage,
   CoalPage,
@@ -38,14 +38,14 @@ export default function App() {
       <div className="app">
         <StartingSpinner loading={loading} />
         <Routes>
-          <Route path="/auth" element={<Authorization />} />
+          <Route path="/auth" element={<AuthorizationPage />} />
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<ForHookah />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/my-page" element={<Userpage />} />
             <Route path="/tobacco/:id" element={<TobaccoPage />} />
             <Route path="/coal/:id" element={<CoalPage />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </div>
