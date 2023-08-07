@@ -1,3 +1,4 @@
+import { BiDotsVerticalRounded } from "react-icons/bi";
 import "./InteractionButton.scss";
 
 interface InteractionButtonProps {
@@ -16,10 +17,11 @@ export const InteractionButton = ({
     onClick={onClick}
     aria-label="Menu Button"
   >
-    <div className="interaction-button__icon-wrapper">
+    <BiDotsVerticalRounded />
+    {/* <div className="interaction-button__icon-wrapper">
       <div className="interaction-button__icon-line w50 first"></div>
       <div className="interaction-button__icon-line w100"></div>
       <div className="interaction-button__icon-line w50 last"></div>
-    </div>
+    </div> */}
   </button>
 );
