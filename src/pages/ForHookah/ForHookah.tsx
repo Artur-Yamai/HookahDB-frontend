@@ -8,6 +8,7 @@ import { FilterPanel, TobaccosList, CoalList } from "../../components";
 import { ProductListName, SelectOption } from "../../Types";
 import { TobaccoEditDialog, CoalEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
+import { Helmet } from "react-helmet";
 
 const ForHookah = (): JSX.Element => {
   const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
@@ -45,33 +46,38 @@ const ForHookah = (): JSX.Element => {
   };
 
   return (
-    <div className="for-hookah">
-      <FilterPanel
-        onChangeFilterValue={onChange}
-        add={() => toggleVisibleDialog(true)}
-        showAddButton={rightsCheck(RoleCodes.moderator)}
-      />
-      {(productName === "tobaccos" && (
-        <>
-          <TobaccoEditDialog
-            tobacco={TobaccoStore.tobacco}
-            isVisible={isVisibleDialog}
-            closeDialog={() => toggleVisibleDialog(false)}
-          />
-          <TobaccosList tobaccos={TobaccoStore.tobaccos} />
-        </>
-      )) ||
-        (productName === "coals" && (
+    <>
+      <Helmet>
+        <title>HookahDB</title>
+      </Helmet>
+      <div className="for-hookah">
+        <FilterPanel
+          onChangeFilterValue={onChange}
+          add={() => toggleVisibleDialog(true)}
+          showAddButton={rightsCheck(RoleCodes.moderator)}
+        />
+        {(productName === "tobaccos" && (
           <>
-            <CoalEditDialog
-              coal={CoalStore.coal}
+            <TobaccoEditDialog
+              tobacco={TobaccoStore.tobacco}
               isVisible={isVisibleDialog}
               closeDialog={() => toggleVisibleDialog(false)}
             />
-            <CoalList coals={CoalStore.coals} />
+            <TobaccosList tobaccos={TobaccoStore.tobaccos} />
           </>
-        ))}
-    </div>
+        )) ||
+          (productName === "coals" && (
+            <>
+              <CoalEditDialog
+                coal={CoalStore.coal}
+                isVisible={isVisibleDialog}
+                closeDialog={() => toggleVisibleDialog(false)}
+              />
+              <CoalList coals={CoalStore.coals} />
+            </>
+          ))}
+      </div>
+    </>
   );
 };
 
