@@ -57,6 +57,9 @@ export const ProductInfo = observer(
       <>
         <div className="product-title">
           <h1>{product.name}</h1>
+          {rightsCheck(RoleCodes.moderator) && (
+            <MenuInteraction ref={InteractionRef} buttonList={buttonList} />
+          )}
         </div>
         <div className="product-info">
           <div className="product-info__common-data">
@@ -69,12 +72,6 @@ export const ProductInfo = observer(
                 >
                   {product.isFavorite ? <BsBookmarkFill /> : <BsBookmark />}
                 </button>
-                {rightsCheck(RoleCodes.moderator) && (
-                  <MenuInteraction
-                    ref={InteractionRef}
-                    buttonList={buttonList}
-                  />
-                )}
               </div>
             )}
             <Picture url={product.photoUrl} />
