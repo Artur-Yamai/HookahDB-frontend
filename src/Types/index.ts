@@ -3,6 +3,7 @@ import {
   RegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
 import { Rating, TobaccoRating, CoalRating } from "./Ratings";
+import { MenuInteractionButton } from "./MenuInteractionButton";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { ProductListName } from "./ProductListName";
 import { SelectOption } from "./SelectOption";
@@ -17,6 +18,7 @@ import { GUID } from "./GUID";
 
 export type {
   AuthorizationUserData,
+  MenuInteractionButton,
   RegistrationUserData,
   ErrorHTTPRequest,
   ProductListName,

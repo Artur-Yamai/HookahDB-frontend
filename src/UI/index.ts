@@ -9,3 +9,4 @@ export { TextArea } from "./TextArea";
 export { RatingStars } from "./RatingStars";
 export { Select } from "./Select";
 export { ProductItem } from "./ProductItem";
+export { MenuInteraction } from "./MenuInteraction";
