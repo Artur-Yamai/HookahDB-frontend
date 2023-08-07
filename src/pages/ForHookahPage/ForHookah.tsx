@@ -10,7 +10,7 @@ import { TobaccoEditDialog, CoalEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
 import { Helmet } from "react-helmet";
 
-const ForHookah = (): JSX.Element => {
+export const ForHookah: React.FC = observer(() => {
   const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
   const [productName, setProductName] = useState<ProductListName>("tobaccos");
 
@@ -79,6 +79,4 @@ const ForHookah = (): JSX.Element => {
       </div>
     </>
   );
-};
-
-export default observer(ForHookah);
+});

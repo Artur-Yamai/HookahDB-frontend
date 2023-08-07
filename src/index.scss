@@ -66,17 +66,17 @@ hr {
   width: 8px;
   // overflow-x: none;
 }
-::-webkit-scrollbar-track {
-  background: linear-gradient(
-    to left,
-    $colorWhite calc(100% / 3),
-    $colorGray calc(100% / 3),
-    $colorGray calc(100% / 3 * 2),
-    $colorWhite calc(100% / 3 * 2)
-  );
-  width: 1px;
-  margin-block: 2px;
-}
+// ::-webkit-scrollbar-track {
+//   background: linear-gradient(
+//     to left,
+//     $colorWhite calc(100% / 3),
+//     $colorGray calc(100% / 3),
+//     $colorGray calc(100% / 3 * 2),
+//     $colorWhite calc(100% / 3 * 2)
+//   );
+//   width: 1px;
+//   margin-block: 2px;
+// }
 ::-webkit-scrollbar-thumb {
   // background: $colorBlue;
   background: -webkit-linear-gradient(

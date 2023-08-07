@@ -10,7 +10,7 @@ import { CoalList, TobaccosList } from "../../components";
 import { useUnmount } from "../../hooks";
 import { Helmet } from "react-helmet";
 
-const Userpage = () => {
+export const Userpage = observer(() => {
   const user: User | null = UserStore.userData;
 
   useEffect(() => {
@@ -77,6 +77,4 @@ const Userpage = () => {
       )}
     </>
   );
-};
-
-export default observer(Userpage);
+});

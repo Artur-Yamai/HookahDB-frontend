@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
-import "./NotFound.scss";
+import "./NotFoundPage.scss";
 
-export const NotFound = () => {
+export const NotFoundPage = () => {
   return (
     <>
       <Helmet>

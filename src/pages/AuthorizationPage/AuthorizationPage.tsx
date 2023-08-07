@@ -8,10 +8,10 @@ import UserStore from "../../store/user";
 import { UserApi } from "../../API";
 import { RegistrationForm, AuthorizationForm } from "../../components";
 import { AuthorizationUserData, RegistrationUserData } from "../../Types";
-import "./Authorization.scss";
+import "./AuthorizationPage.scss";
 import { notify } from "../../UI";
 
-const Authorization = () => {
+export const AuthorizationPage = observer(() => {
   const navigate = useNavigate();
   const [isActive, toggleIsActive] = useState<boolean>(false);
   const [formBxActive, setFormBxActive] = useState<string>("");
@@ -122,6 +122,4 @@ const Authorization = () => {
       </div>
     </>
   );
-};
-
-export default observer(Authorization);
+});

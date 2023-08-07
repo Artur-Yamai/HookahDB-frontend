@@ -1,0 +1,36 @@
+$list-bg: #fff;
+$button-bg: #5c67ff;
+
+.interaction-list {
+  position: absolute;
+  background-color: $list-bg;
+  border-radius: 0px;
+  list-style-type: none;
+  width: 144px;
+  height: 90px;
+  box-shadow: 0px 0px 4px 4px rgba(150, 157, 249, 0.16);
+  padding: 0;
+  padding: 4px 8px;
+  right: 32px;
+  top: 4px;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: bottom right;
+  transition: all 0.3s ease 0.1s;
+
+  li {
+    opacity: 0;
+  }
+
+  &--active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInItem {
+  100% {
+    transform: translatex(0px);
+    opacity: 1;
+  }
+}
