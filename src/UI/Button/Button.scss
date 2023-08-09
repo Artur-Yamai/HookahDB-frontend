@@ -16,12 +16,17 @@
   }
 
   &:disabled {
-    background-color: lightgray;
+    background-color: $colorGray;
     color: white;
     cursor: auto;
 
     &:active {
       box-shadow: none;
+    }
+
+    &:hover {
+      background-color: $colorGray;
+      filter: brightness(1);
     }
   }
 }
