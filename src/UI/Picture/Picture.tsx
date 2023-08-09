@@ -15,11 +15,11 @@ export const Picture = ({
   alt = "Изображение",
   onClick,
 }: PictureProps): JSX.Element => {
-  const noImgPath: string = "../noimg.jpg";
+  const noImgPath: string = "noimg.jpg";
   const [avatarUrl, setAvatarUrl] = useState<string>(noImgPath);
   const setImage = () => {
     const img = new Image();
-    const path = config.photoUrl + url;
+    const path = `${config.photoUrl}/${url}`;
 
     img.onload = () => setAvatarUrl(path);
     img.onerror = () => setAvatarUrl(noImgPath);
