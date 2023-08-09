@@ -20,7 +20,7 @@ export const CoalApi = {
   },
 
   getCoalComments: async (id: string) =>
-    await RepositoryHelper.get(`coal/${id}/comments`),
+    await RepositoryHelper.get(`/coal/${id}/comments`),
 
   addToFavoriteList: async (coalId: GUID) =>
     await RepositoryHelper.save({ coalId }, "/favorite/coal"),
