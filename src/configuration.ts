@@ -8,12 +8,12 @@ interface Configuration {
 const config: Configuration = {
   apiUrl:
     process.env.NODE_ENV === "production"
-      ? window.location.origin + "/api/"
-      : `http://${hostName}:6060/api/`,
+      ? window.location.origin + "/api"
+      : `http://${hostName}:6060/api`,
   photoUrl:
     process.env.NODE_ENV === "production"
-      ? window.location.origin + "/api/"
-      : `http://${hostName}:6060/`,
+      ? window.location.origin
+      : `http://${hostName}:6060`,
 };
 
 export default config;
