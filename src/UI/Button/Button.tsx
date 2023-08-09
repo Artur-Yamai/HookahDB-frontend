@@ -2,6 +2,7 @@ import "./Button.scss";
 
 interface ButtonProps {
   click: (event: React.MouseEvent<HTMLElement>) => void;
+  children?: React.ReactNode;
   text?: string;
   width?: string;
   className?: string;
@@ -11,6 +12,7 @@ interface ButtonProps {
 export const Button = ({
   click,
   className,
+  children,
   text = "Тык",
   width,
   disabled = false,
@@ -28,7 +30,7 @@ export const Button = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {text}
+      {children ? children : text}
     </button>
   );
 };
