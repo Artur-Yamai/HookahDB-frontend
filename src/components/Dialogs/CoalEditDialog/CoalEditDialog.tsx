@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Popup, notify } from "../../../UI";
-import { Coal } from "../../../Types";
-import { CoalClass } from "../../../Classes";
-import { CoalStore } from "../../../store";
-import { ProductEditor } from "../../Editors";
+import { Popup, notify } from "UI";
+import { Coal } from "Types";
+import { CoalClass } from "Classes";
+import { CoalStore } from "store";
+import { ProductEditor } from "components/Editors";
+import { imgCompressor } from "helpers";
 
 interface CoalEditDialogProps {
   isVisible: boolean;
@@ -27,9 +28,11 @@ export const CoalEditDialog = observer(
       if (!data) return;
 
       if (data.id) {
-        await CoalStore.updateCoal(data, newPhoto);
+        const photo = newPhoto && (await imgCompressor(newPhoto));
+        await CoalStore.updateCoal(data, photo);
       } else if (newPhoto) {
-        await CoalStore.createCoal(data, newPhoto);
+        const photo = await imgCompressor(newPhoto);
+        await CoalStore.createCoal(data, photo);
       } else {
         return notify("Заполните все поля", "warning");
       }
