@@ -2,13 +2,14 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import moment from "moment";
 import "moment/locale/ru";
-import UserStore from "../../store/user";
-import { User } from "../../Types";
-import { Picture, TextBox, InputTypeFIle } from "../../UI";
-import "./Userpage.scss";
-import { CoalList, TobaccosList } from "../../components";
-import { useUnmount } from "../../hooks";
 import { Helmet } from "react-helmet";
+import UserStore from "store/user";
+import { User } from "Types";
+import { Picture, TextBox, InputTypeFIle } from "UI";
+import "./Userpage.scss";
+import { CoalList, TobaccosList } from "components";
+import { useUnmount } from "hooks";
+import { imgCompressor } from "helpers";
 
 export const Userpage = observer(() => {
   const user: User | null = UserStore.userData;
@@ -27,8 +28,9 @@ export const Userpage = observer(() => {
 
   if (user === null) return <h1>Страница недоступна</h1>;
 
-  const onChange = (files: FileList) => {
-    UserStore.saveNewAvatar(files[0]);
+  const onChange = async (files: FileList) => {
+    const photo = await imgCompressor(files[0]);
+    UserStore.saveNewAvatar(photo);
   };
 
   const datetime = moment(user.createdAt).format("Do MMMM YYYY, HH:mm");

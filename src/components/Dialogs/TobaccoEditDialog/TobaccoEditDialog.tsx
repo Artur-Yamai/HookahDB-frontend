@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Tobacco } from "../../../Types";
-import { Popup, notify } from "../../../UI";
-import { ProductEditor } from "../../Editors";
-import { TobaccoClass } from "../../../Classes";
-import TobaccoStore from "../../../store/tobacco";
+import { Tobacco } from "Types";
+import { Popup, notify } from "UI";
+import { ProductEditor } from "components/Editors";
+import { TobaccoClass } from "Classes";
+import TobaccoStore from "store/tobacco";
+import { imgCompressor } from "helpers";
 
 interface TobaccoEditDialogProps {
   isVisible: boolean;
@@ -27,9 +28,11 @@ export const TobaccoEditDialog = observer(
       if (!data) return;
 
       if (data.id) {
-        await TobaccoStore.updateTobacco(data, newPhoto);
+        const photo = newPhoto && (await imgCompressor(newPhoto));
+        await TobaccoStore.updateTobacco(data, photo);
       } else if (newPhoto) {
-        await TobaccoStore.createTobacco(data, newPhoto);
+        const photo = await imgCompressor(newPhoto);
+        await TobaccoStore.createTobacco(data, photo);
       } else {
         return notify("Заполните все поля", "warning");
       }
