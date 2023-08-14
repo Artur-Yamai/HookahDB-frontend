@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import "./ForHookah.scss";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import CoalStore from "../../store/coal";
@@ -50,7 +49,7 @@ export const ForHookah: React.FC = observer(() => {
       <Helmet>
         <title>HookahDB</title>
       </Helmet>
-      <div className="for-hookah">
+      <div className="w100">
         <FilterPanel
           onChangeFilterValue={onChange}
           add={() => toggleVisibleDialog(true)}
