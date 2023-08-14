@@ -5,7 +5,6 @@ import UserStore from "./store/user";
 import { MainLayout } from "./components";
 import {
   AuthorizationPage,
-  HomePage,
   Userpage,
   NotFoundPage,
   ForHookah,
@@ -41,7 +40,6 @@ export default function App() {
           <Route path="/auth" element={<AuthorizationPage />} />
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<ForHookah />} />
-            <Route path="/home" element={<HomePage />} />
             <Route path="/my-page" element={<Userpage />} />
             <Route path="/tobacco/:id" element={<TobaccoPage />} />
             <Route path="/coal/:id" element={<CoalPage />} />
