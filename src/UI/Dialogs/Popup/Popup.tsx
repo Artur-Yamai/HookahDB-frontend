@@ -34,23 +34,6 @@ export const Popup = ({
     }
   };
 
-  useEffect(() => {
-    if (visible) {
-      window.onscroll = () => false;
-      const correctHeight = height.includes("px")
-        ? Math.min(Number.parseFloat(height), window.innerHeight)
-        : height;
-      setPopupHeight(`${correctHeight}px`);
-
-      const correctWidth = width.includes("px")
-        ? Math.min(Number.parseFloat(width), window.innerWidth)
-        : height;
-      setPopupWidth(`${correctWidth}px`);
-    } else {
-      window.onscroll = () => true;
-    }
-  }, [visible, height, width]);
-
   const style = { width: popupWidth, height: popupHeight };
 
   const setMoveClass = () => {
