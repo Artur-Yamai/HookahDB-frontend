@@ -65,13 +65,13 @@ export const Userpage = observer(() => {
           </form>
         </div>
       </div>
-      {UserStore.favoriteTobacco.length && (
+      {!!UserStore.favoriteTobacco.length && (
         <>
-          <h1>Угли</h1>
+          <h1>Тобаки</h1>
           <TobaccosList tobaccos={UserStore.favoriteTobacco} />
         </>
       )}
-      {UserStore.favoriteCoal && (
+      {!!UserStore.favoriteCoal.length && (
         <>
           <h1>Угли</h1>
           <CoalList coals={UserStore.favoriteCoal} />
