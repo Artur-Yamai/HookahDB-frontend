@@ -8,6 +8,7 @@ interface RegistrationFormProps {
   onSubmit: (userData: RegistrationUserData) => Promise<boolean>;
   loginExists: (login: string) => Promise<boolean>;
   emailExists: (email: string) => Promise<boolean>;
+  refCodeExist: (refCode: string) => Promise<boolean>;
 }
 
 interface FormValues {
@@ -15,9 +16,10 @@ interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
+  refCode: string;
 }
 
-type FormFiled = "login" | "email" | "password" | "confirmPassword";
+type FormFiled = "login" | "email" | "password" | "confirmPassword" | "refCode";
 
 let resolve: any;
 const sleep = () => new Promise((r) => (resolve = r));
@@ -26,6 +28,7 @@ export const RegistrationForm = ({
   onSubmit,
   loginExists,
   emailExists,
+  refCodeExist,
 }: RegistrationFormProps): JSX.Element => {
   const {
     register,
@@ -40,6 +43,7 @@ export const RegistrationForm = ({
       email: "",
       password: "",
       confirmPassword: "",
+      refCode: "",
     },
   });
 
@@ -53,21 +57,24 @@ export const RegistrationForm = ({
     [watch, watch("confirmPassword"), watch("password")]
   );
 
-  const formSubmit = handleSubmit(async ({ login, email, password }) => {
-    const userData: RegistrationUserData = { login, email, password };
-    const res: boolean = await onSubmit(userData);
-    if (res) {
-      reset({ login: "", email: "", password: "", confirmPassword: "" });
+  const formSubmit = handleSubmit(
+    async (regData: RegistrationUserData): Promise<void> => {
+      const res: boolean = await onSubmit(regData);
+      if (res) {
+        reset({ login: "", email: "", password: "", confirmPassword: "" });
+      }
     }
-  });
+  );
 
   const [timerId, setTimerId] = useState<string | number | NodeJS.Timeout>(-1);
 
   let isLoginExist = false;
   let isEmailExist = false;
+  let isRefCodeExist = false;
 
   const [isLoginCheck, toggleIsLoginCheck] = useState<boolean>(false);
   const [isEmailCheck, toggleIsEmailCheck] = useState<boolean>(false);
+  const [isRefCodeCheck, toggleIsRefCodeCheck] = useState<boolean>(false);
 
   const isExistLogin = (login: string): void => {
     if (!login || login.length < 4) return;
@@ -103,6 +110,26 @@ export const RegistrationForm = ({
         } finally {
           setTimeout(() => {
             toggleIsEmailCheck(false);
+            resolve();
+          }, 200);
+        }
+      }, 500)
+    );
+  };
+
+  const isExistRefCode = (refCode: string): void => {
+    clearTimeout(timerId);
+    setTimerId(
+      setTimeout(async () => {
+        toggleIsRefCodeCheck(true);
+        try {
+          const res: boolean = await refCodeExist(refCode);
+          isRefCodeExist = res;
+        } catch (_) {
+          isRefCodeExist = false;
+        } finally {
+          setTimeout(() => {
+            toggleIsRefCodeCheck(false);
             resolve();
           }, 200);
         }
@@ -179,6 +206,17 @@ export const RegistrationForm = ({
     },
   });
 
+  const refCodeValidator = register("refCode", {
+    required: "Обязательное поле",
+    validate: {
+      positive: async (refCode: string): Promise<boolean | string> => {
+        isExistRefCode(refCode);
+        await sleep();
+        return isRefCodeExist ? true : "Такого кода нет";
+      },
+    },
+  });
+
   const getErrorText = (text: string | undefined) => {
     return <span className="rf__error-text">{text}</span>;
   };
@@ -190,7 +228,7 @@ export const RegistrationForm = ({
           isLoginCheck ? "rf__spinner" : ""
         }`}
       >
-        <input {...loginValidator} type="text" placeholder="Login" />
+        <input {...loginValidator} type="text" placeholder="Логин" />
         {errors?.login && getErrorText(errors.login.message)}
       </p>
 
@@ -199,12 +237,12 @@ export const RegistrationForm = ({
           isEmailCheck ? "rf__spinner" : ""
         }`}
       >
-        <input {...emailValidator} type="email" placeholder="Email address" />
+        <input {...emailValidator} type="email" placeholder="Email" />
         {errors?.email && getErrorText(errors.email.message)}
       </p>
 
       <p className={`rf__input-wrapper ${getClassName("password")}`}>
-        <input {...passwodValidator} type="password" placeholder="Password" />
+        <input {...passwodValidator} type="password" placeholder="пароль" />
         {errors?.password && getErrorText(errors.password.message)}
       </p>
 
@@ -216,12 +254,25 @@ export const RegistrationForm = ({
         <input
           {...confirmPasswordValidator}
           type="password"
-          placeholder="Confirm password"
+          placeholder="Повторите пароль"
         />
         {passDontConfirmText
           ? getErrorText(passDontConfirmText)
           : errors?.confirmPassword &&
             getErrorText(errors.confirmPassword.message)}
+      </p>
+
+      <p
+        className={`rf__input-wrapper ${getClassName("refCode")} ${
+          isRefCodeCheck ? "rf__spinner" : ""
+        }`}
+      >
+        <input
+          {...refCodeValidator}
+          type="text"
+          placeholder="Реферальный код"
+        />
+        {errors?.refCode && getErrorText(errors.refCode.message)}
       </p>
 
       <input type="submit" value="Зарегистрироваться" />

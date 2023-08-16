@@ -1,5 +1,5 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { GUID, Tobacco, Coal, User } from "../Types";
+import { GUID, Tobacco, Coal, User, RegistrationUserData } from "../Types";
 import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
@@ -57,14 +57,8 @@ class UserStore {
     }
   }
 
-  public async toRegistration(
-    login: string,
-    password: string,
-    email: string
-  ): Promise<boolean> {
-    return await UserApi.register(login, password, email).then(
-      (r) => r.success
-    );
+  public async toRegistration(regData: RegistrationUserData): Promise<boolean> {
+    return await UserApi.register(regData).then((r) => r.success);
   }
 
   public async autoAuth(): Promise<void> {

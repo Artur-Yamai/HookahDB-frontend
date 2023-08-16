@@ -36,12 +36,8 @@ export const AuthorizationPage = observer(() => {
   };
 
   // Регистрация
-  const toSignup = async ({
-    login,
-    email,
-    password,
-  }: RegistrationUserData): Promise<boolean> => {
-    const res: boolean = await UserStore.toRegistration(login, password, email);
+  const toSignup = async (regData: RegistrationUserData): Promise<boolean> => {
+    const res: boolean = await UserStore.toRegistration(regData);
     if (res) {
       notify("Регистрация прошла успешно. Авторизируйтесь", "success", 3000);
       toGoSignupPage(false);
@@ -64,6 +60,15 @@ export const AuthorizationPage = observer(() => {
   const emailExists = async (email: string): Promise<boolean> => {
     try {
       const { data } = await UserApi.emailExists(email);
+      return data.success ? data.body.isExists : false;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const refCodeExist = async (refCode: string): Promise<boolean> => {
+    try {
+      const { data } = await UserApi.refCodeExists(refCode);
       return data.success ? data.body.isExists : false;
     } catch (_) {
       return false;
@@ -115,6 +120,7 @@ export const AuthorizationPage = observer(() => {
                 onSubmit={toSignup}
                 loginExists={loginExists}
                 emailExists={emailExists}
+                refCodeExist={refCodeExist}
               />
             </div>
           </div>
