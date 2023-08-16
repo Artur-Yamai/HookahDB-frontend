@@ -1,6 +1,6 @@
 import Repository from "./axios";
 import RepositoryHelper from "../helpers/RepositoryHelper";
-import { GUID } from "../Types";
+import { GUID, RegistrationUserData } from "../Types";
 
 export const UserApi = {
   auth: async (login: string, password: string) =>
@@ -11,15 +11,8 @@ export const UserApi = {
 
   autoAuth: async () => await Repository.get("/user/authByToken"),
 
-  register: async (login: string, password: string, email: string) =>
-    await RepositoryHelper.save(
-      {
-        login,
-        email,
-        password,
-      },
-      "/user/register"
-    ),
+  register: async (regData: RegistrationUserData) =>
+    await RepositoryHelper.save(regData, "/user/register"),
 
   async saveNewAvatar(data: { id: GUID; photo: File }) {
     return await RepositoryHelper.save(data, "/user/saveAvatar");
@@ -29,6 +22,8 @@ export const UserApi = {
     await Repository.get(`/user/loginExists/${login}`),
   emailExists: async (email: string) =>
     await Repository.get(`/user/emailExists/${email}`),
+  refCodeExists: async (refCode: string) =>
+    await Repository.get(`/user/refCOdeExists/${refCode}`),
 
   getFavoriteTobaccoByUserId: async (userId: GUID) =>
     await Repository.get(`/user/${userId}/favoriteTobaccos`),
