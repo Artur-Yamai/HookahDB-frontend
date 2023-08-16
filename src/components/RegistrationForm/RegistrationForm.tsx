@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { RegistrationUserData } from "../../Types";
+import { RegistrationUserData } from "Types";
 
 import "./RegistrationForm.scss";
 
 interface RegistrationFormProps {
+  refCodeProp: string | undefined;
   onSubmit: (userData: RegistrationUserData) => Promise<boolean>;
   loginExists: (login: string) => Promise<boolean>;
   emailExists: (email: string) => Promise<boolean>;
@@ -25,6 +26,7 @@ let resolve: any;
 const sleep = () => new Promise((r) => (resolve = r));
 
 export const RegistrationForm = ({
+  refCodeProp,
   onSubmit,
   loginExists,
   emailExists,
@@ -43,7 +45,7 @@ export const RegistrationForm = ({
       email: "",
       password: "",
       confirmPassword: "",
-      refCode: "",
+      refCode: refCodeProp ?? "",
     },
   });
 

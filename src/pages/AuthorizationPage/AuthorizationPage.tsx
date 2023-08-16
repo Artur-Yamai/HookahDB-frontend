@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { ImDatabase } from "react-icons/im";
 import { Helmet } from "react-helmet";
-import UserStore from "../../store/user";
-import { UserApi } from "../../API";
-import { RegistrationForm, AuthorizationForm } from "../../components";
-import { AuthorizationUserData, RegistrationUserData } from "../../Types";
+import UserStore from "store/user";
+import { UserApi } from "API";
+import { RegistrationForm, AuthorizationForm } from "components";
+import { AuthorizationUserData, RegistrationUserData } from "Types";
 import "./AuthorizationPage.scss";
-import { notify } from "../../UI";
+import { notify } from "UI";
+import { useMount } from "hooks";
 
 export const AuthorizationPage = observer(() => {
+  const { refCode } = useParams<{ refCode: string | undefined }>();
   const navigate = useNavigate();
   const [isActive, toggleIsActive] = useState<boolean>(false);
   const [formBxActive, setFormBxActive] = useState<string>("");
@@ -22,6 +24,10 @@ export const AuthorizationPage = observer(() => {
     setFormBxActive(isActive ? "authorization__formBx--active" : "");
     setStartPageActive(isActive ? "authorization--active" : "");
   };
+
+  useMount(() => {
+    toGoSignupPage(!!refCode);
+  });
 
   // Авторизация
   const toSignin = async ({
@@ -117,6 +123,7 @@ export const AuthorizationPage = observer(() => {
             </div>
             <div className="authorization__form authorization__signupForm">
               <RegistrationForm
+                refCodeProp={refCode}
                 onSubmit={toSignup}
                 loginExists={loginExists}
                 emailExists={emailExists}
