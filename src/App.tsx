@@ -37,6 +37,7 @@ export default function App() {
       <div className="app">
         <StartingSpinner loading={loading} />
         <Routes>
+          <Route path="/auth/:refCode" element={<AuthorizationPage />} />
           <Route path="/auth" element={<AuthorizationPage />} />
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<ForHookah />} />

@@ -5,4 +5,5 @@ export interface AuthorizationUserData {
 
 export interface RegistrationUserData extends AuthorizationUserData {
   email: string;
+  refCode: string;
 }
