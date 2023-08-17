@@ -34,6 +34,7 @@ export const Userpage = observer(() => {
   };
 
   const datetime = moment(user.createdAt).format("Do MMMM YYYY, HH:mm");
+  const refUrl = `${window.location.origin}/auth/${user.refCode}`;
 
   return (
     <>
@@ -62,6 +63,14 @@ export const Userpage = observer(() => {
               value={datetime}
               disabled
             />
+            {!!user.refCode && (
+              <TextBox
+                name="refCode"
+                label="Реферальная ссылка"
+                value={refUrl}
+                disabled
+              />
+            )}
           </form>
         </div>
       </div>
