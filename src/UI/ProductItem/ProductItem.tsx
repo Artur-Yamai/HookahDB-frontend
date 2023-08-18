@@ -25,7 +25,7 @@ export const ProductItem = ({ data, url }: ProductItemProps) => {
       className={`product-item ${getClassName(data.rating)}`}
     >
       <div className="product-item__image-wrapper">
-        <Picture url={data.photoUrl} />
+        <Picture className="product-item__image" url={data.photoUrl} />
       </div>
       <p className="product-item__name">{data.name}</p>
     </Link>

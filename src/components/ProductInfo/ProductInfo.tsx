@@ -77,7 +77,7 @@ export const ProductInfo = observer(
                 )}
               </div>
             )}
-            <Picture url={product.photoUrl} />
+            <Picture className="product-info__image" url={product.photoUrl} />
           </div>
           <div className="product-info__info-block">
             <p className="product-info__info">

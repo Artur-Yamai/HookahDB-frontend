@@ -1,6 +1,11 @@
 .product-editor {
-  &__photo {
+  &__photo-wrapper {
     margin: 0 auto;
+    width: 300px !important;
+  }
+
+  &__picture {
+    height: 300px;
   }
 }
 

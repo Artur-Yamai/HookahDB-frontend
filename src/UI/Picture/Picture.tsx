@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import config from "../../configuration";
 import { useMount } from "../../hooks";
 
 interface PictureProps {
+  pictureFile?: File;
   url?: string;
   alt?: string;
   className?: string;
@@ -10,21 +11,37 @@ interface PictureProps {
 }
 
 export const Picture = ({
+  pictureFile,
   url,
-  className,
+  className = "",
   alt = "Изображение",
   onClick,
 }: PictureProps): JSX.Element => {
-  const noImgPath: string = "noimg.jpg";
-  const [avatarUrl, setAvatarUrl] = useState<string>(noImgPath);
+  const path = `${config.photoUrl}/${url}`;
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const imgTag = useRef<HTMLImageElement>(null);
   const setImage = () => {
-    const img = new Image();
-    const path = `${config.photoUrl}/${url}`;
+    if (url) {
+      const img = new Image();
 
-    img.onload = () => setAvatarUrl(path);
-    img.onerror = () => setAvatarUrl(noImgPath);
+      img.onload = () => setAvatarUrl(path);
+      img.onerror = () => setAvatarUrl("");
 
-    img.src = path;
+      img.src = path;
+    }
+  };
+
+  const renderFile = (): void => {
+    if (!pictureFile) return;
+
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const photo = e?.target?.result;
+      if (!imgTag || !photo || typeof photo !== "string") return;
+      imgTag.current?.setAttribute("src", photo);
+    };
+
+    reader.readAsDataURL(pictureFile);
   };
 
   useEffect(() => {
@@ -32,13 +49,26 @@ export const Picture = ({
     // eslint-disable-next-line
   }, [url]);
 
+  useEffect(() => {
+    renderFile();
+    // eslint-disable-next-line
+  }, [pictureFile]);
+
   useMount(() => {
     setImage();
+    renderFile();
   });
 
   return (
-    <picture className={`${className} w100`} onClick={onClick}>
-      <img src={avatarUrl} alt={alt} className="w100" />
+    <picture
+      className={`${className} ${
+        avatarUrl || pictureFile ? "" : "no-image"
+      } w100`}
+      onClick={onClick}
+    >
+      {(avatarUrl || pictureFile) && (
+        <img ref={imgTag} src={avatarUrl} alt={alt} className="w100" />
+      )}
     </picture>
   );
 };
