@@ -22,6 +22,7 @@ export const ProductEditor = ({
   const [product, setProduct] = useState<ProductClass>(productData);
   const [loading, toggleLoading] = useState<boolean>(false);
   const [fabricators, setFabricators] = useState<Reference[]>([]);
+  const [picture, setPicture] = useState<File>();
 
   useMount(async () => {
     toggleLoading(true);
@@ -48,25 +49,12 @@ export const ProductEditor = ({
     setNewData(newProduct);
   };
 
-  const renderFile = (file: File) => {
-    const reader: FileReader = new FileReader();
-    reader.onload = (e: ProgressEvent<FileReader>) => {
-      const img = document.querySelector(".product-editor img");
-      const photo = e?.target?.result;
-      if (!img || !photo || typeof photo !== "string") return;
-      img.setAttribute("src", photo);
-    };
-
-    reader.readAsDataURL(file);
-  };
-
   const changeFile = (files: FileList) => {
     const file: File = files[0];
 
     if (!file) return;
     pullNewPhoto(file);
-
-    renderFile(file);
+    setPicture(file);
   };
 
   return (
@@ -99,11 +87,13 @@ export const ProductEditor = ({
           onChange={(e) => changeValue(e, "description")}
         />
       </div>
-      <div
-        className="editor-form__field product-editor__photo"
-        style={{ width: "300px" }}
-      >
-        <Picture url={product?.photoUrl} />
+      <div className="editor-form__field product-editor__photo-wrapper">
+        <Picture
+          pictureFile={picture}
+          key={product?.photoUrl}
+          className="product-editor__picture"
+          url={product?.photoUrl}
+        />
         <InputTypeFIle onChange={changeFile} label="Сменить изображение" />
       </div>
     </form>
