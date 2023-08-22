@@ -5,10 +5,10 @@ import { notify } from "../UI";
 export const catchHelper = (error: unknown): void => {
   const err = error as AxiosError;
   const data = err?.response?.data as ErrorHTTPRequest;
-  const message: string = data?.message;
+  const message: string =
+    data?.message ?? "Произошла ошибка. Попробуйте повторить операцию позже";
   console.error(data);
-  notify(
-    message ?? "Произошла ошибка. Попробуйте повторить операцию позже",
-    "error"
-  );
+
+  const mlsToReadOneLetter = 50;
+  notify(message, "error", message.length * mlsToReadOneLetter);
 };
