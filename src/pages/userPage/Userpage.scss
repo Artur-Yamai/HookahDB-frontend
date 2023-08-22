@@ -20,6 +20,10 @@
     }
   }
 
+  &__no-avatar {
+    min-height: 250px;
+  }
+
   &__login {
     border-left: 15px solid $colorBlue;
     padding-left: 15px;

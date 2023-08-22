@@ -45,7 +45,7 @@ export const Userpage = observer(() => {
         <div className="user-page__user-info">
           <div className="user-page__avatar">
             <h1 className="user-page__login">{user.login}</h1>
-            <Picture url={user.avatarUrl} />
+            <Picture className="user-page__no-avatar" url={user.avatarUrl} />
             <InputTypeFIle
               onChange={onChange}
               label="Изменить аватар"
