@@ -179,7 +179,7 @@ export const RegistrationForm = ({
     required: "Поле Email обязательно для заполнения",
     pattern: {
       value:
-        /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
+        /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
       message: "Некорректный email",
     },
     validate: {
