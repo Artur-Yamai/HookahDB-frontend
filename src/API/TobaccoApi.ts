@@ -1,6 +1,5 @@
 import { TobaccoClass } from "../Classes";
 import RepositoryHelper from "../helpers/RepositoryHelper";
-import { GUID } from "../Types";
 
 export const TobaccoApi = {
   getAllTobaccos: async () => await RepositoryHelper.get("/tobaccos"),
@@ -15,16 +14,16 @@ export const TobaccoApi = {
       this.getTobaccoEndpoint()
     );
   },
-  async deleteTobacco(id: GUID) {
+  async deleteTobacco(id: string) {
     return await RepositoryHelper.delete(id, this.getTobaccoEndpoint());
   },
 
   getTobaccoComments: async (id: string) =>
     await RepositoryHelper.get(`/tobacco/${id}/comments`),
 
-  addToFavoriteList: async (tobaccoId: GUID) =>
+  addToFavoriteList: async (tobaccoId: string) =>
     await RepositoryHelper.save({ tobaccoId }, "/favorite/tobacco"),
 
-  deleteFromFavoriteList: async (tobaccoId: GUID) =>
+  deleteFromFavoriteList: async (tobaccoId: string) =>
     await RepositoryHelper.delete(tobaccoId, "/favorite/tobacco"),
 };

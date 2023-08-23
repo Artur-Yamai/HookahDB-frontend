@@ -7,14 +7,14 @@ import TobaccoStore from "../../store/tobacco";
 import RatingStore from "../../store/rating";
 import UserStore from "../../store/user";
 import "./TobaccoPage.scss";
-import { Comment, GUID, Tobacco } from "../../Types";
+import { Comment, Tobacco } from "../../Types";
 import { ProductInfo, CommentsList, TobaccoEditDialog } from "../../components";
 import { confirm } from "../../UI";
 
 export const TobaccoPage = observer(() => {
   const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
   let { id } = useParams();
-  id = id as GUID | undefined;
+  id = id as string | undefined;
   const navigate = useNavigate();
 
   if (!id) {
@@ -36,7 +36,7 @@ export const TobaccoPage = observer(() => {
     }
   }, [id]);
 
-  const deleteTobacco = async (id: GUID) => {
+  const deleteTobacco = async (id: string) => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот табак из списка?"
     );
@@ -46,7 +46,7 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const deleteComment = async (tobaccoId: GUID): Promise<void> => {
+  const deleteComment = async (tobaccoId: string): Promise<void> => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот комментарий?"
     );
@@ -69,8 +69,10 @@ export const TobaccoPage = observer(() => {
     }
   };
 
-  const getComment = async (text: string, id: GUID | null): Promise<boolean> =>
-    await TobaccoStore.saveComment(text, id, tobacco.id);
+  const getComment = async (
+    text: string,
+    id: string | null
+  ): Promise<boolean> => await TobaccoStore.saveComment(text, id, tobacco.id);
 
   const onChangeRating = async (value: number): Promise<void> => {
     const isChange: boolean = await RatingStore.changeTobaccoRating({

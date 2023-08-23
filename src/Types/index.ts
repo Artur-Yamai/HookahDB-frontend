@@ -14,7 +14,6 @@ import { Reference } from "./Reference";
 import { Product } from "./product";
 import { User } from "./user/User";
 import { Coal } from "./coal/coal";
-import { GUID } from "./GUID";
 
 export type {
   AuthorizationUserData,
@@ -33,5 +32,4 @@ export type {
   Rating,
   User,
   Coal,
-  GUID,
 };

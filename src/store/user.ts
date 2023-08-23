@@ -1,5 +1,5 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { GUID, Tobacco, Coal, User, RegistrationUserData } from "../Types";
+import { Tobacco, Coal, User, RegistrationUserData } from "../Types";
 import { notify } from "../UI";
 import { UserApi } from "../API";
 import { catchHelper } from "../helpers";
@@ -105,7 +105,7 @@ class UserStore {
     this._userData = null;
   }
 
-  public async getFavoriteTobaccoByUserId(userId: GUID): Promise<void> {
+  public async getFavoriteTobaccoByUserId(userId: string): Promise<void> {
     try {
       const { data } = await UserApi.getFavoriteTobaccoByUserId(userId);
 
@@ -115,7 +115,7 @@ class UserStore {
     }
   }
 
-  public async getFavoriteCoalByUserId(userId: GUID): Promise<void> {
+  public async getFavoriteCoalByUserId(userId: string): Promise<void> {
     try {
       const { data } = await UserApi.getFavoriteCoalByUserId(userId);
 

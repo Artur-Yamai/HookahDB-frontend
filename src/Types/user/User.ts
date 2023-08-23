@@ -1,7 +1,5 @@
-import { GUID } from "../GUID";
-
 export interface User {
-  id: GUID;
+  id: string;
   createdAt: string;
   email: string;
   login: string;

@@ -6,12 +6,12 @@ import RatingStore from "../../store/rating";
 import UserStore from "../../store/user";
 import { CoalEditDialog, ProductInfo, CommentsList } from "../../components";
 import "./CoalPage.scss";
-import { Comment, GUID, Coal } from "../../Types";
+import { Comment, Coal } from "../../Types";
 import { confirm } from "../../UI";
 import { useUnmount } from "../../hooks";
 import { Helmet } from "react-helmet";
 
-type paramsType = { id: GUID };
+type paramsType = { id: string };
 
 export const CoalPage = observer(() => {
   const [isVisible, toggleVisible] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export const CoalPage = observer(() => {
     }
   }, [id]);
 
-  const deleteCoal = async (id: GUID) => {
+  const deleteCoal = async (id: string) => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот табак из списка?"
     );
@@ -47,7 +47,7 @@ export const CoalPage = observer(() => {
     }
   };
 
-  const deleteComment = async (id: GUID): Promise<void> => {
+  const deleteComment = async (id: string): Promise<void> => {
     const res = await confirm(
       "Вы уверены что хотите удалить этот комментарий?"
     );
@@ -72,7 +72,7 @@ export const CoalPage = observer(() => {
 
   const getComment = async (
     text: string,
-    id: GUID | null
+    id: string | null
   ): Promise<boolean> => {
     await CoalStore.saveComment(text, id, coal.id);
     return true;

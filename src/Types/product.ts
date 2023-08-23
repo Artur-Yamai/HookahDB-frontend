@@ -1,7 +1,5 @@
-import { GUID } from "./GUID";
-
 export interface Product {
-  id: GUID;
+  id: string;
   name: string;
   fabricator: string;
   fabricatorId: string;

@@ -4,14 +4,14 @@ import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import { FiTrash } from "react-icons/fi";
 import UserStore from "../../store/user";
-import { GUID, Product, MenuInteractionButton } from "../../Types";
+import { Product, MenuInteractionButton } from "../../Types";
 import { Picture, RatingStars, MenuInteraction } from "../../UI";
 import "./ProductInfo.scss";
 import { RoleCodes, rightsCheck } from "../../helpers";
 
 interface ProductInfoProps {
   product: Product;
-  onDelete: (id: GUID) => void;
+  onDelete: (id: string) => void;
   onUpdate: () => void;
   onChangeRating: (value: number) => void;
   toggleFavorite: () => void;
