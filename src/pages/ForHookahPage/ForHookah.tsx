@@ -8,18 +8,29 @@ import { ProductListName, SelectOption } from "../../Types";
 import { TobaccoEditDialog, CoalEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
 import { Helmet } from "react-helmet";
+import { useSearchParams } from "react-router-dom";
 
 export const ForHookah: React.FC = observer(() => {
+  const options: SelectOption[] = [
+    { value: "tobaccos", label: "Табаки" },
+    { value: "coals", label: "Угли" },
+  ];
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const listName = searchParams.get("list-name");
+  const option = options.find((opt) => opt.value === listName) ?? options[0];
+
+  const [selectedOption, setSelectedOption] = useState<SelectOption>(option);
   const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
-  const [productName, setProductName] = useState<ProductListName>("tobaccos");
 
   const onChange = (option: SelectOption): void => {
-    setProductName(option.value);
+    setSelectedOption(option);
+    setSearchParams({ "list-name": option.value });
     getData(option.value);
   };
 
   useMount(() => {
-    getData(productName);
+    getData(selectedOption.value);
   });
 
   useUnmount(() => {
@@ -52,10 +63,12 @@ export const ForHookah: React.FC = observer(() => {
       <div className="w100">
         <FilterPanel
           onChangeFilterValue={onChange}
+          options={options}
+          value={selectedOption}
           add={() => toggleVisibleDialog(true)}
           showAddButton={rightsCheck(RoleCodes.moderator)}
         />
-        {(productName === "tobaccos" && (
+        {(selectedOption.value === "tobaccos" && (
           <>
             <TobaccoEditDialog
               tobacco={TobaccoStore.tobacco}
@@ -65,7 +78,7 @@ export const ForHookah: React.FC = observer(() => {
             <TobaccosList tobaccos={TobaccoStore.tobaccos} />
           </>
         )) ||
-          (productName === "coals" && (
+          (selectedOption.value === "coals" && (
             <>
               <CoalEditDialog
                 coal={CoalStore.coal}

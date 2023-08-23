@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Select from "react-select";
 import { SelectOption } from "../../Types";
 import { Button, notify } from "../../UI";
@@ -6,27 +5,21 @@ import "./FilterPanel.scss";
 
 interface FilterPanelProps {
   showAddButton: boolean;
+  options: SelectOption[];
+  value: SelectOption;
   onChangeFilterValue: (option: SelectOption) => void;
   add: () => void;
 }
 
-const options: SelectOption[] = [
-  { value: "tobaccos", label: "Табаки" },
-  { value: "coals", label: "Угли" },
-];
-
 export const FilterPanel = ({
   showAddButton,
+  options,
+  value,
   onChangeFilterValue,
   add,
 }: FilterPanelProps): JSX.Element => {
-  const [selectedOption, setSelectedOption] = useState<SelectOption>(
-    options[0]
-  );
-
   const changeSelectValeue = (option: SelectOption | null) => {
     if (option) {
-      setSelectedOption(option);
       onChangeFilterValue(option);
     } else {
       notify("Ошибка", "error");
@@ -37,7 +30,7 @@ export const FilterPanel = ({
     <div className="filter-panel">
       <Select
         className="filter-panel__select"
-        value={selectedOption}
+        value={value}
         onChange={changeSelectValeue}
         options={options}
       />

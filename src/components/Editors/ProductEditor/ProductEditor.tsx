@@ -65,7 +65,6 @@ export const ProductEditor = ({
           value={product?.fabricatorId}
           isLoading={loading}
           onChange={changeSelectValue}
-          isClearable={true}
           placeholder="Производитель"
           valueKey="id"
           labelKey="value"

@@ -51,15 +51,22 @@ const CommentsList = ({
           comment={myComment}
         />
       )}
-      <h2>Комментарии пользователей</h2>
-      <ul className="comments-block__list">
-        {otherComments.map((comment) => (
-          <CommentItem
-            key={comment.userId + comment.tobaccoId}
-            comment={comment}
-          />
-        ))}
-      </ul>
+
+      {otherComments.length ? (
+        <>
+          <h2>Комментарии пользователей</h2>
+          <ul className="comments-block__list">
+            {otherComments.map((comment) => (
+              <CommentItem
+                key={comment.userId + comment.tobaccoId}
+                comment={comment}
+              />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <h2>Комментарии пользователей отсутствуют</h2>
+      )}
     </div>
   );
 };
