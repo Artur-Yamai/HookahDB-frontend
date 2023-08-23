@@ -1,6 +1,4 @@
-import { GUID } from "./GUID";
-
 export interface Reference {
-  id: GUID;
+  id: string;
   value: string;
 }

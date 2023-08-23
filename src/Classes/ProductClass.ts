@@ -1,4 +1,4 @@
-import { GUID, Product } from "../Types";
+import { Product } from "../Types";
 
 export class ProductClass
   implements
@@ -8,7 +8,7 @@ export class ProductClass
   fabricatorId: string = "";
   description: string = "";
   photoUrl: string = "";
-  id: GUID | null = null;
+  id: string | null = null;
 
   constructor(tobacco?: Product | null) {
     if (!tobacco) return;

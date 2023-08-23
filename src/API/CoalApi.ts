@@ -1,6 +1,5 @@
 import { CoalClass } from "../Classes";
 import RepositoryHelper from "../helpers/RepositoryHelper";
-import { GUID } from "../Types";
 
 export const CoalApi = {
   getAllCoals: async () => await RepositoryHelper.get("/coals"),
@@ -15,16 +14,16 @@ export const CoalApi = {
     );
   },
 
-  async deleteCoal(id: GUID) {
+  async deleteCoal(id: string) {
     return await RepositoryHelper.delete(id, this.getCoalEndpoint());
   },
 
   getCoalComments: async (id: string) =>
     await RepositoryHelper.get(`/coal/${id}/comments`),
 
-  addToFavoriteList: async (coalId: GUID) =>
+  addToFavoriteList: async (coalId: string) =>
     await RepositoryHelper.save({ coalId }, "/favorite/coal"),
 
-  deleteFromFavoriteList: async (coalId: GUID) =>
+  deleteFromFavoriteList: async (coalId: string) =>
     await RepositoryHelper.delete(coalId, "/favorite/coal"),
 };

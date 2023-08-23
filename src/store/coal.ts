@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Coal, GUID, Comment } from "../Types";
+import { Coal, Comment } from "../Types";
 import { catchHelper } from "../helpers";
 import { CoalApi, CommentApi } from "../API";
 import { CoalClass } from "../Classes";
@@ -72,7 +72,7 @@ class CoalStore {
     }
   }
 
-  public async saveComment(comment: string, id: GUID | null, coalId: GUID) {
+  public async saveComment(comment: string, id: string | null, coalId: string) {
     try {
       const { success }: { success: boolean } =
         await CommentApi.saveCoalComment(id, coalId, comment);
@@ -88,7 +88,7 @@ class CoalStore {
     }
   }
 
-  public async deleteComment(id: GUID): Promise<void> {
+  public async deleteComment(id: string): Promise<void> {
     try {
       await CommentApi.deleteCoalComment(id);
       if (this.coal) {
@@ -121,7 +121,7 @@ class CoalStore {
     }
   }
 
-  public async deleteCoal(id: GUID): Promise<void> {
+  public async deleteCoal(id: string): Promise<void> {
     try {
       await CoalApi.deleteCoal(id);
     } catch (error) {
@@ -129,7 +129,7 @@ class CoalStore {
     }
   }
 
-  public async addToFavoriteList(coalId: GUID): Promise<void> {
+  public async addToFavoriteList(coalId: string): Promise<void> {
     try {
       const res = await CoalApi.addToFavoriteList(coalId);
       if (res) {
@@ -140,7 +140,7 @@ class CoalStore {
     }
   }
 
-  public async deleteFromFavoriteList(coalId: GUID): Promise<void> {
+  public async deleteFromFavoriteList(coalId: string): Promise<void> {
     try {
       await CoalApi.deleteFromFavoriteList(coalId);
       await this.getCoal(coalId);

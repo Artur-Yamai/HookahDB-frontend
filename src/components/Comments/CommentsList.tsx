@@ -1,4 +1,4 @@
-import { Comment, GUID } from "../../Types";
+import { Comment } from "../../Types";
 import { CommentEditor } from "..";
 import { CommentItem } from "./CommentItem";
 import UserStore from "../../store/user";
@@ -8,8 +8,8 @@ import { observer } from "mobx-react-lite";
 
 interface CommentsListProps {
   comments: Comment[];
-  getComment: (text: string, id: GUID | null) => Promise<boolean>;
-  deleteComment: (id: GUID) => void;
+  getComment: (text: string, id: string | null) => Promise<boolean>;
+  deleteComment: (id: string) => void;
 }
 
 const CommentsList = ({
