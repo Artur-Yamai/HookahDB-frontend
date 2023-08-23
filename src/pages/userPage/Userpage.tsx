@@ -76,7 +76,7 @@ export const Userpage = observer(() => {
       </div>
       {!!UserStore.favoriteTobacco.length && (
         <>
-          <h1>Тобаки</h1>
+          <h1>Табаки</h1>
           <TobaccosList tobaccos={UserStore.favoriteTobacco} />
         </>
       )}
