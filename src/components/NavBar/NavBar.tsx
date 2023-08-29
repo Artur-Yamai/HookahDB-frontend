@@ -8,10 +8,12 @@ import { AiOutlineHome } from "react-icons/ai";
 import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
 import { ImDatabase } from "react-icons/im";
+import { FaComputer } from "react-icons/fa6";
 import UserStore from "../../store/user";
 import { User } from "../../Types/user/User";
 import { NavBarElem } from "./NavBarElem";
 import "./NavBar.scss";
+import { RoleCodes } from "helpers";
 
 interface NavLinkProps {
   caption: string;
@@ -90,19 +92,32 @@ const NavBar = () => {
               <NavBarElem
                 key={i}
                 path={linkInfo.path}
-                navbarToggle={navbarToggle}
+                onClick={navbarToggle}
                 icon={linkInfo.getIcon()}
                 caption={linkInfo.caption}
               />
             );
           })}
+          {userData?.roleCode === RoleCodes.admin && (
+            <>
+              <hr />
+              <li>
+                <a href={window.location.origin + "/admin"}>
+                  <span className="navbar__icon">
+                    <FaComputer />
+                  </span>
+                  <span className="navbar__title">Админка</span>
+                </a>
+              </li>
+            </>
+          )}
           {userData && (
             <>
               <hr />
               <NavBarElem
                 className="navbar__exit-button"
                 path="/"
-                navbarToggle={signOut}
+                onClick={signOut}
                 icon={<VscSignOut />}
                 caption="Выход"
               />
