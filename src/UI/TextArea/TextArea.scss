@@ -3,7 +3,6 @@
 .textarea {
   position: relative;
   width: 100%;
-  padding-top: 20px;
 
   textarea {
     padding: 8px 10px;
@@ -32,28 +31,27 @@
     &:focus + label,
     &:valid + label,
     &:disabled + label {
-      transform: translateX(-10px) translateY(-25px);
       font-size: 14px;
       color: $colorGray;
     }
 
     &:focus + label {
-      color: $colorBlue;
+      color: $mainColor;
     }
   }
 
   label {
     position: absolute;
-    top: 18px;
-    left: 10px;
-    top: 28px;
+    left: 4px;
+    top: -20px;
     transition: 0.2s;
     color: rgb(131, 131, 131);
     cursor: text;
   }
 
   &--invalid {
-    textarea {
+    textarea,
+    textarea:focus {
       border: 1px solid $errorColor;
       transition: 0.2s;
     }

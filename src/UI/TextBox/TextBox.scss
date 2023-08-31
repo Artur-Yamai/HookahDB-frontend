@@ -27,7 +27,7 @@
 
   label {
     position: absolute;
-    top: 18px;
+    top: 16px;
     left: 12px;
     transition: 0.2s;
     color: $colorGray;
@@ -56,7 +56,8 @@
   }
 
   &--invalid {
-    input {
+    input,
+    input:focus {
       border: 1px solid $errorColor;
       transition: 0.2s;
     }
