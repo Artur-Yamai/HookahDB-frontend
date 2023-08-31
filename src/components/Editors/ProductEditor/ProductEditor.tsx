@@ -1,28 +1,52 @@
 import { useState } from "react";
-import { ReferenceApi } from "../../../API";
-import { Reference } from "../../../Types";
-import { TextBox, InputTypeFIle, Picture, TextArea, Select } from "../../../UI";
-import { useMount } from "../../../hooks";
-import { ProductClass } from "../../../Classes";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { ReferenceApi } from "API";
+import { Product, Reference } from "Types";
+import { useMount } from "hooks";
 import "./ProductEditor.scss";
+import { Select, Picture, InputTypeFIle, TextBox, TextArea } from "UI";
 
 export interface ProductEditorProps {
-  productData: ProductClass;
-  setNewData: (product: ProductClass) => void;
-  pullNewPhoto: (file: File) => void;
+  product: Product | null;
 }
 
-type FieldName = "name" | "description";
+type InputName = "name" | "description" | "fabricator" /*| "picture" */;
 
-export const ProductEditor = ({
-  productData,
-  pullNewPhoto,
-  setNewData,
-}: ProductEditorProps) => {
-  const [product, setProduct] = useState<ProductClass>(productData);
+type Inputs = {
+  name: string;
+  description: string;
+  fabricator: Reference;
+  // picture: string | File;
+};
+
+export const ProductEditor = ({ product }: ProductEditorProps) => {
+  const {
+    register,
+    handleSubmit,
+    // watch,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>({
+    defaultValues: {
+      name: product?.name ?? "",
+      fabricator:
+        product?.fabricatorId ?? product?.fabricator
+          ? { id: product.fabricatorId, value: product.fabricator }
+          : undefined,
+      description: product?.description ?? "",
+      // picture: product?.photoUrl,
+    },
+  });
+
   const [loading, toggleLoading] = useState<boolean>(false);
   const [fabricators, setFabricators] = useState<Reference[]>([]);
-  const [picture, setPicture] = useState<File>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log({
+      name: data.name,
+      description: data.description,
+      fabricatorId: data.fabricator.id,
+    });
+  };
 
   useMount(async () => {
     toggleLoading(true);
@@ -35,66 +59,89 @@ export const ProductEditor = ({
     }
   });
 
-  const changeValue = (newValue: string, field: FieldName): void => {
-    const newProduct: ProductClass = { ...product } as ProductClass;
-    newProduct[field] = newValue;
-    setProduct(newProduct);
-    setNewData(newProduct);
+  register("name", { required: "Обязательное поле" });
+
+  register("fabricator", { required: "Обязательное поле" });
+
+  register("description", {
+    required: "Обязательное поле",
+  });
+
+  const changeFile = (e: FileList) => {
+    console.log(e);
   };
 
-  const changeSelectValue = (newValue: Reference) => {
-    const newProduct: ProductClass = { ...product };
-    newProduct.fabricatorId = newValue?.id ?? "";
-    setProduct(newProduct);
-    setNewData(newProduct);
+  const getErrorText = (text: string | undefined) => {
+    return <span className="hdb-form__error-text">{text}</span>;
   };
 
-  const changeFile = (files: FileList) => {
-    const file: File = files[0];
-
-    if (!file) return;
-    pullNewPhoto(file);
-    setPicture(file);
+  const getErrorStyleClass = (field: InputName): string => {
+    return errors?.[field] ? "hdb-form__input--error" : "";
   };
 
   return (
-    <form className="product-editor editor-form">
-      <div className="editor-form__field">
-        <Select
-          options={fabricators}
-          value={product?.fabricatorId}
-          isLoading={loading}
-          onChange={changeSelectValue}
-          placeholder="Производитель"
-          valueKey="id"
-          labelKey="value"
+    <form className="hdb-form product-editor" onSubmit={handleSubmit(onSubmit)}>
+      <div className="hdb-form__item">
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextBox label="Название" isValid={!errors?.name} {...field} />
+          )}
         />
+        {errors?.name && getErrorText(errors.name.message)}
       </div>
-      <TextBox
-        name="name"
-        value={product?.name ?? ""}
-        placeholder="Добавьте название"
-        label="Название"
-        width="100%"
-        onChange={(e) => changeValue(e, "name")}
-      />
-      <div className="editor-form__field">
-        <TextArea
-          label="Введите"
-          placeholder="Описание"
-          text={product?.description ?? ""}
-          onChange={(e) => changeValue(e, "description")}
+
+      <div className="hdb-form__item">
+        <Controller
+          name="fabricator"
+          control={control}
+          render={({ field }) => (
+            <Select
+              label="Производитель"
+              isValid={!errors?.fabricator}
+              valueKey="id"
+              labelKey="value"
+              isLoading={loading}
+              options={fabricators}
+              {...field}
+            />
+          )}
         />
+        {errors?.fabricator && getErrorText(errors.fabricator.message)}
       </div>
-      <div className="editor-form__field product-editor__photo-wrapper">
+
+      <div className="hdb-form__item">
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <TextArea
+              label="Описание"
+              isValid={!errors?.description}
+              {...field}
+            />
+          )}
+        />
+        {errors?.description && getErrorText(errors.description.message)}
+      </div>
+
+      {/* <div className="hdb-form__item product-editor__photo-loader-place">
         <Picture
-          pictureFile={picture}
           key={product?.photoUrl}
           className="product-editor__picture"
           url={product?.photoUrl}
         />
-        <InputTypeFIle onChange={changeFile} label="Сменить изображение" />
-      </div>
+        <InputTypeFIle
+          {...register("picture", {
+            required: "Recipe picture is required",
+          })}
+          onChange={changeFile}
+          label="Сменить изображение"
+        />
+      </div> */}
+
+      <input type="submit" disabled={!!Object.keys(errors).length} />
     </form>
   );
 };
