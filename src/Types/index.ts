@@ -6,12 +6,12 @@ import { Rating, TobaccoRating, CoalRating } from "./Ratings";
 import { MenuInteractionButton } from "./MenuInteractionButton";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { ProductListName } from "./ProductListName";
+import { Product, ProductForSave } from "./product";
 import { SelectOption } from "./SelectOption";
 import { NotifyTypes } from "./NotifyTypes";
 import { Comment } from "./comment/comment";
 import { Tobacco } from "./tobacco/tobacco";
 import { Reference } from "./Reference";
-import { Product } from "./product";
 import { User } from "./user/User";
 import { Coal } from "./coal/coal";
 
@@ -21,6 +21,7 @@ export type {
   RegistrationUserData,
   ErrorHTTPRequest,
   ProductListName,
+  ProductForSave,
   TobaccoRating,
   SelectOption,
   NotifyTypes,
