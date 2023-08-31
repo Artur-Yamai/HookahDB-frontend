@@ -11,6 +11,7 @@ interface PopupProps {
   children: JSX.Element;
   width?: string;
   height?: string;
+  showFooter?: boolean;
 }
 
 export const Popup = ({
@@ -21,6 +22,7 @@ export const Popup = ({
   children,
   width = "600px",
   height = "400px",
+  showFooter = true,
 }: PopupProps): JSX.Element => {
   const popup = useRef<HTMLDivElement>(null);
 
@@ -71,10 +73,12 @@ export const Popup = ({
           </button>
         </header>
         <main className="popup__content">{children}</main>
-        <footer className="popup__button-place">
-          <Button className="popup__button" text="ОК" click={agree} />
-          <Button className="popup__button" text="Отмена" click={close} />
-        </footer>
+        {showFooter && (
+          <footer className="popup__button-place">
+            <Button className="popup__button" text="ОК" click={agree} />
+            <Button className="popup__button" text="Отмена" click={close} />
+          </footer>
+        )}
       </div>
     </div>
   );
