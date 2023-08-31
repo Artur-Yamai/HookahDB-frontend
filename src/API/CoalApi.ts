@@ -1,4 +1,4 @@
-import { CoalClass } from "../Classes";
+import { ProductForSave } from "Types";
 import RepositoryHelper from "../helpers/RepositoryHelper";
 
 export const CoalApi = {
@@ -7,7 +7,7 @@ export const CoalApi = {
   getCoalEndpoint: () => "/coals",
   getCoal: async (id: string) => await RepositoryHelper.get(`/coal/${id}`),
 
-  async saveCoal(coalData: CoalClass, photo?: File) {
+  async saveCoal(coalData: ProductForSave, photo?: File) {
     return await RepositoryHelper.save(
       { ...coalData, photo },
       this.getCoalEndpoint()

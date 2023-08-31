@@ -1,4 +1,4 @@
-import { TobaccoClass } from "../Classes";
+import { ProductForSave } from "Types";
 import RepositoryHelper from "../helpers/RepositoryHelper";
 
 export const TobaccoApi = {
@@ -8,7 +8,7 @@ export const TobaccoApi = {
   getTobacco: async (id: string) =>
     await RepositoryHelper.get(`/tobacco/${id}`),
 
-  async saveTobacco(tobaccoData: TobaccoClass, photo?: File) {
+  async saveTobacco(tobaccoData: ProductForSave, photo?: File) {
     return await RepositoryHelper.save(
       { ...tobaccoData, photo },
       this.getTobaccoEndpoint()
