@@ -1,29 +1,30 @@
 import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { ReferenceApi } from "API";
-import { Product, Reference } from "Types";
+import { Product, ProductForSave, Reference } from "Types";
 import { useMount } from "hooks";
 import "./ProductEditor.scss";
 import { Select, Picture, InputTypeFIle, TextBox, TextArea } from "UI";
 
-export interface ProductEditorProps {
-  product: Product | null;
-}
-
-type InputName = "name" | "description" | "fabricator" /*| "picture" */;
-
-type Inputs = {
+interface Inputs {
   name: string;
   description: string;
   fabricator: Reference;
-  // picture: string | File;
-};
+  picture: string | File;
+}
 
-export const ProductEditor = ({ product }: ProductEditorProps) => {
+export interface ProductEditorProps {
+  onFormSubmit: (data: ProductForSave, photo?: File) => void;
+  product: Product | null;
+}
+
+export const ProductEditor = ({
+  product,
+  onFormSubmit,
+}: ProductEditorProps) => {
   const {
     register,
     handleSubmit,
-    // watch,
     control,
     formState: { errors },
   } = useForm<Inputs>({
@@ -34,18 +35,23 @@ export const ProductEditor = ({ product }: ProductEditorProps) => {
           ? { id: product.fabricatorId, value: product.fabricator }
           : undefined,
       description: product?.description ?? "",
-      // picture: product?.photoUrl,
+      picture: product?.photoUrl,
     },
   });
 
+  const [photo, setPhoto] = useState<File>();
   const [loading, toggleLoading] = useState<boolean>(false);
   const [fabricators, setFabricators] = useState<Reference[]>([]);
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log({
-      name: data.name,
-      description: data.description,
-      fabricatorId: data.fabricator.id,
-    });
+    onFormSubmit(
+      {
+        name: data.name,
+        description: data.description,
+        fabricatorId: data.fabricator.id,
+      },
+      photo
+    );
   };
 
   useMount(async () => {
@@ -63,20 +69,16 @@ export const ProductEditor = ({ product }: ProductEditorProps) => {
 
   register("fabricator", { required: "Обязательное поле" });
 
-  register("description", {
-    required: "Обязательное поле",
-  });
+  register("description", { required: "Обязательное поле" });
 
-  const changeFile = (e: FileList) => {
-    console.log(e);
+  register("picture", { required: "Recipe picture is required" });
+
+  const changeFile = (fileList: FileList) => {
+    fileList[0] && setPhoto(fileList[0]);
   };
 
   const getErrorText = (text: string | undefined) => {
     return <span className="hdb-form__error-text">{text}</span>;
-  };
-
-  const getErrorStyleClass = (field: InputName): string => {
-    return errors?.[field] ? "hdb-form__input--error" : "";
   };
 
   return (
@@ -126,20 +128,40 @@ export const ProductEditor = ({ product }: ProductEditorProps) => {
         {errors?.description && getErrorText(errors.description.message)}
       </div>
 
-      {/* <div className="hdb-form__item product-editor__photo-loader-place">
-        <Picture
-          key={product?.photoUrl}
-          className="product-editor__picture"
-          url={product?.photoUrl}
+      <div className="hdb-form__item product-editor__photo-loader-place">
+        <Controller
+          name="picture"
+          control={control}
+          render={({ field: { onChange, ...field } }) => (
+            <>
+              <Picture
+                key={product?.photoUrl}
+                className="product-editor__picture"
+                url={product?.photoUrl}
+                pictureFile={photo}
+              />
+              <InputTypeFIle
+                label="Сменить изображение"
+                onChange={(event) => {
+                  onChange(event[0]);
+                  changeFile(event);
+                }}
+                {...field}
+              />
+            </>
+          )}
         />
+        {/* 
         <InputTypeFIle
           {...register("picture", {
             required: "Recipe picture is required",
           })}
           onChange={changeFile}
           label="Сменить изображение"
-        />
-      </div> */}
+        /> */}
+
+        {errors?.picture && getErrorText(errors.picture.message)}
+      </div>
 
       <input type="submit" disabled={!!Object.keys(errors).length} />
     </form>
