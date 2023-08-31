@@ -6,7 +6,7 @@ import "./Popup.scss";
 interface PopupProps {
   visible: boolean;
   close: () => void;
-  agree: () => void;
+  agree?: () => void;
   title?: string;
   children: JSX.Element;
   width?: string;
@@ -17,7 +17,7 @@ interface PopupProps {
 export const Popup = ({
   visible = false,
   close,
-  agree,
+  agree = () => {},
   title,
   children,
   width = "600px",
