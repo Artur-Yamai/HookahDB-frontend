@@ -70,7 +70,7 @@ export const CommentEditor = ({
     <>
       <div className="comment-editor">
         <TextArea
-          text={text}
+          value={text}
           onChange={textChange}
           label="Что бы вы хотели сказать эдакого о данном табаке"
           rows={5}
