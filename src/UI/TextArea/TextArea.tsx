@@ -1,55 +1,62 @@
-import { useState, useEffect, useId } from "react";
+import { useState, useEffect, useId, forwardRef } from "react";
 import "./TextArea.scss";
 
 interface TextAreaProps {
   className?: string;
-  text: string;
+  value: string;
   label: string;
   placeholder?: string;
   required?: boolean;
   cols?: number;
   rows?: number;
+  isValid?: boolean;
   onChange: (value: string) => void;
 }
 
-export const TextArea = ({
-  className = "",
-  text,
-  label,
-  onChange,
-  placeholder = "",
-  required = true,
-  cols = 30,
-  rows = 10,
-}: TextAreaProps) => {
-  const [value, changeValue] = useState<string>(text);
-  const id: string = useId();
+export const TextArea = forwardRef(
+  (
+    {
+      className = "",
+      value,
+      label,
+      isValid,
+      onChange,
+      placeholder = "",
+      cols = 30,
+      rows = 10,
+    }: TextAreaProps,
+    _
+  ) => {
+    const [inputValue, changeInputValue] = useState<string>(value);
+    const id: string = useId();
 
-  const change = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue: string = e.target.value;
-    changeValue(newValue);
-    onChange(newValue);
-  };
+    const change = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newValue: string = e.target.value;
+      changeInputValue(newValue);
+      onChange(newValue);
+    };
 
-  useEffect(() => {
-    changeValue(text);
-  }, [text]);
+    useEffect(() => {
+      changeInputValue(value);
+    }, [value]);
 
-  return (
-    <p className={`textarea ${className}`}>
-      <textarea
-        id={id}
-        required={required}
-        placeholder={placeholder}
-        value={value}
-        onChange={change}
-        name="textarea"
-        cols={cols}
-        rows={rows}
-      />
-      <label htmlFor={id} className="textarea__label">
-        {label}
-      </label>
-    </p>
-  );
-};
+    return (
+      <p
+        className={`textarea ${
+          isValid ? "" : "textarea--invalid"
+        }  ${className}`}
+      >
+        <textarea
+          id={id}
+          placeholder={placeholder}
+          value={inputValue}
+          onChange={change}
+          name="textarea"
+          cols={cols}
+          rows={rows}
+        />
+        <label htmlFor={id}>{label}</label>
+      </p>
+    );
+  }
+);
