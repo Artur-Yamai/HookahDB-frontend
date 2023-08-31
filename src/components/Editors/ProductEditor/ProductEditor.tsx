@@ -9,7 +9,7 @@ import { Select, Picture, InputTypeFIle, TextBox, TextArea } from "UI";
 interface Inputs {
   name: string;
   description: string;
-  fabricator: Reference;
+  fabricatorId: string;
   picture: string | File;
 }
 
@@ -30,10 +30,7 @@ export const ProductEditor = ({
   } = useForm<Inputs>({
     defaultValues: {
       name: product?.name ?? "",
-      fabricator:
-        product?.fabricatorId ?? product?.fabricator
-          ? { id: product.fabricatorId, value: product.fabricator }
-          : undefined,
+      fabricatorId: product?.fabricatorId ?? "",
       description: product?.description ?? "",
       picture: product?.photoUrl,
     },
@@ -48,7 +45,7 @@ export const ProductEditor = ({
       {
         name: data.name,
         description: data.description,
-        fabricatorId: data.fabricator.id,
+        fabricatorId: data.fabricatorId,
       },
       photo
     );
@@ -67,15 +64,14 @@ export const ProductEditor = ({
 
   register("name", { required: "Обязательное поле" });
 
-  register("fabricator", { required: "Обязательное поле" });
+  register("fabricatorId", { required: "Обязательное поле" });
 
   register("description", { required: "Обязательное поле" });
 
-  register("picture", { required: "Recipe picture is required" });
+  register("picture", { required: "Обязательно прикрепите фото" });
 
-  const changeFile = (fileList: FileList) => {
+  const changeFile = (fileList: FileList) =>
     fileList[0] && setPhoto(fileList[0]);
-  };
 
   const getErrorText = (text: string | undefined) => {
     return <span className="hdb-form__error-text">{text}</span>;
@@ -96,12 +92,14 @@ export const ProductEditor = ({
 
       <div className="hdb-form__item">
         <Controller
-          name="fabricator"
+          name="fabricatorId"
           control={control}
-          render={({ field }) => (
+          render={({ field: { value, onChange, ...field } }) => (
             <Select
+              value={product?.fabricatorId}
+              onChange={(e: Reference) => onChange(e.id)}
               label="Производитель"
-              isValid={!errors?.fabricator}
+              isValid={!errors?.fabricatorId}
               valueKey="id"
               labelKey="value"
               isLoading={loading}
@@ -110,7 +108,7 @@ export const ProductEditor = ({
             />
           )}
         />
-        {errors?.fabricator && getErrorText(errors.fabricator.message)}
+        {errors?.fabricatorId && getErrorText(errors.fabricatorId.message)}
       </div>
 
       <div className="hdb-form__item">
@@ -151,14 +149,6 @@ export const ProductEditor = ({
             </>
           )}
         />
-        {/* 
-        <InputTypeFIle
-          {...register("picture", {
-            required: "Recipe picture is required",
-          })}
-          onChange={changeFile}
-          label="Сменить изображение"
-        /> */}
 
         {errors?.picture && getErrorText(errors.picture.message)}
       </div>
