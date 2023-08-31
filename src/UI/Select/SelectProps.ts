@@ -1,3 +1,4 @@
+import { ControllerRenderProps } from "react-hook-form";
 import { SingleValue } from "react-select";
 
 export interface SelectProps {
@@ -10,4 +11,5 @@ export interface SelectProps {
   isClearable?: boolean;
   valueKey?: string;
   labelKey?: string;
+  field?: ControllerRenderProps<any, string>;
 }
