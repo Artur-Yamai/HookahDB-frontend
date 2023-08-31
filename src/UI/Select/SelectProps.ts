@@ -5,6 +5,8 @@ export interface SelectProps {
   className?: string;
   options: any[];
   value: any;
+  label?: string;
+  isValid?: boolean;
   onChange: (newValue: SingleValue<any>) => void;
   placeholder?: string;
   isLoading?: boolean;
