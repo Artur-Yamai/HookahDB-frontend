@@ -9,7 +9,7 @@
 
   &__item {
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: 40px;
   }
 
   &__input {
@@ -21,7 +21,7 @@
   &__error-text {
     font-size: 0.8em;
     position: absolute;
-    bottom: -16px;
+    bottom: -14px;
     left: 4px;
     color: $errorColor;
   }
