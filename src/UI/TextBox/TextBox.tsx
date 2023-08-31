@@ -57,7 +57,7 @@ export const TextBox = forwardRef(
           placeholder={placeholder}
           disabled={disabled}
         />
-        <label htmlFor={id}>{label}</label>
+        {!!label && <label htmlFor={id}>{label}</label>}
       </p>
     );
   }

@@ -19,7 +19,7 @@ export const TextArea = forwardRef(
       className = "",
       value,
       label,
-      isValid,
+      isValid = true,
       onChange,
       placeholder = "",
       cols = 30,
@@ -55,7 +55,7 @@ export const TextArea = forwardRef(
           cols={cols}
           rows={rows}
         />
-        <label htmlFor={id}>{label}</label>
+        {!!label && <label htmlFor={id}>{label}</label>}
       </p>
     );
   }
