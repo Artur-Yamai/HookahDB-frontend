@@ -1,8 +1,7 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { Tobacco, Comment } from "../Types";
-import { TobaccoApi, CommentApi } from "../API";
-import { catchHelper } from "../helpers";
-import { TobaccoClass } from "../Classes";
+import { Tobacco, Comment, ProductForSave } from "Types";
+import { TobaccoApi, CommentApi } from "API";
+import { catchHelper } from "helpers";
 
 class TobaccoStore {
   private _tobaccos: Tobacco[] = [];
@@ -106,7 +105,7 @@ class TobaccoStore {
   }
 
   public async createTobacco(
-    tobacco: TobaccoClass,
+    tobacco: ProductForSave,
     photo: File
   ): Promise<void> {
     try {
@@ -120,7 +119,7 @@ class TobaccoStore {
   }
 
   public async updateTobacco(
-    tobacco: TobaccoClass,
+    tobacco: ProductForSave,
     photo?: File
   ): Promise<void> {
     try {

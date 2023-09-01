@@ -1,0 +1,43 @@
+@import "../colors.scss";
+
+.hdb-form {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  padding: 24px 40px;
+  flex-direction: column;
+
+  &__item {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  &__input {
+    &--error {
+      border: 1px solid $errorColor !important;
+    }
+  }
+
+  &__error-text {
+    font-size: 0.8em;
+    position: absolute;
+    bottom: -14px;
+    left: 4px;
+    color: $errorColor;
+  }
+
+  input[type="submit"] {
+    margin-top: auto;
+    padding: 16px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: $mainColor;
+    color: white;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: $colorLightGray;
+      cursor: inherit;
+    }
+  }
+}

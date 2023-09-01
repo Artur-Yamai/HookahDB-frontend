@@ -5,12 +5,12 @@
   position: relative;
   min-width: 80px;
 
-  &__input {
+  input {
     width: 100%;
-    border: 1px solid $colorGray;
+    border: 1px solid $colorBlack;
     padding: 8px 10px;
     font-size: 16px;
-    color: #111;
+    color: $colorBlack;
     font-weight: 300;
 
     &::placeholder {
@@ -21,37 +21,49 @@
     &:focus {
       border-width: 1px;
       margin: 0;
-      border-color: $colorBlue;
+      border-color: $mainColor;
     }
   }
 
-  &__label {
+  label {
     position: absolute;
-    top: 18px;
+    top: 16px;
     left: 12px;
-    transition: 0.3s;
+    transition: 0.2s;
     color: $colorGray;
     cursor: text;
   }
 
-  &__input:disabled {
+  input:disabled {
     opacity: 0.5;
   }
 
-  &__input:focus + .input-container__label,
-  &__input:valid + .input-container__label,
-  &__input:disabled + .input-container__label {
+  input:focus + label,
+  input:valid + label,
+  input:disabled + label {
     transform: translateX(-10px) translateY(-25px);
     font-size: 14px;
     color: $colorGray;
   }
 
-  &__input:focus + .input-container__label {
+  input:focus + label {
     color: $colorBlue;
   }
 
-  &__input:focus::placeholder {
+  input:focus::placeholder {
     transition-delay: 0.1s;
     opacity: 1;
+  }
+
+  &--invalid {
+    input,
+    input:focus {
+      border: 1px solid $errorColor;
+      transition: 0.2s;
+    }
+
+    label {
+      color: $errorColor !important;
+    }
   }
 }

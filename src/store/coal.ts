@@ -1,8 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Coal, Comment } from "../Types";
+import { Coal, Comment, ProductForSave } from "../Types";
 import { catchHelper } from "../helpers";
 import { CoalApi, CommentApi } from "../API";
-import { CoalClass } from "../Classes";
 
 class CoalStore {
   private _coals: Coal[] = [];
@@ -99,7 +98,7 @@ class CoalStore {
     }
   }
 
-  public async createCoal(coal: CoalClass, photo: File): Promise<void> {
+  public async createCoal(coal: ProductForSave, photo: File): Promise<void> {
     try {
       const data = await CoalApi.saveCoal(coal, photo);
       if (data.success) {
@@ -110,7 +109,7 @@ class CoalStore {
     }
   }
 
-  public async updateCoal(coal: CoalClass, photo?: File): Promise<void> {
+  public async updateCoal(coal: ProductForSave, photo?: File): Promise<void> {
     try {
       const data = await CoalApi.saveCoal(coal, photo);
       if (data.success) {

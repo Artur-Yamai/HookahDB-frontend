@@ -1,46 +1,64 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId, forwardRef } from "react";
 import ReactSelect, { SingleValue } from "react-select";
 import { SelectProps } from "./SelectProps";
 import "./Select.scss";
 
-export const Select = ({
-  className = "",
-  options,
-  value,
-  onChange,
-  isLoading = false,
-  isClearable = false,
-  placeholder,
-  valueKey = "value",
-  labelKey = "label",
-}: SelectProps) => {
-  const [intermediateValue, setIntermediateValue] =
-    useState<SingleValue<any>>();
+export const Select = forwardRef(
+  (
+    {
+      className = "",
+      options,
+      value,
+      label,
+      onChange,
+      isLoading = false,
+      isClearable = false,
+      placeholder,
+      valueKey = "value",
+      labelKey = "label",
+      isValid = true,
+      ...field
+    }: SelectProps,
+    _
+  ) => {
+    const [intermediateValue, setIntermediateValue] =
+      useState<SingleValue<any>>();
 
-  const toChange = (newValue: SingleValue<any>) => {
-    onChange(newValue);
-    setIntermediateValue(newValue);
-  };
+    const id: string = useId();
 
-  useEffect(() => {
-    const res = options.find((option) => option[valueKey] === value);
-    if (res) {
-      setIntermediateValue(res);
-    }
-  }, [options, valueKey, value]);
+    const toChange = (newValue: SingleValue<any>) => {
+      onChange(newValue);
+      setIntermediateValue(newValue);
+    };
 
-  return (
-    <ReactSelect
-      className={className}
-      value={intermediateValue}
-      classNamePrefix="custom-select"
-      isLoading={isLoading}
-      options={options}
-      onChange={toChange}
-      isClearable={isClearable}
-      placeholder={placeholder}
-      getOptionValue={(e) => e[valueKey]}
-      getOptionLabel={(e) => e[labelKey]}
-    />
-  );
-};
+    useEffect(() => {
+      const res = options.find((option) => option[valueKey] === value);
+      if (res) {
+        setIntermediateValue(res);
+      }
+    }, [options, valueKey, value]);
+
+    return (
+      <div
+        className={`select-wrapper ${isValid ? "" : "select-wrapper--invalid"}`}
+      >
+        <ReactSelect
+          inputId={id}
+          aria-label={label}
+          className={className}
+          value={intermediateValue}
+          classNamePrefix="custom-select"
+          isLoading={isLoading}
+          options={options}
+          onChange={toChange}
+          isClearable={isClearable}
+          placeholder={placeholder}
+          getOptionValue={(e) => e[valueKey]}
+          getOptionLabel={(e) => e[labelKey]}
+          {...field}
+        />
+        {!!label && <label htmlFor={id}>{label}</label>}
+      </div>
+    );
+  }
+);

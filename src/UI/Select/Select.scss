@@ -1,12 +1,49 @@
 @import "../../styles/colors.scss";
 
-.custom-select {
-  &__control {
-    border-radius: 0px !important;
-    border-color: $colorGray !important;
+.select-wrapper {
+  position: relative;
+
+  label {
+    position: absolute;
+    top: -20px;
+    left: 2px;
+    transition: 0.2s;
+    color: $colorGray;
+    cursor: text;
+    font-size: 14px;
   }
 
-  &__indicator {
-    padding: 4px;
+  .custom-select {
+    &__control,
+    &__control:hover {
+      border-radius: 0px;
+      border-color: $colorBlack;
+      box-shadow: none;
+    }
+
+    &__control--is-focused {
+      border: 1px solid $mainColor !important;
+    }
+
+    &__indicator {
+      padding: 4px;
+    }
+  }
+
+  &:has(.custom-select__control--is-focused) label {
+    color: $mainColor;
+  }
+}
+
+.select-wrapper {
+  &--invalid {
+    label {
+      color: $errorColor !important;
+    }
+    .custom-select {
+      &__control {
+        border-color: $errorColor !important;
+      }
+    }
   }
 }

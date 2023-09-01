@@ -6,21 +6,23 @@ import "./Popup.scss";
 interface PopupProps {
   visible: boolean;
   close: () => void;
-  agree: () => void;
+  agree?: () => void;
   title?: string;
   children: JSX.Element;
   width?: string;
   height?: string;
+  showFooter?: boolean;
 }
 
 export const Popup = ({
   visible = false,
   close,
-  agree,
+  agree = () => {},
   title,
   children,
   width = "600px",
   height = "400px",
+  showFooter = true,
 }: PopupProps): JSX.Element => {
   const popup = useRef<HTMLDivElement>(null);
 
@@ -71,10 +73,12 @@ export const Popup = ({
           </button>
         </header>
         <main className="popup__content">{children}</main>
-        <footer className="popup__button-place">
-          <Button className="popup__button" text="ОК" click={agree} />
-          <Button className="popup__button" text="Отмена" click={close} />
-        </footer>
+        {showFooter && (
+          <footer className="popup__button-place">
+            <Button className="popup__button" text="ОК" click={agree} />
+            <Button className="popup__button" text="Отмена" click={close} />
+          </footer>
+        )}
       </div>
     </div>
   );

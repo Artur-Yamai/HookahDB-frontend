@@ -14,3 +14,8 @@ export interface Product {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface ProductForSave
+  extends Pick<Product, "name" | "fabricatorId" | "description"> {
+  id?: string;
+}
