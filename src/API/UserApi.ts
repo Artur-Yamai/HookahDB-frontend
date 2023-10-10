@@ -4,10 +4,7 @@ import { RegistrationUserData } from "../Types";
 
 export const UserApi = {
   auth: async (login: string, password: string) =>
-    await Repository.post("/user/auth", {
-      password,
-      login,
-    }),
+    await Repository.post("/user/auth", { password, login }),
 
   autoAuth: async () => await Repository.get("/user/authByToken"),
 
@@ -30,4 +27,7 @@ export const UserApi = {
 
   getFavoriteCoalByUserId: async (userId: string) =>
     await Repository.get(`/user/${userId}/favoriteCoals`),
+
+  sendNewPasswordToEmail: async (email: string) =>
+    await RepositoryHelper.save({ email }, "/user/restorePassword"),
 };
