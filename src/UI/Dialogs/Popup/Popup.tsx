@@ -12,6 +12,8 @@ interface PopupProps {
   width?: string;
   height?: string;
   showFooter?: boolean;
+  submitButtonLabel?: string;
+  isDisabledAgreeButton?: boolean;
 }
 
 export const Popup = ({
@@ -23,6 +25,8 @@ export const Popup = ({
   width = "600px",
   height = "400px",
   showFooter = true,
+  submitButtonLabel = "OK",
+  isDisabledAgreeButton = false,
 }: PopupProps): JSX.Element => {
   const popup = useRef<HTMLDivElement>(null);
 
@@ -75,7 +79,12 @@ export const Popup = ({
         <main className="popup__content">{children}</main>
         {showFooter && (
           <footer className="popup__button-place">
-            <Button className="popup__button" text="ОК" click={agree} />
+            <Button
+              className="popup__button"
+              text={submitButtonLabel}
+              click={agree}
+              disabled={isDisabledAgreeButton}
+            />
             <Button className="popup__button" text="Отмена" click={close} />
           </footer>
         )}
