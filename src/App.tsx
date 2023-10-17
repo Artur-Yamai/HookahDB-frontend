@@ -14,10 +14,11 @@ import {
 import "./App.scss";
 import "./styles/index.scss";
 // import "./styles/globalStyles.scss";
-import { StartingSpinner } from "./UI";
+import { StartingSpinner, confirm } from "./UI";
 
 export default function App() {
   const [loading, toggleLoading] = useState<boolean>(true);
+  const [isAdult, toggleIsAdult] = useState<boolean>(false);
 
   const getUser = async () => {
     await UserStore.autoAuth();
@@ -25,6 +26,13 @@ export default function App() {
       toggleLoading(false);
       // 500млс, потому что запросы обрабатываются слишком быстро, и спинер прячется сразу же
     }, 500);
+
+    if (UserStore.userData) return;
+
+    const res = await confirm(
+      "Cайт носит информационный характер и не рекламирует табачную продукцию. Вся информация предоставлена в целях ознакомления, а не агитации и рекламы. Вам больше 18 лет?"
+    );
+    toggleIsAdult(res);
   };
 
   // Если юзер авторизировался ранее и его токен еще жив
@@ -32,6 +40,8 @@ export default function App() {
   useMount(() => {
     getUser();
   });
+
+  if (!isAdult) return <></>;
 
   return (
     <BrowserRouter>
