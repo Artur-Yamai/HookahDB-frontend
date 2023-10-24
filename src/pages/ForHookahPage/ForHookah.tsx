@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { useMount, useUnmount } from "../../hooks";
 import TobaccoStore from "../../store/tobacco";
 import CoalStore from "../../store/coal";
@@ -7,8 +9,7 @@ import { FilterPanel, TobaccosList, CoalList } from "../../components";
 import { ProductListName, SelectOption } from "../../Types";
 import { TobaccoEditDialog, CoalEditDialog } from "../../components";
 import { RoleCodes, rightsCheck } from "../../helpers";
-import { Helmet } from "react-helmet";
-import { useSearchParams } from "react-router-dom";
+import "./ForHookah.scss";
 
 export const ForHookah: React.FC = observer(() => {
   const options: SelectOption[] = [
@@ -60,13 +61,11 @@ export const ForHookah: React.FC = observer(() => {
       <Helmet>
         <title>HookahDB</title>
       </Helmet>
-      <div className="w100">
+      <div className="w100 for-hookah">
         <FilterPanel
           onChangeFilterValue={onChange}
           options={options}
           value={selectedOption}
-          add={() => toggleVisibleDialog(true)}
-          showAddButton={rightsCheck(RoleCodes.moderator)}
         />
         {(selectedOption.value === "tobaccos" && (
           <>
@@ -88,6 +87,14 @@ export const ForHookah: React.FC = observer(() => {
               <CoalList coals={CoalStore.coals} />
             </>
           ))}
+        {rightsCheck(RoleCodes.moderator) && (
+          <button
+            className="for-hookah__add-button"
+            onClick={() => toggleVisibleDialog(true)}
+          >
+            +
+          </button>
+        )}
       </div>
     </>
   );
