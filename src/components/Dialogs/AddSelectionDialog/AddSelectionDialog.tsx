@@ -21,7 +21,7 @@ export const AddSelectionDialog = ({
   const listOfAddedProducts: EntityDescType[] = [
     { entityName: "tobacco", label: "Табак" },
     { entityName: "coal", label: "Уголь" },
-    { entityName: "fabricator", label: "Производитель" },
+    // { entityName: "fabricator", label: "Производитель" },
   ];
 
   return (
