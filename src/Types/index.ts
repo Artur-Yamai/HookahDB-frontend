@@ -4,6 +4,7 @@ import {
 } from "./user/AuthAndRegInterfaces";
 import { Rating, TobaccoRating, CoalRating } from "./Ratings";
 import { MenuInteractionButton } from "./MenuInteractionButton";
+import { AddedEntitiesTypes } from "./AddedEntitiesTypes";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { ProductListName } from "./ProductListName";
 import { Product, ProductForSave } from "./product";
@@ -19,6 +20,7 @@ export type {
   AuthorizationUserData,
   MenuInteractionButton,
   RegistrationUserData,
+  AddedEntitiesTypes,
   ErrorHTTPRequest,
   ProductListName,
   ProductForSave,
