@@ -23,7 +23,7 @@ export const Popup = ({
   title,
   children,
   width = "600px",
-  height = "400px",
+  height,
   showFooter = true,
   submitButtonLabel = "OK",
   isDisabledAgreeButton = false,
