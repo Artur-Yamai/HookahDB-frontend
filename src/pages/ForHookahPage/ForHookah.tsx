@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useMount, useUnmount } from "../../hooks";
-import TobaccoStore from "../../store/tobacco";
-import CoalStore from "../../store/coal";
-import { FilterPanel, TobaccosList, CoalList } from "../../components";
-import { ProductListName, SelectOption } from "../../Types";
-import { TobaccoEditDialog, CoalEditDialog } from "../../components";
-import { RoleCodes, rightsCheck } from "../../helpers";
-import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { useMount, useUnmount } from "hooks";
+import TobaccoStore from "store/tobacco";
+import CoalStore from "store/coal";
+import {
+  FilterPanel,
+  TobaccosList,
+  CoalList,
+  EntitySelectionAndCreation,
+} from "components";
+import { ProductListName, SelectOption } from "Types";
+import { RoleCodes, rightsCheck } from "helpers";
+import "./ForHookah.scss";
 
 export const ForHookah: React.FC = observer(() => {
   const options: SelectOption[] = [
@@ -29,23 +34,18 @@ export const ForHookah: React.FC = observer(() => {
     getData(option.value);
   };
 
-  useMount(() => {
-    getData(selectedOption.value);
-  });
+  useMount(() => getData(selectedOption.value));
+  useUnmount(() => clearData());
 
-  useUnmount(() => {
-    clearData();
-  });
-
-  const getData = async (productName: ProductListName): Promise<void> => {
+  const getData = (productName: ProductListName): void => {
     clearData();
 
     switch (productName) {
       case "tobaccos":
-        await TobaccoStore.getAllTobaccos();
+        TobaccoStore.getAllTobaccos();
         break;
       case "coals":
-        await CoalStore.getAllCoals();
+        CoalStore.getAllCoals();
         break;
     }
   };
@@ -60,34 +60,32 @@ export const ForHookah: React.FC = observer(() => {
       <Helmet>
         <title>HookahDB</title>
       </Helmet>
-      <div className="w100">
+      <div className="w100 for-hookah">
         <FilterPanel
           onChangeFilterValue={onChange}
           options={options}
           value={selectedOption}
-          add={() => toggleVisibleDialog(true)}
-          showAddButton={rightsCheck(RoleCodes.moderator)}
         />
         {(selectedOption.value === "tobaccos" && (
-          <>
-            <TobaccoEditDialog
-              tobacco={TobaccoStore.tobacco}
-              isVisible={isVisibleDialog}
-              closeDialog={() => toggleVisibleDialog(false)}
-            />
-            <TobaccosList tobaccos={TobaccoStore.tobaccos} />
-          </>
+          <TobaccosList tobaccos={TobaccoStore.tobaccos} />
         )) ||
           (selectedOption.value === "coals" && (
-            <>
-              <CoalEditDialog
-                coal={CoalStore.coal}
-                isVisible={isVisibleDialog}
-                closeDialog={() => toggleVisibleDialog(false)}
-              />
-              <CoalList coals={CoalStore.coals} />
-            </>
+            <CoalList coals={CoalStore.coals} />
           ))}
+        {rightsCheck(RoleCodes.moderator) && (
+          <>
+            <button
+              className="for-hookah__add-button"
+              onClick={() => toggleVisibleDialog(true)}
+            >
+              +
+            </button>
+            <EntitySelectionAndCreation
+              visible={isVisibleDialog}
+              close={() => toggleVisibleDialog(false)}
+            />
+          </>
+        )}
       </div>
     </>
   );
