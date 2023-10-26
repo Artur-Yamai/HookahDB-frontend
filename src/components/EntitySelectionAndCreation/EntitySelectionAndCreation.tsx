@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { AddSelectionDialog } from "components";
-import { TobaccoEditDialog, CoalEditDialog } from "components";
+import {
+  AddSelectionDialog,
+  TobaccoEditDialog,
+  CoalEditDialog,
+  FabricatorEditDialog,
+} from "components";
 import { AddedEntitiesTypes } from "Types";
 
 interface EntitySelectionAndCreationProps {
@@ -40,6 +44,13 @@ export const EntitySelectionAndCreation = ({
         (entityDialogType === "coal" && (
           <CoalEditDialog
             coal={null}
+            isVisible={isVisibleDialog}
+            closeDialog={() => toggleVisibleDialog(false)}
+          />
+        )) ||
+        (entityDialogType === "fabricator" && (
+          <FabricatorEditDialog
+            fabricator={null}
             isVisible={isVisibleDialog}
             closeDialog={() => toggleVisibleDialog(false)}
           />
