@@ -27,7 +27,7 @@ export default function App() {
       // 500млс, потому что запросы обрабатываются слишком быстро, и спинер прячется сразу же
     }, 500);
 
-    if (UserStore.userData) {
+    if (UserStore.userData || process.env.NODE_ENV === "development") {
       toggleIsAdult(true);
     } else {
       const res = await confirm(
