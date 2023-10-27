@@ -6,7 +6,11 @@ import { ImDatabase } from "react-icons/im";
 import { Helmet } from "react-helmet";
 import UserStore from "store/user";
 import { UserApi } from "API";
-import { RegistrationForm, AuthorizationForm } from "components";
+import {
+  RegistrationForm,
+  AuthorizationForm,
+  RestorePasswordDialog,
+} from "components";
 import { AuthorizationUserData, RegistrationUserData } from "Types";
 import "./AuthorizationPage.scss";
 import { notify } from "UI";
@@ -18,6 +22,7 @@ export const AuthorizationPage = observer(() => {
   const [isActive, toggleIsActive] = useState<boolean>(false);
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
+  const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
 
   const toGoSignupPage = (isActive: boolean): void => {
     toggleIsActive(isActive);
@@ -25,9 +30,7 @@ export const AuthorizationPage = observer(() => {
     setStartPageActive(isActive ? "authorization--active" : "");
   };
 
-  useMount(() => {
-    toGoSignupPage(!!refCode);
-  });
+  useMount(() => toGoSignupPage(!!refCode));
 
   // Авторизация
   const toSignin = async ({
@@ -81,6 +84,13 @@ export const AuthorizationPage = observer(() => {
     }
   };
 
+  const agree = (isSuccess: boolean) => {
+    if (isSuccess) {
+      notify("Проверьте почту, был прислан новый пароль", "success");
+      toggleVisibleDialog(false);
+    }
+  };
+
   if (UserStore.userData) {
     setTimeout(() => navigate("/"));
   }
@@ -119,7 +129,10 @@ export const AuthorizationPage = observer(() => {
           </div>
           <div className={`authorization__formBx ${formBxActive}`}>
             <div className="authorization__form authorization__signinForm">
-              <AuthorizationForm onSubmit={toSignin} />
+              <AuthorizationForm
+                onSubmit={toSignin}
+                showForgotDialog={() => toggleVisibleDialog(true)}
+              />
             </div>
             <div className="authorization__form authorization__signupForm">
               <RegistrationForm
@@ -133,6 +146,12 @@ export const AuthorizationPage = observer(() => {
           </div>
         </div>
       </div>
+
+      <RestorePasswordDialog
+        isVisible={isVisibleDialog}
+        closeDialog={() => toggleVisibleDialog(false)}
+        agree={agree}
+      />
     </>
   );
 });
