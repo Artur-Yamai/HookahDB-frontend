@@ -5,8 +5,11 @@ import { observer } from "mobx-react-lite";
 import { ImDatabase } from "react-icons/im";
 import { Helmet } from "react-helmet";
 import UserStore from "store/user";
-import { UserApi } from "API";
-import { RegistrationForm, AuthorizationForm } from "components";
+import {
+  RegistrationForm,
+  AuthorizationForm,
+  RestorePasswordDialog,
+} from "components";
 import { AuthorizationUserData, RegistrationUserData } from "Types";
 import "./AuthorizationPage.scss";
 import { notify } from "UI";
@@ -18,6 +21,7 @@ export const AuthorizationPage = observer(() => {
   const [isActive, toggleIsActive] = useState<boolean>(false);
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
+  const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
 
   const toGoSignupPage = (isActive: boolean): void => {
     toggleIsActive(isActive);
@@ -25,9 +29,7 @@ export const AuthorizationPage = observer(() => {
     setStartPageActive(isActive ? "authorization--active" : "");
   };
 
-  useMount(() => {
-    toGoSignupPage(!!refCode);
-  });
+  useMount(() => toGoSignupPage(!!refCode));
 
   // Авторизация
   const toSignin = async ({
@@ -54,30 +56,10 @@ export const AuthorizationPage = observer(() => {
     return res;
   };
 
-  const loginExists = async (login: string): Promise<boolean> => {
-    try {
-      const { data } = await UserApi.loginExists(login);
-      return data.success ? data.body.isExists : false;
-    } catch (_) {
-      return false;
-    }
-  };
-
-  const emailExists = async (email: string): Promise<boolean> => {
-    try {
-      const { data } = await UserApi.emailExists(email);
-      return data.success ? data.body.isExists : false;
-    } catch (_) {
-      return false;
-    }
-  };
-
-  const refCodeExist = async (refCode: string): Promise<boolean> => {
-    try {
-      const { data } = await UserApi.refCodeExists(refCode);
-      return data.success ? data.body.isExists : false;
-    } catch (_) {
-      return false;
+  const agree = (isSuccess: boolean) => {
+    if (isSuccess) {
+      notify("Проверьте почту, был прислан новый пароль", "success");
+      toggleVisibleDialog(false);
     }
   };
 
@@ -119,20 +101,23 @@ export const AuthorizationPage = observer(() => {
           </div>
           <div className={`authorization__formBx ${formBxActive}`}>
             <div className="authorization__form authorization__signinForm">
-              <AuthorizationForm onSubmit={toSignin} />
+              <AuthorizationForm
+                onSubmit={toSignin}
+                showForgotDialog={() => toggleVisibleDialog(true)}
+              />
             </div>
             <div className="authorization__form authorization__signupForm">
-              <RegistrationForm
-                refCodeProp={refCode}
-                onSubmit={toSignup}
-                loginExists={loginExists}
-                emailExists={emailExists}
-                refCodeExist={refCodeExist}
-              />
+              <RegistrationForm refCodeProp={refCode} onSubmit={toSignup} />
             </div>
           </div>
         </div>
       </div>
+
+      <RestorePasswordDialog
+        isVisible={isVisibleDialog}
+        closeDialog={() => toggleVisibleDialog(false)}
+        agree={agree}
+      />
     </>
   );
 });

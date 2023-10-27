@@ -9,6 +9,7 @@ export {
   CoalEditDialog,
   AddSelectionDialog,
   FabricatorEditDialog,
+  RestorePasswordDialog,
 } from "./Dialogs";
 export { FilterPanel } from "./FilterPanel";
 export { CommentsList } from "./Comments";

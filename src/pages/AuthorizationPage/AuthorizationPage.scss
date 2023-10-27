@@ -170,19 +170,6 @@
       left: 100%;
     }
   }
-
-  &__forget-password {
-    color: #0079ff;
-    text-align-last: left;
-
-    &:active {
-      box-shadow: none;
-    }
-
-    &:hover {
-      color: orangered;
-    }
-  }
 }
 
 @media (max-width: 990px) {

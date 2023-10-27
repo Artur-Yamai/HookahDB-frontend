@@ -1,4 +1,4 @@
-import { Reference } from "Types";
+import { Reference, NewReference } from "Types";
 import { Popup } from "UI";
 import { FabricatorEditor } from "components";
 import { ReferenceApi } from "API";
@@ -9,17 +9,15 @@ interface FabricatorEditDialogProps {
   closeDialog: () => void;
 }
 
-interface NewFabricator extends Pick<Reference, "value"> {}
-
 export const FabricatorEditDialog = ({
   isVisible,
   fabricator,
   closeDialog,
 }: FabricatorEditDialogProps) => {
-  const setNewData = async (newFabricator: NewFabricator): Promise<void> => {
+  const setNewData = async (NewReference: NewReference): Promise<void> => {
     const res = await ReferenceApi.saveReferenceValue(
       "fabricator",
-      newFabricator
+      NewReference
     );
     console.log(res);
     closeDialog();
@@ -31,7 +29,7 @@ export const FabricatorEditDialog = ({
       showFooter={false}
       close={closeDialog}
       title="Производитель"
-      width="650px"
+      width="550px"
     >
       <FabricatorEditor fabricator={fabricator} onFormSubmit={setNewData} />
     </Popup>
