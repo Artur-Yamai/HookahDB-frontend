@@ -1,12 +1,10 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Reference } from "Types";
+import { Reference, NewReference } from "Types";
 import { TextBox } from "UI";
-
-interface NewFabricator extends Pick<Reference, "value"> {}
 
 interface FabricatorEditorProps {
   fabricator: Reference | null;
-  onFormSubmit: (data: NewFabricator) => void;
+  onFormSubmit: (data: NewReference) => void;
 }
 
 export const FabricatorEditor = ({
@@ -18,11 +16,11 @@ export const FabricatorEditor = ({
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<NewFabricator>({
+  } = useForm<NewReference>({
     defaultValues: { value: fabricator?.value ?? "" },
   });
 
-  const onSubmit: SubmitHandler<NewFabricator> = (data) =>
+  const onSubmit: SubmitHandler<NewReference> = (data) =>
     onFormSubmit({ value: data.value });
 
   register("value", {
