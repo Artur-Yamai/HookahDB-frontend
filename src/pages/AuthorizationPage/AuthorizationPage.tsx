@@ -5,7 +5,6 @@ import { observer } from "mobx-react-lite";
 import { ImDatabase } from "react-icons/im";
 import { Helmet } from "react-helmet";
 import UserStore from "store/user";
-import { UserApi } from "API";
 import {
   RegistrationForm,
   AuthorizationForm,
@@ -55,33 +54,6 @@ export const AuthorizationPage = observer(() => {
     }
 
     return res;
-  };
-
-  const loginExists = async (login: string): Promise<boolean> => {
-    try {
-      const { data } = await UserApi.loginExists(login);
-      return data.success ? data.body.isExists : false;
-    } catch (_) {
-      return false;
-    }
-  };
-
-  const emailExists = async (email: string): Promise<boolean> => {
-    try {
-      const { data } = await UserApi.emailExists(email);
-      return data.success ? data.body.isExists : false;
-    } catch (_) {
-      return false;
-    }
-  };
-
-  const refCodeExist = async (refCode: string): Promise<boolean> => {
-    try {
-      const { data } = await UserApi.refCodeExists(refCode);
-      return data.success ? data.body.isExists : false;
-    } catch (_) {
-      return false;
-    }
   };
 
   const agree = (isSuccess: boolean) => {
@@ -135,13 +107,7 @@ export const AuthorizationPage = observer(() => {
               />
             </div>
             <div className="authorization__form authorization__signupForm">
-              <RegistrationForm
-                refCodeProp={refCode}
-                onSubmit={toSignup}
-                loginExists={loginExists}
-                emailExists={emailExists}
-                refCodeExist={refCodeExist}
-              />
+              <RegistrationForm refCodeProp={refCode} onSubmit={toSignup} />
             </div>
           </div>
         </div>

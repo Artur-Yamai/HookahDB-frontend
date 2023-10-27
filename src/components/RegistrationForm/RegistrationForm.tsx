@@ -1,15 +1,13 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { RegistrationUserData } from "Types";
+import { UserApi } from "API";
 
 import "./RegistrationForm.scss";
 
 interface RegistrationFormProps {
   refCodeProp: string | undefined;
   onSubmit: (userData: RegistrationUserData) => Promise<boolean>;
-  loginExists: (login: string) => Promise<boolean>;
-  emailExists: (email: string) => Promise<boolean>;
-  refCodeExist: (refCode: string) => Promise<boolean>;
 }
 
 interface FormValues {
@@ -28,9 +26,6 @@ const sleep = () => new Promise((r) => (resolve = r));
 export const RegistrationForm = ({
   refCodeProp,
   onSubmit,
-  loginExists,
-  emailExists,
-  refCodeExist,
 }: RegistrationFormProps): JSX.Element => {
   const {
     register,
@@ -78,6 +73,18 @@ export const RegistrationForm = ({
   const [isEmailCheck, toggleIsEmailCheck] = useState<boolean>(false);
   const [isRefCodeCheck, toggleIsRefCodeCheck] = useState<boolean>(false);
 
+  async function toExistCheck<T>(
+    data: T,
+    checkFunc: (data: T) => Promise<any>
+  ): Promise<boolean> {
+    try {
+      const resp = await checkFunc(data);
+      return "success" in resp.data ? resp.data.body.isExists : false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   const isExistLogin = (login: string): void => {
     if (!login || login.length < 4) return;
     clearTimeout(timerId);
@@ -85,15 +92,13 @@ export const RegistrationForm = ({
       setTimeout(async () => {
         toggleIsLoginCheck(true);
         try {
-          const res: boolean = await loginExists(login);
+          const res: boolean = await toExistCheck(login, UserApi.loginExists);
           isLoginExist = res;
         } catch (_) {
           isLoginExist = false;
         } finally {
-          setTimeout(() => {
-            toggleIsLoginCheck(false);
-            resolve();
-          }, 200);
+          toggleIsLoginCheck(false);
+          resolve();
         }
       }, 500)
     );
@@ -105,15 +110,13 @@ export const RegistrationForm = ({
       setTimeout(async () => {
         toggleIsEmailCheck(true);
         try {
-          const res: boolean = await emailExists(email);
+          const res: boolean = await toExistCheck(email, UserApi.emailExists);
           isEmailExist = res;
         } catch (_) {
           isEmailExist = false;
         } finally {
-          setTimeout(() => {
-            toggleIsEmailCheck(false);
-            resolve();
-          }, 200);
+          toggleIsEmailCheck(false);
+          resolve();
         }
       }, 500)
     );
@@ -125,15 +128,16 @@ export const RegistrationForm = ({
       setTimeout(async () => {
         toggleIsRefCodeCheck(true);
         try {
-          const res: boolean = await refCodeExist(refCode);
+          const res: boolean = await toExistCheck(
+            refCode,
+            UserApi.refCodeExists
+          );
           isRefCodeExist = res;
         } catch (_) {
           isRefCodeExist = false;
         } finally {
-          setTimeout(() => {
-            toggleIsRefCodeCheck(false);
-            resolve();
-          }, 200);
+          toggleIsRefCodeCheck(false);
+          resolve();
         }
       }, 500)
     );
@@ -151,14 +155,8 @@ export const RegistrationForm = ({
 
   const loginValidator = register("login", {
     required: "Обязательное поле",
-    minLength: {
-      value: 4,
-      message: "Минимум 4 символа",
-    },
-    maxLength: {
-      value: 30,
-      message: "Максимум 30 символов",
-    },
+    minLength: { value: 4, message: "Минимум 4 символа" },
+    maxLength: { value: 30, message: "Максимум 30 символов" },
     pattern: {
       value: /^[A-Za-z0-9]+$/,
       message: "Логин должен содержать только латинские буквы и цифры",
