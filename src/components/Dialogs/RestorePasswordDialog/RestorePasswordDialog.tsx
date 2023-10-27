@@ -1,11 +1,11 @@
-import { Popup, TextBox } from "UI";
-import "./RestorePasswordDialog.scss";
-import { useState } from "react";
+import { RestorePasswordEditor } from "components/Editors";
+import { Popup } from "UI";
+import { UserApi } from "API";
 
 interface RestorePasswordDialogProps {
   isVisible: boolean;
   closeDialog: () => void;
-  agree: (email: string) => void;
+  agree: (isSuccess: boolean) => void;
 }
 
 export const RestorePasswordDialog = ({
@@ -13,41 +13,21 @@ export const RestorePasswordDialog = ({
   closeDialog,
   agree,
 }: RestorePasswordDialogProps) => {
-  const [email, setEmail] = useState<string>("");
-  const [isDisabledAgreeButton, toggleIsDisabledAgreeButton] =
-    useState<boolean>(true);
-
-  const onChangeInputValue = (e: string) => {
-    setEmail(e);
-    const isValid: boolean = !(
-      e.length > 6 &&
-      e.includes("@") &&
-      e.includes(".")
-    );
-    toggleIsDisabledAgreeButton(isValid);
+  const setNewData = async (email: string) => {
+    const data = await UserApi.sendNewPasswordToEmail(email);
+    console.log(data);
+    agree(data);
   };
 
   return (
     <Popup
       visible={isVisible}
-      showFooter={true}
+      showFooter={false}
       close={closeDialog}
-      isDisabledAgreeButton={isDisabledAgreeButton}
       title="Восстановление пароля"
-      height="190px"
-      width="450px"
-      submitButtonLabel="Отправить новый пароль"
-      agree={() => agree(email)}
+      width="500px"
     >
-      <form className="restorePasswordDialog">
-        <TextBox
-          value={email}
-          name="email"
-          label="Email"
-          type="email"
-          onChange={onChangeInputValue}
-        />
-      </form>
+      <RestorePasswordEditor onFormSubmit={setNewData} />
     </Popup>
   );
 };
