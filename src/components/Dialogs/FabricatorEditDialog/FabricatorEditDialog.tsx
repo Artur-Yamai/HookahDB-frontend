@@ -31,7 +31,7 @@ export const FabricatorEditDialog = ({
       showFooter={false}
       close={closeDialog}
       title="Производитель"
-      width="650px"
+      width="550px"
     >
       <FabricatorEditor fabricator={fabricator} onFormSubmit={setNewData} />
     </Popup>
