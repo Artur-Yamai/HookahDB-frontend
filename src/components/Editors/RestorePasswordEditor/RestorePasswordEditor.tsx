@@ -32,7 +32,12 @@ export const RestorePasswordEditor = ({
             name="email"
             control={control}
             render={({ field }) => (
-              <TextBox label="Название" isValid={!errors?.email} {...field} />
+              <TextBox
+                label="Email"
+                type="email"
+                isValid={!errors?.email}
+                {...field}
+              />
             )}
           />
           {errors?.email && getErrorText(errors.email.message)}
