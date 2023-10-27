@@ -79,78 +79,81 @@ export const ProductEditor = ({
 
   return (
     <form className="hdb-form product-editor" onSubmit={handleSubmit(onSubmit)}>
-      <div className="hdb-form__item">
-        <Controller
-          name="name"
-          control={control}
-          render={({ field }) => (
-            <TextBox label="Название" isValid={!errors?.name} {...field} />
-          )}
-        />
-        {errors?.name && getErrorText(errors.name.message)}
-      </div>
+      <div className="hdb-form__content">
+        <div className="hdb-form__item">
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <TextBox label="Название" isValid={!errors?.name} {...field} />
+            )}
+          />
+          {errors?.name && getErrorText(errors.name.message)}
+        </div>
 
-      <div className="hdb-form__item">
-        <Controller
-          name="fabricatorId"
-          control={control}
-          render={({ field: { value, onChange, ...field } }) => (
-            <Select
-              value={product?.fabricatorId}
-              onChange={(e: Reference) => onChange(e.id)}
-              label="Производитель"
-              isValid={!errors?.fabricatorId}
-              valueKey="id"
-              labelKey="value"
-              isLoading={loading}
-              options={fabricators}
-              {...field}
-            />
-          )}
-        />
-        {errors?.fabricatorId && getErrorText(errors.fabricatorId.message)}
-      </div>
-
-      <div className="hdb-form__item">
-        <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            <TextArea
-              label="Описание"
-              isValid={!errors?.description}
-              {...field}
-            />
-          )}
-        />
-        {errors?.description && getErrorText(errors.description.message)}
-      </div>
-
-      <div className="hdb-form__item product-editor__photo-loader-place">
-        <Controller
-          name="picture"
-          control={control}
-          render={({ field: { onChange, ...field } }) => (
-            <>
-              <Picture
-                key={product?.photoUrl}
-                className="product-editor__picture"
-                url={product?.photoUrl}
-                pictureFile={photo}
-              />
-              <InputTypeFIle
-                label="Сменить изображение"
-                onChange={(event) => {
-                  onChange(event[0]);
-                  changeFile(event);
-                }}
+        <div className="hdb-form__item">
+          <Controller
+            name="fabricatorId"
+            control={control}
+            render={({ field: { value, onChange, ...field } }) => (
+              <Select
+                value={product?.fabricatorId}
+                onChange={(e: Reference) => onChange(e.id)}
+                label="Производитель"
+                isValid={!errors?.fabricatorId}
+                valueKey="id"
+                labelKey="value"
+                isLoading={loading}
+                options={fabricators}
                 {...field}
               />
-            </>
-          )}
-        />
+            )}
+          />
+          {errors?.fabricatorId && getErrorText(errors.fabricatorId.message)}
+        </div>
 
-        {errors?.picture && getErrorText(errors.picture.message)}
+        <div className="hdb-form__item">
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <TextArea
+                label="Описание"
+                isValid={!errors?.description}
+                rows={6}
+                {...field}
+              />
+            )}
+          />
+          {errors?.description && getErrorText(errors.description.message)}
+        </div>
+
+        <div className="hdb-form__item product-editor__photo-loader-place">
+          <Controller
+            name="picture"
+            control={control}
+            render={({ field: { onChange, ...field } }) => (
+              <>
+                <Picture
+                  key={product?.photoUrl}
+                  className="product-editor__picture"
+                  url={product?.photoUrl}
+                  pictureFile={photo}
+                />
+                <InputTypeFIle
+                  label="Сменить изображение"
+                  onChange={(event) => {
+                    onChange(event[0]);
+                    changeFile(event);
+                  }}
+                  {...field}
+                />
+              </>
+            )}
+          />
+
+          {errors?.picture && getErrorText(errors.picture.message)}
+        </div>
       </div>
 
       <input type="submit" disabled={!!Object.keys(errors).length} />
