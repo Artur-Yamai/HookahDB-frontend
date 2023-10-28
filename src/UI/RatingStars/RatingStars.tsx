@@ -44,11 +44,7 @@ export const RatingStars = ({
   };
 
   const getIcon = (i: number) => {
-    if (hoverValue !== undefined) {
-      if (i <= hoverValue) {
-        return fullIcon;
-      }
-    }
+    if (hoverValue !== undefined && i <= hoverValue) return fullIcon;
 
     if (isHalf && ratingInStar - i > 0 && ratingInStar - i < 1) {
       return halfIcon;
