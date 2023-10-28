@@ -1,18 +1,18 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Coal, Comment, ProductForSave } from "../Types";
-import { catchHelper } from "../helpers";
-import { CoalApi, CommentApi } from "../API";
+import { Product, Comment, ProductForSave } from "Types";
+import { catchHelper } from "helpers";
+import { CoalApi, CommentApi } from "API";
 
 class CoalStore {
-  private _coals: Coal[] = [];
-  private _coal: Coal | null = null;
+  private _coals: Product[] = [];
+  private _coal: Product | null = null;
   private _comments: Comment[] = [];
 
-  public get coals(): Coal[] {
+  public get coals(): Product[] {
     return this._coals;
   }
 
-  public get coal(): Coal | null {
+  public get coal(): Product | null {
     return this._coal;
   }
 

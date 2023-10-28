@@ -1,18 +1,18 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { Tobacco, Comment, ProductForSave } from "Types";
+import { Product, Comment, ProductForSave } from "Types";
 import { TobaccoApi, CommentApi } from "API";
 import { catchHelper } from "helpers";
 
 class TobaccoStore {
-  private _tobaccos: Tobacco[] = [];
-  private _tobacco: Tobacco | null = null;
+  private _tobaccos: Product[] = [];
+  private _tobacco: Product | null = null;
   private _comments: Comment[] = [];
 
-  public get tobaccos(): Tobacco[] {
+  public get tobaccos(): Product[] {
     return this._tobaccos;
   }
 
-  public get tobacco(): Tobacco | null {
+  public get tobacco(): Product | null {
     return this._tobacco;
   }
 

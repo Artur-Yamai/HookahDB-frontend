@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
-import { useUnmount } from "../../hooks";
-import TobaccoStore from "../../store/tobacco";
-import RatingStore from "../../store/rating";
-import UserStore from "../../store/user";
+import { useUnmount } from "hooks";
+import TobaccoStore from "store/tobacco";
+import RatingStore from "store/rating";
+import UserStore from "store/user";
 import "./TobaccoPage.scss";
-import { Comment, Tobacco } from "../../Types";
-import { ProductInfo, CommentsList, TobaccoEditDialog } from "../../components";
-import { confirm } from "../../UI";
+import { Comment, Product } from "Types";
+import { ProductInfo, CommentsList, TobaccoEditDialog } from "components";
+import { confirm } from "UI";
 
 export const TobaccoPage = observer(() => {
   const [isVisibleDialog, toggleVisibleDialog] = useState<boolean>(false);
@@ -21,7 +21,7 @@ export const TobaccoPage = observer(() => {
     navigate("/notFound");
   }
 
-  const tobacco: Tobacco | null = TobaccoStore.tobacco;
+  const tobacco: Product | null = TobaccoStore.tobacco;
   const comments: Comment[] = TobaccoStore.comments;
 
   useUnmount(() => {
