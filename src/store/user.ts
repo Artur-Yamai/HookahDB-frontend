@@ -1,13 +1,13 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { Tobacco, Coal, User, RegistrationUserData } from "../Types";
-import { notify } from "../UI";
-import { UserApi } from "../API";
-import { catchHelper } from "../helpers";
+import { Product, User, RegistrationUserData } from "Types";
+import { notify } from "UI";
+import { UserApi } from "API";
+import { catchHelper } from "helpers";
 
 class UserStore {
   private _userData: User | null = null;
-  private _favoriteTobacco: Tobacco[] = [];
-  private _favoriteCoal: Coal[] = [];
+  private _favoriteTobacco: Product[] = [];
+  private _favoriteCoal: Product[] = [];
 
   public get userData(): User | null {
     return this._userData;
@@ -17,11 +17,11 @@ class UserStore {
     return this._userData?.avatarUrl ?? null;
   }
 
-  public get favoriteTobacco(): Tobacco[] {
+  public get favoriteTobacco(): Product[] {
     return this._favoriteTobacco;
   }
 
-  public get favoriteCoal(): Coal[] {
+  public get favoriteCoal(): Product[] {
     return this._favoriteCoal;
   }
 

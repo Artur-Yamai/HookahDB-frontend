@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { ProductForSave, Tobacco } from "Types";
+import { ProductForSave, Product } from "Types";
 import { Popup, notify } from "UI";
 import { ProductEditor } from "components/Editors";
 import TobaccoStore from "store/tobacco";
@@ -7,7 +7,7 @@ import { imgCompressor } from "helpers";
 
 interface TobaccoEditDialogProps {
   isVisible: boolean;
-  tobacco: Tobacco | null;
+  tobacco: Product | null;
   closeDialog: () => void;
 }
 

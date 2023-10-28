@@ -91,7 +91,8 @@ export const ProductInfo = observer(
             <RatingStars
               edit={UserStore.isAuth}
               count={5}
-              value={product.rating}
+              ratingInNumber={product.rating}
+              ratingInStar={product.myRating}
               ratingsQuantity={product.ratingsQuantity}
               showDetails={true}
               onChange={onChangeRating}

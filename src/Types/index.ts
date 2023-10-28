@@ -12,9 +12,7 @@ import { Product, ProductForSave } from "./product";
 import { SelectOption } from "./SelectOption";
 import { NotifyTypes } from "./NotifyTypes";
 import { Comment } from "./comment/comment";
-import { Tobacco } from "./tobacco/tobacco";
 import { User } from "./user/User";
-import { Coal } from "./coal/coal";
 
 export type {
   AuthorizationUserData,
@@ -31,9 +29,7 @@ export type {
   CoalRating,
   Reference,
   Comment,
-  Tobacco,
   Product,
   Rating,
   User,
-  Coal,
 };

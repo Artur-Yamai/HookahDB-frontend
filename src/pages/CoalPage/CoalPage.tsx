@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from "react-router";
-import CoalStore from "../../store/coal";
-import RatingStore from "../../store/rating";
-import UserStore from "../../store/user";
-import { CoalEditDialog, ProductInfo, CommentsList } from "../../components";
+import CoalStore from "store/coal";
+import RatingStore from "store/rating";
+import UserStore from "store/user";
+import { CoalEditDialog, ProductInfo, CommentsList } from "components";
 import "./CoalPage.scss";
-import { Comment, Coal } from "../../Types";
-import { confirm } from "../../UI";
-import { useUnmount } from "../../hooks";
+import { Comment, Product } from "Types";
+import { confirm } from "UI";
+import { useUnmount } from "hooks";
 import { Helmet } from "react-helmet";
 
 type paramsType = { id: string };
@@ -22,7 +22,7 @@ export const CoalPage = observer(() => {
     navigate("/notFound");
   }
 
-  const coal: Coal | null = CoalStore.coal;
+  const coal: Product | null = CoalStore.coal;
   const comments: Comment[] = CoalStore.comments;
 
   useUnmount(() => {

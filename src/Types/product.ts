@@ -11,6 +11,7 @@ export interface Product {
   ratingsQuantity: number;
   markQuantity: number;
   isRated: boolean;
+  myRating: number;
   createdAt?: string;
   updatedAt?: string;
 }

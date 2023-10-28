@@ -1,13 +1,13 @@
 import { observer } from "mobx-react-lite";
 import { Popup, notify } from "UI";
-import { Coal, ProductForSave } from "Types";
+import { Product, ProductForSave } from "Types";
 import { CoalStore } from "store";
 import { ProductEditor } from "components/Editors";
 import { imgCompressor } from "helpers";
 
 interface CoalEditDialogProps {
   isVisible: boolean;
-  coal: Coal | null;
+  coal: Product | null;
   closeDialog: () => void;
 }
 
