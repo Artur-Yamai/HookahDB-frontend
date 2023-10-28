@@ -6,7 +6,8 @@ import "./RatingStars.scss";
 export const RatingStars = ({
   className = "",
   count,
-  value,
+  ratingInNumber,
+  ratingInStar,
   color = "#ffd700",
   hoverColor = "#ffb000",
   activeColor = "#ffd107",
@@ -39,7 +40,7 @@ export const RatingStars = ({
       return hoverColor;
     }
 
-    return value > index ? activeColor : color;
+    return ratingInNumber > index ? activeColor : color;
   };
 
   const getIcon = (i: number) => {
@@ -49,9 +50,9 @@ export const RatingStars = ({
       }
     }
 
-    if (isHalf && value - i > 0 && value - i < 1) {
+    if (isHalf && ratingInStar - i > 0 && ratingInStar - i < 1) {
       return halfIcon;
-    } else if (i < value) {
+    } else if (i < ratingInStar) {
       return fullIcon;
     } else {
       return emptyIcon;
@@ -87,7 +88,7 @@ export const RatingStars = ({
             style={{ backgroundColor: activeColor }}
             data-background-color={activeColor}
           >
-            {value ?? 0}
+            {ratingInNumber ?? 0}
           </div>
         </>
       )}

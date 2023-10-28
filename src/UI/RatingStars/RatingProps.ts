@@ -1,7 +1,8 @@
 export interface RatingProps {
   className?: string;
   count: number;
-  value: number;
+  ratingInNumber: number;
+  ratingInStar: number;
   color?: string;
   hoverColor?: string;
   activeColor?: string;
