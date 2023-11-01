@@ -57,7 +57,11 @@ export const ForHookah: React.FC = observer(() => {
         <title>HookahDB</title>
       </Helmet>
       <div className="w100 for-hookah">
-        <TabPanel options={options} onClick={onChange} />
+        <TabPanel
+          options={options}
+          onClick={onChange}
+          defaultOption={selectedOption}
+        />
         {(selectedOption.value === "tobaccos" && (
           <TobaccosList tobaccos={TobaccoStore.tobaccos} />
         )) ||
