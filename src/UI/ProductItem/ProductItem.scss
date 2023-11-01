@@ -41,7 +41,7 @@
   }
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
     transition: 0.3s;
   }
 
@@ -113,8 +113,8 @@
 
 @media (max-width: 550px) {
   .product-item {
-    width: 100%;
-    margin: 0 auto 140px;
+    // width: 100%;
+    // margin: 0 auto 140px;
 
     &__image-wrapper {
       width: 320px;
