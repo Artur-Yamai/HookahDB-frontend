@@ -5,10 +5,17 @@ import "./TabPanel.scss";
 interface TabPanelProps {
   options: SelectOption[];
   onClick: (option: SelectOption) => void;
+  defaultOption?: SelectOption;
 }
 
-export const TabPanel = ({ options, onClick }: TabPanelProps) => {
-  const [selectedTab, toSelectTab] = useState<SelectOption>(options[0]);
+export const TabPanel = ({
+  options,
+  onClick,
+  defaultOption,
+}: TabPanelProps) => {
+  const [selectedTab, toSelectTab] = useState<SelectOption>(
+    defaultOption ?? options[0]
+  );
 
   const toClickOnTab = (option: SelectOption) => {
     toSelectTab(option);
