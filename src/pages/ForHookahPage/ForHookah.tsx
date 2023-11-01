@@ -5,12 +5,8 @@ import { Helmet } from "react-helmet";
 import { useMount, useUnmount } from "hooks";
 import TobaccoStore from "store/tobacco";
 import CoalStore from "store/coal";
-import {
-  FilterPanel,
-  TobaccosList,
-  CoalList,
-  EntitySelectionAndCreation,
-} from "components";
+import { TobaccosList, CoalList, EntitySelectionAndCreation } from "components";
+import { TabPanel } from "UI";
 import { ProductListName, SelectOption } from "Types";
 import { RoleCodes, rightsCheck } from "helpers";
 import "./ForHookah.scss";
@@ -61,11 +57,7 @@ export const ForHookah: React.FC = observer(() => {
         <title>HookahDB</title>
       </Helmet>
       <div className="w100 for-hookah">
-        <FilterPanel
-          onChangeFilterValue={onChange}
-          options={options}
-          value={selectedOption}
-        />
+        <TabPanel options={options} onClick={onChange} />
         {(selectedOption.value === "tobaccos" && (
           <TobaccosList tobaccos={TobaccoStore.tobaccos} />
         )) ||
