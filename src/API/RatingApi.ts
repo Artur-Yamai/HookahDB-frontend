@@ -1,11 +1,11 @@
-import { Rating } from "../Types";
-import RepositoryHelper from "../helpers/RepositoryHelper";
+import { Rating } from "Types";
+import RepositoryHelper from "helpers/RepositoryHelper";
 const resource = "/rating";
 
 export const RatingApi = {
-  saveTobaccoRating: async (rating: Rating) =>
-    await RepositoryHelper.save(rating, `${resource}/tobacco`),
+  saveTobaccoRating: async (tobaccoRatingData: Rating) =>
+    await RepositoryHelper.save(tobaccoRatingData, `${resource}/tobacco`),
 
-  saveCoalRating: async (rating: Rating) =>
-    await RepositoryHelper.save(rating, `${resource}/coal`),
+  saveCoalRating: async (coalRatingData: Rating) =>
+    await RepositoryHelper.save(coalRatingData, `${resource}/coal`),
 };
