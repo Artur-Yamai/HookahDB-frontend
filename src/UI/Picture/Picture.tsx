@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import config from "../../configuration";
-import { useMount } from "../../hooks";
+import { useMount } from "hooks";
+import "./Picture.scss";
 
 interface PictureProps {
   pictureFile?: File;
@@ -17,14 +18,19 @@ export const Picture = ({
   alt = "Изображение",
   onClick,
 }: PictureProps): JSX.Element => {
+  const [isLoading, toggleLoading] = useState<boolean>(true);
   const path = `${config.photoUrl}/${url}`;
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const imgTag = useRef<HTMLImageElement>(null);
   const setImage = () => {
+    toggleLoading(true);
     if (url) {
       const img = new Image();
 
-      img.onload = () => setAvatarUrl(path);
+      img.onload = () => {
+        setAvatarUrl(path);
+        toggleLoading(false);
+      };
       img.onerror = () => setAvatarUrl("");
 
       img.src = path;
@@ -61,8 +67,8 @@ export const Picture = ({
 
   return (
     <picture
-      className={`${className} ${
-        avatarUrl || pictureFile ? "" : "no-image"
+      className={`${className} ${avatarUrl || pictureFile ? "" : ""} ${
+        isLoading ? "no-image--loading" : ""
       } w100`}
       onClick={onClick}
     >
