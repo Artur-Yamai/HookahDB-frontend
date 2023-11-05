@@ -28,10 +28,8 @@ export const Picture = ({
       const img = new Image();
 
       img.onload = () => {
-        setTimeout(() => {
-          setAvatarUrl(path);
-          toggleLoading(false);
-        }, 500);
+        setAvatarUrl(path);
+        toggleLoading(false);
       };
       img.onerror = () => {
         setAvatarUrl("");
