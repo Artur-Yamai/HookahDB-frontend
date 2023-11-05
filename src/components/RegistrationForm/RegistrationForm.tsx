@@ -242,7 +242,7 @@ export const RegistrationForm = ({
       </p>
 
       <p className={`rf__input-wrapper ${getClassName("password")}`}>
-        <input {...passwodValidator} type="password" placeholder="пароль" />
+        <input {...passwodValidator} type="password" placeholder="Пароль" />
         {errors?.password && getErrorText(errors.password.message)}
       </p>
 
