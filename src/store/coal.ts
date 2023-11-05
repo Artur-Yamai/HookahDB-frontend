@@ -98,25 +98,34 @@ class CoalStore {
     }
   }
 
-  public async createCoal(coal: ProductForSave, photo: File): Promise<void> {
+  public async createCoal(coal: ProductForSave, photo: File): Promise<boolean> {
     try {
       const data = await CoalApi.saveCoal(coal, photo);
       if (data.success) {
         this.getAllCoals();
       }
+
+      return data?.success;
     } catch (error) {
       catchHelper(error);
+      return false;
     }
   }
 
-  public async updateCoal(coal: ProductForSave, photo?: File): Promise<void> {
+  public async updateCoal(
+    coal: ProductForSave,
+    photo?: File
+  ): Promise<boolean> {
     try {
       const data = await CoalApi.saveCoal(coal, photo);
       if (data.success) {
         runInAction(() => (this._coal = data.body));
       }
+
+      return data?.success;
     } catch (error) {
       catchHelper(error);
+      return false;
     }
   }
 
