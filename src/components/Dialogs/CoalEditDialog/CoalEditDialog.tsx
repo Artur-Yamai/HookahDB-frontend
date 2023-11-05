@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Popup, notify } from "UI";
 import { Product, ProductForSave } from "Types";
@@ -13,11 +14,13 @@ interface CoalEditDialogProps {
 
 export const CoalEditDialog = observer(
   ({ isVisible, coal, closeDialog }: CoalEditDialogProps) => {
+    const [isLoading, toggleLoading] = useState<boolean>(false);
     const setNewData = async (
       newCoal: ProductForSave,
       photoFile?: File
     ): Promise<void> => {
-      let result: boolean;
+      toggleLoading(true);
+      let result: boolean = false;
       if (coal?.id) {
         newCoal.id = coal.id;
         const photo = photoFile && (await imgCompressor(photoFile));
@@ -26,8 +29,10 @@ export const CoalEditDialog = observer(
         const photo = await imgCompressor(photoFile);
         result = await CoalStore.createCoal(newCoal, photo);
       } else {
-        return notify("Заполните все поля", "warning");
+        notify("Заполните все поля", "warning");
       }
+
+      toggleLoading(false);
 
       if (result) closeDialog();
     };
@@ -37,6 +42,7 @@ export const CoalEditDialog = observer(
         visible={isVisible}
         showFooter={false}
         close={closeDialog}
+        showSpinner={isLoading}
         title="Уголь"
         height="900px"
         width="650px"

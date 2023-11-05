@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Reference, NewReference } from "Types";
 import { Popup } from "UI";
 import { FabricatorEditor } from "components";
@@ -14,11 +15,15 @@ export const FabricatorEditDialog = ({
   fabricator,
   closeDialog,
 }: FabricatorEditDialogProps) => {
+  const [isLoading, toggleLoading] = useState<boolean>(false);
   const setNewData = async (NewReference: NewReference): Promise<void> => {
+    toggleLoading(true);
     const res: boolean = await ReferenceApi.saveReferenceValue(
       "fabricator",
       NewReference
     );
+
+    toggleLoading(false);
 
     res && closeDialog();
   };
@@ -28,6 +33,7 @@ export const FabricatorEditDialog = ({
       visible={isVisible}
       showFooter={false}
       close={closeDialog}
+      showSpinner={isLoading}
       title="Производитель"
       width="550px"
     >

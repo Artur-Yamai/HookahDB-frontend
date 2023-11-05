@@ -12,12 +12,13 @@ import {
 } from "components";
 import { AuthorizationUserData, RegistrationUserData } from "Types";
 import "./AuthorizationPage.scss";
-import { notify } from "UI";
+import { notify, LoadSpinner } from "UI";
 import { useMount } from "hooks";
 
 export const AuthorizationPage = observer(() => {
   const { refCode } = useParams<{ refCode: string | undefined }>();
   const navigate = useNavigate();
+  const [isLoading, toggleLoading] = useState<boolean>(false);
   const [isActive, toggleIsActive] = useState<boolean>(false);
   const [formBxActive, setFormBxActive] = useState<string>("");
   const [startPageActive, setStartPageActive] = useState<string>("");
@@ -36,7 +37,9 @@ export const AuthorizationPage = observer(() => {
     login,
     password,
   }: AuthorizationUserData): Promise<void> => {
+    toggleLoading(true);
     const res: boolean = await UserStore.toAuthorization(login, password);
+    toggleLoading(false);
 
     if (res) {
       navigate("/");
@@ -45,7 +48,9 @@ export const AuthorizationPage = observer(() => {
 
   // Регистрация
   const toSignup = async (regData: RegistrationUserData): Promise<boolean> => {
+    toggleLoading(true);
     const res: boolean = await UserStore.toRegistration(regData);
+    toggleLoading(false);
     if (res) {
       notify("Регистрация прошла успешно. Авторизируйтесь", "success", 3000);
       toGoSignupPage(false);
@@ -100,6 +105,7 @@ export const AuthorizationPage = observer(() => {
             </div>
           </div>
           <div className={`authorization__formBx ${formBxActive}`}>
+            {isLoading && <LoadSpinner />}
             <div className="authorization__form authorization__signinForm">
               <AuthorizationForm
                 onSubmit={toSignin}
