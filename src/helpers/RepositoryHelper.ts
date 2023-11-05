@@ -1,14 +1,11 @@
-import Repository from "../API/axios";
+import { AxiosError } from "axios";
+import Repository from "API/axios";
 import { catchHelper } from "./catchHelper";
-import CommonStore from "../store/common";
-import { notify } from "../UI";
-import { NotifyTypes } from "../Types";
+import CommonStore from "store/common";
+import { notify } from "UI";
+import { NotifyTypes } from "Types";
 
-const options = {
-  headers: {
-    "Content-type": "multipart/form-data",
-  },
-};
+const options = { headers: { "Content-type": "multipart/form-data" } };
 
 export class RepositoryHelper {
   public async perfomOperation(
@@ -23,9 +20,10 @@ export class RepositoryHelper {
         notify(result.message, notifyType);
       }
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
+      const res: AxiosError = error as AxiosError;
       catchHelper(error);
-      return false;
+      return res?.response?.data ?? { success: false };
     } finally {
       setTimeout(() => {
         showSpinner && CommonStore.toggleLoading(false);
@@ -34,9 +32,11 @@ export class RepositoryHelper {
   }
 
   public async get(endpoint: string, showSpinner = true) {
-    return await this.perfomOperation("info", showSpinner, async () => {
-      return await Repository.get(endpoint);
-    });
+    return await this.perfomOperation(
+      "info",
+      showSpinner,
+      async () => await Repository.get(endpoint)
+    );
   }
 
   public async save(
