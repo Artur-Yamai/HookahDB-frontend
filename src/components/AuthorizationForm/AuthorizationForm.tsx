@@ -34,12 +34,12 @@ export const AuthorizationForm = ({
         <input
           {...register("login", { required: true })}
           type="text"
-          placeholder="Login"
+          placeholder="Логин"
         />
         <input
           {...register("password", { required: true })}
           type="password"
-          placeholder="Password"
+          placeholder="Пароль"
         />
         <input type="submit" value="Войти" onClick={formSubmit} />
         <input
