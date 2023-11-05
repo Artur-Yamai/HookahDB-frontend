@@ -18,20 +18,23 @@ export const Picture = ({
   alt = "Изображение",
   onClick,
 }: PictureProps): JSX.Element => {
-  const [isLoading, toggleLoading] = useState<boolean>(true);
+  const [isLoading, toggleLoading] = useState<boolean>(false);
   const path = `${config.photoUrl}/${url}`;
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const imgTag = useRef<HTMLImageElement>(null);
   const setImage = () => {
-    toggleLoading(true);
     if (url) {
+      toggleLoading(true);
       const img = new Image();
 
       img.onload = () => {
         setAvatarUrl(path);
         toggleLoading(false);
       };
-      img.onerror = () => setAvatarUrl("");
+      img.onerror = () => {
+        setAvatarUrl("");
+        toggleLoading(false);
+      };
 
       img.src = path;
     }
@@ -67,7 +70,7 @@ export const Picture = ({
 
   return (
     <picture
-      className={`${className} ${avatarUrl || pictureFile ? "" : ""} ${
+      className={`${className} ${avatarUrl || pictureFile ? "" : "no-image"} ${
         isLoading ? "no-image--loading" : ""
       } w100`}
       onClick={onClick}
