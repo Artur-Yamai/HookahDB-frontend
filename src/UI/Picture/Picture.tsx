@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import config from "../../configuration";
 import { useMount } from "hooks";
 import "./Picture.scss";
@@ -28,8 +28,10 @@ export const Picture = ({
       const img = new Image();
 
       img.onload = () => {
-        setAvatarUrl(path);
-        toggleLoading(false);
+        setTimeout(() => {
+          setAvatarUrl(path);
+          toggleLoading(false);
+        }, 500);
       };
       img.onerror = () => {
         setAvatarUrl("");
@@ -68,14 +70,19 @@ export const Picture = ({
     renderFile();
   });
 
+  const niImgClass = useMemo(
+    () =>
+      isLoading
+        ? "no-image--loading"
+        : avatarUrl || pictureFile
+        ? ""
+        : "no-image",
+    [isLoading, avatarUrl, pictureFile]
+  );
+
   return (
-    <picture
-      className={`${className} ${avatarUrl || pictureFile ? "" : "no-image"} ${
-        isLoading ? "no-image--loading" : ""
-      } w100`}
-      onClick={onClick}
-    >
-      {(avatarUrl || pictureFile) && (
+    <picture className={`${className} ${niImgClass} w100`} onClick={onClick}>
+      {!isLoading && (avatarUrl || pictureFile) && (
         <img ref={imgTag} src={avatarUrl} alt={alt} className="w100" />
       )}
     </picture>
