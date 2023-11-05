@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./StartingSpinner.scss";
 
 interface StartingSpinnerProps {
@@ -5,5 +6,17 @@ interface StartingSpinnerProps {
 }
 
 export const StartingSpinner = ({ loading }: StartingSpinnerProps) => {
-  return <div className={`spinner ${!loading ? "spinner--hidden" : ""}`} />;
+  const [isLoadingBlock, toggleLoadingBlock] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => toggleLoadingBlock(false), 1000);
+  });
+
+  return (
+    <>
+      {isLoadingBlock && (
+        <div className={`spinner ${!loading ? "spinner--hidden" : ""}`} />
+      )}
+    </>
+  );
 };
