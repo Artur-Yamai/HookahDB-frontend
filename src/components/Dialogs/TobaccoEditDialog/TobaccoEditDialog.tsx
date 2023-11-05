@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { ProductForSave, Product } from "Types";
 import { Popup, notify } from "UI";
@@ -13,11 +14,13 @@ interface TobaccoEditDialogProps {
 
 export const TobaccoEditDialog = observer(
   ({ isVisible, tobacco, closeDialog }: TobaccoEditDialogProps) => {
+    const [isLoading, toggleLoading] = useState<boolean>(false);
     const setNewData = async (
       newTobacco: ProductForSave,
       photoFile?: File
     ): Promise<void> => {
-      let result: boolean;
+      toggleLoading(true);
+      let result: boolean = false;
       if (tobacco?.id) {
         newTobacco.id = tobacco.id;
         const photo = photoFile && (await imgCompressor(photoFile));
@@ -26,8 +29,10 @@ export const TobaccoEditDialog = observer(
         const photo = await imgCompressor(photoFile);
         result = await TobaccoStore.createTobacco(newTobacco, photo);
       } else {
-        return notify("Заполните все поля", "warning");
+        notify("Заполните все поля", "warning");
       }
+
+      toggleLoading(false);
 
       if (result) closeDialog();
     };
@@ -37,6 +42,7 @@ export const TobaccoEditDialog = observer(
         visible={isVisible}
         showFooter={false}
         close={closeDialog}
+        showSpinner={isLoading}
         title="Табак"
         height="900px"
         width="650px"
