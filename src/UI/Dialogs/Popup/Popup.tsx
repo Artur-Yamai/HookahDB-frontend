@@ -1,12 +1,13 @@
 import { useRef } from "react";
 import { GrClose } from "react-icons/gr";
-import { Button } from "../../Button/Button";
+import { Button, LoadSpinner } from "UI";
 import "./Popup.scss";
 
 interface PopupProps {
   visible: boolean;
   close: () => void;
   agree?: () => void;
+  showSpinner?: boolean;
   title?: string;
   children: JSX.Element;
   width?: string;
@@ -20,6 +21,7 @@ export const Popup = ({
   visible = false,
   close,
   agree = () => {},
+  showSpinner = false,
   title,
   children,
   width = "600px",
@@ -68,6 +70,7 @@ export const Popup = ({
       onMouseDown={toHidden}
     >
       <div ref={popup} className="popup" style={{ width, height }}>
+        {showSpinner && <LoadSpinner />}
         <header className="popup__header">
           <h3 onMouseDown={setMoveClass} onMouseUp={deleteMoveClass}>
             {title}
@@ -77,6 +80,7 @@ export const Popup = ({
           </button>
         </header>
         <main className="popup__content">{children}</main>
+
         {showFooter && (
           <footer className="popup__button-place">
             <Button
