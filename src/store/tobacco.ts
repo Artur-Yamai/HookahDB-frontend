@@ -107,28 +107,34 @@ class TobaccoStore {
   public async createTobacco(
     tobacco: ProductForSave,
     photo: File
-  ): Promise<void> {
+  ): Promise<boolean> {
     try {
       const data = await TobaccoApi.saveTobacco(tobacco, photo);
       if (data.success) {
         this.getAllTobaccos();
       }
+
+      return !!data?.success;
     } catch (error) {
       catchHelper(error);
+      return false;
     }
   }
 
   public async updateTobacco(
     tobacco: ProductForSave,
     photo?: File
-  ): Promise<void> {
+  ): Promise<boolean> {
     try {
       const data = await TobaccoApi.saveTobacco(tobacco, photo);
       if (data.success) {
         runInAction(() => (this._tobacco = data.body));
       }
+
+      return !!data?.success;
     } catch (error) {
       catchHelper(error);
+      return false;
     }
   }
 

@@ -9,18 +9,24 @@ class RatingStore {
     makeAutoObservable(this);
   }
 
-  async changeTobaccoRating(rating: TobaccoRating): Promise<boolean> {
+  async changeTobaccoRating(
+    tobaccoRatingData: TobaccoRating
+  ): Promise<boolean> {
     try {
-      return await RatingApi.saveTobaccoRating(rating).then((r) => r.success);
+      return await RatingApi.saveTobaccoRating(tobaccoRatingData).then(
+        (r) => r.success
+      );
     } catch (error) {
       catchHelper(error);
       return false;
     }
   }
 
-  async changeCoalRating(rating: CoalRating): Promise<boolean> {
+  async changeCoalRating(coalRatingData: CoalRating): Promise<boolean> {
     try {
-      return await RatingApi.saveCoalRating(rating).then((r) => r.success);
+      return await RatingApi.saveCoalRating(coalRatingData).then(
+        (r) => r.success
+      );
     } catch (error) {
       catchHelper(error);
       return false;

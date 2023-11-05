@@ -15,12 +15,12 @@ export const FabricatorEditDialog = ({
   closeDialog,
 }: FabricatorEditDialogProps) => {
   const setNewData = async (NewReference: NewReference): Promise<void> => {
-    const res = await ReferenceApi.saveReferenceValue(
+    const res: boolean = await ReferenceApi.saveReferenceValue(
       "fabricator",
       NewReference
     );
-    console.log(res);
-    closeDialog();
+
+    res && closeDialog();
   };
 
   return (

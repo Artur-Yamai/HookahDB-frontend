@@ -17,18 +17,19 @@ export const CoalEditDialog = observer(
       newCoal: ProductForSave,
       photoFile?: File
     ): Promise<void> => {
+      let result: boolean;
       if (coal?.id) {
         newCoal.id = coal.id;
         const photo = photoFile && (await imgCompressor(photoFile));
-        await CoalStore.updateCoal(newCoal, photo);
+        result = await CoalStore.updateCoal(newCoal, photo);
       } else if (photoFile) {
         const photo = await imgCompressor(photoFile);
-        await CoalStore.createCoal(newCoal, photo);
+        result = await CoalStore.createCoal(newCoal, photo);
       } else {
         return notify("Заполните все поля", "warning");
       }
 
-      closeDialog();
+      if (result) closeDialog();
     };
 
     return (

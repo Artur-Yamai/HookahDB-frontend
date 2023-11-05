@@ -21,11 +21,11 @@ export const ReferenceApi = {
     ref: Reference | Pick<Reference, "value">
   ): Promise<boolean> {
     try {
-      const { data } = await RepositoryHelper.save(
+      const data = await RepositoryHelper.save(
         ref,
         this.getReferenceEndpoint(referenceName)
       );
-      return data.success;
+      return data?.success;
     } catch (_) {
       return false;
     }

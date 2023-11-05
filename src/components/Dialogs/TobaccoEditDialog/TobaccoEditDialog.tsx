@@ -17,18 +17,19 @@ export const TobaccoEditDialog = observer(
       newTobacco: ProductForSave,
       photoFile?: File
     ): Promise<void> => {
+      let result: boolean;
       if (tobacco?.id) {
         newTobacco.id = tobacco.id;
         const photo = photoFile && (await imgCompressor(photoFile));
-        await TobaccoStore.updateTobacco(newTobacco, photo);
+        result = await TobaccoStore.updateTobacco(newTobacco, photo);
       } else if (photoFile) {
         const photo = await imgCompressor(photoFile);
-        await TobaccoStore.createTobacco(newTobacco, photo);
+        result = await TobaccoStore.createTobacco(newTobacco, photo);
       } else {
         return notify("Заполните все поля", "warning");
       }
 
-      closeDialog();
+      if (result) closeDialog();
     };
 
     return (
