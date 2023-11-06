@@ -17,7 +17,9 @@ export const TabPanel = ({
     defaultOption ?? options[0]
   );
 
-  const toClickOnTab = (option: SelectOption) => {
+  const toClickOnTab = (option: SelectOption): void => {
+    if (option.value === selectedTab.value) return;
+
     toSelectTab(option);
     onClick(option);
   };
