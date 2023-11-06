@@ -6,7 +6,7 @@ interface TabPanelProps {
   options: SelectOption[];
   onClick: (option: SelectOption) => void;
   defaultOption?: SelectOption;
-  children: JSX.Element;
+  children?: JSX.Element;
 }
 
 export const TabPanel = ({
