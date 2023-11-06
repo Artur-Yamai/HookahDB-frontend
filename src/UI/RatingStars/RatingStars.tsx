@@ -31,8 +31,10 @@ export const RatingStars = ({
     edit && setHoverValue(undefined);
   };
 
-  const handleClick = (index: number) => {
-    edit && onChange && onChange(index + 1);
+  const handleClick = (index: number): void => {
+    const newRating: number = index + 1;
+    if (newRating === ratingInStar) return;
+    edit && onChange && onChange(newRating);
   };
 
   const getColor = (index: number) => {
