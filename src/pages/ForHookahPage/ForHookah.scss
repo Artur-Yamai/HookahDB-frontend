@@ -13,6 +13,7 @@
     background-color: $mainColor;
     width: 51px;
     height: 51px;
+    z-index: 1;
 
     &--filter {
       display: flex;

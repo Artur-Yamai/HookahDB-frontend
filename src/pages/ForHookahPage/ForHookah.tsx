@@ -63,39 +63,37 @@ export const ForHookah: React.FC = observer(() => {
         <title>HookahDB</title>
       </Helmet>
       <div className="w100 for-hookah">
+        {rightsCheck(RoleCodes.moderator) && (
+          <>
+            <button
+              className="for-hookah__button for-hookah__button--add"
+              onClick={() => toggleVisibleDialog(true)}
+            >
+              +
+            </button>
+            <EntitySelectionAndCreation
+              visible={isVisibleDialog}
+              close={() => toggleVisibleDialog(false)}
+            />
+          </>
+        )}
+        <button
+          className="for-hookah__button  for-hookah__button--filter"
+          onClick={() => console.log("show filter")}
+        >
+          <RiFilter3Fill />
+        </button>
         <TabPanel
           options={options}
           onClick={onChange}
           defaultOption={selectedOption}
         >
-          <>
-            <button
-              className="for-hookah__button  for-hookah__button--filter"
-              onClick={() => console.log("show filter")}
-            >
-              <RiFilter3Fill />
-            </button>
-            {(selectedOption.value === "tobaccos" && (
-              <TobaccosList tobaccos={productList} />
-            )) ||
-              (selectedOption.value === "coals" && (
-                <CoalList coals={productList} />
-              ))}
-            {rightsCheck(RoleCodes.moderator) && (
-              <>
-                <button
-                  className="for-hookah__button for-hookah__button--add"
-                  onClick={() => toggleVisibleDialog(true)}
-                >
-                  +
-                </button>
-                <EntitySelectionAndCreation
-                  visible={isVisibleDialog}
-                  close={() => toggleVisibleDialog(false)}
-                />
-              </>
-            )}
-          </>
+          {(selectedOption.value === "tobaccos" && (
+            <TobaccosList tobaccos={productList} />
+          )) ||
+            (selectedOption.value === "coals" && (
+              <CoalList coals={productList} />
+            )) || <></>}
         </TabPanel>
       </div>
     </>
