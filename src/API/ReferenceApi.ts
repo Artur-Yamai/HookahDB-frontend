@@ -8,7 +8,8 @@ export const ReferenceApi = {
   async getReference(name: string): Promise<Reference[] | null> {
     try {
       const { data } = await RepositoryHelper.get(
-        this.getReferenceEndpoint(name)
+        this.getReferenceEndpoint(name),
+        false
       );
       return data.success ? data.body : null;
     } catch (_) {
