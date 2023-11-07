@@ -6,7 +6,12 @@ import { RiFilter3Fill } from "react-icons/ri";
 import { useMount, useUnmount } from "hooks";
 import TobaccoStore from "store/tobacco";
 import CoalStore from "store/coal";
-import { TobaccosList, CoalList, EntitySelectionAndCreation } from "components";
+import {
+  TobaccosList,
+  CoalList,
+  EntitySelectionAndCreation,
+  ProductFilter,
+} from "components";
 import { TabPanel } from "UI";
 import { Product, ProductListName, SelectOption } from "Types";
 import { RoleCodes, rightsCheck } from "helpers";
@@ -77,12 +82,7 @@ export const ForHookah: React.FC = observer(() => {
             />
           </>
         )}
-        <button
-          className="for-hookah__button  for-hookah__button--filter"
-          onClick={() => console.log("show filter")}
-        >
-          <RiFilter3Fill />
-        </button>
+        <ProductFilter prodiuctList={productList} />
         <TabPanel
           options={options}
           onClick={onChange}
