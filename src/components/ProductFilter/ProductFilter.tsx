@@ -89,8 +89,6 @@ export const ProductFilter = ({
         break;
     }
 
-    console.log(res);
-
     timerId.current = setTimeout(() => getFilteredList(res), 1000);
 
     // eslint-disable-next-line
