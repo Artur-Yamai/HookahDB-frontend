@@ -2,13 +2,13 @@ import {
   AuthorizationUserData,
   RegistrationUserData,
 } from "./user/AuthAndRegInterfaces";
+import { Product, ProductAtList, ProductForSave } from "./product";
 import { Rating, TobaccoRating, CoalRating } from "./Ratings";
 import { MenuInteractionButton } from "./MenuInteractionButton";
 import { AddedEntitiesTypes } from "./AddedEntitiesTypes";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { Reference, NewReference } from "./Reference";
 import { ProductListName } from "./ProductListName";
-import { Product, ProductForSave } from "./product";
 import { SelectOption } from "./SelectOption";
 import { NotifyTypes } from "./NotifyTypes";
 import { Comment } from "./comment/comment";
@@ -22,6 +22,7 @@ export type {
   ErrorHTTPRequest,
   ProductListName,
   ProductForSave,
+  ProductAtList,
   TobaccoRating,
   NewReference,
   SelectOption,
