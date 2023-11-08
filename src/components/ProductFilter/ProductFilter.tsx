@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { Product, Reference } from "Types";
+import { useState, useEffect, useRef } from "react";
+import { ProductAtList, Reference } from "Types";
 import { Select } from "UI";
 import { ReferenceApi } from "API";
 import "./ProductFilter.scss";
 
 interface ProductFilterProps {
-  prodiuctList: Product[];
-  getGilteredList: (list: Product[]) => void;
+  prodiuctList: ProductAtList[];
+  getFilteredList: (list: ProductAtList[]) => void;
 }
 
 export const ProductFilter = ({
   prodiuctList,
-  getGilteredList,
+  getFilteredList,
 }: ProductFilterProps) => {
   const [fabricators, setFabricators] = useState<Reference[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -57,7 +57,7 @@ export const ProductFilter = ({
     console.log(res);
 
     timerId = setTimeout(() => {
-      getGilteredList(res);
+      getFilteredList(res);
     }, 1000);
   }, [selectedFabricators]);
 

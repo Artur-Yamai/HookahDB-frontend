@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import "./ProductItem.scss";
-import { Product } from "../../Types";
-import { Picture } from "../../UI";
+import { ProductAtList } from "Types";
+import { Picture } from "UI";
 
 interface ProductItemProps {
-  data: Product;
+  data: ProductAtList;
   url: string;
 }
 

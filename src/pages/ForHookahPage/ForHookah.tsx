@@ -2,7 +2,6 @@ import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { RiFilter3Fill } from "react-icons/ri";
 import { useMount, useUnmount } from "hooks";
 import TobaccoStore from "store/tobacco";
 import CoalStore from "store/coal";
@@ -13,7 +12,7 @@ import {
   ProductFilter,
 } from "components";
 import { TabPanel } from "UI";
-import { Product, ProductListName, SelectOption } from "Types";
+import { ProductAtList, ProductListName, SelectOption } from "Types";
 import { RoleCodes, rightsCheck } from "helpers";
 import "./ForHookah.scss";
 
@@ -24,9 +23,9 @@ export const ForHookah: React.FC = observer(() => {
   ];
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [productList, setProductList] = useState<Product[]>([]);
+  const [productList, setProductList] = useState<ProductAtList[]>([]);
   const [filteredProductList, setFilteredProductList] =
-    useState<Product[]>(productList);
+    useState<ProductAtList[]>(productList);
 
   const listName = searchParams.get("list-name");
   const option = options.find((opt) => opt.value === listName) ?? options[0];
@@ -88,7 +87,7 @@ export const ForHookah: React.FC = observer(() => {
         )}
         <ProductFilter
           prodiuctList={productList}
-          getGilteredList={(list) => setFilteredProductList(list)}
+          getFilteredList={(list) => setFilteredProductList(list)}
         />
         <TabPanel
           options={options}
