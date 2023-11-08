@@ -25,6 +25,8 @@ export const ForHookah: React.FC = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [productList, setProductList] = useState<Product[]>([]);
+  const [filteredProductList, setFilteredProductList] =
+    useState<Product[]>(productList);
 
   const listName = searchParams.get("list-name");
   const option = options.find((opt) => opt.value === listName) ?? options[0];
@@ -48,10 +50,12 @@ export const ForHookah: React.FC = observer(() => {
       case "tobaccos":
         await TobaccoStore.getAllTobaccos();
         setProductList(TobaccoStore.tobaccos);
+        setFilteredProductList(TobaccoStore.tobaccos);
         break;
       case "coals":
         await CoalStore.getAllCoals();
         setProductList(CoalStore.coals);
+        setFilteredProductList(CoalStore.coals);
         break;
     }
   };
@@ -82,17 +86,20 @@ export const ForHookah: React.FC = observer(() => {
             />
           </>
         )}
-        <ProductFilter prodiuctList={productList} />
+        <ProductFilter
+          prodiuctList={productList}
+          getGilteredList={(list) => setFilteredProductList(list)}
+        />
         <TabPanel
           options={options}
           onClick={onChange}
           defaultOption={selectedOption}
         >
           {(selectedOption.value === "tobaccos" && (
-            <TobaccosList tobaccos={productList} />
+            <TobaccosList tobaccos={filteredProductList} />
           )) ||
             (selectedOption.value === "coals" && (
-              <CoalList coals={productList} />
+              <CoalList coals={filteredProductList} />
             )) || <></>}
         </TabPanel>
       </div>
