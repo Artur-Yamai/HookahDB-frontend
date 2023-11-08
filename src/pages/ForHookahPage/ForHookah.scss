@@ -2,24 +2,43 @@
 @import "../../styles/screenSizes.scss";
 
 .for-hookah {
+  height: 100%;
   position: relative;
 
-  &__add-button {
+  &__button {
     position: fixed;
     color: $colorWhite;
     font-size: 36px;
     font-weight: 400;
     background-color: $mainColor;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    bottom: 24px;
-    right: 24px;
+    width: 51px;
+    height: 51px;
+    z-index: 1;
+
+    &--filter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      right: 0;
+      top: 0;
+    }
+
+    &--add {
+      border-radius: 50%;
+      bottom: 24px;
+      right: 24px;
+    }
   }
 }
 
 @media (max-width: $tabMiddle) {
   .for-hookah {
     padding: 0;
+
+    &__button {
+      &--filter {
+        top: 60px;
+      }
+    }
   }
 }

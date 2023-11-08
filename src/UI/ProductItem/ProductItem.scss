@@ -71,13 +71,14 @@
     line-height: 1.6em;
     color: #7a7a7a;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     padding: 0 10px;
     margin-top: auto;
   }
 
   &:last-child {
     margin-right: auto;
+    margin-bottom: 0px;
   }
 }
 

@@ -5,9 +5,14 @@ import { Helmet } from "react-helmet";
 import { useMount, useUnmount } from "hooks";
 import TobaccoStore from "store/tobacco";
 import CoalStore from "store/coal";
-import { TobaccosList, CoalList, EntitySelectionAndCreation } from "components";
+import {
+  TobaccosList,
+  CoalList,
+  EntitySelectionAndCreation,
+  ProductFilter,
+} from "components";
 import { TabPanel } from "UI";
-import { ProductListName, SelectOption } from "Types";
+import { ProductAtList, ProductListName, SelectOption } from "Types";
 import { RoleCodes, rightsCheck } from "helpers";
 import "./ForHookah.scss";
 
@@ -17,6 +22,10 @@ export const ForHookah: React.FC = observer(() => {
     { value: "coals", label: "Угли" },
   ];
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [productList, setProductList] = useState<ProductAtList[]>([]);
+  const [filteredProductList, setFilteredProductList] =
+    useState<ProductAtList[]>(productList);
 
   const listName = searchParams.get("list-name");
   const option = options.find((opt) => opt.value === listName) ?? options[0];
@@ -33,20 +42,25 @@ export const ForHookah: React.FC = observer(() => {
   useMount(() => getData(selectedOption.value));
   useUnmount(() => clearData());
 
-  const getData = (productName: ProductListName): void => {
+  const getData = async (productName: ProductListName): Promise<void> => {
     clearData();
 
     switch (productName) {
       case "tobaccos":
-        TobaccoStore.getAllTobaccos();
+        await TobaccoStore.getAllTobaccos();
+        setProductList(TobaccoStore.tobaccos);
+        setFilteredProductList(TobaccoStore.tobaccos);
         break;
       case "coals":
-        CoalStore.getAllCoals();
+        await CoalStore.getAllCoals();
+        setProductList(CoalStore.coals);
+        setFilteredProductList(CoalStore.coals);
         break;
     }
   };
 
   const clearData = (): void => {
+    setProductList([]);
     TobaccoStore.clearTobaccoList();
     CoalStore.clearCoalList();
   };
@@ -57,21 +71,10 @@ export const ForHookah: React.FC = observer(() => {
         <title>HookahDB</title>
       </Helmet>
       <div className="w100 for-hookah">
-        <TabPanel
-          options={options}
-          onClick={onChange}
-          defaultOption={selectedOption}
-        />
-        {(selectedOption.value === "tobaccos" && (
-          <TobaccosList tobaccos={TobaccoStore.tobaccos} />
-        )) ||
-          (selectedOption.value === "coals" && (
-            <CoalList coals={CoalStore.coals} />
-          ))}
         {rightsCheck(RoleCodes.moderator) && (
           <>
             <button
-              className="for-hookah__add-button"
+              className="for-hookah__button for-hookah__button--add"
               onClick={() => toggleVisibleDialog(true)}
             >
               +
@@ -82,6 +85,22 @@ export const ForHookah: React.FC = observer(() => {
             />
           </>
         )}
+        <ProductFilter
+          prodiuctList={productList}
+          getFilteredList={(list) => setFilteredProductList(list)}
+        />
+        <TabPanel
+          options={options}
+          onClick={onChange}
+          defaultOption={selectedOption}
+        >
+          {(selectedOption.value === "tobaccos" && (
+            <TobaccosList tobaccos={filteredProductList} />
+          )) ||
+            (selectedOption.value === "coals" && (
+              <CoalList coals={filteredProductList} />
+            )) || <></>}
+        </TabPanel>
       </div>
     </>
   );

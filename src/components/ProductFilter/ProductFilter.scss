@@ -1,0 +1,120 @@
+@import "../../styles/colors.scss";
+@import "../../styles/screenSizes.scss";
+
+.product-filter {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background-color: $colorWhite;
+  overflow: hidden;
+  width: 0;
+  padding: 0;
+  height: 100vh;
+  width: 360px;
+  right: -360px;
+  // transition: right 1s, padding 1s;
+  transition: 1s;
+
+  &--open {
+    right: 0;
+    box-shadow: 0 0 4px 4px rgb(176, 176, 176);
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    color: $colorWhite;
+    font-size: 36px;
+    font-weight: 400;
+    background-color: $mainColor;
+    width: 48px;
+    height: 48px;
+    z-index: 1;
+    right: 0;
+    transition: 1s;
+
+    &::before,
+    span::after,
+    &::after {
+      content: "";
+      position: absolute;
+      height: 3px;
+      border-radius: 3px;
+      background-color: $colorWhite;
+      transition: 1s;
+    }
+
+    &::before {
+      width: 30px;
+      transform: translateY(-10px);
+    }
+
+    span::after {
+      width: 20px;
+      transform: translateY(-1px) translateX(-10px);
+    }
+
+    &::after {
+      width: 10px;
+      transform: translateY(10px);
+    }
+  }
+
+  &--open .product-filter__button {
+    right: 312px;
+    transition: 1s;
+
+    &::before,
+    span::after,
+    &::after {
+      width: 26px;
+    }
+
+    &::before {
+      transform: rotate(-45deg) translateY(0px);
+    }
+
+    span::after {
+      opacity: 0;
+      transform: rotate(180deg) translateY(-1px) translateX(-10px);
+    }
+
+    &::after {
+      transform: rotate(45deg) translateY(0px);
+    }
+  }
+
+  &__controllers-wrapper {
+    padding: 52px 8px 8px 8px;
+  }
+
+  &__controller {
+    padding-top: 28px;
+  }
+}
+
+@media (max-width: $tabMiddle) {
+  .product-filter {
+    height: calc(100vh - 60px);
+    top: 60px;
+    width: 100%;
+    right: -100%;
+
+    &--open {
+      right: 0%;
+    }
+
+    &__button {
+      width: 44px;
+      height: 44px;
+      top: 62px;
+      transition: 1s;
+    }
+
+    &--open .product-filter__button {
+      right: calc(100% - 50px);
+    }
+  }
+}

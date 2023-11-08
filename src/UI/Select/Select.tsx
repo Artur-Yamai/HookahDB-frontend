@@ -17,6 +17,8 @@ export const Select = forwardRef(
       valueKey = "value",
       labelKey = "label",
       isValid = true,
+      isMulti = false,
+      closeMenuOnSelect = false,
       ...field
     }: SelectProps,
     _
@@ -53,6 +55,8 @@ export const Select = forwardRef(
           onChange={toChange}
           isClearable={isClearable}
           placeholder={placeholder}
+          isMulti={isMulti}
+          closeMenuOnSelect={closeMenuOnSelect}
           getOptionValue={(e) => e[valueKey]}
           getOptionLabel={(e) => e[labelKey]}
           {...field}

@@ -128,28 +128,8 @@
       cursor: pointer;
     }
 
-    &__toggle-button span::after {
-      content: "";
-      position: absolute;
-      width: 26px;
-      height: 3px;
-      border-radius: 3px;
-      background-color: $colorWhite;
-      transform: translateY(0px) translateX(-15px);
-      transition: 0.5s;
-    }
-
-    &__toggle-button::before {
-      content: "";
-      position: absolute;
-      width: 26px;
-      height: 3px;
-      border-radius: 3px;
-      background-color: $colorWhite;
-      transform: translateY(-10px) translateX(-15px);
-      transition: 0.5s;
-    }
-
+    &__toggle-button span::after,
+    &__toggle-button::before,
     &__toggle-button::after {
       content: "";
       position: absolute;
@@ -157,8 +137,19 @@
       height: 3px;
       border-radius: 3px;
       background-color: $colorWhite;
-      transform: translateY(10px) translateX(-15px);
       transition: 0.5s;
+    }
+
+    &__toggle-button span::after {
+      transform: translateY(0px) translateX(-15px);
+    }
+
+    &__toggle-button::before {
+      transform: translateY(-10px) translateX(-15px);
+    }
+
+    &__toggle-button::after {
+      transform: translateY(10px) translateX(-15px);
     }
 
     &.navbar--active {

@@ -17,3 +17,4 @@ export { ProductsList } from "./ProductList";
 export { CoalList } from "./CoalList";
 export { EntitySelectionAndCreation } from "./EntitySelectionAndCreation";
 export { ProductEditor, FabricatorEditor } from "./Editors";
+export { ProductFilter } from "./ProductFilter";

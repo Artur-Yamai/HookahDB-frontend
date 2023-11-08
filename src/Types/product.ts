@@ -16,6 +16,12 @@ export interface Product {
   updatedAt?: string;
 }
 
+export interface ProductAtList
+  extends Pick<
+    Product,
+    "fabricator" | "fabricatorId" | "id" | "name" | "photoUrl" | "rating"
+  > {}
+
 export interface ProductForSave
   extends Pick<Product, "name" | "fabricatorId" | "description"> {
   id?: string;

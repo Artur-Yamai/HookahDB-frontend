@@ -6,16 +6,5 @@
   justify-content: space-between;
   width: 100%;
   padding-top: 10px;
-
-  &::after {
-    content: attr(data-rating);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    text-align: center;
-    color: black;
-    padding: 2px 4px;
-    font-size: 26px;
-  }
+  height: 100%;
 }

@@ -7,6 +7,8 @@ export interface SelectProps {
   value: any;
   label?: string;
   isValid?: boolean;
+  isMulti?: boolean;
+  closeMenuOnSelect?: boolean;
   onChange: (newValue: SingleValue<any>) => void;
   placeholder?: string;
   isLoading?: boolean;

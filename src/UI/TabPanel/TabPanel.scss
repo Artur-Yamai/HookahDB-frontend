@@ -1,13 +1,18 @@
 @import "../../styles/colors.scss";
 
 .tab-panel {
-  &__tabs-list {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
+  &__titles-list {
     display: flex;
+    top: 0;
     box-shadow: inset 0 -1px 0 0 $colorLightGray;
   }
 
-  &__tab {
-    padding: 16px 28px 12px;
+  &__title {
+    padding: 13px 28px 12px;
     background-color: $colorWhite;
     cursor: pointer;
     box-shadow: inset 0 -1px 0 0 $colorLightGray;
@@ -19,10 +24,11 @@
       color: $mainColor;
       box-shadow: inset 0 -4px 0 0 $mainColor;
       transition: 0.2s;
-      // background-color: $mainColor;
-      // color: white;
-      // border-top: 1px solid $mainColor;
-      // box-shadow: 0 -3px 0 0 $mainColor, 0 1px 0 0 $colorWhite;
     }
+  }
+
+  &__tabs-place {
+    overflow-x: hidden;
+    flex-grow: 1;
   }
 }
