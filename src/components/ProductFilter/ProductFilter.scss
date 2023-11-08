@@ -35,19 +35,6 @@
     right: 0;
     transition: 1s;
 
-    // span::before {
-    //   transform: rotate(-45deg) translateX(-10px) translateY(-10px);
-    // }
-
-    // span::after {
-    //   transform: rotate(45deg) translateX(-10px) translateY(10px);
-    // }
-
-    // span span::after {
-    //   opacity: 0;
-    //   transform: rotate(180deg) translateX(10px);
-    // }
-
     &::before,
     span::after,
     &::after {
@@ -97,6 +84,14 @@
     &::after {
       transform: rotate(45deg) translateY(0px);
     }
+  }
+
+  &__controllers-wrapper {
+    padding: 52px 8px 8px 8px;
+  }
+
+  &__controller {
+    padding-top: 28px;
   }
 }
 
