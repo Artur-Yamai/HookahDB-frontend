@@ -12,3 +12,4 @@ export { ProductItem } from "./ProductItem";
 export { MenuInteraction } from "./MenuInteraction";
 export { TabPanel } from "./TabPanel";
 export { LoadSpinner } from "./LoadSpinner";
+export { CheckBox } from "./CheckBox";
