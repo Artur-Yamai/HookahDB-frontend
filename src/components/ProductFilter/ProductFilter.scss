@@ -93,6 +93,11 @@
   &__controller {
     padding-top: 28px;
   }
+
+  &__agree {
+    width: 100%;
+    margin-top: 12px;
+  }
 }
 
 @media (max-width: $tabMiddle) {

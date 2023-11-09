@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ProductAtList, Reference } from "Types";
-import { Select } from "UI";
+import { Button, Select } from "UI";
 import { ReferenceApi } from "API";
 import "./ProductFilter.scss";
 
@@ -31,7 +31,6 @@ export const ProductFilter = ({
   const [isVisibleFilter, toggleVisibleFilter] = useState<boolean>(false);
 
   const [sortParam, setSortParam] = useState<Params>(sortListParams[0]);
-  console.log(sortParam);
   const [selectedFabricators, setSelectedFabricators] = useState<Reference[]>(
     []
   );
@@ -52,11 +51,7 @@ export const ProductFilter = ({
       .finally(() => setIsLoading(false));
   }, [isVisibleFilter]);
 
-  const timerId = useRef<string | number | NodeJS.Timeout>("");
-  useEffect(() => {
-    clearTimeout(timerId.current);
-    if (!isVisibleFilter) return;
-
+  const toFilter = (): void => {
     const res = selectedFabricators.length
       ? prodiuctList.filter((product: ProductAtList) => {
           const index: number = selectedFabricators.findIndex(
@@ -89,10 +84,9 @@ export const ProductFilter = ({
         break;
     }
 
-    timerId.current = setTimeout(() => getFilteredList(res), 1000);
-
-    // eslint-disable-next-line
-  }, [selectedFabricators, sortParam]);
+    getFilteredList(res);
+    toggleVisibleFilter(false);
+  };
 
   return (
     <div
@@ -114,7 +108,7 @@ export const ProductFilter = ({
             placeholder="Сортировать по"
             labelKey="label"
             valueKey="value"
-            value={sortParam}
+            value={sortListParams[0]}
             closeMenuOnSelect={true}
             onChange={(e) => setSortParam(e)}
           />
@@ -133,6 +127,11 @@ export const ProductFilter = ({
             onChange={(e) => toSelectFabricators(e)}
           />
         </div>
+        <Button
+          text="Применить"
+          className="product-filter__agree"
+          click={() => toFilter()}
+        />
       </div>
     </div>
   );
