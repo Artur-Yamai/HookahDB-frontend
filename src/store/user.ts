@@ -71,6 +71,7 @@ class UserStore {
         });
       }
     } catch (error) {
+      localStorage.setItem("token", "");
       catchHelper(error);
     }
   }
