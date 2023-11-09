@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ProductAtList, Reference } from "Types";
-import { Button, Select } from "UI";
+import { Button, Select, CheckBox } from "UI";
 import { ReferenceApi } from "API";
 import "./ProductFilter.scss";
 
@@ -10,6 +10,8 @@ interface ProductFilterProps {
 }
 
 type SortValue = "abcASC" | "abcDESC" | "ratingASC" | "ratingDESC";
+
+type DictionaryOfBoolean = { [key: string]: boolean };
 
 interface Params {
   value: SortValue;
@@ -34,11 +36,26 @@ export const ProductFilter = ({
   const [selectedFabricators, setSelectedFabricators] = useState<Reference[]>(
     []
   );
+  const [ratingList, setRatingList] = useState<DictionaryOfBoolean>({
+    5: false,
+    4: false,
+    3: false,
+    2: false,
+    1: false,
+    0: false,
+  });
+  const selectedRating = ({
+    checked,
+    label,
+  }: {
+    checked: boolean;
+    label: number | string;
+  }) => {
+    setRatingList({ ...ratingList, [label]: checked });
+  };
 
-  const toSelectFabricators = (newSelectedFabricators: Reference[]): void => {
-    const list: Reference[] = newSelectedFabricators.length
-      ? newSelectedFabricators
-      : fabricators;
+  const toSelectFabricators = (newList: Reference[]): void => {
+    const list: Reference[] = newList.length ? newList : fabricators;
     setSelectedFabricators(list);
   };
 
@@ -52,8 +69,9 @@ export const ProductFilter = ({
   }, [isVisibleFilter]);
 
   const toFilter = (): void => {
-    const res = selectedFabricators.length
-      ? prodiuctList.filter((product: ProductAtList) => {
+    // фильтр по производителям
+    let res = selectedFabricators.length
+      ? prodiuctList.filter((product) => {
           const index: number = selectedFabricators.findIndex(
             (el) => el.id === product.fabricatorId
           );
@@ -61,6 +79,21 @@ export const ProductFilter = ({
         })
       : [...prodiuctList];
 
+    // фильтр по оценкам
+    const ratings: number[] = Object.keys(ratingList).reduce(
+      (accum: number[], key: string) =>
+        ratingList[key] ? [+key, ...accum] : accum,
+      []
+    );
+
+    if (ratings.length) {
+      res = res.filter(
+        (product) =>
+          ratings.findIndex((r) => r === Math.floor(product.rating)) > -1
+      );
+    }
+
+    // сортировка
     switch (sortParam.value) {
       case "abcASC":
         res.sort((a, b) => {
@@ -126,6 +159,18 @@ export const ProductFilter = ({
             closeMenuOnSelect={false}
             onChange={(e) => toSelectFabricators(e)}
           />
+        </div>
+
+        <div className="product-filter__controller">
+          <p className="product-filter__controllers-title">Выбарите оценки</p>
+          <div className="product-filter__ratings-checkboxes">
+            <CheckBox label="5" whenChanged={selectedRating} />
+            <CheckBox label="4" whenChanged={selectedRating} />
+            <CheckBox label="3" whenChanged={selectedRating} />
+            <CheckBox label="2" whenChanged={selectedRating} />
+            <CheckBox label="1" whenChanged={selectedRating} />
+            <CheckBox label="0" whenChanged={selectedRating} />
+          </div>
         </div>
         <Button
           text="Применить"
