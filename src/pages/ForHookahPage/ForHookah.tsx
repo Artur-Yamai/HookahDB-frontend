@@ -12,7 +12,7 @@ import {
   ProductFilter,
 } from "components";
 import { TabPanel } from "UI";
-import { ProductAtList, ProductListName, SelectOption } from "Types";
+import { ProductAtList, SelectOption } from "Types";
 import { RoleCodes, rightsCheck } from "helpers";
 import "./ForHookah.scss";
 
@@ -42,7 +42,7 @@ export const ForHookah: React.FC = observer(() => {
   useMount(() => getData(selectedOption.value));
   useUnmount(() => clearData());
 
-  const getData = async (productName: ProductListName): Promise<void> => {
+  const getData = async (productName: string): Promise<void> => {
     clearData();
 
     switch (productName) {
