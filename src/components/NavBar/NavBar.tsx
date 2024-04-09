@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { GoSignIn } from "react-icons/go";
 import { AiOutlineHome } from "react-icons/ai";
 // import { BiHelpCircle } from "react-icons/bi";
-// import { TbSettings } from "react-icons/tb";
+import { TbSettings } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
 import { BiUserCircle } from "react-icons/bi";
 import { ImDatabase } from "react-icons/im";
@@ -38,11 +38,11 @@ const NavBar = () => {
     //   path: "contacts",
     //   getIcon: () => <BiHelpCircle />,
     // },
-    // {
-    //   caption: "Настройки",
-    //   path: "settings",
-    //   getIcon: () => <TbSettings />,
-    // },
+    {
+      caption: "Настройки",
+      path: "settings",
+      getIcon: () => <TbSettings />,
+    },
   ]);
 
   const [isVisibleMenu, toggleVisibleMenu] = useState<boolean>(false);

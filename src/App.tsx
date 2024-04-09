@@ -6,6 +6,7 @@ import { MainLayout } from "./components";
 import {
   AuthorizationPage,
   Userpage,
+  SettingsPage,
   NotFoundPage,
   ForHookah,
   TobaccoPage,
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index={true} element={<ForHookah />} />
             <Route path="/my-page" element={<Userpage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/tobacco/:id" element={<TobaccoPage />} />
             <Route path="/coal/:id" element={<CoalPage />} />
             <Route path="*" element={<NotFoundPage />} />
