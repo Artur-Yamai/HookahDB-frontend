@@ -11,6 +11,15 @@ export const UserApi = {
   register: async (regData: RegistrationUserData) =>
     await RepositoryHelper.save(regData, "/user/register"),
 
+  updatePassword: async (currentPass: string, newPass: string) => {
+    var form = new FormData();
+    form.append("currentPass", currentPass);
+    form.append("newPass", newPass);
+    await Repository.put("/user/updatePassword", form, {
+      headers: { "Content-type": "multipart/form-data" },
+    });
+  },
+
   async saveNewAvatar(data: { id: string; photo: File }) {
     return await RepositoryHelper.save(data, "/user/saveAvatar");
   },

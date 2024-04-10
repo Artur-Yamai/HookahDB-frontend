@@ -1,2 +1,12 @@
+@import "../../styles/screenSizes.scss";
+
 .safetys-settings {
+  padding: 8px;
+  max-width: 560px;
+}
+
+@media (max-width: $tabMiddle) {
+  .safetys-settings {
+    margin: 0 auto;
+  }
 }
