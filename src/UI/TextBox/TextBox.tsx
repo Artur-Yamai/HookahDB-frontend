@@ -1,4 +1,4 @@
-import { useId, useState, forwardRef } from "react";
+import { useId, useState, forwardRef, useEffect } from "react";
 import "./TextBox.scss";
 
 interface TextBoxProps {
@@ -40,6 +40,8 @@ export const TextBox = forwardRef(
       setInputValue(newValue);
       if (onChange) onChange(newValue);
     };
+
+    useEffect(() => setInputValue(value), [value]);
 
     return (
       <p
