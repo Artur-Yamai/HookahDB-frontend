@@ -1,6 +1,4 @@
-import { ProductListName } from "./ProductListName";
-
 export interface SelectOption {
-  value: ProductListName;
+  value: string;
   label: string;
 }

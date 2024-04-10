@@ -27,7 +27,7 @@ export const TabPanel = ({
   };
 
   return (
-    <div className="tab-panel">
+    <div className="tab-panel w100 h100">
       <ul className="tab-panel__titles-list">
         {options.map((opt: SelectOption) => (
           <li

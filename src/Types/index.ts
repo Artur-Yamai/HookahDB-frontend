@@ -8,7 +8,6 @@ import { MenuInteractionButton } from "./MenuInteractionButton";
 import { AddedEntitiesTypes } from "./AddedEntitiesTypes";
 import { ErrorHTTPRequest } from "./ErrorHTTPRequest";
 import { Reference, NewReference } from "./Reference";
-import { ProductListName } from "./ProductListName";
 import { SelectOption } from "./SelectOption";
 import { NotifyTypes } from "./NotifyTypes";
 import { Comment } from "./comment/comment";
@@ -20,7 +19,6 @@ export type {
   RegistrationUserData,
   AddedEntitiesTypes,
   ErrorHTTPRequest,
-  ProductListName,
   ProductForSave,
   ProductAtList,
   TobaccoRating,

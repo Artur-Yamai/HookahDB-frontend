@@ -96,6 +96,19 @@ class UserStore {
     }
   }
 
+  public async updatePassword(
+    currentPass: string,
+    newPass: string
+  ): Promise<boolean> {
+    try {
+      await UserApi.updatePassword(currentPass, newPass);
+      return true;
+    } catch (error) {
+      catchHelper(error);
+      return false;
+    }
+  }
+
   public toSignOut(): void {
     localStorage.removeItem("token");
 
