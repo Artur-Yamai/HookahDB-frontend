@@ -60,6 +60,7 @@ export const ProductFilter = ({
   };
 
   useEffect(() => {
+    if (!isVisibleFilter) return;
     setIsLoading(true);
     ReferenceApi.getReference("fabricator")
       .then((result: Reference[] | null) => {
