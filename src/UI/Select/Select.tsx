@@ -33,10 +33,7 @@ export const Select = forwardRef(
       setIntermediateValue(newValue);
     };
 
-    useEffect(() => {
-      const res = options.find((option) => option[valueKey] === value);
-      if (res) setIntermediateValue(res);
-    }, [options, valueKey, value]);
+    useEffect(() => setIntermediateValue(value), [value]);
 
     return (
       <div

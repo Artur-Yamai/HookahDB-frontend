@@ -1,4 +1,10 @@
-import { InputHTMLAttributes, ChangeEvent, useId, useState } from "react";
+import {
+  InputHTMLAttributes,
+  ChangeEvent,
+  useId,
+  useState,
+  useEffect,
+} from "react";
 import "./CheckBox.scss";
 
 interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -15,6 +21,8 @@ export const CheckBox = ({
 }: CheckBoxProps) => {
   const id: string = useId();
   const [isChecked, setIsChecked] = useState<boolean>(checked);
+
+  useEffect(() => setIsChecked(checked), [checked]);
 
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement> | undefined
