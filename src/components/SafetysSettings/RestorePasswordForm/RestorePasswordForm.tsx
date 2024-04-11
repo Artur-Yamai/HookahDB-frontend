@@ -77,6 +77,7 @@ export const RestorePasswordForm = ({ onSubmit }: RestorePasswordFormProps) => {
             render={({ field }) => (
               <TextBox
                 label="Старый пароль"
+                type="password"
                 isValid={!errors?.currentPass}
                 {...field}
               />
@@ -92,6 +93,7 @@ export const RestorePasswordForm = ({ onSubmit }: RestorePasswordFormProps) => {
             render={({ field }) => (
               <TextBox
                 label="Старый пароль"
+                type="password"
                 isValid={!errors?.newPass}
                 {...field}
               />
@@ -107,6 +109,7 @@ export const RestorePasswordForm = ({ onSubmit }: RestorePasswordFormProps) => {
             render={({ field }) => (
               <TextBox
                 label="Повторите новый пароль"
+                type="password"
                 isValid={!errors?.confirmPass}
                 {...field}
               />
