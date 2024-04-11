@@ -18,6 +18,15 @@ interface Params {
   label: string;
 }
 
+const getRatingsList = (): DictionaryOfBoolean => ({
+  5: false,
+  4: false,
+  3: false,
+  2: false,
+  1: false,
+  0: false,
+});
+
 export const ProductFilter = ({
   prodiuctList,
   getFilteredList,
@@ -36,14 +45,11 @@ export const ProductFilter = ({
   const [selectedFabricators, setSelectedFabricators] = useState<Reference[]>(
     []
   );
-  const [ratingList, setRatingList] = useState<DictionaryOfBoolean>({
-    5: false,
-    4: false,
-    3: false,
-    2: false,
-    1: false,
-    0: false,
-  });
+  const [isDisableClearBtn, setIsDisableClearBtn] = useState<boolean>(true);
+
+  const [ratingList, setRatingList] = useState<DictionaryOfBoolean>(
+    getRatingsList()
+  );
   const selectedRating = ({
     checked,
     label,
@@ -51,15 +57,22 @@ export const ProductFilter = ({
     checked: boolean;
     label: number | string;
   }) => {
+    setIsDisableClearBtn(false);
     setRatingList({ ...ratingList, [label]: checked });
   };
 
+  const toSelectSortParams = (newList: Params): void => {
+    setSortParam(newList);
+    setIsDisableClearBtn(false);
+  };
+
   const toSelectFabricators = (newList: Reference[]): void => {
-    const list: Reference[] = newList.length ? newList : fabricators;
-    setSelectedFabricators(list);
+    setSelectedFabricators(newList);
+    setIsDisableClearBtn(false);
   };
 
   useEffect(() => {
+    if (!isVisibleFilter) return;
     setIsLoading(true);
     ReferenceApi.getReference("fabricator")
       .then((result: Reference[] | null) => {
@@ -67,6 +80,14 @@ export const ProductFilter = ({
       })
       .finally(() => setIsLoading(false));
   }, [isVisibleFilter]);
+
+  const clearFilter = () => {
+    setSelectedFabricators([]);
+    setSortParam(sortListParams[0]);
+    setRatingList(getRatingsList());
+    getFilteredList(prodiuctList);
+    setIsDisableClearBtn(true);
+  };
 
   const toFilter = (): void => {
     // фильтр по производителям
@@ -141,9 +162,9 @@ export const ProductFilter = ({
             placeholder="Сортировать по"
             labelKey="label"
             valueKey="value"
-            value={sortListParams[0]}
+            value={sortParam}
             closeMenuOnSelect={true}
-            onChange={(e) => setSortParam(e)}
+            onChange={toSelectSortParams}
           />
         </div>
         <div className="product-filter__controller">
@@ -154,28 +175,38 @@ export const ProductFilter = ({
             labelKey="value"
             valueKey="id"
             isLoading={isLoading}
-            value={null}
+            value={selectedFabricators}
             isMulti
             closeMenuOnSelect={false}
-            onChange={(e) => toSelectFabricators(e)}
+            onChange={toSelectFabricators}
           />
         </div>
 
         <div className="product-filter__controller">
           <p className="product-filter__controllers-title">Выбарите оценки</p>
           <div className="product-filter__ratings-checkboxes">
-            <CheckBox label="5" whenChanged={selectedRating} />
-            <CheckBox label="4" whenChanged={selectedRating} />
-            <CheckBox label="3" whenChanged={selectedRating} />
-            <CheckBox label="2" whenChanged={selectedRating} />
-            <CheckBox label="1" whenChanged={selectedRating} />
-            <CheckBox label="0" whenChanged={selectedRating} />
+            {Object.keys(ratingList)
+              .reverse()
+              .map((rating) => (
+                <CheckBox
+                  key={rating}
+                  label={rating}
+                  checked={ratingList[rating]}
+                  whenChanged={selectedRating}
+                />
+              ))}
           </div>
         </div>
         <Button
           text="Применить"
           className="product-filter__agree"
-          click={() => toFilter()}
+          click={toFilter}
+        />
+        <Button
+          disabled={isDisableClearBtn}
+          text="Очистить"
+          className="product-filter__agree"
+          click={() => clearFilter()}
         />
       </div>
     </div>

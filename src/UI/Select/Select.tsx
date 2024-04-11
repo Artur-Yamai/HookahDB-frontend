@@ -24,7 +24,7 @@ export const Select = forwardRef(
     _
   ) => {
     const [intermediateValue, setIntermediateValue] =
-      useState<SingleValue<any>>();
+      useState<SingleValue<any>>(value);
 
     const id: string = useId();
 
@@ -33,12 +33,7 @@ export const Select = forwardRef(
       setIntermediateValue(newValue);
     };
 
-    useEffect(() => {
-      const res = options.find((option) => option[valueKey] === value);
-      if (res) {
-        setIntermediateValue(res);
-      }
-    }, [options, valueKey, value]);
+    useEffect(() => setIntermediateValue(value), [value]);
 
     return (
       <div
