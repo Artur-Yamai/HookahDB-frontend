@@ -105,6 +105,7 @@ export const ProductEditor = ({
                 labelKey="value"
                 isLoading={loading}
                 options={fabricators}
+                closeMenuOnSelect={true}
                 {...field}
               />
             )}
