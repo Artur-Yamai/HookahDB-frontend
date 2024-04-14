@@ -65,6 +65,17 @@ export const ForHookah: React.FC = observer(() => {
     CoalStore.clearCoalList();
   };
 
+  const getOpenedTab = (): JSX.Element => {
+    switch (selectedOption.value) {
+      case "tobaccos":
+        return <TobaccosList tobaccos={filteredProductList} />;
+      case "coals":
+        return <CoalList coals={filteredProductList} />;
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -94,12 +105,7 @@ export const ForHookah: React.FC = observer(() => {
           onClick={onChange}
           defaultOption={selectedOption}
         >
-          {(selectedOption.value === "tobaccos" && (
-            <TobaccosList tobaccos={filteredProductList} />
-          )) ||
-            (selectedOption.value === "coals" && (
-              <CoalList coals={filteredProductList} />
-            )) || <></>}
+          {getOpenedTab()}
         </TabPanel>
       </div>
     </>
