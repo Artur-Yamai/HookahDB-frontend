@@ -6,7 +6,8 @@ export const notify = (
   type: NotifyTypes = "info",
   timer: number = 2000
 ): void => {
-  const app = document.getElementsByClassName("app")[0];
+  const app = document.getElementById("root");
+  if (!app) return;
   const notifyWrap = document.createElement("div");
   notifyWrap.classList.add(style.notify);
 
